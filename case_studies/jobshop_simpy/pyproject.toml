@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jobshop-simpy"
+version = "0.1.0"
+description = "Core Job Shop model implemented in SimPy"
+requires-python = ">=3.10"
+dependencies = [
+    "simpy>=4.0.1,<5",
+]
+
+[tool.setuptools]
+packages = ["jobshop_simpy"]
+
+[tool.setuptools.package-dir]
+jobshop_simpy = "."

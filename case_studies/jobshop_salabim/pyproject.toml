@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jobshop-salabim"
+version = "0.1.0"
+description = "Job Shop model implemented with Salabim"
+requires-python = ">=3.10"
+dependencies = [
+    "salabim>=25.0,<26",
+    "greenlet>=3.0,<4",
+    "Pillow>=10.0.0,<12",
+]
+
+[tool.setuptools]
+packages = ["jobshop_salabim"]
+
+[tool.setuptools.package-dir]
+jobshop_salabim = "."

@@ -1,0 +1,955 @@
+sim_time,wall_time,channel,message
+0.00,14:57:03,detail,RAW_TRUCK 1 ARRIVED (+16 pallets)
+0.00,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_0 to CNC buffer
+0.00,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_1 to CNC buffer
+30.12,14:57:03,detail,raw_pallet_1_0 PALLET dropped at CNC buffer
+30.12,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_0 to CNC buffer
+30.12,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_2 to CNC buffer
+30.12,14:57:03,detail,raw_pallet_1_1 PALLET dropped at CNC buffer
+30.12,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_1 to CNC buffer
+30.12,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_3 to CNC buffer
+30.12,14:57:03,detail,raw_pallet_1_0.part1 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part2 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part3 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part4 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part5 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part6 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part7 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part8 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_0.part9 ARRIVED pallet=raw_pallet_1_0
+30.12,14:57:03,detail,raw_pallet_1_1.part1 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part2 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part3 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part4 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part5 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part6 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part7 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part8 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_1.part9 ARRIVED pallet=raw_pallet_1_1
+30.12,14:57:03,detail,raw_pallet_1_0.part1 START_PICKUP
+30.12,14:57:03,detail,raw_pallet_1_0.part2 START_PICKUP
+30.12,14:57:03,detail,raw_pallet_1_0.part3 START_PICKUP
+35.12,14:57:03,detail,raw_pallet_1_0.part1 START_CNC for 98.09s
+40.12,14:57:03,detail,raw_pallet_1_0.part2 START_CNC for 182.59s
+45.12,14:57:03,detail,raw_pallet_1_0.part3 START_CNC for 168.57s
+60.00,14:57:03,summary,REPORT parts=0 pallets=0 shipped=0 avg_part=0.0s buffer=0
+60.25,14:57:03,detail,raw_pallet_1_2 PALLET dropped at CNC buffer
+60.25,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_2 to CNC buffer
+60.25,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_4 to CNC buffer
+60.25,14:57:03,detail,raw_pallet_1_3 PALLET dropped at CNC buffer
+60.25,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_3 to CNC buffer
+60.25,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_5 to CNC buffer
+60.25,14:57:03,detail,raw_pallet_1_2.part1 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part2 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part3 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part4 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part5 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part6 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part7 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part8 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_2.part9 ARRIVED pallet=raw_pallet_1_2
+60.25,14:57:03,detail,raw_pallet_1_3.part1 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part2 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part3 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part4 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part5 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part6 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part7 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part8 ARRIVED pallet=raw_pallet_1_3
+60.25,14:57:03,detail,raw_pallet_1_3.part9 ARRIVED pallet=raw_pallet_1_3
+90.38,14:57:03,detail,raw_pallet_1_4 PALLET dropped at CNC buffer
+90.38,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_4 to CNC buffer
+90.38,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_6 to CNC buffer
+90.38,14:57:03,detail,raw_pallet_1_5 PALLET dropped at CNC buffer
+90.38,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_5 to CNC buffer
+90.38,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_7 to CNC buffer
+90.38,14:57:03,detail,raw_pallet_1_4.part1 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part2 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part3 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part4 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part5 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part6 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part7 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part8 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_4.part9 ARRIVED pallet=raw_pallet_1_4
+90.38,14:57:03,detail,raw_pallet_1_5.part1 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part2 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part3 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part4 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part5 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part6 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part7 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part8 ARRIVED pallet=raw_pallet_1_5
+90.38,14:57:03,detail,raw_pallet_1_5.part9 ARRIVED pallet=raw_pallet_1_5
+120.00,14:57:03,summary,REPORT parts=0 pallets=0 shipped=0 avg_part=0.0s buffer=0
+120.50,14:57:03,detail,raw_pallet_1_6 PALLET dropped at CNC buffer
+120.50,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_6 to CNC buffer
+120.50,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_8 to CNC buffer
+120.50,14:57:03,detail,raw_pallet_1_7 PALLET dropped at CNC buffer
+120.50,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_7 to CNC buffer
+120.50,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_9 to CNC buffer
+120.50,14:57:03,detail,raw_pallet_1_6.part1 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part2 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part3 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part4 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part5 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part6 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part7 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part8 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_6.part9 ARRIVED pallet=raw_pallet_1_6
+120.50,14:57:03,detail,raw_pallet_1_7.part1 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part2 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part3 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part4 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part5 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part6 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part7 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part8 ARRIVED pallet=raw_pallet_1_7
+120.50,14:57:03,detail,raw_pallet_1_7.part9 ARRIVED pallet=raw_pallet_1_7
+133.22,14:57:03,detail,raw_pallet_1_0.part1 START_PALLETIZE
+136.22,14:57:03,detail,raw_pallet_1_0.part1 DONE sojourn=136.22s
+136.22,14:57:03,detail,raw_pallet_1_0.part4 START_PICKUP
+141.22,14:57:03,detail,raw_pallet_1_0.part4 START_CNC for 112.49s
+150.62,14:57:03,detail,raw_pallet_1_8 PALLET dropped at CNC buffer
+150.62,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_8 to CNC buffer
+150.62,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_10 to CNC buffer
+150.62,14:57:03,detail,raw_pallet_1_9 PALLET dropped at CNC buffer
+150.62,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_9 to CNC buffer
+150.62,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_11 to CNC buffer
+150.62,14:57:03,detail,raw_pallet_1_8.part1 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part2 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part3 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part4 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part5 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part6 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part7 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part8 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_8.part9 ARRIVED pallet=raw_pallet_1_8
+150.62,14:57:03,detail,raw_pallet_1_9.part1 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part2 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part3 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part4 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part5 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part6 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part7 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part8 ARRIVED pallet=raw_pallet_1_9
+150.62,14:57:03,detail,raw_pallet_1_9.part9 ARRIVED pallet=raw_pallet_1_9
+180.00,14:57:03,summary,REPORT parts=1 pallets=0 shipped=0 avg_part=136.2s buffer=0
+180.75,14:57:03,detail,raw_pallet_1_10 PALLET dropped at CNC buffer
+180.75,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_10 to CNC buffer
+180.75,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_12 to CNC buffer
+180.75,14:57:03,detail,raw_pallet_1_11 PALLET dropped at CNC buffer
+180.75,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_11 to CNC buffer
+180.75,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_13 to CNC buffer
+180.75,14:57:03,detail,raw_pallet_1_10.part1 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part2 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part3 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part4 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part5 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part6 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part7 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part8 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_10.part9 ARRIVED pallet=raw_pallet_1_10
+180.75,14:57:03,detail,raw_pallet_1_11.part1 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part2 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part3 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part4 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part5 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part6 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part7 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part8 ARRIVED pallet=raw_pallet_1_11
+180.75,14:57:03,detail,raw_pallet_1_11.part9 ARRIVED pallet=raw_pallet_1_11
+210.88,14:57:03,detail,raw_pallet_1_12 PALLET dropped at CNC buffer
+210.88,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_12 to CNC buffer
+210.88,14:57:03,detail,FORKLIFT 1 START Deliver raw_pallet_1_14 to CNC buffer
+210.88,14:57:03,detail,raw_pallet_1_13 PALLET dropped at CNC buffer
+210.88,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_13 to CNC buffer
+210.88,14:57:03,detail,FORKLIFT 2 START Deliver raw_pallet_1_15 to CNC buffer
+210.88,14:57:03,detail,raw_pallet_1_12.part1 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part2 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part3 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part4 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part5 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part6 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part7 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part8 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_12.part9 ARRIVED pallet=raw_pallet_1_12
+210.88,14:57:03,detail,raw_pallet_1_13.part1 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part2 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part3 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part4 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part5 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part6 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part7 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part8 ARRIVED pallet=raw_pallet_1_13
+210.88,14:57:03,detail,raw_pallet_1_13.part9 ARRIVED pallet=raw_pallet_1_13
+213.69,14:57:03,detail,raw_pallet_1_0.part3 START_PALLETIZE
+216.69,14:57:03,detail,raw_pallet_1_0.part3 DONE sojourn=216.69s
+216.69,14:57:03,detail,raw_pallet_1_0.part5 START_PICKUP
+221.69,14:57:03,detail,raw_pallet_1_0.part5 START_CNC for 135.60s
+222.72,14:57:03,detail,raw_pallet_1_0.part2 START_PALLETIZE
+225.72,14:57:03,detail,raw_pallet_1_0.part2 DONE sojourn=225.72s
+225.72,14:57:03,detail,raw_pallet_1_0.part6 START_PICKUP
+230.72,14:57:03,detail,raw_pallet_1_0.part6 START_CNC for 130.95s
+240.00,14:57:03,summary,REPORT parts=3 pallets=0 shipped=0 avg_part=192.9s buffer=0
+241.00,14:57:03,detail,raw_pallet_1_14 PALLET dropped at CNC buffer
+241.00,14:57:03,detail,FORKLIFT 1 DONE Deliver raw_pallet_1_14 to CNC buffer
+241.00,14:57:03,detail,raw_pallet_1_15 PALLET dropped at CNC buffer
+241.00,14:57:03,detail,FORKLIFT 2 DONE Deliver raw_pallet_1_15 to CNC buffer
+241.00,14:57:03,detail,raw_pallet_1_14.part1 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part2 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part3 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part4 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part5 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part6 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part7 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part8 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_14.part9 ARRIVED pallet=raw_pallet_1_14
+241.00,14:57:03,detail,raw_pallet_1_15.part1 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part2 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part3 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part4 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part5 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part6 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part7 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part8 ARRIVED pallet=raw_pallet_1_15
+241.00,14:57:03,detail,raw_pallet_1_15.part9 ARRIVED pallet=raw_pallet_1_15
+253.70,14:57:03,detail,raw_pallet_1_0.part4 START_PALLETIZE
+256.70,14:57:03,detail,raw_pallet_1_0.part4 DONE sojourn=256.70s
+256.70,14:57:03,detail,raw_pallet_1_0.part7 START_PICKUP
+261.70,14:57:03,detail,raw_pallet_1_0.part7 START_CNC for 153.25s
+300.00,14:57:03,summary,REPORT parts=4 pallets=0 shipped=0 avg_part=208.8s buffer=0
+357.30,14:57:03,detail,raw_pallet_1_0.part5 START_PALLETIZE
+360.00,14:57:03,summary,REPORT parts=4 pallets=0 shipped=0 avg_part=208.8s buffer=0
+360.30,14:57:03,detail,raw_pallet_1_0.part5 DONE sojourn=360.30s
+360.30,14:57:03,detail,raw_pallet_1_0.part8 START_PICKUP
+361.67,14:57:03,detail,raw_pallet_1_0.part6 START_PALLETIZE
+365.30,14:57:03,detail,raw_pallet_1_0.part8 START_CNC for 172.45s
+368.30,14:57:03,detail,raw_pallet_1_0.part6 DONE sojourn=368.30s
+368.30,14:57:03,detail,raw_pallet_1_0.part9 START_PICKUP
+373.30,14:57:03,detail,raw_pallet_1_0.part9 START_CNC for 91.84s
+414.95,14:57:03,detail,raw_pallet_1_0.part7 START_PALLETIZE
+417.95,14:57:03,detail,raw_pallet_1_0.part7 DONE sojourn=417.95s
+417.95,14:57:03,detail,raw_pallet_1_1.part1 START_PICKUP
+420.00,14:57:03,summary,REPORT parts=7 pallets=0 shipped=0 avg_part=283.1s buffer=0
+422.95,14:57:03,detail,raw_pallet_1_1.part1 START_CNC for 77.50s
+465.14,14:57:03,detail,raw_pallet_1_0.part9 START_PALLETIZE
+468.14,14:57:03,detail,raw_pallet_1_0.part9 DONE sojourn=468.14s
+468.14,14:57:03,detail,raw_pallet_1_1.part2 START_PICKUP
+473.14,14:57:03,detail,raw_pallet_1_1.part2 START_CNC for 180.44s
+480.00,14:57:03,summary,REPORT parts=8 pallets=0 shipped=0 avg_part=306.3s buffer=0
+500.45,14:57:03,detail,raw_pallet_1_1.part1 START_PALLETIZE
+503.45,14:57:03,detail,raw_pallet_1_1.part1 DONE sojourn=503.45s
+503.45,14:57:03,detail,raw_pallet_1_1.part3 START_PICKUP
+508.45,14:57:03,detail,raw_pallet_1_1.part3 START_CNC for 129.31s
+537.74,14:57:03,detail,raw_pallet_1_0.part8 START_PALLETIZE
+540.00,14:57:03,summary,REPORT parts=9 pallets=0 shipped=0 avg_part=328.2s buffer=0
+540.74,14:57:03,detail,raw_pallet_1_0 COMPLETED pallet (waiting for forklift)
+540.74,14:57:03,detail,raw_pallet_1_0.part8 DONE sojourn=540.74s
+540.74,14:57:03,detail,raw_pallet_1_1.part4 START_PICKUP
+540.74,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_0 to shipping
+545.74,14:57:03,detail,raw_pallet_1_1.part4 START_CNC for 168.34s
+566.84,14:57:03,detail,raw_pallet_1_0 READY at shipping buffer
+566.84,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_0 to shipping
+600.00,14:57:03,summary,REPORT parts=10 pallets=1 shipped=0 avg_part=349.4s buffer=1
+637.76,14:57:03,detail,raw_pallet_1_1.part3 START_PALLETIZE
+640.76,14:57:03,detail,raw_pallet_1_1.part3 DONE sojourn=640.76s
+640.76,14:57:03,detail,raw_pallet_1_1.part5 START_PICKUP
+645.76,14:57:03,detail,raw_pallet_1_1.part5 START_CNC for 64.77s
+653.57,14:57:03,detail,raw_pallet_1_1.part2 START_PALLETIZE
+656.57,14:57:03,detail,raw_pallet_1_1.part2 DONE sojourn=656.57s
+656.57,14:57:03,detail,raw_pallet_1_1.part6 START_PICKUP
+660.00,14:57:03,summary,REPORT parts=12 pallets=1 shipped=0 avg_part=399.3s buffer=1
+661.57,14:57:03,detail,raw_pallet_1_1.part6 START_CNC for 130.55s
+710.53,14:57:03,detail,raw_pallet_1_1.part5 START_PALLETIZE
+713.53,14:57:03,detail,raw_pallet_1_1.part5 DONE sojourn=713.53s
+713.53,14:57:03,detail,raw_pallet_1_1.part7 START_PICKUP
+714.09,14:57:03,detail,raw_pallet_1_1.part4 START_PALLETIZE
+718.53,14:57:03,detail,raw_pallet_1_1.part7 START_CNC for 162.45s
+720.00,14:57:03,summary,REPORT parts=13 pallets=1 shipped=0 avg_part=423.5s buffer=1
+721.53,14:57:03,detail,raw_pallet_1_1.part4 DONE sojourn=721.53s
+721.53,14:57:03,detail,raw_pallet_1_1.part8 START_PICKUP
+726.53,14:57:03,detail,raw_pallet_1_1.part8 START_CNC for 109.71s
+780.00,14:57:03,summary,REPORT parts=14 pallets=1 shipped=0 avg_part=444.8s buffer=1
+792.12,14:57:03,detail,raw_pallet_1_1.part6 START_PALLETIZE
+795.12,14:57:03,detail,raw_pallet_1_1.part6 DONE sojourn=795.12s
+795.12,14:57:03,detail,raw_pallet_1_1.part9 START_PICKUP
+800.12,14:57:03,detail,raw_pallet_1_1.part9 START_CNC for 205.62s
+836.24,14:57:03,detail,raw_pallet_1_1.part8 START_PALLETIZE
+839.24,14:57:03,detail,raw_pallet_1_1.part8 DONE sojourn=839.24s
+839.24,14:57:03,detail,raw_pallet_1_2.part1 START_PICKUP
+840.00,14:57:03,summary,REPORT parts=16 pallets=1 shipped=0 avg_part=491.3s buffer=1
+844.24,14:57:03,detail,raw_pallet_1_2.part1 START_CNC for 193.86s
+880.98,14:57:03,detail,raw_pallet_1_1.part7 START_PALLETIZE
+883.98,14:57:03,detail,raw_pallet_1_1.part7 DONE sojourn=883.98s
+883.98,14:57:03,detail,raw_pallet_1_2.part2 START_PICKUP
+888.98,14:57:03,detail,raw_pallet_1_2.part2 START_CNC for 78.18s
+900.00,14:57:03,summary,REPORT parts=17 pallets=1 shipped=0 avg_part=514.4s buffer=1
+960.00,14:57:03,summary,REPORT parts=17 pallets=1 shipped=0 avg_part=514.4s buffer=1
+967.15,14:57:03,detail,raw_pallet_1_2.part2 START_PALLETIZE
+970.15,14:57:03,detail,raw_pallet_1_2.part2 DONE sojourn=970.15s
+970.15,14:57:03,detail,raw_pallet_1_2.part3 START_PICKUP
+975.15,14:57:03,detail,raw_pallet_1_2.part3 START_CNC for 76.58s
+1005.74,14:57:03,detail,raw_pallet_1_1.part9 START_PALLETIZE
+1008.74,14:57:03,detail,raw_pallet_1_1 COMPLETED pallet (waiting for forklift)
+1008.74,14:57:03,detail,raw_pallet_1_1.part9 DONE sojourn=1008.74s
+1008.74,14:57:03,detail,raw_pallet_1_2.part4 START_PICKUP
+1008.74,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_1 to shipping
+1013.74,14:57:03,detail,raw_pallet_1_2.part4 START_CNC for 140.47s
+1020.00,14:57:03,summary,REPORT parts=19 pallets=2 shipped=0 avg_part=564.4s buffer=1
+1034.84,14:57:03,detail,raw_pallet_1_1 READY at shipping buffer
+1034.84,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_1 to shipping
+1038.09,14:57:03,detail,raw_pallet_1_2.part1 START_PALLETIZE
+1041.09,14:57:03,detail,raw_pallet_1_2.part1 DONE sojourn=1041.09s
+1041.09,14:57:03,detail,raw_pallet_1_2.part5 START_PICKUP
+1046.09,14:57:03,detail,raw_pallet_1_2.part5 START_CNC for 203.75s
+1051.73,14:57:03,detail,raw_pallet_1_2.part3 START_PALLETIZE
+1054.73,14:57:03,detail,raw_pallet_1_2.part3 DONE sojourn=1054.73s
+1054.73,14:57:03,detail,raw_pallet_1_2.part6 START_PICKUP
+1059.73,14:57:03,detail,raw_pallet_1_2.part6 START_CNC for 124.39s
+1080.00,14:57:03,summary,REPORT parts=21 pallets=2 shipped=0 avg_part=610.5s buffer=2
+1140.00,14:57:03,summary,REPORT parts=21 pallets=2 shipped=0 avg_part=610.5s buffer=2
+1154.21,14:57:03,detail,raw_pallet_1_2.part4 START_PALLETIZE
+1157.21,14:57:03,detail,raw_pallet_1_2.part4 DONE sojourn=1157.21s
+1157.21,14:57:03,detail,raw_pallet_1_2.part7 START_PICKUP
+1162.21,14:57:03,detail,raw_pallet_1_2.part7 START_CNC for 108.37s
+1184.12,14:57:03,detail,raw_pallet_1_2.part6 START_PALLETIZE
+1187.12,14:57:03,detail,raw_pallet_1_2.part6 DONE sojourn=1187.12s
+1187.12,14:57:03,detail,raw_pallet_1_2.part8 START_PICKUP
+1192.12,14:57:03,detail,raw_pallet_1_2.part8 START_CNC for 128.28s
+1200.00,14:57:03,summary,REPORT parts=23 pallets=2 shipped=0 avg_part=659.3s buffer=2
+1249.84,14:57:03,detail,raw_pallet_1_2.part5 START_PALLETIZE
+1252.84,14:57:03,detail,raw_pallet_1_2.part5 DONE sojourn=1252.84s
+1252.84,14:57:03,detail,raw_pallet_1_2.part9 START_PICKUP
+1257.84,14:57:03,detail,raw_pallet_1_2.part9 START_CNC for 77.71s
+1260.00,14:57:03,summary,REPORT parts=24 pallets=2 shipped=0 avg_part=684.0s buffer=2
+1270.58,14:57:03,detail,raw_pallet_1_2.part7 START_PALLETIZE
+1273.58,14:57:03,detail,raw_pallet_1_2.part7 DONE sojourn=1273.58s
+1273.58,14:57:03,detail,raw_pallet_1_3.part1 START_PICKUP
+1278.58,14:57:03,detail,raw_pallet_1_3.part1 START_CNC for 108.93s
+1320.00,14:57:03,summary,REPORT parts=25 pallets=2 shipped=0 avg_part=707.6s buffer=2
+1320.39,14:57:03,detail,raw_pallet_1_2.part8 START_PALLETIZE
+1323.39,14:57:03,detail,raw_pallet_1_2.part8 DONE sojourn=1323.39s
+1323.39,14:57:03,detail,raw_pallet_1_3.part2 START_PICKUP
+1328.39,14:57:03,detail,raw_pallet_1_3.part2 START_CNC for 129.81s
+1335.55,14:57:03,detail,raw_pallet_1_2.part9 START_PALLETIZE
+1338.55,14:57:03,detail,raw_pallet_1_2 COMPLETED pallet (waiting for forklift)
+1338.55,14:57:03,detail,raw_pallet_1_2.part9 DONE sojourn=1338.55s
+1338.55,14:57:03,detail,raw_pallet_1_3.part3 START_PICKUP
+1338.55,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_2 to shipping
+1343.55,14:57:03,detail,raw_pallet_1_3.part3 START_CNC for 135.64s
+1364.65,14:57:03,detail,raw_pallet_1_2 READY at shipping buffer
+1364.65,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_2 to shipping
+1380.00,14:57:03,summary,REPORT parts=27 pallets=3 shipped=0 avg_part=753.8s buffer=3
+1387.51,14:57:03,detail,raw_pallet_1_3.part1 START_PALLETIZE
+1390.51,14:57:03,detail,raw_pallet_1_3.part1 DONE sojourn=1390.51s
+1390.51,14:57:03,detail,raw_pallet_1_3.part4 START_PICKUP
+1395.51,14:57:03,detail,raw_pallet_1_3.part4 START_CNC for 110.17s
+1440.00,14:57:03,summary,REPORT parts=28 pallets=3 shipped=0 avg_part=776.5s buffer=3
+1458.21,14:57:03,detail,raw_pallet_1_3.part2 START_PALLETIZE
+1461.21,14:57:03,detail,raw_pallet_1_3.part2 DONE sojourn=1461.21s
+1461.21,14:57:03,detail,raw_pallet_1_3.part5 START_PICKUP
+1466.21,14:57:03,detail,raw_pallet_1_3.part5 START_CNC for 109.93s
+1479.19,14:57:03,detail,raw_pallet_1_3.part3 START_PALLETIZE
+1482.19,14:57:03,detail,raw_pallet_1_3.part3 DONE sojourn=1482.19s
+1482.19,14:57:03,detail,raw_pallet_1_3.part6 START_PICKUP
+1487.19,14:57:03,detail,raw_pallet_1_3.part6 START_CNC for 108.61s
+1500.00,14:57:03,summary,REPORT parts=30 pallets=3 shipped=0 avg_part=822.9s buffer=3
+1505.68,14:57:03,detail,raw_pallet_1_3.part4 START_PALLETIZE
+1508.68,14:57:03,detail,raw_pallet_1_3.part4 DONE sojourn=1508.68s
+1508.68,14:57:03,detail,raw_pallet_1_3.part7 START_PICKUP
+1513.68,14:57:03,detail,raw_pallet_1_3.part7 START_CNC for 131.96s
+1560.00,14:57:03,summary,REPORT parts=31 pallets=3 shipped=0 avg_part=845.0s buffer=3
+1576.14,14:57:03,detail,raw_pallet_1_3.part5 START_PALLETIZE
+1579.14,14:57:03,detail,raw_pallet_1_3.part5 DONE sojourn=1579.14s
+1579.14,14:57:03,detail,raw_pallet_1_3.part8 START_PICKUP
+1584.14,14:57:03,detail,raw_pallet_1_3.part8 START_CNC for 115.94s
+1595.80,14:57:03,detail,raw_pallet_1_3.part6 START_PALLETIZE
+1598.80,14:57:03,detail,raw_pallet_1_3.part6 DONE sojourn=1598.80s
+1598.80,14:57:03,detail,raw_pallet_1_3.part9 START_PICKUP
+1603.80,14:57:03,detail,raw_pallet_1_3.part9 START_CNC for 75.23s
+1620.00,14:57:03,summary,REPORT parts=33 pallets=3 shipped=0 avg_part=890.1s buffer=3
+1645.64,14:57:03,detail,raw_pallet_1_3.part7 START_PALLETIZE
+1648.64,14:57:03,detail,raw_pallet_1_3.part7 DONE sojourn=1648.64s
+1648.64,14:57:03,detail,raw_pallet_1_4.part1 START_PICKUP
+1653.64,14:57:03,detail,raw_pallet_1_4.part1 START_CNC for 180.77s
+1679.04,14:57:03,detail,raw_pallet_1_3.part9 START_PALLETIZE
+1680.00,14:57:03,summary,REPORT parts=34 pallets=3 shipped=0 avg_part=912.4s buffer=3
+1682.04,14:57:03,detail,raw_pallet_1_3.part9 DONE sojourn=1682.04s
+1682.04,14:57:03,detail,raw_pallet_1_4.part2 START_PICKUP
+1687.04,14:57:03,detail,raw_pallet_1_4.part2 START_CNC for 142.12s
+1700.08,14:57:03,detail,raw_pallet_1_3.part8 START_PALLETIZE
+1703.08,14:57:03,detail,raw_pallet_1_3 COMPLETED pallet (waiting for forklift)
+1703.08,14:57:03,detail,raw_pallet_1_3.part8 DONE sojourn=1703.08s
+1703.08,14:57:03,detail,raw_pallet_1_4.part3 START_PICKUP
+1703.08,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_3 to shipping
+1708.08,14:57:03,detail,raw_pallet_1_4.part3 START_CNC for 152.10s
+1729.18,14:57:03,detail,raw_pallet_1_3 READY at shipping buffer
+1729.18,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_3 to shipping
+1740.00,14:57:03,summary,REPORT parts=36 pallets=4 shipped=0 avg_part=955.7s buffer=4
+1800.00,14:57:03,summary,REPORT parts=36 pallets=4 shipped=0 avg_part=955.7s buffer=4
+1829.15,14:57:03,detail,raw_pallet_1_4.part2 START_PALLETIZE
+1832.15,14:57:03,detail,raw_pallet_1_4.part2 DONE sojourn=1832.15s
+1832.15,14:57:03,detail,raw_pallet_1_4.part4 START_PICKUP
+1834.41,14:57:03,detail,raw_pallet_1_4.part1 START_PALLETIZE
+1837.15,14:57:03,detail,raw_pallet_1_4.part4 START_CNC for 104.81s
+1840.15,14:57:03,detail,raw_pallet_1_4.part1 DONE sojourn=1840.15s
+1840.15,14:57:03,detail,raw_pallet_1_4.part5 START_PICKUP
+1845.15,14:57:03,detail,raw_pallet_1_4.part5 START_CNC for 227.31s
+1860.00,14:57:03,summary,REPORT parts=38 pallets=4 shipped=0 avg_part=1002.1s buffer=4
+1860.18,14:57:03,detail,raw_pallet_1_4.part3 START_PALLETIZE
+1863.18,14:57:03,detail,raw_pallet_1_4.part3 DONE sojourn=1863.18s
+1863.18,14:57:03,detail,raw_pallet_1_4.part6 START_PICKUP
+1868.18,14:57:03,detail,raw_pallet_1_4.part6 START_CNC for 185.00s
+1920.00,14:57:03,summary,REPORT parts=39 pallets=4 shipped=0 avg_part=1024.2s buffer=4
+1941.96,14:57:03,detail,raw_pallet_1_4.part4 START_PALLETIZE
+1944.96,14:57:03,detail,raw_pallet_1_4.part4 DONE sojourn=1944.96s
+1944.96,14:57:03,detail,raw_pallet_1_4.part7 START_PICKUP
+1949.96,14:57:03,detail,raw_pallet_1_4.part7 START_CNC for 96.13s
+1980.00,14:57:03,summary,REPORT parts=40 pallets=4 shipped=0 avg_part=1047.2s buffer=4
+2040.00,14:57:03,summary,REPORT parts=40 pallets=4 shipped=0 avg_part=1047.2s buffer=4
+2046.10,14:57:03,detail,raw_pallet_1_4.part7 START_PALLETIZE
+2049.10,14:57:03,detail,raw_pallet_1_4.part7 DONE sojourn=2049.10s
+2049.10,14:57:03,detail,raw_pallet_1_4.part8 START_PICKUP
+2053.18,14:57:03,detail,raw_pallet_1_4.part6 START_PALLETIZE
+2054.10,14:57:03,detail,raw_pallet_1_4.part8 START_CNC for 119.94s
+2057.10,14:57:03,detail,raw_pallet_1_4.part6 DONE sojourn=2057.10s
+2057.10,14:57:03,detail,raw_pallet_1_4.part9 START_PICKUP
+2062.10,14:57:03,detail,raw_pallet_1_4.part9 START_CNC for 162.44s
+2072.46,14:57:03,detail,raw_pallet_1_4.part5 START_PALLETIZE
+2075.46,14:57:03,detail,raw_pallet_1_4.part5 DONE sojourn=2075.46s
+2075.46,14:57:03,detail,raw_pallet_1_5.part1 START_PICKUP
+2080.46,14:57:03,detail,raw_pallet_1_5.part1 START_CNC for 161.02s
+2100.00,14:57:03,summary,REPORT parts=43 pallets=4 shipped=0 avg_part=1117.9s buffer=4
+2160.00,14:57:03,summary,REPORT parts=43 pallets=4 shipped=0 avg_part=1117.9s buffer=4
+2174.04,14:57:03,detail,raw_pallet_1_4.part8 START_PALLETIZE
+2177.04,14:57:03,detail,raw_pallet_1_4.part8 DONE sojourn=2177.04s
+2177.04,14:57:03,detail,raw_pallet_1_5.part2 START_PICKUP
+2182.04,14:57:03,detail,raw_pallet_1_5.part2 START_CNC for 202.95s
+2220.00,14:57:03,summary,REPORT parts=44 pallets=4 shipped=0 avg_part=1142.0s buffer=4
+2224.53,14:57:03,detail,raw_pallet_1_4.part9 START_PALLETIZE
+2227.53,14:57:03,detail,raw_pallet_1_4 COMPLETED pallet (waiting for forklift)
+2227.53,14:57:03,detail,raw_pallet_1_4.part9 DONE sojourn=2227.53s
+2227.53,14:57:03,detail,raw_pallet_1_5.part3 START_PICKUP
+2227.53,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_4 to shipping
+2232.53,14:57:03,detail,raw_pallet_1_5.part3 START_CNC for 128.27s
+2241.48,14:57:03,detail,raw_pallet_1_5.part1 START_PALLETIZE
+2244.48,14:57:03,detail,raw_pallet_1_5.part1 DONE sojourn=2244.48s
+2244.48,14:57:03,detail,raw_pallet_1_5.part4 START_PICKUP
+2249.48,14:57:03,detail,raw_pallet_1_5.part4 START_CNC for 179.41s
+2253.63,14:57:03,detail,raw_pallet_1_4 READY at shipping buffer
+2253.63,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_4 to shipping
+2280.00,14:57:03,summary,REPORT parts=46 pallets=5 shipped=0 avg_part=1189.5s buffer=5
+2340.00,14:57:03,summary,REPORT parts=46 pallets=5 shipped=0 avg_part=1189.5s buffer=5
+2360.81,14:57:03,detail,raw_pallet_1_5.part3 START_PALLETIZE
+2363.81,14:57:03,detail,raw_pallet_1_5.part3 DONE sojourn=2363.81s
+2363.81,14:57:03,detail,raw_pallet_1_5.part5 START_PICKUP
+2368.81,14:57:03,detail,raw_pallet_1_5.part5 START_CNC for 155.61s
+2384.99,14:57:03,detail,raw_pallet_1_5.part2 START_PALLETIZE
+2387.99,14:57:03,detail,raw_pallet_1_5.part2 DONE sojourn=2387.99s
+2387.99,14:57:03,detail,raw_pallet_1_5.part6 START_PICKUP
+2392.99,14:57:03,detail,raw_pallet_1_5.part6 START_CNC for 117.24s
+2400.00,14:57:03,summary,REPORT parts=48 pallets=5 shipped=0 avg_part=1239.0s buffer=5
+2428.89,14:57:03,detail,raw_pallet_1_5.part4 START_PALLETIZE
+2431.89,14:57:03,detail,raw_pallet_1_5.part4 DONE sojourn=2431.89s
+2431.89,14:57:03,detail,raw_pallet_1_5.part7 START_PICKUP
+2436.89,14:57:03,detail,raw_pallet_1_5.part7 START_CNC for 145.62s
+2460.00,14:57:03,summary,REPORT parts=49 pallets=5 shipped=0 avg_part=1263.3s buffer=5
+2510.23,14:57:03,detail,raw_pallet_1_5.part6 START_PALLETIZE
+2513.23,14:57:03,detail,raw_pallet_1_5.part6 DONE sojourn=2513.23s
+2513.23,14:57:03,detail,raw_pallet_1_5.part8 START_PICKUP
+2518.23,14:57:03,detail,raw_pallet_1_5.part8 START_CNC for 189.62s
+2520.00,14:57:03,summary,REPORT parts=50 pallets=5 shipped=0 avg_part=1288.3s buffer=5
+2524.42,14:57:03,detail,raw_pallet_1_5.part5 START_PALLETIZE
+2527.42,14:57:03,detail,raw_pallet_1_5.part5 DONE sojourn=2527.42s
+2527.42,14:57:03,detail,raw_pallet_1_5.part9 START_PICKUP
+2532.42,14:57:03,detail,raw_pallet_1_5.part9 START_CNC for 182.36s
+2580.00,14:57:03,summary,REPORT parts=51 pallets=5 shipped=0 avg_part=1312.6s buffer=5
+2582.51,14:57:03,detail,raw_pallet_1_5.part7 START_PALLETIZE
+2585.51,14:57:03,detail,raw_pallet_1_5.part7 DONE sojourn=2585.51s
+2585.51,14:57:03,detail,raw_pallet_1_6.part1 START_PICKUP
+2590.51,14:57:03,detail,raw_pallet_1_6.part1 START_CNC for 136.63s
+2640.00,14:57:03,summary,REPORT parts=52 pallets=5 shipped=0 avg_part=1337.1s buffer=5
+2700.00,14:57:03,summary,REPORT parts=52 pallets=5 shipped=0 avg_part=1337.1s buffer=5
+2707.84,14:57:03,detail,raw_pallet_1_5.part8 START_PALLETIZE
+2710.84,14:57:03,detail,raw_pallet_1_5.part8 DONE sojourn=2710.84s
+2710.84,14:57:03,detail,raw_pallet_1_6.part2 START_PICKUP
+2714.78,14:57:03,detail,raw_pallet_1_5.part9 START_PALLETIZE
+2715.84,14:57:03,detail,raw_pallet_1_6.part2 START_CNC for 145.78s
+2718.84,14:57:03,detail,raw_pallet_1_5 COMPLETED pallet (waiting for forklift)
+2718.84,14:57:03,detail,raw_pallet_1_5.part9 DONE sojourn=2718.84s
+2718.84,14:57:03,detail,raw_pallet_1_6.part3 START_PICKUP
+2718.84,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_5 to shipping
+2723.84,14:57:03,detail,raw_pallet_1_6.part3 START_CNC for 79.31s
+2727.13,14:57:03,detail,raw_pallet_1_6.part1 START_PALLETIZE
+2730.13,14:57:03,detail,raw_pallet_1_6.part1 DONE sojourn=2730.13s
+2730.13,14:57:03,detail,raw_pallet_1_6.part4 START_PICKUP
+2735.13,14:57:03,detail,raw_pallet_1_6.part4 START_CNC for 111.20s
+2744.94,14:57:03,detail,raw_pallet_1_5 READY at shipping buffer
+2744.94,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_5 to shipping
+2760.00,14:57:03,summary,REPORT parts=55 pallets=6 shipped=0 avg_part=1412.5s buffer=6
+2803.15,14:57:03,detail,raw_pallet_1_6.part3 START_PALLETIZE
+2806.15,14:57:03,detail,raw_pallet_1_6.part3 DONE sojourn=2806.15s
+2806.15,14:57:03,detail,raw_pallet_1_6.part5 START_PICKUP
+2811.15,14:57:03,detail,raw_pallet_1_6.part5 START_CNC for 173.85s
+2820.00,14:57:03,summary,REPORT parts=56 pallets=6 shipped=0 avg_part=1437.4s buffer=6
+2846.34,14:57:03,detail,raw_pallet_1_6.part4 START_PALLETIZE
+2849.34,14:57:03,detail,raw_pallet_1_6.part4 DONE sojourn=2849.34s
+2849.34,14:57:03,detail,raw_pallet_1_6.part6 START_PICKUP
+2854.34,14:57:03,detail,raw_pallet_1_6.part6 START_CNC for 127.52s
+2861.62,14:57:03,detail,raw_pallet_1_6.part2 START_PALLETIZE
+2864.62,14:57:03,detail,raw_pallet_1_6.part2 DONE sojourn=2864.62s
+2864.62,14:57:03,detail,raw_pallet_1_6.part7 START_PICKUP
+2869.62,14:57:03,detail,raw_pallet_1_6.part7 START_CNC for 103.23s
+2880.00,14:57:03,summary,REPORT parts=58 pallets=6 shipped=0 avg_part=1486.3s buffer=6
+2940.00,14:57:03,summary,REPORT parts=58 pallets=6 shipped=0 avg_part=1486.3s buffer=6
+2972.85,14:57:03,detail,raw_pallet_1_6.part7 START_PALLETIZE
+2975.85,14:57:03,detail,raw_pallet_1_6.part7 DONE sojourn=2975.85s
+2975.85,14:57:03,detail,raw_pallet_1_6.part8 START_PICKUP
+2980.85,14:57:03,detail,raw_pallet_1_6.part8 START_CNC for 141.28s
+2981.86,14:57:03,detail,raw_pallet_1_6.part6 START_PALLETIZE
+2984.86,14:57:03,detail,raw_pallet_1_6.part6 DONE sojourn=2984.86s
+2984.86,14:57:03,detail,raw_pallet_1_6.part9 START_PICKUP
+2985.00,14:57:03,detail,raw_pallet_1_6.part5 START_PALLETIZE
+2989.86,14:57:03,detail,raw_pallet_1_6.part9 START_CNC for 159.91s
+2992.86,14:57:03,detail,raw_pallet_1_6.part5 DONE sojourn=2992.86s
+2992.86,14:57:03,detail,raw_pallet_1_7.part1 START_PICKUP
+2997.86,14:57:03,detail,raw_pallet_1_7.part1 START_CNC for 156.15s
+3000.00,14:57:03,summary,REPORT parts=61 pallets=6 shipped=0 avg_part=1560.0s buffer=6
+3060.00,14:57:03,summary,REPORT parts=61 pallets=6 shipped=0 avg_part=1560.0s buffer=6
+3120.00,14:57:03,summary,REPORT parts=61 pallets=6 shipped=0 avg_part=1560.0s buffer=6
+3122.13,14:57:03,detail,raw_pallet_1_6.part8 START_PALLETIZE
+3125.13,14:57:03,detail,raw_pallet_1_6.part8 DONE sojourn=3125.13s
+3125.13,14:57:03,detail,raw_pallet_1_7.part2 START_PICKUP
+3130.13,14:57:03,detail,raw_pallet_1_7.part2 START_CNC for 123.78s
+3149.77,14:57:03,detail,raw_pallet_1_6.part9 START_PALLETIZE
+3152.77,14:57:03,detail,raw_pallet_1_6 COMPLETED pallet (waiting for forklift)
+3152.77,14:57:03,detail,raw_pallet_1_6.part9 DONE sojourn=3152.77s
+3152.77,14:57:03,detail,raw_pallet_1_7.part3 START_PICKUP
+3152.77,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_6 to shipping
+3154.01,14:57:03,detail,raw_pallet_1_7.part1 START_PALLETIZE
+3157.77,14:57:03,detail,raw_pallet_1_7.part3 START_CNC for 129.92s
+3160.77,14:57:03,detail,raw_pallet_1_7.part1 DONE sojourn=3160.77s
+3160.77,14:57:03,detail,raw_pallet_1_7.part4 START_PICKUP
+3165.77,14:57:03,detail,raw_pallet_1_7.part4 START_CNC for 136.96s
+3178.87,14:57:03,detail,raw_pallet_1_6 READY at shipping buffer
+3178.87,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_6 to shipping
+3180.00,14:57:03,summary,REPORT parts=64 pallets=7 shipped=0 avg_part=1634.4s buffer=7
+3240.00,14:57:03,summary,REPORT parts=64 pallets=7 shipped=0 avg_part=1634.4s buffer=7
+3253.91,14:57:03,detail,raw_pallet_1_7.part2 START_PALLETIZE
+3256.91,14:57:03,detail,raw_pallet_1_7.part2 DONE sojourn=3256.91s
+3256.91,14:57:03,detail,raw_pallet_1_7.part5 START_PICKUP
+3261.91,14:57:03,detail,raw_pallet_1_7.part5 START_CNC for 170.82s
+3287.69,14:57:03,detail,raw_pallet_1_7.part3 START_PALLETIZE
+3290.69,14:57:03,detail,raw_pallet_1_7.part3 DONE sojourn=3290.69s
+3290.69,14:57:03,detail,raw_pallet_1_7.part6 START_PICKUP
+3295.69,14:57:03,detail,raw_pallet_1_7.part6 START_CNC for 138.28s
+3300.00,14:57:03,summary,REPORT parts=66 pallets=7 shipped=0 avg_part=1684.1s buffer=7
+3302.73,14:57:03,detail,raw_pallet_1_7.part4 START_PALLETIZE
+3305.73,14:57:03,detail,raw_pallet_1_7.part4 DONE sojourn=3305.73s
+3305.73,14:57:03,detail,raw_pallet_1_7.part7 START_PICKUP
+3310.73,14:57:03,detail,raw_pallet_1_7.part7 START_CNC for 125.52s
+3360.00,14:57:03,summary,REPORT parts=67 pallets=7 shipped=0 avg_part=1708.3s buffer=7
+3420.00,14:57:03,summary,REPORT parts=67 pallets=7 shipped=0 avg_part=1708.3s buffer=7
+3432.73,14:57:03,detail,raw_pallet_1_7.part5 START_PALLETIZE
+3433.96,14:57:03,detail,raw_pallet_1_7.part6 START_PALLETIZE
+3435.73,14:57:03,detail,raw_pallet_1_7.part5 DONE sojourn=3435.73s
+3435.73,14:57:03,detail,raw_pallet_1_7.part8 START_PICKUP
+3436.25,14:57:03,detail,raw_pallet_1_7.part7 START_PALLETIZE
+3438.73,14:57:03,detail,raw_pallet_1_7.part6 DONE sojourn=3438.73s
+3438.73,14:57:03,detail,raw_pallet_1_7.part9 START_PICKUP
+3443.73,14:57:03,detail,raw_pallet_1_7.part8 START_CNC for 135.01s
+3446.73,14:57:03,detail,raw_pallet_1_7.part7 DONE sojourn=3446.73s
+3446.73,14:57:03,detail,raw_pallet_1_8.part1 START_PICKUP
+3451.73,14:57:03,detail,raw_pallet_1_7.part9 START_CNC for 77.87s
+3456.73,14:57:03,detail,raw_pallet_1_8.part1 START_CNC for 81.67s
+3480.00,14:57:03,summary,REPORT parts=70 pallets=7 shipped=0 avg_part=1782.5s buffer=7
+3529.60,14:57:03,detail,raw_pallet_1_7.part9 START_PALLETIZE
+3532.60,14:57:03,detail,raw_pallet_1_7.part9 DONE sojourn=3532.60s
+3532.60,14:57:03,detail,raw_pallet_1_8.part2 START_PICKUP
+3537.60,14:57:03,detail,raw_pallet_1_8.part2 START_CNC for 159.96s
+3538.40,14:57:03,detail,raw_pallet_1_8.part1 START_PALLETIZE
+3540.00,14:57:03,summary,REPORT parts=71 pallets=7 shipped=0 avg_part=1807.1s buffer=7
+3541.40,14:57:03,detail,raw_pallet_1_8.part1 DONE sojourn=3541.40s
+3541.40,14:57:03,detail,raw_pallet_1_8.part3 START_PICKUP
+3546.40,14:57:03,detail,raw_pallet_1_8.part3 START_CNC for 220.94s
+3578.74,14:57:03,detail,raw_pallet_1_7.part8 START_PALLETIZE
+3581.74,14:57:03,detail,raw_pallet_1_7 COMPLETED pallet (waiting for forklift)
+3581.74,14:57:03,detail,raw_pallet_1_7.part8 DONE sojourn=3581.74s
+3581.74,14:57:03,detail,raw_pallet_1_8.part4 START_PICKUP
+3581.74,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_7 to shipping
+3586.74,14:57:03,detail,raw_pallet_1_8.part4 START_CNC for 146.26s
+3600.00,14:57:03,summary,REPORT parts=73 pallets=8 shipped=0 avg_part=1855.2s buffer=7
+3607.84,14:57:03,detail,raw_pallet_1_7 READY at shipping buffer
+3607.84,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_7 to shipping
+3660.00,14:57:03,summary,REPORT parts=73 pallets=8 shipped=0 avg_part=1855.2s buffer=8
+3697.56,14:57:03,detail,raw_pallet_1_8.part2 START_PALLETIZE
+3700.56,14:57:03,detail,raw_pallet_1_8.part2 DONE sojourn=3700.56s
+3700.56,14:57:03,detail,raw_pallet_1_8.part5 START_PICKUP
+3705.56,14:57:03,detail,raw_pallet_1_8.part5 START_CNC for 125.55s
+3720.00,14:57:03,summary,REPORT parts=74 pallets=8 shipped=0 avg_part=1880.1s buffer=8
+3733.00,14:57:03,detail,raw_pallet_1_8.part4 START_PALLETIZE
+3736.00,14:57:03,detail,raw_pallet_1_8.part4 DONE sojourn=3736.00s
+3736.00,14:57:03,detail,raw_pallet_1_8.part6 START_PICKUP
+3741.00,14:57:03,detail,raw_pallet_1_8.part6 START_CNC for 102.89s
+3767.35,14:57:03,detail,raw_pallet_1_8.part3 START_PALLETIZE
+3770.35,14:57:03,detail,raw_pallet_1_8.part3 DONE sojourn=3770.35s
+3770.35,14:57:03,detail,raw_pallet_1_8.part7 START_PICKUP
+3775.35,14:57:03,detail,raw_pallet_1_8.part7 START_CNC for 136.31s
+3780.00,14:57:03,summary,REPORT parts=76 pallets=8 shipped=0 avg_part=1929.4s buffer=8
+3831.11,14:57:03,detail,raw_pallet_1_8.part5 START_PALLETIZE
+3834.11,14:57:03,detail,raw_pallet_1_8.part5 DONE sojourn=3834.11s
+3834.11,14:57:03,detail,raw_pallet_1_8.part8 START_PICKUP
+3839.11,14:57:03,detail,raw_pallet_1_8.part8 START_CNC for 220.32s
+3840.00,14:57:03,summary,REPORT parts=77 pallets=8 shipped=0 avg_part=1954.2s buffer=8
+3843.89,14:57:03,detail,raw_pallet_1_8.part6 START_PALLETIZE
+3846.89,14:57:03,detail,raw_pallet_1_8.part6 DONE sojourn=3846.89s
+3846.89,14:57:03,detail,raw_pallet_1_8.part9 START_PICKUP
+3851.89,14:57:03,detail,raw_pallet_1_8.part9 START_CNC for 169.60s
+3900.00,14:57:03,summary,REPORT parts=78 pallets=8 shipped=0 avg_part=1978.4s buffer=8
+3911.66,14:57:03,detail,raw_pallet_1_8.part7 START_PALLETIZE
+3914.66,14:57:03,detail,raw_pallet_1_8.part7 DONE sojourn=3914.66s
+3914.66,14:57:03,detail,raw_pallet_1_9.part1 START_PICKUP
+3919.66,14:57:03,detail,raw_pallet_1_9.part1 START_CNC for 140.28s
+3960.00,14:57:03,summary,REPORT parts=79 pallets=8 shipped=0 avg_part=2002.9s buffer=8
+4020.00,14:57:03,summary,REPORT parts=79 pallets=8 shipped=0 avg_part=2002.9s buffer=8
+4021.49,14:57:03,detail,raw_pallet_1_8.part9 START_PALLETIZE
+4024.49,14:57:03,detail,raw_pallet_1_8.part9 DONE sojourn=4024.49s
+4024.49,14:57:03,detail,raw_pallet_1_9.part2 START_PICKUP
+4029.49,14:57:03,detail,raw_pallet_1_9.part2 START_CNC for 185.07s
+4059.44,14:57:03,detail,raw_pallet_1_8.part8 START_PALLETIZE
+4059.94,14:57:03,detail,raw_pallet_1_9.part1 START_PALLETIZE
+4062.44,14:57:03,detail,raw_pallet_1_8 COMPLETED pallet (waiting for forklift)
+4062.44,14:57:03,detail,raw_pallet_1_8.part8 DONE sojourn=4062.44s
+4062.44,14:57:03,detail,raw_pallet_1_9.part3 START_PICKUP
+4062.44,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_8 to shipping
+4065.44,14:57:03,detail,raw_pallet_1_9.part1 DONE sojourn=4065.44s
+4065.44,14:57:03,detail,raw_pallet_1_9.part4 START_PICKUP
+4070.44,14:57:03,detail,raw_pallet_1_9.part3 START_CNC for 110.07s
+4075.44,14:57:03,detail,raw_pallet_1_9.part4 START_CNC for 137.52s
+4080.00,14:57:03,summary,REPORT parts=82 pallets=9 shipped=0 avg_part=2077.9s buffer=8
+4088.54,14:57:03,detail,raw_pallet_1_8 READY at shipping buffer
+4088.54,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_8 to shipping
+4140.00,14:57:03,summary,REPORT parts=82 pallets=9 shipped=0 avg_part=2077.9s buffer=9
+4180.51,14:57:03,detail,raw_pallet_1_9.part3 START_PALLETIZE
+4183.51,14:57:03,detail,raw_pallet_1_9.part3 DONE sojourn=4183.51s
+4183.51,14:57:03,detail,raw_pallet_1_9.part5 START_PICKUP
+4188.51,14:57:03,detail,raw_pallet_1_9.part5 START_CNC for 207.96s
+4200.00,14:57:03,summary,REPORT parts=83 pallets=9 shipped=0 avg_part=2103.2s buffer=9
+4212.95,14:57:03,detail,raw_pallet_1_9.part4 START_PALLETIZE
+4214.56,14:57:03,detail,raw_pallet_1_9.part2 START_PALLETIZE
+4215.95,14:57:03,detail,raw_pallet_1_9.part4 DONE sojourn=4215.95s
+4215.95,14:57:03,detail,raw_pallet_1_9.part6 START_PICKUP
+4218.95,14:57:03,detail,raw_pallet_1_9.part2 DONE sojourn=4218.95s
+4218.95,14:57:03,detail,raw_pallet_1_9.part7 START_PICKUP
+4223.95,14:57:03,detail,raw_pallet_1_9.part6 START_CNC for 144.50s
+4228.95,14:57:03,detail,raw_pallet_1_9.part7 START_CNC for 131.91s
+4260.00,14:57:03,summary,REPORT parts=85 pallets=9 shipped=0 avg_part=2153.0s buffer=9
+4320.00,14:57:03,summary,REPORT parts=85 pallets=9 shipped=0 avg_part=2153.0s buffer=9
+4360.87,14:57:03,detail,raw_pallet_1_9.part7 START_PALLETIZE
+4363.87,14:57:03,detail,raw_pallet_1_9.part7 DONE sojourn=4363.87s
+4363.87,14:57:03,detail,raw_pallet_1_9.part8 START_PICKUP
+4368.46,14:57:03,detail,raw_pallet_1_9.part6 START_PALLETIZE
+4368.87,14:57:03,detail,raw_pallet_1_9.part8 START_CNC for 113.93s
+4371.87,14:57:03,detail,raw_pallet_1_9.part6 DONE sojourn=4371.87s
+4371.87,14:57:03,detail,raw_pallet_1_9.part9 START_PICKUP
+4376.87,14:57:03,detail,raw_pallet_1_9.part9 START_CNC for 141.19s
+4380.00,14:57:03,summary,REPORT parts=87 pallets=9 shipped=0 avg_part=2203.9s buffer=9
+4396.47,14:57:03,detail,raw_pallet_1_9.part5 START_PALLETIZE
+4399.47,14:57:03,detail,raw_pallet_1_9.part5 DONE sojourn=4399.47s
+4399.47,14:57:03,detail,raw_pallet_1_10.part1 START_PICKUP
+4404.47,14:57:03,detail,raw_pallet_1_10.part1 START_CNC for 209.57s
+4440.00,14:57:03,summary,REPORT parts=88 pallets=9 shipped=0 avg_part=2228.8s buffer=9
+4482.80,14:57:03,detail,raw_pallet_1_9.part8 START_PALLETIZE
+4485.80,14:57:03,detail,raw_pallet_1_9.part8 DONE sojourn=4485.80s
+4485.80,14:57:03,detail,raw_pallet_1_10.part2 START_PICKUP
+4490.80,14:57:03,detail,raw_pallet_1_10.part2 START_CNC for 67.85s
+4500.00,14:57:03,summary,REPORT parts=89 pallets=9 shipped=0 avg_part=2254.2s buffer=9
+4518.06,14:57:03,detail,raw_pallet_1_9.part9 START_PALLETIZE
+4521.06,14:57:03,detail,raw_pallet_1_9 COMPLETED pallet (waiting for forklift)
+4521.06,14:57:03,detail,raw_pallet_1_9.part9 DONE sojourn=4521.06s
+4521.06,14:57:03,detail,raw_pallet_1_10.part3 START_PICKUP
+4521.06,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_9 to shipping
+4526.06,14:57:03,detail,raw_pallet_1_10.part3 START_CNC for 171.64s
+4547.16,14:57:03,detail,raw_pallet_1_9 READY at shipping buffer
+4547.16,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_9 to shipping
+4558.65,14:57:03,detail,raw_pallet_1_10.part2 START_PALLETIZE
+4560.00,14:57:03,summary,REPORT parts=90 pallets=10 shipped=0 avg_part=2279.4s buffer=10
+4561.65,14:57:03,detail,raw_pallet_1_10.part2 DONE sojourn=4561.65s
+4561.65,14:57:03,detail,raw_pallet_1_10.part4 START_PICKUP
+4566.65,14:57:03,detail,raw_pallet_1_10.part4 START_CNC for 177.73s
+4614.03,14:57:03,detail,raw_pallet_1_10.part1 START_PALLETIZE
+4617.03,14:57:03,detail,raw_pallet_1_10.part1 DONE sojourn=4617.03s
+4617.03,14:57:03,detail,raw_pallet_1_10.part5 START_PICKUP
+4620.00,14:57:03,summary,REPORT parts=92 pallets=10 shipped=0 avg_part=2329.6s buffer=10
+4622.03,14:57:03,detail,raw_pallet_1_10.part5 START_CNC for 190.42s
+4680.00,14:57:03,summary,REPORT parts=92 pallets=10 shipped=0 avg_part=2329.6s buffer=10
+4697.70,14:57:03,detail,raw_pallet_1_10.part3 START_PALLETIZE
+4700.70,14:57:03,detail,raw_pallet_1_10.part3 DONE sojourn=4700.70s
+4700.70,14:57:03,detail,raw_pallet_1_10.part6 START_PICKUP
+4705.70,14:57:03,detail,raw_pallet_1_10.part6 START_CNC for 165.13s
+4740.00,14:57:03,summary,REPORT parts=93 pallets=10 shipped=0 avg_part=2355.1s buffer=10
+4744.38,14:57:03,detail,raw_pallet_1_10.part4 START_PALLETIZE
+4747.38,14:57:03,detail,raw_pallet_1_10.part4 DONE sojourn=4747.38s
+4747.38,14:57:03,detail,raw_pallet_1_10.part7 START_PICKUP
+4752.38,14:57:03,detail,raw_pallet_1_10.part7 START_CNC for 175.79s
+4800.00,14:57:03,summary,REPORT parts=94 pallets=10 shipped=0 avg_part=2380.6s buffer=10
+4812.45,14:57:03,detail,raw_pallet_1_10.part5 START_PALLETIZE
+4815.45,14:57:03,detail,raw_pallet_1_10.part5 DONE sojourn=4815.45s
+4815.45,14:57:03,detail,raw_pallet_1_10.part8 START_PICKUP
+4820.45,14:57:03,detail,raw_pallet_1_10.part8 START_CNC for 138.04s
+4860.00,14:57:03,summary,REPORT parts=95 pallets=10 shipped=0 avg_part=2406.2s buffer=10
+4870.83,14:57:03,detail,raw_pallet_1_10.part6 START_PALLETIZE
+4873.83,14:57:03,detail,raw_pallet_1_10.part6 DONE sojourn=4873.83s
+4873.83,14:57:03,detail,raw_pallet_1_10.part9 START_PICKUP
+4878.83,14:57:03,detail,raw_pallet_1_10.part9 START_CNC for 142.66s
+4920.00,14:57:03,summary,REPORT parts=96 pallets=10 shipped=0 avg_part=2431.9s buffer=10
+4928.17,14:57:03,detail,raw_pallet_1_10.part7 START_PALLETIZE
+4931.17,14:57:03,detail,raw_pallet_1_10.part7 DONE sojourn=4931.17s
+4931.17,14:57:03,detail,raw_pallet_1_11.part1 START_PICKUP
+4936.17,14:57:03,detail,raw_pallet_1_11.part1 START_CNC for 128.66s
+4958.49,14:57:03,detail,raw_pallet_1_10.part8 START_PALLETIZE
+4961.49,14:57:03,detail,raw_pallet_1_10.part8 DONE sojourn=4961.49s
+4961.49,14:57:03,detail,raw_pallet_1_11.part2 START_PICKUP
+4966.49,14:57:03,detail,raw_pallet_1_11.part2 START_CNC for 84.62s
+4980.00,14:57:03,summary,REPORT parts=98 pallets=10 shipped=0 avg_part=2483.2s buffer=10
+5021.49,14:57:03,detail,raw_pallet_1_10.part9 START_PALLETIZE
+5024.49,14:57:03,detail,raw_pallet_1_10 COMPLETED pallet (waiting for forklift)
+5024.49,14:57:03,detail,raw_pallet_1_10.part9 DONE sojourn=5024.49s
+5024.49,14:57:03,detail,raw_pallet_1_11.part3 START_PICKUP
+5024.49,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_10 to shipping
+5029.49,14:57:03,detail,raw_pallet_1_11.part3 START_CNC for 187.01s
+5040.00,14:57:03,summary,REPORT parts=99 pallets=11 shipped=0 avg_part=2508.9s buffer=10
+5050.59,14:57:03,detail,raw_pallet_1_10 READY at shipping buffer
+5050.59,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_10 to shipping
+5051.11,14:57:03,detail,raw_pallet_1_11.part2 START_PALLETIZE
+5054.11,14:57:03,detail,raw_pallet_1_11.part2 DONE sojourn=5054.11s
+5054.11,14:57:03,detail,raw_pallet_1_11.part4 START_PICKUP
+5059.11,14:57:03,detail,raw_pallet_1_11.part4 START_CNC for 143.63s
+5064.83,14:57:03,detail,raw_pallet_1_11.part1 START_PALLETIZE
+5067.83,14:57:03,detail,raw_pallet_1_11.part1 DONE sojourn=5067.83s
+5067.83,14:57:03,detail,raw_pallet_1_11.part5 START_PICKUP
+5072.83,14:57:03,detail,raw_pallet_1_11.part5 START_CNC for 106.46s
+5100.00,14:57:03,summary,REPORT parts=101 pallets=11 shipped=0 avg_part=2559.4s buffer=11
+5160.00,14:57:03,summary,REPORT parts=101 pallets=11 shipped=0 avg_part=2559.4s buffer=11
+5179.29,14:57:03,detail,raw_pallet_1_11.part5 START_PALLETIZE
+5182.29,14:57:03,detail,raw_pallet_1_11.part5 DONE sojourn=5182.29s
+5182.29,14:57:03,detail,raw_pallet_1_11.part6 START_PICKUP
+5187.29,14:57:03,detail,raw_pallet_1_11.part6 START_CNC for 136.57s
+5202.73,14:57:03,detail,raw_pallet_1_11.part4 START_PALLETIZE
+5205.73,14:57:03,detail,raw_pallet_1_11.part4 DONE sojourn=5205.73s
+5205.73,14:57:03,detail,raw_pallet_1_11.part7 START_PICKUP
+5210.73,14:57:03,detail,raw_pallet_1_11.part7 START_CNC for 134.52s
+5216.50,14:57:03,detail,raw_pallet_1_11.part3 START_PALLETIZE
+5219.50,14:57:03,detail,raw_pallet_1_11.part3 DONE sojourn=5219.50s
+5219.50,14:57:03,detail,raw_pallet_1_11.part8 START_PICKUP
+5220.00,14:57:03,summary,REPORT parts=104 pallets=11 shipped=0 avg_part=2635.7s buffer=11
+5224.50,14:57:03,detail,raw_pallet_1_11.part8 START_CNC for 122.13s
+5280.00,14:57:03,summary,REPORT parts=104 pallets=11 shipped=0 avg_part=2635.7s buffer=11
+5323.86,14:57:03,detail,raw_pallet_1_11.part6 START_PALLETIZE
+5326.86,14:57:03,detail,raw_pallet_1_11.part6 DONE sojourn=5326.86s
+5326.86,14:57:03,detail,raw_pallet_1_11.part9 START_PICKUP
+5331.86,14:57:03,detail,raw_pallet_1_11.part9 START_CNC for 121.15s
+5340.00,14:57:03,summary,REPORT parts=105 pallets=11 shipped=0 avg_part=2661.3s buffer=11
+5345.25,14:57:03,detail,raw_pallet_1_11.part7 START_PALLETIZE
+5346.63,14:57:03,detail,raw_pallet_1_11.part8 START_PALLETIZE
+5348.25,14:57:03,detail,raw_pallet_1_11.part7 DONE sojourn=5348.25s
+5348.25,14:57:03,detail,raw_pallet_1_12.part1 START_PICKUP
+5351.25,14:57:03,detail,raw_pallet_1_11.part8 DONE sojourn=5351.25s
+5351.25,14:57:03,detail,raw_pallet_1_12.part2 START_PICKUP
+5356.25,14:57:03,detail,raw_pallet_1_12.part1 START_CNC for 140.16s
+5361.25,14:57:03,detail,raw_pallet_1_12.part2 START_CNC for 149.82s
+5400.00,14:57:03,summary,REPORT parts=107 pallets=11 shipped=0 avg_part=2711.5s buffer=11
+5453.01,14:57:03,detail,raw_pallet_1_11.part9 START_PALLETIZE
+5456.01,14:57:03,detail,raw_pallet_1_11 COMPLETED pallet (waiting for forklift)
+5456.01,14:57:03,detail,raw_pallet_1_11.part9 DONE sojourn=5456.01s
+5456.01,14:57:03,detail,raw_pallet_1_12.part3 START_PICKUP
+5456.01,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_11 to shipping
+5460.00,14:57:03,summary,REPORT parts=108 pallets=12 shipped=0 avg_part=2736.9s buffer=11
+5461.01,14:57:03,detail,raw_pallet_1_12.part3 START_CNC for 148.51s
+5482.11,14:57:03,detail,raw_pallet_1_11 READY at shipping buffer
+5482.11,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_11 to shipping
+5496.41,14:57:03,detail,raw_pallet_1_12.part1 START_PALLETIZE
+5499.41,14:57:03,detail,raw_pallet_1_12.part1 DONE sojourn=5499.41s
+5499.41,14:57:03,detail,raw_pallet_1_12.part4 START_PICKUP
+5504.41,14:57:03,detail,raw_pallet_1_12.part4 START_CNC for 131.81s
+5511.07,14:57:03,detail,raw_pallet_1_12.part2 START_PALLETIZE
+5514.07,14:57:03,detail,raw_pallet_1_12.part2 DONE sojourn=5514.07s
+5514.07,14:57:03,detail,raw_pallet_1_12.part5 START_PICKUP
+5519.07,14:57:03,detail,raw_pallet_1_12.part5 START_CNC for 77.38s
+5520.00,14:57:03,summary,REPORT parts=110 pallets=12 shipped=0 avg_part=2787.3s buffer=12
+5580.00,14:57:03,summary,REPORT parts=110 pallets=12 shipped=0 avg_part=2787.3s buffer=12
+5596.46,14:57:03,detail,raw_pallet_1_12.part5 START_PALLETIZE
+5599.46,14:57:03,detail,raw_pallet_1_12.part5 DONE sojourn=5599.46s
+5599.46,14:57:03,detail,raw_pallet_1_12.part6 START_PICKUP
+5604.46,14:57:03,detail,raw_pallet_1_12.part6 START_CNC for 109.80s
+5609.52,14:57:03,detail,raw_pallet_1_12.part3 START_PALLETIZE
+5612.52,14:57:03,detail,raw_pallet_1_12.part3 DONE sojourn=5612.52s
+5612.52,14:57:03,detail,raw_pallet_1_12.part7 START_PICKUP
+5617.52,14:57:03,detail,raw_pallet_1_12.part7 START_CNC for 103.75s
+5636.23,14:57:03,detail,raw_pallet_1_12.part4 START_PALLETIZE
+5639.23,14:57:03,detail,raw_pallet_1_12.part4 DONE sojourn=5639.23s
+5639.23,14:57:03,detail,raw_pallet_1_12.part8 START_PICKUP
+5640.00,14:57:03,summary,REPORT parts=113 pallets=12 shipped=0 avg_part=2862.4s buffer=12
+5644.23,14:57:03,detail,raw_pallet_1_12.part8 START_CNC for 145.26s
+5700.00,14:57:03,summary,REPORT parts=113 pallets=12 shipped=0 avg_part=2862.4s buffer=12
+5714.25,14:57:03,detail,raw_pallet_1_12.part6 START_PALLETIZE
+5717.25,14:57:03,detail,raw_pallet_1_12.part6 DONE sojourn=5717.25s
+5717.25,14:57:03,detail,raw_pallet_1_12.part9 START_PICKUP
+5721.26,14:57:03,detail,raw_pallet_1_12.part7 START_PALLETIZE
+5722.25,14:57:03,detail,raw_pallet_1_12.part9 START_CNC for 185.21s
+5725.25,14:57:03,detail,raw_pallet_1_12.part7 DONE sojourn=5725.25s
+5725.25,14:57:03,detail,raw_pallet_1_13.part1 START_PICKUP
+5730.25,14:57:03,detail,raw_pallet_1_13.part1 START_CNC for 174.02s
+5760.00,14:57:03,summary,REPORT parts=115 pallets=12 shipped=0 avg_part=2912.2s buffer=12
+5789.49,14:57:03,detail,raw_pallet_1_12.part8 START_PALLETIZE
+5792.49,14:57:03,detail,raw_pallet_1_12.part8 DONE sojourn=5792.49s
+5792.49,14:57:03,detail,raw_pallet_1_13.part2 START_PICKUP
+5797.49,14:57:03,detail,raw_pallet_1_13.part2 START_CNC for 173.80s
+5820.00,14:57:03,summary,REPORT parts=116 pallets=12 shipped=0 avg_part=2937.0s buffer=12
+5880.00,14:57:03,summary,REPORT parts=116 pallets=12 shipped=0 avg_part=2937.0s buffer=12
+5904.27,14:57:03,detail,raw_pallet_1_13.part1 START_PALLETIZE
+5907.27,14:57:03,detail,raw_pallet_1_13.part1 DONE sojourn=5907.27s
+5907.27,14:57:03,detail,raw_pallet_1_13.part3 START_PICKUP
+5907.46,14:57:03,detail,raw_pallet_1_12.part9 START_PALLETIZE
+5912.27,14:57:03,detail,raw_pallet_1_13.part3 START_CNC for 177.03s
+5915.27,14:57:03,detail,raw_pallet_1_12 COMPLETED pallet (waiting for forklift)
+5915.27,14:57:03,detail,raw_pallet_1_12.part9 DONE sojourn=5915.27s
+5915.27,14:57:03,detail,raw_pallet_1_13.part4 START_PICKUP
+5915.27,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_12 to shipping
+5920.27,14:57:03,detail,raw_pallet_1_13.part4 START_CNC for 112.51s
+5940.00,14:57:03,summary,REPORT parts=118 pallets=13 shipped=0 avg_part=2987.4s buffer=12
+5941.37,14:57:03,detail,raw_pallet_1_12 READY at shipping buffer
+5941.37,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_12 to shipping
+5971.28,14:57:03,detail,raw_pallet_1_13.part2 START_PALLETIZE
+5974.28,14:57:03,detail,raw_pallet_1_13.part2 DONE sojourn=5974.28s
+5974.28,14:57:03,detail,raw_pallet_1_13.part5 START_PICKUP
+5979.28,14:57:03,detail,raw_pallet_1_13.part5 START_CNC for 181.53s
+6000.00,14:57:03,summary,REPORT parts=119 pallets=13 shipped=0 avg_part=3012.5s buffer=13
+6032.78,14:57:03,detail,raw_pallet_1_13.part4 START_PALLETIZE
+6035.78,14:57:03,detail,raw_pallet_1_13.part4 DONE sojourn=6035.78s
+6035.78,14:57:03,detail,raw_pallet_1_13.part6 START_PICKUP
+6040.78,14:57:03,detail,raw_pallet_1_13.part6 START_CNC for 155.97s
+6060.00,14:57:03,summary,REPORT parts=120 pallets=13 shipped=0 avg_part=3037.7s buffer=13
+6089.30,14:57:03,detail,raw_pallet_1_13.part3 START_PALLETIZE
+6092.30,14:57:03,detail,raw_pallet_1_13.part3 DONE sojourn=6092.30s
+6092.30,14:57:03,detail,raw_pallet_1_13.part7 START_PICKUP
+6097.30,14:57:03,detail,raw_pallet_1_13.part7 START_CNC for 89.98s
+6120.00,14:57:03,summary,REPORT parts=121 pallets=13 shipped=0 avg_part=3062.9s buffer=13
+6160.82,14:57:03,detail,raw_pallet_1_13.part5 START_PALLETIZE
+6163.82,14:57:03,detail,raw_pallet_1_13.part5 DONE sojourn=6163.82s
+6163.82,14:57:03,detail,raw_pallet_1_13.part8 START_PICKUP
+6168.82,14:57:03,detail,raw_pallet_1_13.part8 START_CNC for 73.43s
+6180.00,14:57:03,summary,REPORT parts=122 pallets=13 shipped=0 avg_part=3088.4s buffer=13
+6187.28,14:57:03,detail,raw_pallet_1_13.part7 START_PALLETIZE
+6190.28,14:57:03,detail,raw_pallet_1_13.part7 DONE sojourn=6190.28s
+6190.28,14:57:03,detail,raw_pallet_1_13.part9 START_PICKUP
+6195.28,14:57:03,detail,raw_pallet_1_13.part9 START_CNC for 72.54s
+6196.75,14:57:03,detail,raw_pallet_1_13.part6 START_PALLETIZE
+6199.75,14:57:03,detail,raw_pallet_1_13.part6 DONE sojourn=6199.75s
+6199.75,14:57:03,detail,raw_pallet_1_14.part1 START_PICKUP
+6204.75,14:57:03,detail,raw_pallet_1_14.part1 START_CNC for 167.34s
+6240.00,14:57:03,summary,REPORT parts=124 pallets=13 shipped=0 avg_part=3138.5s buffer=13
+6242.24,14:57:03,detail,raw_pallet_1_13.part8 START_PALLETIZE
+6245.24,14:57:03,detail,raw_pallet_1_13.part8 DONE sojourn=6245.24s
+6245.24,14:57:03,detail,raw_pallet_1_14.part2 START_PICKUP
+6250.24,14:57:03,detail,raw_pallet_1_14.part2 START_CNC for 111.92s
+6267.82,14:57:03,detail,raw_pallet_1_13.part9 START_PALLETIZE
+6270.82,14:57:03,detail,raw_pallet_1_13 COMPLETED pallet (waiting for forklift)
+6270.82,14:57:03,detail,raw_pallet_1_13.part9 DONE sojourn=6270.82s
+6270.82,14:57:03,detail,raw_pallet_1_14.part3 START_PICKUP
+6270.82,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_13 to shipping
+6275.82,14:57:03,detail,raw_pallet_1_14.part3 START_CNC for 94.39s
+6296.92,14:57:03,detail,raw_pallet_1_13 READY at shipping buffer
+6296.92,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_13 to shipping
+6300.00,14:57:03,summary,REPORT parts=126 pallets=14 shipped=0 avg_part=3188.0s buffer=14
+6360.00,14:57:03,summary,REPORT parts=126 pallets=14 shipped=0 avg_part=3188.0s buffer=14
+6362.16,14:57:03,detail,raw_pallet_1_14.part2 START_PALLETIZE
+6365.16,14:57:03,detail,raw_pallet_1_14.part2 DONE sojourn=6365.16s
+6365.16,14:57:03,detail,raw_pallet_1_14.part4 START_PICKUP
+6370.16,14:57:03,detail,raw_pallet_1_14.part4 START_CNC for 149.98s
+6370.21,14:57:03,detail,raw_pallet_1_14.part3 START_PALLETIZE
+6372.09,14:57:03,detail,raw_pallet_1_14.part1 START_PALLETIZE
+6373.21,14:57:03,detail,raw_pallet_1_14.part3 DONE sojourn=6373.21s
+6373.21,14:57:03,detail,raw_pallet_1_14.part5 START_PICKUP
+6376.21,14:57:03,detail,raw_pallet_1_14.part1 DONE sojourn=6376.21s
+6376.21,14:57:03,detail,raw_pallet_1_14.part6 START_PICKUP
+6381.21,14:57:03,detail,raw_pallet_1_14.part5 START_CNC for 121.00s
+6386.21,14:57:03,detail,raw_pallet_1_14.part6 START_CNC for 87.40s
+6420.00,14:57:03,summary,REPORT parts=129 pallets=14 shipped=0 avg_part=3262.0s buffer=14
+6473.61,14:57:03,detail,raw_pallet_1_14.part6 START_PALLETIZE
+6476.61,14:57:03,detail,raw_pallet_1_14.part6 DONE sojourn=6476.61s
+6476.61,14:57:03,detail,raw_pallet_1_14.part7 START_PICKUP
+6480.00,14:57:03,summary,REPORT parts=130 pallets=14 shipped=0 avg_part=3286.7s buffer=14
+6481.61,14:57:03,detail,raw_pallet_1_14.part7 START_CNC for 101.52s
+6502.21,14:57:03,detail,raw_pallet_1_14.part5 START_PALLETIZE
+6505.21,14:57:03,detail,raw_pallet_1_14.part5 DONE sojourn=6505.21s
+6505.21,14:57:03,detail,raw_pallet_1_14.part8 START_PICKUP
+6510.21,14:57:03,detail,raw_pallet_1_14.part8 START_CNC for 138.96s
+6520.13,14:57:03,detail,raw_pallet_1_14.part4 START_PALLETIZE
+6523.13,14:57:03,detail,raw_pallet_1_14.part4 DONE sojourn=6523.13s
+6523.13,14:57:03,detail,raw_pallet_1_14.part9 START_PICKUP
+6528.13,14:57:03,detail,raw_pallet_1_14.part9 START_CNC for 102.61s
+6540.00,14:57:03,summary,REPORT parts=132 pallets=14 shipped=0 avg_part=3335.6s buffer=14
+6583.13,14:57:03,detail,raw_pallet_1_14.part7 START_PALLETIZE
+6586.13,14:57:03,detail,raw_pallet_1_14.part7 DONE sojourn=6586.13s
+6586.13,14:57:03,detail,raw_pallet_1_15.part1 START_PICKUP
+6591.13,14:57:03,detail,raw_pallet_1_15.part1 START_CNC for 114.29s
+6600.00,14:57:03,summary,REPORT parts=133 pallets=14 shipped=0 avg_part=3360.1s buffer=14
+6630.75,14:57:03,detail,raw_pallet_1_14.part9 START_PALLETIZE
+6633.75,14:57:03,detail,raw_pallet_1_14.part9 DONE sojourn=6633.75s
+6633.75,14:57:03,detail,raw_pallet_1_15.part2 START_PICKUP
+6638.75,14:57:03,detail,raw_pallet_1_15.part2 START_CNC for 161.07s
+6649.18,14:57:03,detail,raw_pallet_1_14.part8 START_PALLETIZE
+6652.18,14:57:03,detail,raw_pallet_1_14 COMPLETED pallet (waiting for forklift)
+6652.18,14:57:03,detail,raw_pallet_1_14.part8 DONE sojourn=6652.18s
+6652.18,14:57:03,detail,raw_pallet_1_15.part3 START_PICKUP
+6652.18,14:57:03,detail,FORKLIFT 1 START Move raw_pallet_1_14 to shipping
+6657.18,14:57:03,detail,raw_pallet_1_15.part3 START_CNC for 131.47s
+6660.00,14:57:03,summary,REPORT parts=135 pallets=15 shipped=0 avg_part=3408.7s buffer=14
+6678.28,14:57:03,detail,raw_pallet_1_14 READY at shipping buffer
+6678.28,14:57:03,detail,FORKLIFT 1 DONE Move raw_pallet_1_14 to shipping
+6705.42,14:57:03,detail,raw_pallet_1_15.part1 START_PALLETIZE
+6708.42,14:57:03,detail,raw_pallet_1_15.part1 DONE sojourn=6708.42s
+6708.42,14:57:03,detail,raw_pallet_1_15.part4 START_PICKUP
+6713.42,14:57:03,detail,raw_pallet_1_15.part4 START_CNC for 118.97s
+6720.00,14:57:03,summary,REPORT parts=136 pallets=15 shipped=0 avg_part=3433.0s buffer=15
+6780.00,14:57:03,summary,REPORT parts=136 pallets=15 shipped=0 avg_part=3433.0s buffer=15
+6788.65,14:57:03,detail,raw_pallet_1_15.part3 START_PALLETIZE
+6791.65,14:57:03,detail,raw_pallet_1_15.part3 DONE sojourn=6791.65s
+6791.65,14:57:03,detail,raw_pallet_1_15.part5 START_PICKUP
+6796.65,14:57:03,detail,raw_pallet_1_15.part5 START_CNC for 133.39s
+6799.82,14:57:03,detail,raw_pallet_1_15.part2 START_PALLETIZE
+6802.82,14:57:03,detail,raw_pallet_1_15.part2 DONE sojourn=6802.82s
+6802.82,14:57:03,detail,raw_pallet_1_15.part6 START_PICKUP
+6807.82,14:57:03,detail,raw_pallet_1_15.part6 START_CNC for 75.98s
+6832.39,14:57:03,detail,raw_pallet_1_15.part4 START_PALLETIZE
+6835.39,14:57:03,detail,raw_pallet_1_15.part4 DONE sojourn=6835.39s
+6835.39,14:57:03,detail,raw_pallet_1_15.part7 START_PICKUP
+6840.00,14:57:03,summary,REPORT parts=139 pallets=15 shipped=0 avg_part=3505.9s buffer=15
+6840.39,14:57:03,detail,raw_pallet_1_15.part7 START_CNC for 124.89s
+6883.80,14:57:03,detail,raw_pallet_1_15.part6 START_PALLETIZE
+6886.80,14:57:03,detail,raw_pallet_1_15.part6 DONE sojourn=6886.80s
+6886.80,14:57:03,detail,raw_pallet_1_15.part8 START_PICKUP
+6891.80,14:57:03,detail,raw_pallet_1_15.part8 START_CNC for 128.16s
+6900.00,14:57:03,summary,REPORT parts=140 pallets=15 shipped=0 avg_part=3530.0s buffer=15
+6930.03,14:57:03,detail,raw_pallet_1_15.part5 START_PALLETIZE
+6933.03,14:57:03,detail,raw_pallet_1_15.part5 DONE sojourn=6933.03s
+6933.03,14:57:03,detail,raw_pallet_1_15.part9 START_PICKUP
+6938.03,14:57:03,detail,raw_pallet_1_15.part9 START_CNC for 105.06s
+6960.00,14:57:03,summary,REPORT parts=141 pallets=15 shipped=0 avg_part=3554.1s buffer=15
+6965.28,14:57:03,detail,raw_pallet_1_15.part7 START_PALLETIZE
+6968.28,14:57:03,detail,raw_pallet_1_15.part7 DONE sojourn=6968.28s
+7019.96,14:57:03,detail,raw_pallet_1_15.part8 START_PALLETIZE
+7020.00,14:57:03,summary,REPORT parts=142 pallets=15 shipped=0 avg_part=3578.2s buffer=15
+7022.96,14:57:03,detail,raw_pallet_1_15.part8 DONE sojourn=7022.96s
+7043.10,14:57:03,detail,raw_pallet_1_15.part9 START_PALLETIZE
+7046.10,14:57:03,detail,raw_pallet_1_15 COMPLETED pallet (waiting for forklift)
+7046.10,14:57:03,detail,raw_pallet_1_15.part9 DONE sojourn=7046.10s
+7046.10,14:57:03,detail,FORKLIFT 2 START Move raw_pallet_1_15 to shipping
+7072.20,14:57:03,detail,raw_pallet_1_15 READY at shipping buffer
+7072.20,14:57:03,detail,FORKLIFT 2 DONE Move raw_pallet_1_15 to shipping
+7080.00,14:57:03,summary,REPORT parts=144 pallets=16 shipped=0 avg_part=3626.2s buffer=16
+7140.00,14:57:03,summary,REPORT parts=144 pallets=16 shipped=0 avg_part=3626.2s buffer=16
+7200.00,14:57:03,summary,REPORT parts=144 pallets=16 shipped=0 avg_part=3626.2s buffer=16
+,14:57:03,summary,--- Job Shop (Salabim) Report ---
