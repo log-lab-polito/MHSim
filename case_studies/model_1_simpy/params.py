@@ -40,5 +40,20 @@ class Model1Params:
     # coefficient of variation for travel time (lognormal multiplier)
     travel_time_noise_cv: float = 0.0
 
+    # ==================== NEW: 3D Movement Parameters ====================
+
+    # Horizontal movement (in-plane navigation)
+    forklift_max_speed_mps: float = 5.0  # m/s
+    forklift_acceleration_mps2: float = 2.0  # m/s²
+    forklift_deceleration_mps2: float = 2.0  # m/s²
+
+    # Vertical movement (lift/lower)
+    forklift_elevation_speed_mps: float = 1.0  # m/s
+
+    # Load manipulation
+    forklift_loading_time_s: float = 10.0  # seconds
+    forklift_unloading_time_s: float = 10.0  # seconds
+
     def arrival_rate_per_second(self) -> float:
+        """Convert arrival rate from per minute to per second."""
         return self.arrival_rate_per_min / 60.0

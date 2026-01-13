@@ -14,9 +14,12 @@ from .blocks import (
     Source,
     StoreBlock,
 )
-from .components import ForkliftFleet
+from .forklift import ForkliftFleet
 from .params import Model1Params
 from .stats import Model1Stats
+from .forklift import Forklift, ForkliftFleet, ForklifStatus
+from .movement import Position3D, MovementProfile, HorizontalMovement, VerticalMovement
+from .setup import create_warehouse_with_standard_config
 
 
 @dataclass
@@ -30,18 +33,17 @@ class Model1SimModel:
         self.stats = Model1Stats()
         self.travel_time_fn = self._build_travel_time_fn()
 
+        # Create warehouse layout for movement-based operations
+        self.layout, self.router, self.fleet = create_warehouse_with_standard_config(
+            self.env, self.params
+        )
+
         self.storage = simpy.Container(
             self.env, capacity=self.params.storage_capacity, init=0
         )
-        self.fleet = ForkliftFleet(
-            self.env,
-            count=self.params.n_forklifts,
-            store_time_s=self.params.forklift_store_time_s,
-            retrieve_time_s=self.params.forklift_retrieve_time_s,
-            store_travel_time_s=self.params.forklift_store_travel_time_s,
-            retrieve_travel_time_s=self.params.forklift_retrieve_travel_time_s,
-            travel_time_fn=self.travel_time_fn,
-        )
+
+        # Store home position in fleet for return journeys
+        self.fleet.home_position = self.layout.forklifts_home.get_access_point()
 
         self.sink = Sink(self.env, self.stats, name="sink")
         # Downstream service after retrieval
@@ -58,6 +60,9 @@ class Model1SimModel:
             fleet=self.fleet,
             next_block=self.service2,
             name="retrieve",
+            storage_pos=self.layout.storage.get_shelf(
+                "rack_1").get_access_point(),
+            outbound_pos=self.layout.outbound_area.get_access_point(),
         )
         self.delay = DelayBlock(
             self.env,
@@ -71,6 +76,9 @@ class Model1SimModel:
             fleet=self.fleet,
             next_block=self.delay,
             name="store",
+            inbound_pos=self.layout.inbound_area.get_access_point(),
+            storage_pos=self.layout.storage.get_shelf(
+                "rack_1").get_access_point(),
         )
         # Upstream service before storage
         self.service1 = ServiceBlock(

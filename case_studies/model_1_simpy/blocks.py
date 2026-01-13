@@ -4,7 +4,8 @@ import simpy
 from random import Random
 from typing import Optional
 
-from .components import Pallet, ForkliftFleet
+from .pallet import Pallet
+from .forklift import ForkliftFleet
 from .params import Model1Params
 from .stats import Model1Stats
 
@@ -72,15 +73,19 @@ class StoreBlock:
         fleet: ForkliftFleet,
         next_block,
         name: str = "store",
+        inbound_pos=None,
+        storage_pos=None,
     ):
         self.env = env
         self.storage = storage
         self.fleet = fleet
         self.next_block = next_block
         self.name = name
+        self.inbound_pos = inbound_pos
+        self.storage_pos = storage_pos
 
     def handle(self, pallet: Pallet):
-        yield self.env.process(self.fleet.store(pallet))
+        yield self.env.process(self.fleet.store(pallet, self.inbound_pos, self.storage_pos))
         yield self.storage.put(1)
         if self.next_block:
             yield from self.next_block.handle(pallet)
@@ -94,16 +99,20 @@ class RetrieveBlock:
         fleet: ForkliftFleet,
         next_block,
         name: str = "retrieve",
+        storage_pos=None,
+        outbound_pos=None,
     ):
         self.env = env
         self.storage = storage
         self.fleet = fleet
         self.next_block = next_block
         self.name = name
+        self.storage_pos = storage_pos
+        self.outbound_pos = outbound_pos
 
     def handle(self, pallet: Pallet):
         yield self.storage.get(1)
-        yield self.env.process(self.fleet.retrieve(pallet))
+        yield self.env.process(self.fleet.retrieve(pallet, self.storage_pos, self.outbound_pos))
         if self.next_block:
             yield from self.next_block.handle(pallet)
 
