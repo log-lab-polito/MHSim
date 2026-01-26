@@ -8,12 +8,11 @@ ForkliftFleet manages a collection of independent Forklift instances.
 from __future__ import annotations
 
 import simpy
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Optional, Callable, Generator
+from typing import Optional, Generator
 from enum import Enum
 
-from .movement import Position3D, MovementProfile, HorizontalMovement, VerticalMovement
+from .movement import Position3D, MovementProfile
 from .routing import Router
 from .pallet import Pallet
 
@@ -26,6 +25,25 @@ class ForklifStatus(Enum):
     UNLOADING = "unloading"
 
 
+@dataclass(frozen=True)
+class LiftProfile:
+    """Lift timing and geometry for shelf-level operations."""
+    shelf_height: float
+    elevation_speed: float
+    lowering_speed: float
+
+    def height_for_level(self, shelf_level: int) -> float:
+        if shelf_level <= 0:
+            return 0.0
+        return shelf_level * self.shelf_height
+
+    def lift_cycle_time(self, shelf_level: int) -> float:
+        height = self.height_for_level(shelf_level)
+        up = height / self.elevation_speed if self.elevation_speed > 0 else 0.0
+        down = height / self.lowering_speed if self.lowering_speed > 0 else 0.0
+        return up + down
+
+
 @dataclass
 class Forklift:
     """Independent forklift agent with movement simulation."""
@@ -36,6 +54,7 @@ class Forklift:
 
     # Movement profile
     movement_profile: MovementProfile
+    lift_profile: Optional[LiftProfile] = None
 
     # State
     position: Position3D = field(default_factory=lambda: Position3D(0, 0, 0))
@@ -61,24 +80,61 @@ class Forklift:
 
     def _move_direct_to(self, target: Position3D, update_interval: float = 0.05) -> Generator:
         """Move directly to target using acceleration profile (no routing)."""
-        if self.position.distance_xy(target) < 0.01:
+        # Check if we're already at target (in 3D, not just XY)
+        if self.position.distance_to(target) < 0.01:
             yield self.env.timeout(0)
             return
 
         self.status = ForklifStatus.MOVING
         start_pos = self.position
+        height_change = target.z - start_pos.z
 
         from .movement import AcceleratingInterpolator
+        start_xy = Position3D(start_pos.x, start_pos.y, 0)
+        target_xy = Position3D(target.x, target.y, 0)
         interpolator = AcceleratingInterpolator(
-            start_pos, target, self.movement_profile.horizontal)
+            start_xy, target_xy, self.movement_profile.horizontal)
+        horizontal_time = interpolator.travel_time
 
-        travel_time = interpolator.travel_time
+        vertical_speed = 0.0
+        if height_change != 0:
+            if self.lift_profile:
+                vertical_speed = (
+                    self.lift_profile.elevation_speed
+                    if height_change > 0
+                    else self.lift_profile.lowering_speed
+                )
+            else:
+                vertical_speed = self.movement_profile.elevation.speed
+        vertical_time = abs(height_change) / \
+            vertical_speed if vertical_speed > 0 else 0.0
+
+        total_time = max(horizontal_time, vertical_time)
+        if total_time <= 0:
+            self.position = target
+            if self.status == ForklifStatus.MOVING:
+                self.status = ForklifStatus.IDLE
+            yield self.env.timeout(0)
+            return
+
         elapsed = 0.0
-        while elapsed < travel_time:
-            dt = min(update_interval, travel_time - elapsed)
+        while elapsed < total_time:
+            dt = min(update_interval, total_time - elapsed)
             yield self.env.timeout(dt)
             elapsed += dt
-            self.position = interpolator.update(dt)
+
+            if horizontal_time > 0:
+                xy_pos = interpolator.update(dt)
+            else:
+                xy_pos = target_xy
+
+            if vertical_time > 0:
+                z_progress = min(elapsed / vertical_time, 1.0)
+                z = start_pos.z + height_change * z_progress
+            else:
+                z = target.z
+
+            self.position = Position3D(xy_pos.x, xy_pos.y, z)
 
         self.position = target
         if self.status == ForklifStatus.MOVING:
@@ -90,8 +146,15 @@ class Forklift:
         If a router and path network are available, route via the nearest or
         specified path and traverse waypoints in sequence, constraining motion
         to those predefined paths. Falls back to direct movement if no paths.
+
+        Pure vertical movements (XY unchanged) bypass routing to avoid forcing
+        through ground-level waypoints.
         """
-        if self.router:
+        # Check if this is a pure vertical movement
+        xy_distance = self.position.distance_xy(target)
+        is_vertical_only = xy_distance < 0.01
+
+        if self.router and not is_vertical_only:
             path_id = preferred_path_id or self.router.nearest_path_id(
                 self.position) or self.router.nearest_path_id(target)
             route = self.router.route_between_nodes(
@@ -101,32 +164,60 @@ class Forklift:
                 yield from self._move_direct_to(wp, update_interval)
             return
 
-        # Fallback: direct movement
+        # Fallback: direct movement (also used for vertical-only movements)
         yield from self._move_direct_to(target, update_interval)
 
-    def load(self, pallet: Pallet) -> Generator:
-        """Load a pallet onto forklift."""
-        self.status = ForklifStatus.LOADING
-        self.current_load = pallet
+    def estimate_travel_time(self, start: Position3D, end: Position3D) -> float:
+        if self.router:
+            xy_distance = self.router.distance_between(start, end)
+        else:
+            xy_distance = start.distance_xy(end)
+        horizontal_time = self.movement_profile.horizontal.travel_time(xy_distance)
 
-        yield self.env.timeout(self.movement_profile.loading_time)
+        height_change = end.z - start.z
+        if height_change == 0:
+            return horizontal_time
+        if self.lift_profile:
+            vertical_speed = (
+                self.lift_profile.elevation_speed
+                if height_change > 0
+                else self.lift_profile.lowering_speed
+            )
+        else:
+            vertical_speed = self.movement_profile.elevation.speed
+        vertical_time = abs(height_change) / vertical_speed if vertical_speed > 0 else 0.0
+        return max(horizontal_time, vertical_time)
 
-        if self.status == ForklifStatus.LOADING:
-            self.status = ForklifStatus.IDLE
+    def lift_cycle_time(self, shelf_level: int) -> float:
+        if not self.lift_profile:
+            return 0.0
+        return self.lift_profile.lift_cycle_time(shelf_level)
 
-    def unload(self) -> Generator:
-        """Unload current pallet."""
-        self.status = ForklifStatus.UNLOADING
+    def perform_lift(
+        self,
+        target_pos: Optional[Position3D],
+        shelf_level: int,
+        update_interval: float = 0.1,
+        dwell_time_s: float = 0.0,
+    ) -> Generator:
+        """Move to position, lift to shelf level, dwell, then return to ground."""
+        if target_pos is None:
+            yield self.env.timeout(dwell_time_s)
+            return
 
-        yield self.env.timeout(self.movement_profile.unloading_time)
+        if self.position != target_pos:
+            yield from self.move_to(target_pos, update_interval=update_interval)
 
-        pallet = self.current_load
-        self.current_load = None
+        if self.lift_profile and shelf_level > 0:
+            shelf_height_m = self.lift_profile.height_for_level(shelf_level)
+            elevated_pos = target_pos._replace(z=shelf_height_m)
+            yield from self.move_to(elevated_pos, update_interval=update_interval)
 
-        if self.status == ForklifStatus.UNLOADING:
-            self.status = ForklifStatus.IDLE
+        yield self.env.timeout(dwell_time_s)
 
-        return pallet
+        if self.lift_profile and shelf_level > 0:
+            ground_pos = target_pos._replace(z=0)
+            yield from self.move_to(ground_pos, update_interval=update_interval)
 
     def elevate(self, height_change: float) -> Generator:
         """Move load up/down by height_change meters."""
@@ -147,40 +238,27 @@ class ForkliftFleet:
     forklifts: list[Forklift] = field(default_factory=list)
     name: str = "fleet"
 
-    # Legacy compatibility
+    # Resource for managing forklift allocation
     _resource: Optional[simpy.Resource] = None
-
-    # Legacy parameters (stored for compatibility but not used in new system)
-    count: int = 0
-    store_time_s: float = 0.0
-    retrieve_time_s: float = 0.0
-    store_travel_time_s: float = 0.0
-    retrieve_travel_time_s: float = 0.0
-    travel_time_fn: Optional[callable] = None
 
     def __init__(
         self,
         env: simpy.Environment,
         count: int = 0,
-        store_time_s: float = 0.0,
-        retrieve_time_s: float = 0.0,
-        store_travel_time_s: float = 0.0,
-        retrieve_travel_time_s: float = 0.0,
-        travel_time_fn: Optional[callable] = None,
         name: str = "fleet",
         **kwargs
     ):
-        """Initialize ForkliftFleet with backward compatibility."""
+        """Initialize ForkliftFleet."""
         self.env = env
         self.forklifts = []
         self.name = name
-        self.count = count
-        self.store_time_s = store_time_s
-        self.retrieve_time_s = retrieve_time_s
-        self.store_travel_time_s = store_travel_time_s
-        self.retrieve_travel_time_s = retrieve_travel_time_s
-        self.travel_time_fn = travel_time_fn
-        self._resource = simpy.Resource(self.env, capacity=max(1, count))
+        self._resource = simpy.PriorityResource(
+            self.env, capacity=max(1, count))
+        self.busy_store = 0
+        self.busy_retrieve = 0
+        # Track pending requests (waiting in queue) per operation
+        self.pending_store = 0
+        self.pending_retrieve = 0
 
     # __post_init__ is no longer needed since we use __init__ directly
 
@@ -188,7 +266,9 @@ class ForkliftFleet:
         """Add a forklift to the fleet."""
         self.forklifts.append(forklift)
         # Update resource capacity
-        self._resource = simpy.Resource(self.env, capacity=len(self.forklifts))
+        # Preserve PriorityResource so request(priority=...) works
+        self._resource = simpy.PriorityResource(
+            self.env, capacity=len(self.forklifts))
 
     def get_available_forklift(self) -> Optional[Forklift]:
         """Get first available forklift."""
@@ -196,17 +276,6 @@ class ForkliftFleet:
             if fl.is_available():
                 return fl
         return None
-
-    def get_forklift(self, forklift_id: str) -> Optional[Forklift]:
-        """Get forklift by ID."""
-        for fl in self.forklifts:
-            if fl.id == forklift_id:
-                return fl
-        return None
-
-    def count_available(self) -> int:
-        """Count available forklifts."""
-        return sum(1 for fl in self.forklifts if fl.is_available())
 
     def count_total(self) -> int:
         """Get total number of forklifts."""
@@ -218,67 +287,12 @@ class ForkliftFleet:
         """Get underlying resource (for backwards compatibility)."""
         return self._resource
 
-    def store(self, pallet: Pallet, inbound_pos=None, storage_pos=None):
-        """
-        Store operation: move forklift from inbound to storage.
-        If inbound_pos and storage_pos are provided, actually move the forklift.
-        Otherwise, fall back to legacy timing-based simulation.
-        """
-        with self._resource.request() as req:
-            yield req
-
-            # If we have an available forklift, use it for actual movement
-            fl = self.get_available_forklift() if self.forklifts else None
-            if fl and inbound_pos and storage_pos:
-                # Actual movement-based store
-                yield from fl.move_to(inbound_pos, update_interval=0.1)
-                yield from fl.load(pallet)
-                yield from fl.move_to(storage_pos, update_interval=0.1)
-                yield from fl.unload()
-                # Return to home if we have home position
-                if hasattr(self, 'home_position') and self.home_position:
-                    yield from fl.move_to(self.home_position, update_interval=0.1)
-            else:
-                # Fallback: legacy timing-based
-                travel = self.store_travel_time_s if self.store_travel_time_s else (
-                    self.travel_time_fn(
-                        "store", pallet) if self.travel_time_fn else 0.0
-                )
-                yield self.env.timeout(travel + self.store_time_s)
-
-    def retrieve(self, pallet: Pallet, storage_pos=None, outbound_pos=None):
-        """
-        Retrieve operation: move forklift from storage to outbound.
-        If storage_pos and outbound_pos are provided, actually move the forklift.
-        Otherwise, fall back to legacy timing-based simulation.
-        """
-        with self._resource.request() as req:
-            yield req
-
-            # If we have an available forklift, use it for actual movement
-            fl = self.get_available_forklift() if self.forklifts else None
-            if fl and storage_pos and outbound_pos:
-                # Actual movement-based retrieve
-                yield from fl.move_to(storage_pos, update_interval=0.1)
-                yield from fl.load(pallet)
-                yield from fl.move_to(outbound_pos, update_interval=0.1)
-                yield from fl.unload()
-                # Return to home if we have home position
-                if hasattr(self, 'home_position') and self.home_position:
-                    yield from fl.move_to(self.home_position, update_interval=0.1)
-            else:
-                # Fallback: legacy timing-based
-                travel = self.retrieve_travel_time_s if self.retrieve_travel_time_s else (
-                    self.travel_time_fn(
-                        "retrieve", pallet) if self.travel_time_fn else 0.0
-                )
-                yield self.env.timeout(travel + self.retrieve_time_s)
-
 
 def create_forklift_fleet(
     env: simpy.Environment,
     count: int,
     movement_profile: MovementProfile,
+    lift_profile: Optional[LiftProfile] = None,
     router: Optional[Router] = None,
     home_position: Position3D = None,
     name_prefix: str = "forklift"
@@ -290,6 +304,7 @@ def create_forklift_fleet(
         env: SimPy environment
         count: Number of forklifts in fleet
         movement_profile: Movement profile for all forklifts
+        lift_profile: Lift profile for shelf operations (optional)
         router: Router instance (shared across fleet)
         home_position: Starting position for all forklifts
         name_prefix: Prefix for forklift IDs
@@ -307,6 +322,7 @@ def create_forklift_fleet(
             id=f"{name_prefix}_{i}",
             env=env,
             movement_profile=movement_profile,
+            lift_profile=lift_profile,
             position=home_position,
             router=router
         )

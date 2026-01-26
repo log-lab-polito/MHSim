@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 
 
 class Position3D(NamedTuple):
@@ -114,8 +114,6 @@ class MovementProfile:
     """Combined 3D movement profile."""
     horizontal: HorizontalMovement
     elevation: VerticalMovement
-    loading_time: float  # seconds
-    unloading_time: float  # seconds
 
     def horizontal_travel_time(self, distance_m: float) -> float:
         """Time for horizontal movement."""
@@ -135,33 +133,6 @@ class MovementProfile:
 
         # Movements happen in parallel, so total time is max
         return max(h_time, v_time)
-
-
-class LinearInterpolator:
-    """Smooth position interpolation along a path."""
-
-    def __init__(self, start: Position3D, end: Position3D, travel_time: float):
-        self.start = start
-        self.end = end
-        self.travel_time = travel_time
-        self.elapsed = 0.0
-
-    def update(self, dt: float) -> Position3D:
-        """Update elapsed time and return current position."""
-        self.elapsed = min(self.elapsed + dt, self.travel_time)
-        if self.travel_time == 0:
-            return self.end
-
-        progress = self.elapsed / self.travel_time
-        return Position3D(
-            self.start.x + (self.end.x - self.start.x) * progress,
-            self.start.y + (self.end.y - self.start.y) * progress,
-            self.start.z + (self.end.z - self.start.z) * progress,
-        )
-
-    def is_complete(self) -> bool:
-        """Check if movement is complete."""
-        return self.elapsed >= self.travel_time
 
 
 class AcceleratingInterpolator:
@@ -246,14 +217,15 @@ class AcceleratingInterpolator:
         if self.travel_time == 0:
             return self.end
 
-        # Get distance traveled using acceleration profile
-        distance_traveled = self.get_distance_at_time(self.elapsed)
-
-        # Calculate position along the path
-        if self.distance > 0:
-            progress = distance_traveled / self.distance
+        # For pure Z movement (XY distance = 0), use time-based progress
+        if self.distance == 0:
+            # Pure vertical movement - use time-based interpolation
+            progress = self.elapsed / self.travel_time if self.travel_time > 0 else 1.0
         else:
-            progress = 1.0
+            # Get distance traveled using acceleration profile
+            distance_traveled = self.get_distance_at_time(self.elapsed)
+            # Calculate position along the path
+            progress = distance_traveled / self.distance
 
         progress = min(progress, 1.0)
 

@@ -10,7 +10,6 @@ from __future__ import annotations
 import simpy
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
-from collections import defaultdict
 import numpy as np
 
 from .movement import Position3D
@@ -60,16 +59,20 @@ class ForkliftTrajectory:
         """Get Z coordinates."""
         return np.array([r.position.z for r in self.records])
 
-    def get_speeds(self) -> np.ndarray:
-        """Calculate instantaneous speed at each point (m/s)."""
-        positions = self.get_positions_xyz()
+    def get_speeds_horizontal(self) -> np.ndarray:
+        """Calculate instantaneous speed in the horizontal plane (XY only) in m/s.
+
+        This excludes vertical (Z) movement, showing only the planar motion speed.
+        Zeros out speeds when forklift is not actively MOVING to avoid aliasing artifacts.
+        """
+        positions_xy = self.get_positions_xy()
         times = self.get_times()
 
-        if len(positions) < 2:
+        if len(positions_xy) < 2:
             return np.array([])
 
-        # Calculate distances between consecutive points
-        diffs = np.diff(positions, axis=0)
+        # Calculate distances between consecutive points (XY only)
+        diffs = np.diff(positions_xy, axis=0)
         distances = np.linalg.norm(diffs, axis=1)
 
         # Calculate time differences
@@ -79,24 +82,16 @@ class ForkliftTrajectory:
         speeds = distances / dt
 
         # Add initial speed (0) to match array length
-        return np.concatenate([[0], speeds])
+        speeds = np.concatenate([[0], speeds])
 
-    def get_accelerations(self) -> np.ndarray:
-        """Calculate instantaneous acceleration at each point (m/s²)."""
-        speeds = self.get_speeds()
-        times = self.get_times()
+        # Zero out speeds when forklift is not in MOVING status
+        # This eliminates aliasing artifacts from position recording misalignment
+        speeds_filtered = np.zeros_like(speeds)
+        for i, record in enumerate(self.records):
+            if i < len(speeds) and record.status == ForklifStatus.MOVING:
+                speeds_filtered[i] = speeds[i]
 
-        if len(speeds) < 2:
-            return np.array([])
-
-        # Calculate acceleration = change in speed / time
-        dt = np.diff(times)
-        dv = np.diff(speeds)
-
-        accelerations = dv / dt
-
-        # Add initial acceleration (0) to match array length
-        return np.concatenate([[0], accelerations])
+        return speeds_filtered
 
 
 class MovementRecorder:
@@ -265,69 +260,6 @@ class Visualizer2D:
 
         fig.tight_layout()
         return fig, axes
-
-    def plot_speed_and_acceleration(self, figsize=(14, 10), line_styles=None):
-        """Plot speed and acceleration vs time for all forklifts.
-
-        Args:
-            figsize: Figure size (width, height)
-            line_styles: List of line styles for each forklift. If None, uses default rotation.
-                        Examples: ['-', '--', '-.', ':'] for solid, dashed, dash-dot, dotted
-
-        Returns:
-            (fig, axes) matplotlib objects with 2 subplots
-        """
-        try:
-            import matplotlib.pyplot as plt
-        except ImportError:
-            raise ImportError("matplotlib is required for visualization")
-
-        # Default line styles if not provided
-        if line_styles is None:
-            line_styles = ['-', '--', '-.', ':',
-                           '-', '--', '-.', ':', '-', '--']
-
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=figsize)
-        colors = plt.cm.tab10(np.linspace(0, 1, len(self.trajectories)))
-
-        for (fl_id, trajectory), color, linestyle in zip(
-            self.trajectories.items(),
-            colors,
-            line_styles[:len(self.trajectories)]
-        ):
-            times = trajectory.get_times()
-            speeds = trajectory.get_speeds()
-            accelerations = trajectory.get_accelerations()
-
-            # Plot speed (no markers, with line style)
-            ax1.plot(times, speeds, linestyle=linestyle, label=fl_id,
-                     color=color, linewidth=2.0, alpha=0.8)
-
-            # Plot acceleration (no markers, with line style)
-            ax2.plot(times, accelerations, linestyle=linestyle, label=fl_id,
-                     color=color, linewidth=2.0, alpha=0.8)
-
-        # Speed plot
-        ax1.set_xlabel("Time (s)", fontsize=12)
-        ax1.set_ylabel("Speed (m/s)", fontsize=12)
-        ax1.set_title("Forklift Speed over Time",
-                      fontsize=14, fontweight='bold')
-        ax1.legend(loc='best', fontsize=10)
-        ax1.grid(True, alpha=0.3)
-        ax1.axhline(y=0, color='k', linestyle='-', linewidth=0.5)
-
-        # Acceleration plot
-        ax2.set_xlabel("Time (s)", fontsize=12)
-        ax2.set_ylabel("Acceleration (m/s²)", fontsize=12)
-        ax2.set_title("Forklift Acceleration over Time",
-                      fontsize=14, fontweight='bold')
-        ax2.legend(loc='best', fontsize=10)
-        ax2.grid(True, alpha=0.3)
-        ax2.axhline(y=0, color='k', linestyle='-', linewidth=0.5)
-
-        fig.tight_layout()
-        return fig, (ax1, ax2)
-
 
 class Visualizer3D:
     """Create 3D matplotlib visualizations of forklift movements."""
@@ -507,7 +439,9 @@ class AnimationBuilder:
 
         # Optional: draw warehouse background (areas, shelves, paths)
         if self._layout is not None:
-            from matplotlib.patches import Rectangle
+            from matplotlib.patches import Rectangle, Circle
+            from .spatial import PointNode, RectangularNode
+
             # Draw areas (inbound, outbound, home)
             areas = [
                 (self._layout.inbound_area, {'edgecolor': '#388E3C'}),
@@ -517,12 +451,21 @@ class AnimationBuilder:
             for area, style in areas:
                 if area is None:
                     continue
-                r = Rectangle((area.position.x, area.position.y), area.width, area.depth,
-                              fill=False, lw=1.5, linestyle='--', edgecolor=style['edgecolor'], alpha=0.8)
-                ax.add_patch(r)
-                ax.text(area.position.x + area.width/2,
-                        area.position.y + area.depth + 3,
-                        area.id, color=style['edgecolor'], ha='center', va='bottom', fontsize=9)
+                if isinstance(area, PointNode):
+                    # Draw point node as a circle
+                    c = Circle((area.position.x, area.position.y), radius=10,
+                               fill=False, lw=1.5, linestyle='--', edgecolor=style['edgecolor'], alpha=0.8)
+                    ax.add_patch(c)
+                    ax.text(area.position.x, area.position.y + 15,
+                            area.id, color=style['edgecolor'], ha='center', va='bottom', fontsize=9)
+                elif isinstance(area, RectangularNode):
+                    # Draw rectangular node as a rectangle
+                    r = Rectangle((area.position.x, area.position.y), area.width, area.depth,
+                                  fill=False, lw=1.5, linestyle='--', edgecolor=style['edgecolor'], alpha=0.8)
+                    ax.add_patch(r)
+                    ax.text(area.position.x + area.width/2,
+                            area.position.y + area.depth + 3,
+                            area.id, color=style['edgecolor'], ha='center', va='bottom', fontsize=9)
 
             # Draw shelves (storage)
             if self._layout.storage and getattr(self._layout.storage, 'shelves', None):

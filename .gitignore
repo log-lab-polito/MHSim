@@ -65,3 +65,7 @@ htmlcov/
 
 # Project-specific (optional)
 # Add generated files or data directories here
+
+# Anylogic temporary files
+*.autosave
+*.lck

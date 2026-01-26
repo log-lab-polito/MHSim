@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import List, Optional
 from .movement import Position3D
 
 
@@ -47,14 +47,6 @@ class RectangularNode(Node):
             self.position.y + self.depth / 2,
             0,
         )
-
-    def get_random_point(self, rng) -> Position3D:
-        """Get a random point within the rectangle."""
-        import random
-        x = self.position.x + random.uniform(0, self.width)
-        y = self.position.y + random.uniform(0, self.depth)
-        z = self.position.z + random.uniform(0, self.height)
-        return Position3D(x, y, z)
 
 
 @dataclass
@@ -101,13 +93,6 @@ class Storage:
     def add_shelf(self, shelf: Shelf) -> None:
         """Add a shelf to storage."""
         self.shelves.append(shelf)
-
-    def get_cell_position(self, shelf_id: str, level: int, position: int) -> Position3D:
-        """Get position of a specific cell."""
-        for shelf in self.shelves:
-            if shelf.id == shelf_id:
-                return shelf.get_cell_position(level, position)
-        raise ValueError(f"Shelf {shelf_id} not found")
 
     def get_shelf(self, shelf_id: str) -> Optional[Shelf]:
         """Get shelf by ID."""
@@ -162,12 +147,11 @@ class Path:
 @dataclass
 class WarehouseLayout:
     """Defines the complete warehouse layout."""
-    inbound_area: RectangularNode
-    outbound_area: RectangularNode
+    inbound_area: Node
+    outbound_area: Node
     forklifts_home: RectangularNode
     storage: Storage
     paths: List[Path] = field(default_factory=list)
-    other_nodes: List[Node] = field(default_factory=list)
 
     def add_path(self, path: Path) -> None:
         """Add a movement path."""
@@ -179,7 +163,3 @@ class WarehouseLayout:
             if path.id == path_id:
                 return path
         return None
-
-    def add_node(self, node: Node) -> None:
-        """Add a custom node."""
-        self.other_nodes.append(node)

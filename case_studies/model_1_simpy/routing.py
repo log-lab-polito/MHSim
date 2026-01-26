@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Dict
 from .movement import Position3D
-from .spatial import Path, Node, WarehouseLayout
+from .spatial import Path, WarehouseLayout
 
 
 @dataclass
@@ -156,10 +156,6 @@ class Router:
             total_dist += unique[i].distance_xy(unique[i + 1])
 
         return Route(waypoints=unique, total_distance=total_dist)
-
-    # Legacy helper retained for compatibility (now unused)
-    def _route_via_path(self, start: Position3D, end: Position3D, path: Path) -> Route:
-        return self.route_between_nodes(start, end, preferred_path_id=path.id)
 
     def distance_between(
         self,
