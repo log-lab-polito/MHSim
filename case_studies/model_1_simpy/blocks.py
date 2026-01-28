@@ -130,8 +130,8 @@ class StoreBlock:
         while self.storage.level >= self.storage.capacity:
             yield self.env.timeout(0.1)  # Poll every 0.1s until room available
 
-        # Request forklift from fleet with priority=2 (lower priority than retrieve)
-        with self.fleet.resource.request(priority=2) as req:
+        # Request forklift from fleet with same priority as retrieve (FIFO)
+        with self.fleet.resource.request(priority=1) as req:
             # Track waiting requests for visualization/metrics
             if hasattr(self.fleet, "pending_store"):
                 self.fleet.pending_store += 1
@@ -212,7 +212,7 @@ class RetrieveBlock:
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
         yield self.storage.get(1)
 
-        # Request forklift from fleet with priority=1 (higher priority than store)
+        # Request forklift from fleet with same priority as store (FIFO)
         with self.fleet.resource.request(priority=1) as req:
             # Track waiting requests for visualization/metrics
             if hasattr(self.fleet, "pending_retrieve"):
