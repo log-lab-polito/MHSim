@@ -8,6 +8,7 @@ ForkliftFleet manages a collection of independent Forklift instances.
 from __future__ import annotations
 
 import simpy
+import math
 from dataclasses import dataclass, field
 from typing import Optional, Generator
 from enum import Enum
@@ -61,6 +62,7 @@ class Forklift:
     status: ForklifStatus = ForklifStatus.IDLE
     current_load: Optional[Pallet] = None
     router: Optional[Router] = None
+    turn_radius: float = 1.0
 
     def __post_init__(self):
         """Initialize forklift process."""
@@ -140,6 +142,248 @@ class Forklift:
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 
+    def _move_along_route(
+        self,
+        waypoints: list[Position3D],
+        update_interval: float = 0.05,
+    ) -> Generator:
+        """Move along a route polyline with a single accel/cruise/decel profile."""
+        if len(waypoints) < 2:
+            yield self.env.timeout(0)
+            return
+
+        self.status = ForklifStatus.MOVING
+        start_pos = self.position
+        target = waypoints[-1]
+        height_change = target.z - start_pos.z
+
+        def rot90(u: Position3D, sign: float) -> Position3D:
+            if sign > 0:
+                return Position3D(-u.y, u.x, 0)
+            return Position3D(u.y, -u.x, 0)
+
+        def normalize(vx: float, vy: float) -> Position3D:
+            norm = math.hypot(vx, vy)
+            if norm <= 1e-9:
+                return Position3D(0.0, 0.0, 0)
+            return Position3D(vx / norm, vy / norm, 0)
+
+        def angle_between(u: Position3D, v: Position3D) -> float:
+            dot = max(-1.0, min(1.0, u.x * v.x + u.y * v.y))
+            return math.acos(dot)
+
+        route_xy = [Position3D(wp.x, wp.y, 0) for wp in waypoints]
+        compacted = []
+        for p in route_xy:
+            if not compacted or compacted[-1].distance_xy(p) > 1e-6:
+                compacted.append(p)
+        route_xy = compacted
+
+        segments: list[dict] = []
+        current = route_xy[0]
+        turn_radius = max(0.0, getattr(self, "turn_radius", 1.0))
+
+        for i in range(1, len(route_xy) - 1):
+            prev_pt = route_xy[i - 1]
+            corner = route_xy[i]
+            next_pt = route_xy[i + 1]
+
+            u1 = normalize(corner.x - prev_pt.x, corner.y - prev_pt.y)
+            u2 = normalize(next_pt.x - corner.x, next_pt.y - corner.y)
+
+            if (u1.x == 0 and u1.y == 0) or (u2.x == 0 and u2.y == 0):
+                continue
+
+            ang = angle_between(u1, u2)
+            if turn_radius <= 0 or ang < 1e-3 or abs(math.pi - ang) < 1e-3:
+                # Straight or U-turn; keep as sharp corner
+                if current.distance_xy(corner) > 1e-6:
+                    segments.append(
+                        {"kind": "line", "start": current, "end": corner,
+                         "length": current.distance_xy(corner)}
+                    )
+                    current = corner
+                continue
+
+            t = turn_radius * math.tan(ang / 2.0)
+            incoming_len = corner.distance_xy(prev_pt)
+            outgoing_len = corner.distance_xy(next_pt)
+            available_in = corner.distance_xy(current)
+            if t > incoming_len or t > outgoing_len or t > available_in:
+                if current.distance_xy(corner) > 1e-6:
+                    segments.append(
+                        {"kind": "line", "start": current, "end": corner,
+                         "length": current.distance_xy(corner)}
+                    )
+                    current = corner
+                continue
+
+            tangent_in = Position3D(corner.x - u1.x * t, corner.y - u1.y * t, 0)
+            tangent_out = Position3D(corner.x + u2.x * t, corner.y + u2.y * t, 0)
+
+            if current.distance_xy(tangent_in) > 1e-6:
+                segments.append(
+                    {"kind": "line", "start": current, "end": tangent_in,
+                     "length": current.distance_xy(tangent_in)}
+                )
+
+            cross = u1.x * u2.y - u1.y * u2.x
+            sign = 1.0 if cross > 0 else -1.0
+            n1 = rot90(u1, sign)
+            center = Position3D(
+                tangent_in.x + n1.x * turn_radius,
+                tangent_in.y + n1.y * turn_radius,
+                0,
+            )
+
+            start_ang = math.atan2(tangent_in.y - center.y, tangent_in.x - center.x)
+            end_ang = math.atan2(tangent_out.y - center.y, tangent_out.x - center.x)
+            if sign > 0:
+                delta = (end_ang - start_ang) % (2 * math.pi)
+            else:
+                delta = (start_ang - end_ang) % (2 * math.pi)
+            arc_len = turn_radius * delta
+
+            segments.append(
+                {
+                    "kind": "arc",
+                    "center": center,
+                    "radius": turn_radius,
+                    "start_ang": start_ang,
+                    "sign": sign,
+                    "length": arc_len,
+                }
+            )
+
+            current = tangent_out
+
+        if current.distance_xy(route_xy[-1]) > 1e-6:
+            segments.append(
+                {"kind": "line", "start": current, "end": route_xy[-1],
+                 "length": current.distance_xy(route_xy[-1])}
+            )
+
+        total_distance = sum(seg["length"] for seg in segments)
+
+        horiz = self.movement_profile.horizontal
+        a = horiz.acceleration
+        d = horiz.deceleration
+        v_max = horiz.max_speed
+
+        accel_time = 0.0
+        decel_time = 0.0
+        cruise_time = 0.0
+        accel_dist = 0.0
+        cruise_dist = 0.0
+        peak_speed = 0.0
+
+        if total_distance > 0 and v_max > 0 and a > 0 and d > 0:
+            accel_time = v_max / a
+            decel_time = v_max / d
+            accel_dist = 0.5 * a * accel_time ** 2
+            decel_dist = 0.5 * d * decel_time ** 2
+
+            if total_distance >= accel_dist + decel_dist:
+                cruise_dist = total_distance - accel_dist - decel_dist
+                cruise_time = cruise_dist / v_max
+                peak_speed = v_max
+            else:
+                peak_speed = math.sqrt(2 * total_distance * a * d / (a + d))
+                accel_time = peak_speed / a
+                decel_time = peak_speed / d
+                cruise_time = 0.0
+                cruise_dist = 0.0
+                accel_dist = 0.5 * a * accel_time ** 2
+
+        horizontal_time = accel_time + cruise_time + decel_time
+
+        def distance_at_time(t: float) -> float:
+            if t <= 0 or total_distance <= 0:
+                return 0.0
+            if t <= accel_time:
+                return 0.5 * a * t ** 2
+            cruise_start_time = accel_time
+            cruise_end_time = accel_time + cruise_time
+            if t <= cruise_end_time:
+                return accel_dist + peak_speed * (t - cruise_start_time)
+            decel_elapsed = t - cruise_end_time
+            dist_in_decel = peak_speed * decel_elapsed - 0.5 * d * decel_elapsed ** 2
+            return accel_dist + cruise_dist + dist_in_decel
+
+        def position_at_distance(dist: float) -> Position3D:
+            if dist <= 0 or not segments:
+                return route_xy[0]
+            remaining = dist
+            for seg in segments:
+                if remaining <= seg["length"] + 1e-9:
+                    if seg["kind"] == "line":
+                        start = seg["start"]
+                        end = seg["end"]
+                        if seg["length"] <= 1e-9:
+                            return end
+                        frac = remaining / seg["length"]
+                        return Position3D(
+                            start.x + (end.x - start.x) * frac,
+                            start.y + (end.y - start.y) * frac,
+                            0,
+                        )
+                    center = seg["center"]
+                    radius = seg["radius"]
+                    sign = seg["sign"]
+                    angle = seg["start_ang"] + sign * (remaining / radius)
+                    return Position3D(
+                        center.x + radius * math.cos(angle),
+                        center.y + radius * math.sin(angle),
+                        0,
+                    )
+                remaining -= seg["length"]
+            return route_xy[-1]
+
+        vertical_speed = 0.0
+        if height_change != 0:
+            if self.lift_profile:
+                vertical_speed = (
+                    self.lift_profile.elevation_speed
+                    if height_change > 0
+                    else self.lift_profile.lowering_speed
+                )
+            else:
+                vertical_speed = self.movement_profile.elevation.speed
+        vertical_time = abs(height_change) / vertical_speed if vertical_speed > 0 else 0.0
+
+        total_time = max(horizontal_time, vertical_time)
+        if total_time <= 0:
+            self.position = target
+            if self.status == ForklifStatus.MOVING:
+                self.status = ForklifStatus.IDLE
+            yield self.env.timeout(0)
+            return
+
+        elapsed = 0.0
+        while elapsed < total_time:
+            dt = min(update_interval, total_time - elapsed)
+            yield self.env.timeout(dt)
+            elapsed += dt
+
+            if horizontal_time > 0:
+                t_h = min(elapsed, horizontal_time)
+                dist_traveled = distance_at_time(t_h)
+                xy_pos = position_at_distance(dist_traveled)
+            else:
+                xy_pos = route_xy[-1]
+
+            if vertical_time > 0:
+                z_progress = min(elapsed / vertical_time, 1.0)
+                z = start_pos.z + height_change * z_progress
+            else:
+                z = target.z
+
+            self.position = Position3D(xy_pos.x, xy_pos.y, z)
+
+        self.position = Position3D(target.x, target.y, target.z)
+        if self.status == ForklifStatus.MOVING:
+            self.status = ForklifStatus.IDLE
+
     def move_to(self, target: Position3D, preferred_path_id: Optional[str] = None, update_interval: float = 0.05) -> Generator:
         """Move to a target, preferring predefined paths when available.
 
@@ -159,9 +403,7 @@ class Forklift:
                 self.position) or self.router.nearest_path_id(target)
             route = self.router.route_between_nodes(
                 self.position, target, path_id)
-            # Traverse route waypoints sequentially
-            for wp in route.waypoints[1:]:  # skip current position
-                yield from self._move_direct_to(wp, update_interval)
+            yield from self._move_along_route(route.waypoints, update_interval)
             return
 
         # Fallback: direct movement (also used for vertical-only movements)
@@ -295,6 +537,7 @@ def create_forklift_fleet(
     lift_profile: Optional[LiftProfile] = None,
     router: Optional[Router] = None,
     home_position: Position3D = None,
+    turn_radius: float = 1.0,
     name_prefix: str = "forklift"
 ) -> ForkliftFleet:
     """
@@ -324,7 +567,8 @@ def create_forklift_fleet(
             movement_profile=movement_profile,
             lift_profile=lift_profile,
             position=home_position,
-            router=router
+            router=router,
+            turn_radius=turn_radius,
         )
         fleet.add_forklift(fl)
 

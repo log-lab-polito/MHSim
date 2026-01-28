@@ -88,13 +88,15 @@ class HorizontalMovement:
             decel_time = self.max_speed / self.deceleration
             return accel_time + cruise_time + decel_time
         else:
-            # Cannot reach max speed; symmetric acceleration/deceleration
-            # Solve: 0.5 * a * t1² + 0.5 * d * t2² = distance
-            # where t1 = time to accelerate, t2 = time to decelerate
-            # For symmetric: t1 = t2 = t, so: 0.5 * (a + d) * t² = distance
-            # t = sqrt(2 * distance / (a + d))
-            combined_accel = self.acceleration + self.deceleration
-            return math.sqrt(2 * distance / combined_accel)
+            # Cannot reach max speed; triangular profile with peak speed below max.
+            # Solve: distance = 0.5 * v^2 * (1/a + 1/d)
+            # => v_peak = sqrt(2 * distance * a * d / (a + d))
+            # total_time = v_peak * (1/a + 1/d)
+            a = self.acceleration
+            d = self.deceleration
+            if a <= 0 or d <= 0:
+                return float("inf")
+            return math.sqrt(2 * distance * (a + d) / (a * d))
 
 
 @dataclass
@@ -150,6 +152,7 @@ class AcceleratingInterpolator:
         # Calculate horizontal distance and movement profile
         self.distance = start.distance_xy(end)
         self.travel_time = horizontal_movement.travel_time(self.distance)
+        self.peak_speed = self.horiz.max_speed
 
         # Calculate movement phases
         self.accel_time = self.horiz.time_to_reach_max_speed()
@@ -163,20 +166,24 @@ class AcceleratingInterpolator:
                 self.horiz.max_speed if self.horiz.max_speed > 0 else 0
             self.decel_time = self.horiz.max_speed / self.horiz.deceleration
         else:
-            # Limited distance - symmetric acceleration/deceleration
-            # Distance = 0.5*a*t1² + 0.5*d*t2²
-            # For symmetric: t1 = t2 = t => distance = 0.5*(a+d)*t²
-            # Solve for t: t = sqrt(2*distance / (a+d))
-
+            # Limited distance - triangular profile with peak speed below max.
             self.cruise_dist = 0
             self.cruise_time = 0
-            combined_accel = self.horiz.acceleration + self.horiz.deceleration
-            self.accel_time = math.sqrt(2 * self.distance / combined_accel)
-            self.decel_time = self.accel_time
+            a = self.horiz.acceleration
+            d = self.horiz.deceleration
+            if a > 0 and d > 0 and self.distance > 0:
+                self.peak_speed = math.sqrt(2 * self.distance * a * d / (a + d))
+                self.accel_time = self.peak_speed / a
+                self.decel_time = self.peak_speed / d
+            else:
+                self.peak_speed = 0.0
+                self.accel_time = 0.0
+                self.decel_time = 0.0
 
             # Recalculate accel/decel distances for this time
-            self.accel_dist = 0.5 * self.horiz.acceleration * self.accel_time ** 2
-            self.decel_dist = 0.5 * self.horiz.deceleration * self.decel_time ** 2
+            self.accel_dist = 0.5 * a * self.accel_time ** 2
+            self.decel_dist = 0.5 * d * self.decel_time ** 2
+            self.travel_time = self.accel_time + self.decel_time
 
     def get_distance_at_time(self, t: float) -> float:
         """Calculate distance traveled at time t with acceleration profile."""
@@ -192,13 +199,12 @@ class AcceleratingInterpolator:
         cruise_start_dist = self.accel_dist
         cruise_start_time = accel_time
 
-        cruise_duration = self.cruise_dist / \
-            self.horiz.max_speed if self.horiz.max_speed > 0 else 0
+        cruise_duration = self.cruise_time
         cruise_end_time = cruise_start_time + cruise_duration
 
         if t <= cruise_end_time:
             cruise_time = t - cruise_start_time
-            return cruise_start_dist + self.horiz.max_speed * cruise_time
+            return cruise_start_dist + self.peak_speed * cruise_time
 
         # Phase 3: Deceleration
         decel_start_dist = self.accel_dist + self.cruise_dist
@@ -206,7 +212,7 @@ class AcceleratingInterpolator:
         decel_elapsed = t - decel_start_time
 
         # Distance during deceleration: d = v0*t - 0.5*a*t^2
-        dist_in_decel = self.horiz.max_speed * decel_elapsed - \
+        dist_in_decel = self.peak_speed * decel_elapsed - \
             0.5 * self.horiz.deceleration * decel_elapsed ** 2
         return decel_start_dist + dist_in_decel
 

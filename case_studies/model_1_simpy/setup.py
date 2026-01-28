@@ -352,13 +352,15 @@ def create_warehouse_with_standard_config(
     router = Router(layout)
 
     # Create forklift fleet
+    forklift_start_position = Position3D(26.5, 28, 0)
     fleet = create_forklift_fleet(
         env=env,
         count=params.n_forklifts,
         movement_profile=movement_profile,
         lift_profile=lift_profile,
         router=router,
-        home_position=layout.forklifts_home.get_access_point(),
+        home_position=forklift_start_position,
+        turn_radius=params.forklift_turn_radius,
         name_prefix="fl",
     )
 
@@ -371,6 +373,7 @@ def create_custom_warehouse(
     movement_profile: MovementProfile,
     n_forklifts: int,
     lift_profile: Optional[LiftProfile] = None,
+    turn_radius: float = 1.0,
 ) -> tuple[WarehouseLayout, Router, ForkliftFleet]:
     """
     Create a warehouse system with custom configuration.
@@ -395,6 +398,7 @@ def create_custom_warehouse(
         lift_profile=lift_profile,
         router=router,
         home_position=layout.forklifts_home.get_access_point(),
+        turn_radius=turn_radius,
         name_prefix="fl",
     )
 

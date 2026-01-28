@@ -23,21 +23,21 @@ Pallet 4615 entering delay block at 401.29404625354005
 Pallet 4609 entering service2 block at 417.52029713433194
 Pallet 4617 entering service1 block at 420.0
 Pallet 4611 entering retrieve block at 432.2482895162051
-Pallet 4609 entering sink at 447.52029713433194
+Pallet 4609 entering sink block at 447.52029713433194
 Pallet 4617 entering store block at 450.0
 Pallet 4618 entering service1 block at 480.0
 Pallet 4616 entering delay block at 482.3110454382629
 Pallet 4611 entering service2 block at 505.28235754878835
 Pallet 4612 entering retrieve block at 505.53105525232945
 Pallet 4618 entering store block at 510.0
-Pallet 4611 entering sink at 535.2823575487884
+Pallet 4611 entering sink block at 535.2823575487884
 Pallet 4619 entering service1 block at 540.0
 Pallet 4613 entering retrieve block at 562.2482895162051
 Pallet 4619 entering store block at 570.0
 Pallet 4617 entering delay block at 571.2214429771857
 Pallet 4612 entering service2 block at 597.3873652050047
 Pallet 4620 entering service1 block at 600.0
-Pallet 4612 entering sink at 627.3873652050047
+Pallet 4612 entering sink block at 627.3873652050047
 Pallet 4620 entering store block at 630.0
 Pallet 4614 entering retrieve block at 634.3731917431423
 Pallet 4618 entering delay block at 658.1260079386715
@@ -45,7 +45,7 @@ Pallet 4621 entering service1 block at 660.0
 Pallet 4613 entering service2 block at 689.2475430450403
 Pallet 4621 entering store block at 690.0
 Pallet 4615 entering retrieve block at 701.29404625354
-Pallet 4613 entering sink at 719.2475430450403
+Pallet 4613 entering sink block at 719.2475430450403
 Pallet 4622 entering service1 block at 720.0
 Pallet 4619 entering delay block at 749.1258278415645
 Pallet 4622 entering store block at 750.0
@@ -55,7 +55,7 @@ Pallet 4620 entering delay block at 799.875146620203
 Pallet 4623 entering store block at 810.0
 Pallet 4614 entering service2 block at 836.239396650052
 Pallet 4624 entering service1 block at 840.0
-Pallet 4614 entering sink at 866.239396650052
+Pallet 4614 entering sink block at 866.239396650052
 Pallet 4624 entering store block at 870.0
 Pallet 4617 entering retrieve block at 871.2214429771857
 Pallet 4625 entering service1 block at 900.0
@@ -64,14 +64,14 @@ Pallet 4625 entering store block at 930.0
 Pallet 4615 entering service2 block at 948.2227084199455
 Pallet 4618 entering retrieve block at 958.1260079386715
 Pallet 4626 entering service1 block at 960.0
-Pallet 4615 entering sink at 978.2227084199455
+Pallet 4615 entering sink block at 978.2227084199455
 Pallet 4626 entering store block at 990.0
 Pallet 4622 entering delay block at 1013.0714534545856
 Pallet 4627 entering service1 block at 1020.0
 Pallet 4616 entering service2 block at 1030.1782333438018
 Pallet 4619 entering retrieve block at 1049.1258278415644
 Pallet 4627 entering store block at 1050.0
-Pallet 4616 entering sink at 1060.1782333438018
+Pallet 4616 entering sink block at 1060.1782333438018
 Pallet 4628 entering service1 block at 1080.0
 Pallet 4620 entering retrieve block at 1099.875146620203
 Pallet 4623 entering delay block at 1106.2782273869457
@@ -82,13 +82,13 @@ Pallet 4629 entering store block at 1170.0
 Pallet 4617 entering service2 block at 1179.6441118616733
 Pallet 4630 entering service1 block at 1200.0
 Pallet 4621 entering retrieve block at 1207.1070125729934
-Pallet 4617 entering sink at 1209.6441118616733
+Pallet 4617 entering sink block at 1209.6441118616733
 Pallet 4630 entering store block at 1230.0
 Pallet 4631 entering service1 block at 1260.0
 Pallet 4625 entering delay block at 1260.6110513443264
 Pallet 4618 entering service2 block at 1281.7279218577391
 Pallet 4631 entering store block at 1290.0
-Pallet 4618 entering sink at 1311.7279218577391
+Pallet 4618 entering sink block at 1311.7279218577391
 Pallet 4622 entering retrieve block at 1313.0714534545855
 Pallet 4632 entering service1 block at 1320.0
 Pallet 4632 entering store block at 1350.0
@@ -96,7 +96,7 @@ Pallet 4626 entering delay block at 1356.5821715823977
 Pallet 4619 entering service2 block at 1378.6913813125989
 Pallet 4633 entering service1 block at 1380.0
 Pallet 4623 entering retrieve block at 1406.2782273869457
-Pallet 4619 entering sink at 1408.6913813125989
+Pallet 4619 entering sink block at 1408.6913813125989
 Pallet 4633 entering store block at 1410.0
 Pallet 4634 entering service1 block at 1440.0
 Pallet 4627 entering delay block at 1443.9025010227533
@@ -104,7 +104,7 @@ Pallet 4624 entering retrieve block at 1462.041814155248
 Pallet 4634 entering store block at 1470.0
 Pallet 4620 entering service2 block at 1471.6627869019846
 Pallet 4635 entering service1 block at 1500.0
-Pallet 4620 entering sink at 1501.6627869019846
+Pallet 4620 entering sink block at 1501.6627869019846
 Pallet 4635 entering store block at 1530.0
 Pallet 4628 entering delay block at 1551.690041530566
 Pallet 4636 entering service1 block at 1560.0
@@ -115,7 +115,7 @@ Pallet 4637 entering service1 block at 1620.0
 Pallet 4621 entering service2 block at 1633.6280347534312
 Pallet 4637 entering store block at 1650.0
 Pallet 4626 entering retrieve block at 1656.5821715823977
-Pallet 4621 entering sink at 1663.6280347534312
+Pallet 4621 entering sink block at 1663.6280347534312
 Pallet 4638 entering service1 block at 1680.0
 Pallet 4630 entering delay block at 1697.5558050648224
 Pallet 4638 entering store block at 1710.0
@@ -125,21 +125,21 @@ Pallet 4627 entering retrieve block at 1743.9025010227533
 Pallet 4639 entering store block at 1770.0
 Pallet 4622 entering service2 block at 1771.0309874618667
 Pallet 4640 entering service1 block at 1800.0
-Pallet 4622 entering sink at 1801.0309874618667
+Pallet 4622 entering sink block at 1801.0309874618667
 Pallet 4632 entering delay block at 1829.8297800437429
 Pallet 4640 entering store block at 1830.0
 Pallet 4628 entering retrieve block at 1851.690041530566
 Pallet 4641 entering service1 block at 1860.0
 Pallet 4623 entering service2 block at 1868.5076245169341
 Pallet 4641 entering store block at 1890.0
-Pallet 4623 entering sink at 1898.5076245169341
+Pallet 4623 entering sink block at 1898.5076245169341
 Pallet 4629 entering retrieve block at 1902.528941977593
 Pallet 4642 entering service1 block at 1920.0
 Pallet 4633 entering delay block at 1928.2898227072924
 Pallet 4642 entering store block at 1950.0
 Pallet 4624 entering service2 block at 1960.51157197887
 Pallet 4643 entering service1 block at 1980.0
-Pallet 4624 entering sink at 1990.51157197887
+Pallet 4624 entering sink block at 1990.51157197887
 Pallet 4630 entering retrieve block at 1997.5558050648224
 Pallet 4643 entering store block at 2010.0
 Pallet 4634 entering delay block at 2026.2963252443474
@@ -151,7 +151,7 @@ Pallet 4645 entering service1 block at 2100.0
 Pallet 4625 entering service2 block at 2119.6893850249494
 Pallet 4632 entering retrieve block at 2129.829780043743
 Pallet 4645 entering store block at 2130.0
-Pallet 4625 entering sink at 2149.6893850249494
+Pallet 4625 entering sink block at 2149.6893850249494
 Pallet 4646 entering service1 block at 2160.0
 Pallet 4636 entering delay block at 2188.876140896368
 Pallet 4646 entering store block at 2190.0
@@ -162,7 +162,7 @@ Pallet 4647 entering store block at 2250.0
 Pallet 4648 entering service1 block at 2280.0
 Pallet 4626 entering service2 block at 2282.7506344011817
 Pallet 4648 entering store block at 2310.0
-Pallet 4626 entering sink at 2312.7506344011817
+Pallet 4626 entering sink block at 2312.7506344011817
 Pallet 4634 entering retrieve block at 2326.2963252443474
 Pallet 4649 entering service1 block at 2340.0
 Pallet 4638 entering delay block at 2356.633256033165
@@ -170,7 +170,7 @@ Pallet 4649 entering store block at 2370.0
 Pallet 4627 entering service2 block at 2375.271404084996
 Pallet 4635 entering retrieve block at 2376.077210771762
 Pallet 4650 entering service1 block at 2400.0
-Pallet 4627 entering sink at 2405.271404084996
+Pallet 4627 entering sink block at 2405.271404084996
 Pallet 4650 entering store block at 2430.0
 Pallet 4639 entering delay block at 2440.1881288946183
 Pallet 4651 entering service1 block at 2460.0
@@ -181,35 +181,35 @@ Pallet 4652 entering service1 block at 2520.0
 Pallet 4637 entering retrieve block at 2543.806465508878
 Pallet 4628 entering service2 block at 2547.622082151843
 Pallet 4652 entering store block at 2550.0
-Pallet 4628 entering sink at 2577.622082151843
+Pallet 4628 entering sink block at 2577.622082151843
 Pallet 4653 entering service1 block at 2580.0
 Pallet 4653 entering store block at 2610.0
 Pallet 4641 entering delay block at 2623.537394695623
 Pallet 4629 entering service2 block at 2639.637783115936
 Pallet 4654 entering service1 block at 2640.0
 Pallet 4638 entering retrieve block at 2656.633256033165
-Pallet 4629 entering sink at 2669.637783115936
+Pallet 4629 entering sink block at 2669.637783115936
 Pallet 4654 entering store block at 2670.0
 Pallet 4655 entering service1 block at 2700.0
 Pallet 4642 entering delay block at 2709.5882165630487
 Pallet 4630 entering service2 block at 2729.204387873699
 Pallet 4655 entering store block at 2730.0
 Pallet 4639 entering retrieve block at 2740.1881288946183
-Pallet 4630 entering sink at 2759.204387873699
+Pallet 4630 entering sink block at 2759.204387873699
 Pallet 4656 entering service1 block at 2760.0
 Pallet 4656 entering store block at 2790.0
 Pallet 4643 entering delay block at 2793.02
 Pallet 4640 entering retrieve block at 2804.023352152538
 Pallet 4631 entering service2 block at 2817.618186524338
 Pallet 4657 entering service1 block at 2820.0
-Pallet 4631 entering sink at 2847.618186524338
+Pallet 4631 entering sink block at 2847.618186524338
 Pallet 4657 entering store block at 2850.0
 Pallet 4644 entering delay block at 2876.02
 Pallet 4658 entering service1 block at 2880.0
 Pallet 4632 entering service2 block at 2900.618186524338
 Pallet 4658 entering store block at 2910.0
 Pallet 4641 entering retrieve block at 2923.537394695623
-Pallet 4632 entering sink at 2930.618186524338
+Pallet 4632 entering sink block at 2930.618186524338
 Pallet 4659 entering service1 block at 2940.0
 Pallet 4659 entering store block at 2970.0
 Pallet 4645 entering delay block at 2981.52583734271
@@ -219,7 +219,7 @@ Pallet 4660 entering store block at 3030.0
 Pallet 4646 entering delay block at 3031.02
 Pallet 4633 entering service2 block at 3055.618186524338
 Pallet 4661 entering service1 block at 3060.0
-Pallet 4633 entering sink at 3085.618186524338
+Pallet 4633 entering sink block at 3085.618186524338
 Pallet 4661 entering store block at 3090.0
 Pallet 4643 entering retrieve block at 3093.02
 Pallet 4662 entering service1 block at 3120.0
@@ -231,7 +231,7 @@ Pallet 4648 entering delay block at 3184.02
 Pallet 4663 entering store block at 3210.0
 Pallet 4634 entering service2 block at 3213.618186524338
 Pallet 4664 entering service1 block at 3240.0
-Pallet 4634 entering sink at 3243.618186524338
+Pallet 4634 entering sink block at 3243.618186524338
 Pallet 4664 entering store block at 3270.0
 Pallet 4649 entering delay block at 3278.52583734271
 Pallet 4645 entering retrieve block at 3281.52583734271
@@ -239,14 +239,14 @@ Pallet 4665 entering service1 block at 3300.0
 Pallet 4635 entering service2 block at 3308.1249903549697
 Pallet 4665 entering store block at 3330.0
 Pallet 4646 entering retrieve block at 3331.02
-Pallet 4635 entering sink at 3338.1249903549697
+Pallet 4635 entering sink block at 3338.1249903549697
 Pallet 4666 entering service1 block at 3360.0
 Pallet 4650 entering delay block at 3381.52
 Pallet 4666 entering store block at 3390.0
 Pallet 4636 entering service2 block at 3416.118186524338
 Pallet 4667 entering service1 block at 3420.0
 Pallet 4647 entering retrieve block at 3430.52583734271
-Pallet 4636 entering sink at 3446.118186524338
+Pallet 4636 entering sink block at 3446.118186524338
 Pallet 4667 entering store block at 3450.0
 Pallet 4668 entering service1 block at 3480.0
 Pallet 4648 entering retrieve block at 3484.02
@@ -254,7 +254,7 @@ Pallet 4651 entering delay block at 3494.52
 Pallet 4668 entering store block at 3510.0
 Pallet 4637 entering service2 block at 3529.118186524338
 Pallet 4669 entering service1 block at 3540.0
-Pallet 4637 entering sink at 3559.118186524338
+Pallet 4637 entering sink block at 3559.118186524338
 Pallet 4669 entering store block at 3570.0
 Pallet 4649 entering retrieve block at 3578.52583734271
 Pallet 4670 entering service1 block at 3600.0
@@ -266,7 +266,7 @@ Pallet 4650 entering retrieve block at 3681.52
 Pallet 4671 entering store block at 3690.0
 Pallet 4638 entering service2 block at 3696.418400111084
 Pallet 4672 entering service1 block at 3720.0
-Pallet 4638 entering sink at 3726.418400111084
+Pallet 4638 entering sink block at 3726.418400111084
 Pallet 4672 entering store block at 3750.0
 Pallet 4654 entering delay block at 3762.163159370148
 Pallet 4673 entering service1 block at 3780.0
@@ -276,7 +276,7 @@ Pallet 4655 entering delay block at 3811.957131261007
 Pallet 4674 entering service1 block at 3840.0
 Pallet 4639 entering service2 block at 3840.865064440227
 Pallet 4674 entering store block at 3870.0
-Pallet 4639 entering sink at 3870.865064440227
+Pallet 4639 entering sink block at 3870.865064440227
 Pallet 4656 entering delay block at 3897.100953108208
 Pallet 4675 entering service1 block at 3900.0
 Pallet 4652 entering retrieve block at 3909.02583734271
@@ -284,7 +284,7 @@ Pallet 4675 entering store block at 3930.0
 Pallet 4640 entering service2 block at 3943.222371968806
 Pallet 4653 entering retrieve block at 3955.2110805876105
 Pallet 4676 entering service1 block at 3960.0
-Pallet 4640 entering sink at 3973.222371968806
+Pallet 4640 entering sink block at 3973.222371968806
 Pallet 4676 entering store block at 3990.0
 Pallet 4657 entering delay block at 4004.0707730059553
 Pallet 4677 entering service1 block at 4020.0
@@ -295,14 +295,14 @@ Pallet 4678 entering service1 block at 4080.0
 Pallet 4641 entering service2 block at 4087.609986479425
 Pallet 4678 entering store block at 4110.0
 Pallet 4655 entering retrieve block at 4111.957131261007
-Pallet 4641 entering sink at 4117.609986479425
+Pallet 4641 entering sink block at 4117.609986479425
 Pallet 4679 entering service1 block at 4140.0
 Pallet 4659 entering delay block at 4149.002637842697
 Pallet 4679 entering store block at 4170.0
 Pallet 4642 entering service2 block at 4185.098487856631
 Pallet 4656 entering retrieve block at 4197.100953108208
 Pallet 4680 entering service1 block at 4200.0
-Pallet 4642 entering sink at 4215.098487856631
+Pallet 4642 entering sink block at 4215.098487856631
 Pallet 4680 entering store block at 4230.0
 Pallet 4660 entering delay block at 4251.472343972557
 Pallet 4681 entering service1 block at 4260.0
@@ -311,7 +311,7 @@ Pallet 4661 entering delay block at 4292.64263375718
 Pallet 4657 entering retrieve block at 4304.070773005955
 Pallet 4643 entering service2 block at 4314.2866923423535
 Pallet 4682 entering service1 block at 4320.0
-Pallet 4643 entering sink at 4344.2866923423535
+Pallet 4643 entering sink block at 4344.2866923423535
 Pallet 4658 entering retrieve block at 4348.777487781688
 Pallet 4682 entering store block at 4350.0
 Pallet 4683 entering service1 block at 4380.0
@@ -319,7 +319,7 @@ Pallet 4662 entering delay block at 4385.735702761513
 Pallet 4683 entering store block at 4410.0
 Pallet 4644 entering service2 block at 4412.411269929854
 Pallet 4684 entering service1 block at 4440.0
-Pallet 4644 entering sink at 4442.411269929854
+Pallet 4644 entering sink block at 4442.411269929854
 Pallet 4659 entering retrieve block at 4449.002637842697
 Pallet 4684 entering store block at 4470.0
 Pallet 4663 entering delay block at 4478.15436846487
@@ -331,7 +331,7 @@ Pallet 4686 entering service1 block at 4560.0
 Pallet 4645 entering service2 block at 4586.770863764252
 Pallet 4686 entering store block at 4590.0
 Pallet 4661 entering retrieve block at 4592.64263375718
-Pallet 4645 entering sink at 4616.770863764252
+Pallet 4645 entering sink block at 4616.770863764252
 Pallet 4687 entering service1 block at 4620.0
 Pallet 4687 entering store block at 4650.0
 Pallet 4665 entering delay block at 4650.686574778052
@@ -339,21 +339,21 @@ Pallet 4688 entering service1 block at 4680.0
 Pallet 4646 entering service2 block at 4681.366413017157
 Pallet 4662 entering retrieve block at 4685.735702761513
 Pallet 4688 entering store block at 4710.0
-Pallet 4646 entering sink at 4711.366413017157
+Pallet 4646 entering sink block at 4711.366413017157
 Pallet 4689 entering service1 block at 4740.0
 Pallet 4666 entering delay block at 4750.1024326918405
 Pallet 4689 entering store block at 4770.0
 Pallet 4663 entering retrieve block at 4778.15436846487
 Pallet 4647 entering service2 block at 4788.724506954112
 Pallet 4690 entering service1 block at 4800.0
-Pallet 4647 entering sink at 4818.724506954112
+Pallet 4647 entering sink block at 4818.724506954112
 Pallet 4690 entering store block at 4830.0
 Pallet 4664 entering retrieve block at 4840.4362767934745
 Pallet 4667 entering delay block at 4850.0751136387735
 Pallet 4691 entering service1 block at 4860.0
 Pallet 4648 entering service2 block at 4886.682821108341
 Pallet 4691 entering store block at 4890.0
-Pallet 4648 entering sink at 4916.682821108341
+Pallet 4648 entering sink block at 4916.682821108341
 Pallet 4692 entering service1 block at 4920.0
 Pallet 4692 entering store block at 4950.0
 Pallet 4665 entering retrieve block at 4950.686574778052
@@ -364,14 +364,14 @@ Pallet 4693 entering store block at 5010.0
 Pallet 4649 entering service2 block at 5021.238825822053
 Pallet 4694 entering service1 block at 5040.0
 Pallet 4666 entering retrieve block at 5050.1024326918405
-Pallet 4649 entering sink at 5051.238825822053
+Pallet 4649 entering sink block at 5051.238825822053
 Pallet 4694 entering store block at 5070.0
 Pallet 4670 entering delay block at 5082.605732925076
 Pallet 4695 entering service1 block at 5100.0
 Pallet 4650 entering service2 block at 5124.221191443057
 Pallet 4695 entering store block at 5130.0
 Pallet 4667 entering retrieve block at 5150.0751136387735
-Pallet 4650 entering sink at 5154.221191443057
+Pallet 4650 entering sink block at 5154.221191443057
 Pallet 4696 entering service1 block at 5160.0
 Pallet 4696 entering store block at 5190.0
 Pallet 4671 entering delay block at 5198.068395942106
@@ -383,7 +383,7 @@ Pallet 4698 entering service1 block at 5280.0
 Pallet 4651 entering service2 block at 5294.9798416248295
 Pallet 4669 entering retrieve block at 5300.112181161893
 Pallet 4698 entering store block at 5310.0
-Pallet 4651 entering sink at 5324.9798416248295
+Pallet 4651 entering sink block at 5324.9798416248295
 Pallet 4699 entering service1 block at 5340.0
 Pallet 4673 entering delay block at 5366.246537985678
 Pallet 4699 entering store block at 5370.0
@@ -393,7 +393,7 @@ Pallet 4674 entering delay block at 5412.761679699317
 Pallet 4700 entering store block at 5430.0
 Pallet 4652 entering service2 block at 5454.957000968899
 Pallet 4701 entering service1 block at 5460.0
-Pallet 4652 entering sink at 5484.957000968899
+Pallet 4652 entering sink block at 5484.957000968899
 Pallet 4701 entering store block at 5490.0
 Pallet 4671 entering retrieve block at 5498.068395942106
 Pallet 4702 entering service1 block at 5520.0
@@ -402,7 +402,7 @@ Pallet 4672 entering retrieve block at 5548.273721941629
 Pallet 4702 entering store block at 5550.0
 Pallet 4653 entering service2 block at 5557.42456836668
 Pallet 4703 entering service1 block at 5580.0
-Pallet 4653 entering sink at 5587.42456836668
+Pallet 4653 entering sink block at 5587.42456836668
 Pallet 4703 entering store block at 5610.0
 Pallet 4676 entering delay block at 5633.6708961881395
 Pallet 4704 entering service1 block at 5640.0
@@ -412,21 +412,21 @@ Pallet 4677 entering delay block at 5674.976448975541
 Pallet 4654 entering service2 block at 5697.998656840189
 Pallet 4705 entering service1 block at 5700.0
 Pallet 4674 entering retrieve block at 5712.761679699317
-Pallet 4654 entering sink at 5727.998656840189
+Pallet 4654 entering sink block at 5727.998656840189
 Pallet 4705 entering store block at 5730.0
 Pallet 4706 entering service1 block at 5760.0
 Pallet 4678 entering delay block at 5773.775392951622
 Pallet 4706 entering store block at 5790.0
 Pallet 4655 entering service2 block at 5794.602033130452
 Pallet 4707 entering service1 block at 5820.0
-Pallet 4655 entering sink at 5824.602033130452
+Pallet 4655 entering sink block at 5824.602033130452
 Pallet 4675 entering retrieve block at 5833.713786321041
 Pallet 4707 entering store block at 5850.0
 Pallet 4679 entering delay block at 5864.481430502371
 Pallet 4708 entering service1 block at 5880.0
 Pallet 4656 entering service2 block at 5894.549891403928
 Pallet 4708 entering store block at 5910.0
-Pallet 4656 entering sink at 5924.549891403928
+Pallet 4656 entering sink block at 5924.549891403928
 Pallet 4676 entering retrieve block at 5933.6708961881395
 Pallet 4709 entering service1 block at 5940.0
 Pallet 4680 entering delay block at 5949.365034155071
@@ -436,11 +436,11 @@ Pallet 4681 entering delay block at 5989.262281310828
 Pallet 4710 entering service1 block at 6000.0
 Pallet 4657 entering service2 block at 6017.056202069291
 Pallet 4710 entering store block at 6030.0
-Pallet 4657 entering sink at 6047.056202069291
+Pallet 4657 entering sink block at 6047.056202069291
 Pallet 4658 entering service2 block at 6056.761484382363
 Pallet 4711 entering service1 block at 6060.0
 Pallet 4678 entering retrieve block at 6073.775392951622
-Pallet 4658 entering sink at 6086.761484382363
+Pallet 4658 entering sink block at 6086.761484382363
 Pallet 4711 entering store block at 6090.0
 Pallet 4712 entering service1 block at 6120.0
 Pallet 4682 entering delay block at 6120.150843283385
@@ -450,7 +450,7 @@ Pallet 4679 entering retrieve block at 6164.481430502371
 Pallet 4713 entering service1 block at 6180.0
 Pallet 4659 entering service2 block at 6194.034708337596
 Pallet 4713 entering store block at 6210.0
-Pallet 4659 entering sink at 6224.034708337596
+Pallet 4659 entering sink block at 6224.034708337596
 Pallet 4714 entering service1 block at 6240.0
 Pallet 4680 entering retrieve block at 6249.365034155071
 Pallet 4684 entering delay block at 6258.836494541972
@@ -461,7 +461,7 @@ Pallet 4685 entering delay block at 6308.672092473521
 Pallet 4715 entering store block at 6330.0
 Pallet 4660 entering service2 block at 6346.3384801320535
 Pallet 4716 entering service1 block at 6360.0
-Pallet 4660 entering sink at 6376.3384801320535
+Pallet 4660 entering sink block at 6376.3384801320535
 Pallet 4716 entering store block at 6390.0
 Pallet 4717 entering service1 block at 6420.0
 Pallet 4682 entering retrieve block at 6420.150843283385
@@ -470,14 +470,14 @@ Pallet 4717 entering store block at 6450.0
 Pallet 4661 entering service2 block at 6451.1107943533725
 Pallet 4683 entering retrieve block at 6461.344892267802
 Pallet 4718 entering service1 block at 6480.0
-Pallet 4661 entering sink at 6481.1107943533725
+Pallet 4661 entering sink block at 6481.1107943533725
 Pallet 4718 entering store block at 6510.0
 Pallet 4687 entering delay block at 6526.0048602045335
 Pallet 4719 entering service1 block at 6540.0
 Pallet 4684 entering retrieve block at 6558.836494541972
 Pallet 4662 entering service2 block at 6568.600965956754
 Pallet 4719 entering store block at 6570.0
-Pallet 4662 entering sink at 6598.600965956754
+Pallet 4662 entering sink block at 6598.600965956754
 Pallet 4720 entering service1 block at 6600.0
 Pallet 4685 entering retrieve block at 6608.672092473521
 Pallet 4720 entering store block at 6630.0
@@ -488,7 +488,7 @@ Pallet 4721 entering store block at 6690.0
 Pallet 4663 entering service2 block at 6717.687330732904
 Pallet 4722 entering service1 block at 6720.0
 Pallet 4686 entering retrieve block at 6727.513565658837
-Pallet 4663 entering sink at 6747.687330732904
+Pallet 4663 entering sink block at 6747.687330732904
 Pallet 4722 entering store block at 6750.0
 Pallet 4690 entering delay block at 6776.8534386451465
 Pallet 4723 entering service1 block at 6780.0
@@ -496,7 +496,7 @@ Pallet 4723 entering store block at 6810.0
 Pallet 4664 entering service2 block at 6825.550972056577
 Pallet 4687 entering retrieve block at 6826.0048602045335
 Pallet 4724 entering service1 block at 6840.0
-Pallet 4664 entering sink at 6855.550972056577
+Pallet 4664 entering sink block at 6855.550972056577
 Pallet 4724 entering store block at 6870.0
 Pallet 4691 entering delay block at 6893.806886173105
 Pallet 4725 entering service1 block at 6900.0
@@ -507,14 +507,14 @@ Pallet 4726 entering service1 block at 6960.0
 Pallet 4665 entering service2 block at 6964.22052265101
 Pallet 4689 entering retrieve block at 6989.7952424634805
 Pallet 4726 entering store block at 6990.0
-Pallet 4665 entering sink at 6994.22052265101
+Pallet 4665 entering sink block at 6994.22052265101
 Pallet 4727 entering service1 block at 7020.0
 Pallet 4693 entering delay block at 7029.067056445121
 Pallet 4727 entering store block at 7050.0
 Pallet 4666 entering service2 block at 7063.675952969474
 Pallet 4690 entering retrieve block at 7076.8534386451465
 Pallet 4728 entering service1 block at 7080.0
-Pallet 4666 entering sink at 7093.675952969474
+Pallet 4666 entering sink block at 7093.675952969474
 Pallet 4728 entering store block at 7110.0
 Pallet 4694 entering delay block at 7122.7630374082755
 Pallet 4729 entering service1 block at 7140.0
@@ -523,7 +523,7 @@ Pallet 4695 entering delay block at 7175.014586066682
 Pallet 4691 entering retrieve block at 7193.806886173105
 Pallet 4667 entering service2 block at 7197.611959288308
 Pallet 4730 entering service1 block at 7200.0
-Pallet 4667 entering sink at 7227.611959288308
+Pallet 4667 entering sink block at 7227.611959288308
 Pallet 4730 entering store block at 7230.0
 Pallet 4692 entering retrieve block at 7230.599665979524
 Pallet 4731 entering service1 block at 7260.0
@@ -534,12 +534,12 @@ Pallet 4732 entering service1 block at 7320.0
 Pallet 4693 entering retrieve block at 7329.067056445121
 Pallet 4668 entering service2 block at 7347.8677859385
 Pallet 4732 entering store block at 7350.0
-Pallet 4668 entering sink at 7377.8677859385
+Pallet 4668 entering sink block at 7377.8677859385
 Pallet 4733 entering service1 block at 7380.0
 Pallet 4669 entering service2 block at 7392.779865085612
 Pallet 4733 entering store block at 7410.0
 Pallet 4694 entering retrieve block at 7422.7630374082755
-Pallet 4669 entering sink at 7422.779865085612
+Pallet 4669 entering sink block at 7422.779865085612
 Pallet 4734 entering service1 block at 7440.0
 Pallet 4734 entering store block at 7470.0
 Pallet 4698 entering delay block at 7471.194808963589
@@ -551,7 +551,7 @@ Pallet 4736 entering service1 block at 7560.0
 Pallet 4696 entering retrieve block at 7561.508088232818
 Pallet 4670 entering service2 block at 7561.64588234502
 Pallet 4736 entering store block at 7590.0
-Pallet 4670 entering sink at 7591.64588234502
+Pallet 4670 entering sink block at 7591.64588234502
 Pallet 4697 entering retrieve block at 7609.187262250609
 Pallet 4737 entering service1 block at 7620.0
 Pallet 4700 entering delay block at 7641.617734264553
@@ -561,12 +561,12 @@ Pallet 4701 entering delay block at 7684.35933110424
 Pallet 4738 entering store block at 7710.0
 Pallet 4671 entering service2 block at 7729.062633521644
 Pallet 4739 entering service1 block at 7740.0
-Pallet 4671 entering sink at 7759.062633521644
+Pallet 4671 entering sink block at 7759.062633521644
 Pallet 4739 entering store block at 7770.0
 Pallet 4698 entering retrieve block at 7771.194808963589
 Pallet 4672 entering service2 block at 7783.771682760296
 Pallet 4740 entering service1 block at 7800.0
-Pallet 4672 entering sink at 7813.771682760296
+Pallet 4672 entering sink block at 7813.771682760296
 Pallet 4699 entering retrieve block at 7828.04326194104
 Pallet 4740 entering store block at 7830.0
 Pallet 4702 entering delay block at 7845.188933472448
@@ -577,14 +577,14 @@ Pallet 4742 entering service1 block at 7920.0
 Pallet 4673 entering service2 block at 7924.124821181089
 Pallet 4700 entering retrieve block at 7941.617734264553
 Pallet 4742 entering store block at 7950.0
-Pallet 4673 entering sink at 7954.124821181089
+Pallet 4673 entering sink block at 7954.124821181089
 Pallet 4743 entering service1 block at 7980.0
 Pallet 4704 entering delay block at 7982.045748145455
 Pallet 4701 entering retrieve block at 7984.35933110424
 Pallet 4743 entering store block at 8010.0
 Pallet 4674 entering service2 block at 8016.648937884895
 Pallet 4744 entering service1 block at 8040.0
-Pallet 4674 entering sink at 8046.648937884895
+Pallet 4674 entering sink block at 8046.648937884895
 Pallet 4744 entering store block at 8070.0
 Pallet 4705 entering delay block at 8082.62960514959
 Pallet 4745 entering service1 block at 8100.0
@@ -595,7 +595,7 @@ Pallet 4746 entering service1 block at 8160.0
 Pallet 4675 entering service2 block at 8175.77035845664
 Pallet 4703 entering retrieve block at 8179.525693179642
 Pallet 4746 entering store block at 8190.0
-Pallet 4675 entering sink at 8205.77035845664
+Pallet 4675 entering sink block at 8205.77035845664
 Pallet 4747 entering service1 block at 8220.0
 Pallet 4707 entering delay block at 8238.68512831459
 Pallet 4747 entering store block at 8250.0
@@ -605,7 +605,7 @@ Pallet 4704 entering retrieve block at 8282.045748145454
 Pallet 4748 entering store block at 8310.0
 Pallet 4676 entering service2 block at 8318.61190895556
 Pallet 4749 entering service1 block at 8340.0
-Pallet 4676 entering sink at 8348.61190895556
+Pallet 4676 entering sink block at 8348.61190895556
 Pallet 4749 entering store block at 8370.0
 Pallet 4705 entering retrieve block at 8382.62960514959
 Pallet 4709 entering delay block at 8386.50794818241
@@ -613,13 +613,13 @@ Pallet 4750 entering service1 block at 8400.0
 Pallet 4677 entering service2 block at 8411.104429968267
 Pallet 4750 entering store block at 8430.0
 Pallet 4706 entering retrieve block at 8432.382736053987
-Pallet 4677 entering sink at 8441.104429968267
+Pallet 4677 entering sink block at 8441.104429968267
 Pallet 4751 entering service1 block at 8460.0
 Pallet 4710 entering delay block at 8471.987697835677
 Pallet 4751 entering store block at 8490.0
 Pallet 4678 entering service2 block at 8508.081952247943
 Pallet 4752 entering service1 block at 8520.0
-Pallet 4678 entering sink at 8538.081952247943
+Pallet 4678 entering sink block at 8538.081952247943
 Pallet 4707 entering retrieve block at 8538.68512831459
 Pallet 4752 entering store block at 8550.0
 Pallet 4711 entering delay block at 8566.932550443213
@@ -631,21 +631,21 @@ Pallet 4754 entering service1 block at 8640.0
 Pallet 4679 entering service2 block at 8663.217198986165
 Pallet 4754 entering store block at 8670.0
 Pallet 4709 entering retrieve block at 8686.50794818241
-Pallet 4679 entering sink at 8693.217198986165
+Pallet 4679 entering sink block at 8693.217198986165
 Pallet 4755 entering service1 block at 8700.0
 Pallet 4713 entering delay block at 8724.560474690217
 Pallet 4755 entering store block at 8730.0
 Pallet 4680 entering service2 block at 8754.595451855119
 Pallet 4756 entering service1 block at 8760.0
 Pallet 4710 entering retrieve block at 8771.987697835677
-Pallet 4680 entering sink at 8784.595451855119
+Pallet 4680 entering sink block at 8784.595451855119
 Pallet 4756 entering store block at 8790.0
 Pallet 4714 entering delay block at 8811.464728950667
 Pallet 4757 entering service1 block at 8820.0
 Pallet 4681 entering service2 block at 8847.409534891702
 Pallet 4757 entering store block at 8850.0
 Pallet 4711 entering retrieve block at 8866.932550443213
-Pallet 4681 entering sink at 8877.409534891702
+Pallet 4681 entering sink block at 8877.409534891702
 Pallet 4758 entering service1 block at 8880.0
 Pallet 4758 entering store block at 8910.0
 Pallet 4715 entering delay block at 8913.652253330436
@@ -655,13 +655,13 @@ Pallet 4716 entering delay block at 8946.931418075812
 Pallet 4759 entering store block at 8970.0
 Pallet 4682 entering service2 block at 8973.095451855119
 Pallet 4760 entering service1 block at 9000.0
-Pallet 4682 entering sink at 9003.095451855119
+Pallet 4682 entering sink block at 9003.095451855119
 Pallet 4713 entering retrieve block at 9024.560474690217
 Pallet 4760 entering store block at 9030.0
 Pallet 4717 entering delay block at 9032.964728950667
 Pallet 4683 entering service2 block at 9059.909534891702
 Pallet 4761 entering service1 block at 9060.0
-Pallet 4683 entering sink at 9089.909534891702
+Pallet 4683 entering sink block at 9089.909534891702
 Pallet 4761 entering store block at 9090.0
 Pallet 4714 entering retrieve block at 9111.464728950667
 Pallet 4718 entering delay block at 9116.652253330436
@@ -669,7 +669,7 @@ Pallet 4762 entering service1 block at 9120.0
 Pallet 4762 entering store block at 9150.0
 Pallet 4684 entering service2 block at 9157.30294019225
 Pallet 4763 entering service1 block at 9180.0
-Pallet 4684 entering sink at 9187.30294019225
+Pallet 4684 entering sink block at 9187.30294019225
 Pallet 4763 entering store block at 9210.0
 Pallet 4715 entering retrieve block at 9213.652253330436
 Pallet 4719 entering delay block at 9228.796299340398
@@ -678,7 +678,7 @@ Pallet 4716 entering retrieve block at 9246.931418075812
 Pallet 4764 entering store block at 9270.0
 Pallet 4685 entering service2 block at 9273.595451855119
 Pallet 4765 entering service1 block at 9300.0
-Pallet 4685 entering sink at 9303.595451855119
+Pallet 4685 entering sink block at 9303.595451855119
 Pallet 4765 entering store block at 9330.0
 Pallet 4717 entering retrieve block at 9332.964728950667
 Pallet 4720 entering delay block at 9335.464728950667
@@ -689,7 +689,7 @@ Pallet 4718 entering retrieve block at 9416.652253330436
 Pallet 4767 entering service1 block at 9420.0
 Pallet 4686 entering service2 block at 9429.772014267262
 Pallet 4767 entering store block at 9450.0
-Pallet 4686 entering sink at 9459.772014267262
+Pallet 4686 entering sink block at 9459.772014267262
 Pallet 4768 entering service1 block at 9480.0
 Pallet 4722 entering delay block at 9495.689893289024
 Pallet 4768 entering store block at 9510.0
@@ -701,7 +701,7 @@ Pallet 4770 entering service1 block at 9600.0
 Pallet 4687 entering service2 block at 9608.095451855119
 Pallet 4770 entering store block at 9630.0
 Pallet 4720 entering retrieve block at 9635.464728950667
-Pallet 4687 entering sink at 9638.095451855119
+Pallet 4687 entering sink block at 9638.095451855119
 Pallet 4771 entering service1 block at 9660.0
 Pallet 4721 entering retrieve block at 9679.133636475628
 Pallet 4724 entering delay block at 9679.964728950667
@@ -712,11 +712,11 @@ Pallet 4772 entering store block at 9750.0
 Pallet 4688 entering service2 block at 9768.128492477015
 Pallet 4773 entering service1 block at 9780.0
 Pallet 4722 entering retrieve block at 9795.689893289024
-Pallet 4688 entering sink at 9798.128492477015
+Pallet 4688 entering sink block at 9798.128492477015
 Pallet 4773 entering store block at 9810.0
 Pallet 4689 entering service2 block at 9820.892564420114
 Pallet 4774 entering service1 block at 9840.0
-Pallet 4689 entering sink at 9850.892564420114
+Pallet 4689 entering sink block at 9850.892564420114
 Pallet 4723 entering retrieve block at 9858.028505656202
 Pallet 4774 entering store block at 9870.0
 Pallet 4726 entering delay block at 9884.632037365058
@@ -727,7 +727,7 @@ Pallet 4776 entering service1 block at 9960.0
 Pallet 4690 entering service2 block at 9966.124992383488
 Pallet 4724 entering retrieve block at 9979.964728950667
 Pallet 4776 entering store block at 9990.0
-Pallet 4690 entering sink at 9996.124992383488
+Pallet 4690 entering sink block at 9996.124992383488
 Pallet 4777 entering service1 block at 10020.0
 Pallet 4725 entering retrieve block at 10022.589140049045
 Pallet 4728 entering delay block at 10026.72980150315
@@ -737,7 +737,7 @@ Pallet 4778 entering service1 block at 10080.0
 Pallet 4778 entering store block at 10110.0
 Pallet 4691 entering service2 block at 10128.730707352743
 Pallet 4779 entering service1 block at 10140.0
-Pallet 4691 entering sink at 10158.730707352743
+Pallet 4691 entering sink block at 10158.730707352743
 Pallet 4779 entering store block at 10170.0
 Pallet 4726 entering retrieve block at 10184.632037365058
 Pallet 4730 entering delay block at 10190.088037663547
@@ -745,7 +745,7 @@ Pallet 4780 entering service1 block at 10200.0
 Pallet 4692 entering service2 block at 10221.20414013363
 Pallet 4780 entering store block at 10230.0
 Pallet 4727 entering retrieve block at 10237.387696816664
-Pallet 4692 entering sink at 10251.20414013363
+Pallet 4692 entering sink block at 10251.20414013363
 Pallet 4781 entering service1 block at 10260.0
 Pallet 4781 entering store block at 10290.0
 Pallet 4731 entering delay block at 10291.912739981557
@@ -753,7 +753,7 @@ Pallet 4782 entering service1 block at 10320.0
 Pallet 4693 entering service2 block at 10323.422171771923
 Pallet 4728 entering retrieve block at 10326.72980150315
 Pallet 4782 entering store block at 10350.0
-Pallet 4693 entering sink at 10353.422171771923
+Pallet 4693 entering sink block at 10353.422171771923
 Pallet 4729 entering retrieve block at 10378.306691181459
 Pallet 4783 entering service1 block at 10380.0
 Pallet 4732 entering delay block at 10394.167875304149
@@ -764,7 +764,7 @@ Pallet 4784 entering store block at 10470.0
 Pallet 4694 entering service2 block at 10472.936907254762
 Pallet 4730 entering retrieve block at 10490.088037663547
 Pallet 4785 entering service1 block at 10500.0
-Pallet 4694 entering sink at 10502.936907254762
+Pallet 4694 entering sink block at 10502.936907254762
 Pallet 4785 entering store block at 10530.0
 Pallet 4734 entering delay block at 10548.71293268999
 Pallet 4786 entering service1 block at 10560.0
@@ -772,7 +772,7 @@ Pallet 4786 entering store block at 10590.0
 Pallet 4731 entering retrieve block at 10591.912739981557
 Pallet 4695 entering service2 block at 10604.110073112513
 Pallet 4787 entering service1 block at 10620.0
-Pallet 4695 entering sink at 10634.110073112513
+Pallet 4695 entering sink block at 10634.110073112513
 Pallet 4787 entering store block at 10650.0
 Pallet 4788 entering service1 block at 10680.0
 Pallet 4735 entering delay block at 10684.703043625446
@@ -782,5 +782,5 @@ Pallet 4733 entering retrieve block at 10736.468791577616
 Pallet 4789 entering service1 block at 10740.0
 Pallet 4696 entering service2 block at 10743.098939412721
 Pallet 4789 entering store block at 10770.0
-Pallet 4696 entering sink at 10773.098939412721
+Pallet 4696 entering sink block at 10773.098939412721
 Pallet 4790 entering service1 block at 10800.0

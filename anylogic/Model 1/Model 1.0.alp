@@ -1305,7 +1305,7 @@ return capacity;]]></Body>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[traceln("Pallet " + agent.getId() + " entering sink at " + time());]]></Code>
+								<Code><![CDATA[traceln("Pallet " + agent.getId() + " entering sink block at " + time());]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>

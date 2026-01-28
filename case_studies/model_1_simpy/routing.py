@@ -69,6 +69,46 @@ class Router:
                 dist = pa.distance_xy(pb)
                 self._add_edge(a, b, dist, path.bidirectional)
 
+    def _find_node_index(self, p: Position3D) -> Optional[int]:
+        key = self._key(p)
+        for i, n in enumerate(self._nodes):
+            if self._key(n) == key:
+                return i
+        return None
+
+    def _project_onto_paths(
+        self,
+        position: Position3D,
+        preferred_path: Optional[Path] = None,
+    ) -> Optional[Tuple[Position3D, Position3D, Position3D]]:
+        """Project a point onto the nearest path segment."""
+        def project_point(p: Position3D, a: Position3D, b: Position3D) -> Position3D:
+            abx = b.x - a.x
+            aby = b.y - a.y
+            denom = abx * abx + aby * aby
+            if denom <= 1e-12:
+                return a
+            t = ((p.x - a.x) * abx + (p.y - a.y) * aby) / denom
+            t = max(0.0, min(1.0, t))
+            return Position3D(a.x + abx * t, a.y + aby * t, 0)
+
+        best = None
+        best_dist = float("inf")
+        paths = (
+            [preferred_path] if preferred_path is not None else getattr(self.layout, "paths", [])
+        )
+        for path in paths:
+            wps = path.waypoints
+            if len(wps) < 2:
+                continue
+            for a, b in zip(wps[:-1], wps[1:]):
+                proj = project_point(position, a, b)
+                d = position.distance_xy(proj)
+                if d < best_dist:
+                    best_dist = d
+                    best = (proj, a, b)
+        return best
+
     def route_between_nodes(
         self,
         start: Position3D,
@@ -88,31 +128,49 @@ class Router:
             # No paths defined
             return Route(waypoints=[start, end], total_distance=start.distance_xy(end))
 
-        # Optionally bias toward a specific path by snapping to its closest waypoint
-        def nearest_index(p: Position3D, only_path: Optional[Path] = None) -> int:
-            best_i = -1
-            best_d = float('inf')
-            if only_path is not None:
-                for wp in only_path.waypoints:
-                    i = self._index_for(wp)
-                    d = p.distance_xy(self._nodes[i])
-                    if d < best_d:
-                        best_d, best_i = d, i
-                return best_i
-            for i, n in enumerate(self._nodes):
-                d = p.distance_xy(n)
-                if d < best_d:
-                    best_d, best_i = d, i
-            return best_i
+        bias_path = self.layout.get_path(preferred_path_id) if preferred_path_id else None
+        proj_start = self._project_onto_paths(start, bias_path)
+        proj_end = self._project_onto_paths(end, None)
+        if proj_start is None or proj_end is None:
+            return Route(waypoints=[start, end], total_distance=start.distance_xy(end))
 
-        bias_path = self.layout.get_path(
-            preferred_path_id) if preferred_path_id else None
-        i_start = nearest_index(start, bias_path)
-        i_end = nearest_index(end, None)
+        proj_s, seg_s_a, seg_s_b = proj_start
+        proj_e, seg_e_a, seg_e_b = proj_end
+
+        # Clone graph for projection nodes
+        nodes = list(self._nodes)
+        adj: Dict[int, List[Tuple[int, float]]] = {i: list(v) for i, v in self._adj.items()}
+
+        def ensure_node(p: Position3D) -> int:
+            key = self._key(p)
+            for i, n in enumerate(nodes):
+                if self._key(n) == key:
+                    return i
+            idx = len(nodes)
+            nodes.append(Position3D(key[0], key[1], 0))
+            adj[idx] = []
+            return idx
+
+        def add_projection(proj: Position3D, a: Position3D, b: Position3D) -> int:
+            idx_proj = ensure_node(proj)
+            idx_a = ensure_node(a)
+            idx_b = ensure_node(b)
+            dist_a = proj.distance_xy(a)
+            dist_b = proj.distance_xy(b)
+            if idx_proj != idx_a:
+                adj[idx_proj].append((idx_a, dist_a))
+                adj[idx_a].append((idx_proj, dist_a))
+            if idx_proj != idx_b:
+                adj[idx_proj].append((idx_b, dist_b))
+                adj[idx_b].append((idx_proj, dist_b))
+            return idx_proj
+
+        i_start = add_projection(proj_s, seg_s_a, seg_s_b)
+        i_end = add_projection(proj_e, seg_e_a, seg_e_b)
 
         # Dijkstra for shortest path
         import heapq
-        N = len(self._nodes)
+        N = len(nodes)
         dist = [float('inf')] * N
         prev = [-1] * N
         dist[i_start] = 0.0
@@ -125,7 +183,7 @@ class Router:
             visited[u] = True
             if u == i_end:
                 break
-            for v, w in self._adj.get(u, []):
+            for v, w in adj.get(u, []):
                 nd = d + w
                 if nd < dist[v]:
                     dist[v] = nd
@@ -144,7 +202,7 @@ class Router:
             u = prev[u]
         path_idxs.reverse()
 
-        waypoints = [start] + [self._nodes[i] for i in path_idxs] + [end]
+        waypoints = [start] + [nodes[i] for i in path_idxs] + [end]
         # Remove duplicates and compress identical consecutive points
         unique = []
         for wp in waypoints:

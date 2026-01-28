@@ -25,7 +25,7 @@ class Sink:
         self.entered_count += 1
         if self.logger:
             self.logger.log_event(
-                self.name, f"Pallet {pallet.id}", self.env.now)
+                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
         yield self.env.timeout(0)
         duration = self.env.now - pallet.created_at
         self.stats.record_completed(duration)

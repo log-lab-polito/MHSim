@@ -47,7 +47,10 @@ class Model1SimModel:
         )
 
         # Store home position in fleet for return journeys
-        self.fleet.home_position = self.layout.forklifts_home.get_access_point()
+        if self.fleet.forklifts:
+            self.fleet.home_position = self.fleet.forklifts[0].position
+        else:
+            self.fleet.home_position = self.layout.forklifts_home.get_access_point()
 
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)
         # Downstream service after retrieval
