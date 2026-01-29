@@ -62,7 +62,11 @@ class Model1SimModel:
             logger=self.logger,
         )
 
-        self.slot_manager = StorageSlotManager(self.layout.storage)
+        self.slot_manager = StorageSlotManager(
+            self.layout.storage,
+            store_policy=self.params.storage_store_policy,
+            retrieve_policy=self.params.storage_retrieve_policy,
+        )
 
         self.retrieve = RetrieveBlock(
             self.env,

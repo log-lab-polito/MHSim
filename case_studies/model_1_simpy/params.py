@@ -23,6 +23,8 @@ class Model1Params:
     # Storage / transport
     storage_capacity: int = 120
     n_forklifts: int = 1  # Single forklift working
+    storage_store_policy: str = "BEST"  # FIRST or BEST
+    storage_retrieve_policy: str = "FIFO"  # FIFO, LIFO, or BEST
 
     # ==================== 3D Movement Parameters ====================
 

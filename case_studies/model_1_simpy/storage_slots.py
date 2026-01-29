@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Literal
 
 from .movement import Position3D
 from .spatial import Storage
@@ -16,11 +16,22 @@ class StorageSlot:
 
 
 class StorageSlotManager:
-    def __init__(self, storage: Storage):
+    def __init__(
+        self,
+        storage: Storage,
+        store_policy: Literal["FIRST", "BEST"] = "FIRST",
+        retrieve_policy: Literal["FIFO", "LIFO", "BEST"] = "LIFO",
+    ):
         self.available_slots: List[StorageSlot] = []
         self.occupied_slots: List[StorageSlot] = []
         self._reserved_store: set[StorageSlot] = set()
         self._reserved_retrieve: set[StorageSlot] = set()
+        self.store_policy = store_policy.upper()
+        self.retrieve_policy = retrieve_policy.upper()
+        if self.store_policy not in ("FIRST", "BEST"):
+            raise ValueError(f"Unsupported store_policy: {store_policy}")
+        if self.retrieve_policy not in ("FIFO", "LIFO", "BEST"):
+            raise ValueError(f"Unsupported retrieve_policy: {retrieve_policy}")
 
         for shelf in storage.shelves:
             for level in range(shelf.levels):
@@ -35,6 +46,17 @@ class StorageSlotManager:
                             ground_pos=ground_pos,
                         )
                     )
+
+    def _reserve_first(
+        self,
+        source: List[StorageSlot],
+        reserved: set[StorageSlot],
+    ) -> Optional[StorageSlot]:
+        if not source:
+            return None
+        slot = source.pop(0)
+        reserved.add(slot)
+        return slot
 
     def _reserve_best(
         self,
@@ -57,17 +79,34 @@ class StorageSlotManager:
         reserved.add(best_slot)
         return best_slot
 
+    def _reserve_last(
+        self,
+        source: List[StorageSlot],
+        reserved: set[StorageSlot],
+    ) -> Optional[StorageSlot]:
+        if not source:
+            return None
+        slot = source.pop()
+        reserved.add(slot)
+        return slot
+
     def reserve_for_store(
         self,
         cost_fn: Callable[[StorageSlot], float],
     ) -> Optional[StorageSlot]:
-        return self._reserve_best(self.available_slots, self._reserved_store, cost_fn)
+        if self.store_policy == "BEST":
+            return self._reserve_best(self.available_slots, self._reserved_store, cost_fn)
+        return self._reserve_first(self.available_slots, self._reserved_store)
 
     def reserve_for_retrieve(
         self,
         cost_fn: Callable[[StorageSlot], float],
     ) -> Optional[StorageSlot]:
-        return self._reserve_best(self.occupied_slots, self._reserved_retrieve, cost_fn)
+        if self.retrieve_policy == "FIFO":
+            return self._reserve_first(self.occupied_slots, self._reserved_retrieve)
+        if self.retrieve_policy == "BEST":
+            return self._reserve_best(self.occupied_slots, self._reserved_retrieve, cost_fn)
+        return self._reserve_last(self.occupied_slots, self._reserved_retrieve)
 
     def complete_store(self, slot: StorageSlot) -> None:
         if slot in self._reserved_store:
