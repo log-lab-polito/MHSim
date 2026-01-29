@@ -37,6 +37,8 @@ class Model1Params:
     forklift_elevation_speed: float = 0.2  # m/s - used by STORE
     forklift_lowering_speed: float = 0.2  # m/s - used by RETRIEVE
     forklift_turn_radius: float = 1.0  # m - rounded corner radius
+    # Forklift return-home policy: "stay", "always", or "idle" (no queued tasks)
+    forklift_return_home_policy: str = "idle"
 
     # ==================== Storage Configuration (AnyLogic style) ====================
     # Rack dimensions and organization

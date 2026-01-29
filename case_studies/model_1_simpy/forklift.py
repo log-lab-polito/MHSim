@@ -501,6 +501,8 @@ class ForkliftFleet:
         # Track pending requests (waiting in queue) per operation
         self.pending_store = 0
         self.pending_retrieve = 0
+        self.home_position: Optional[Position3D] = None
+        self.return_home_policy: str = "stay"
 
     # __post_init__ is no longer needed since we use __init__ directly
 

@@ -170,7 +170,14 @@ class StoreBlock:
                 )
                 self.slot_manager.complete_store(storage_slot)
 
-                # Do not force return-to-home; keep forklift at last position
+                return_policy = getattr(self.fleet, "return_home_policy", "stay")
+                home_pos = getattr(self.fleet, "home_position", None)
+                if home_pos is not None and return_policy != "stay":
+                    should_return = return_policy == "always"
+                    if return_policy == "idle":
+                        should_return = len(self.fleet.resource.queue) == 0
+                    if should_return:
+                        yield from fl.move_to(home_pos)
 
         self.finished_count += 1
         yield self.storage.put(1)
@@ -252,7 +259,14 @@ class RetrieveBlock:
                     dwell_time_s=self.unloading_time_s,
                 )
 
-                # Do not force return-to-home; keep forklift at last position
+                return_policy = getattr(self.fleet, "return_home_policy", "stay")
+                home_pos = getattr(self.fleet, "home_position", None)
+                if home_pos is not None and return_policy != "stay":
+                    should_return = return_policy == "always"
+                    if return_policy == "idle":
+                        should_return = len(self.fleet.resource.queue) == 0
+                    if should_return:
+                        yield from fl.move_to(home_pos)
 
         self.finished_count += 1
         if self.next_block:
