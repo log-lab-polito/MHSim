@@ -105,6 +105,7 @@ class StoreBlock:
         name: str = "store",
         inbound_pos=None,
         loading_time_s: float = 0.0,
+        request_priority: int = 1,
         logger: Optional[SimulationLogger] = None,
     ):
         self.env = env
@@ -115,6 +116,7 @@ class StoreBlock:
         self.name = name
         self.inbound_pos = inbound_pos
         self.loading_time_s = loading_time_s
+        self.request_priority = request_priority
         self.logger = logger
         self.entered_count = 0
         self.finished_count = 0
@@ -130,8 +132,8 @@ class StoreBlock:
         while self.storage.level >= self.storage.capacity:
             yield self.env.timeout(0.1)  # Poll every 0.1s until room available
 
-        # Request forklift from fleet with same priority as retrieve (FIFO)
-        with self.fleet.resource.request(priority=1) as req:
+        # Request forklift from fleet using configured priority (lower = higher priority).
+        with self.fleet.resource.request(priority=self.request_priority) as req:
             # Track waiting requests for visualization/metrics
             if hasattr(self.fleet, "pending_store"):
                 self.fleet.pending_store += 1
@@ -197,6 +199,7 @@ class RetrieveBlock:
         name: str = "retrieve",
         outbound_pos=None,
         unloading_time_s: float = 0.0,
+        request_priority: int = 1,
         logger: Optional[SimulationLogger] = None,
     ):
         self.env = env
@@ -207,6 +210,7 @@ class RetrieveBlock:
         self.name = name
         self.outbound_pos = outbound_pos
         self.unloading_time_s = unloading_time_s
+        self.request_priority = request_priority
         self.logger = logger
         self.entered_count = 0
         self.finished_count = 0
@@ -219,8 +223,8 @@ class RetrieveBlock:
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
         yield self.storage.get(1)
 
-        # Request forklift from fleet with same priority as store (FIFO)
-        with self.fleet.resource.request(priority=1) as req:
+        # Request forklift from fleet using configured priority (lower = higher priority).
+        with self.fleet.resource.request(priority=self.request_priority) as req:
             # Track waiting requests for visualization/metrics
             if hasattr(self.fleet, "pending_retrieve"):
                 self.fleet.pending_retrieve += 1

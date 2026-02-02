@@ -25,6 +25,9 @@ class Model1Params:
     n_forklifts: int = 1  # Single forklift working
     storage_store_policy: str = "BEST"  # FIRST or BEST
     storage_retrieve_policy: str = "FIFO"  # FIFO, LIFO, or BEST
+    # Forklift request priorities (lower = higher priority)
+    forklift_store_priority: int = 1
+    forklift_retrieve_priority: int = 1
 
     # ==================== 3D Movement Parameters ====================
 
@@ -40,7 +43,7 @@ class Model1Params:
     forklift_route_calc_delay_s: float = 0.0  # s - delay for route calculation
     forklift_resume_delay_s: float = 0.0  # s - delay to resume movement
     # Forklift return-home policy: "stay", "always", or "idle" (no queued tasks)
-    forklift_return_home_policy: str = "idle"
+    forklift_return_home_policy: str = "stay"
 
     # ==================== Storage Configuration (AnyLogic style) ====================
     # Rack dimensions and organization
