@@ -63,6 +63,8 @@ class Forklift:
     current_load: Optional[Pallet] = None
     router: Optional[Router] = None
     turn_radius: float = 1.0
+    route_calc_delay_s: float = 0.0
+    resume_delay_s: float = 0.0
 
     def __post_init__(self):
         """Initialize forklift process."""
@@ -394,11 +396,21 @@ class Forklift:
         Pure vertical movements (XY unchanged) bypass routing to avoid forcing
         through ground-level waypoints.
         """
+        # Avoid any routing/resume delays if we're already at the target.
+        if self.position.distance_to(target) < 0.01:
+            yield self.env.timeout(0)
+            return
+
+        if self.resume_delay_s > 0 and self.status == ForklifStatus.IDLE:
+            yield self.env.timeout(self.resume_delay_s)
+
         # Check if this is a pure vertical movement
         xy_distance = self.position.distance_xy(target)
         is_vertical_only = xy_distance < 0.01
 
         if self.router and not is_vertical_only:
+            if self.route_calc_delay_s > 0:
+                yield self.env.timeout(self.route_calc_delay_s)
             path_id = preferred_path_id or self.router.nearest_path_id(
                 self.position) or self.router.nearest_path_id(target)
             route = self.router.route_between_nodes(
@@ -540,6 +552,8 @@ def create_forklift_fleet(
     router: Optional[Router] = None,
     home_position: Position3D = None,
     turn_radius: float = 1.0,
+    route_calc_delay_s: float = 0.0,
+    resume_delay_s: float = 0.0,
     name_prefix: str = "forklift"
 ) -> ForkliftFleet:
     """
@@ -571,6 +585,8 @@ def create_forklift_fleet(
             position=home_position,
             router=router,
             turn_radius=turn_radius,
+            route_calc_delay_s=route_calc_delay_s,
+            resume_delay_s=resume_delay_s,
         )
         fleet.add_forklift(fl)
 

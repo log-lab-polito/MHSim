@@ -361,6 +361,8 @@ def create_warehouse_with_standard_config(
         router=router,
         home_position=forklift_start_position,
         turn_radius=params.forklift_turn_radius,
+        route_calc_delay_s=params.forklift_route_calc_delay_s,
+        resume_delay_s=params.forklift_resume_delay_s,
         name_prefix="fl",
     )
 
@@ -374,6 +376,8 @@ def create_custom_warehouse(
     n_forklifts: int,
     lift_profile: Optional[LiftProfile] = None,
     turn_radius: float = 1.0,
+    route_calc_delay_s: float = 0.0,
+    resume_delay_s: float = 0.0,
 ) -> tuple[WarehouseLayout, Router, ForkliftFleet]:
     """
     Create a warehouse system with custom configuration.
@@ -399,6 +403,8 @@ def create_custom_warehouse(
         router=router,
         home_position=layout.forklifts_home.get_access_point(),
         turn_radius=turn_radius,
+        route_calc_delay_s=route_calc_delay_s,
+        resume_delay_s=resume_delay_s,
         name_prefix="fl",
     )
 
