@@ -1,14 +1,15 @@
 from dataclasses import dataclass
 
+from mhsim.params import SimulationParams
+
 
 @dataclass
-class Model1Params:
+class Model1Params(SimulationParams):
     """
     Parameters mirroring AnyLogic Model 1 configuration.
     """
 
-    sim_time: float = 10800.0  # seconds, RunConfiguration final time
-    random_seed: int = 1
+    log_filename_prefix: str = "simpy_model1"
 
     # Source
     arrival_rate_per_min: float = 1.0
@@ -33,8 +34,8 @@ class Model1Params:
 
     # Horizontal movement (in-plane navigation)
     forklift_max_speed: float = 1.0  # m/s
-    forklift_acceleration: float = 1.0  # m/s²
-    forklift_deceleration: float = 1.0  # m/s²
+    forklift_acceleration: float = 1.0  # m/s^2
+    forklift_deceleration: float = 1.0  # m/s^2
 
     # Vertical movement (lift/lower)
     forklift_elevation_speed: float = 0.2  # m/s - used by STORE

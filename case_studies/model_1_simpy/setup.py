@@ -10,13 +10,13 @@ from __future__ import annotations
 import simpy
 from typing import Optional
 
-from .movement import (
+from mhsim.movement import (
     Position3D,
     MovementProfile,
     HorizontalMovement,
     VerticalMovement,
 )
-from .spatial import (
+from mhsim.spatial import (
     PointNode,
     RectangularNode,
     Shelf,
@@ -25,8 +25,8 @@ from .spatial import (
     WarehouseLayout,
     Node,
 )
-from .forklift import ForkliftFleet, LiftProfile, create_forklift_fleet
-from .routing import Router
+from mhsim.forklift import ForkliftFleet, LiftProfile, create_forklift_fleet
+from mhsim.routing import Router
 from .params import Model1Params
 
 

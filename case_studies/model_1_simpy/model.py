@@ -1,24 +1,17 @@
 from __future__ import annotations
 
-import simpy
 from dataclasses import dataclass, field
 from random import Random
 from typing import Optional
 
-from .blocks import (
-    DelayBlock,
-    RetrieveBlock,
-    ServiceBlock,
-    Sink,
-    Source,
-    StoreBlock,
-)
-from .forklift import ForkliftFleet
+import simpy
+
+from .blocks import DelayBlock, RetrieveBlock, ServiceBlock, Sink, Source, StoreBlock
+from mhsim.logger import SimulationLogger
 from .params import Model1Params
-from .stats import Model1Stats
-from .logger import SimulationLogger
 from .setup import create_warehouse_with_standard_config
-from .storage_slots import StorageSlotManager
+from .stats import Model1Stats
+from mhsim.storage_slots import StorageSlotManager
 
 
 @dataclass
@@ -32,12 +25,14 @@ class Model1SimModel:
         self.rng = Random(self.params.random_seed)
         self.stats = Model1Stats()
 
-        # Create logger if enabled
         self.logger: Optional[SimulationLogger] = None
         if self.enable_logging:
-            self.logger = SimulationLogger()
+            self.logger = SimulationLogger(
+                filename_prefix=getattr(
+                    self.params, "log_filename_prefix", "simpy_model1"
+                )
+            )
 
-        # Create warehouse layout for movement-based operations
         self.layout, self.router, self.fleet = create_warehouse_with_standard_config(
             self.env, self.params
         )
@@ -46,7 +41,6 @@ class Model1SimModel:
             self.env, capacity=self.params.storage_capacity, init=0
         )
 
-        # Store home position in fleet for return journeys
         if self.fleet.forklifts:
             self.fleet.home_position = self.fleet.forklifts[0].position
         else:
@@ -54,7 +48,6 @@ class Model1SimModel:
         self.fleet.return_home_policy = self.params.forklift_return_home_policy
 
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)
-        # Downstream service after retrieval
         self.service2 = ServiceBlock(
             self.env,
             service_time_s=self.params.service2_time_s,
@@ -100,7 +93,6 @@ class Model1SimModel:
             request_priority=self.params.forklift_store_priority,
             logger=self.logger,
         )
-        # Upstream service before storage
         self.service1 = ServiceBlock(
             self.env,
             service_time_s=self.params.service1_time_s,

@@ -935,9 +935,6 @@ return capacity;]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[dispatchingPolicy]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[self.DISPATCHING_POLICY_SOME_TRANSPORTER]]></Code>
-							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[transporterComparison]]></Name>

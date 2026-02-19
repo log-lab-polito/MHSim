@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List
 
 
 @dataclass
 class Model1Stats:
     created: int = 0
     completed: int = 0
-    time_in_system: List[float] = field(default_factory=list)
+    time_in_system: list[float] = field(default_factory=list)
 
     def record_created(self, count: int = 1) -> None:
         self.created += count

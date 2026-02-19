@@ -4,12 +4,12 @@ import simpy
 from random import Random
 from typing import Optional
 
-from .pallet import Pallet
-from .forklift import ForkliftFleet
+from mhsim.pallet import Pallet
+from mhsim.forklift import ForkliftFleet
+from mhsim.logger import SimulationLogger
+from mhsim.storage_slots import StorageSlotManager, StorageSlot
 from .params import Model1Params
 from .stats import Model1Stats
-from .logger import SimulationLogger
-from .storage_slots import StorageSlotManager, StorageSlot
 
 
 class Sink:

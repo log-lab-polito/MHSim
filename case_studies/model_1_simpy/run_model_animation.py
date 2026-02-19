@@ -110,12 +110,14 @@ def _build_snapshot(env, model, s1, s2, fleet, storage) -> Snapshot:
 
 
 def run_and_record(
+    params: Model1Params | None = None,
     sample_dt: float = 2.0,
     recording_interval: float = 1.0,
     sim_time_override: float | None = None,
 ) -> Tuple[List[Snapshot], Model1SimModel, MovementRecorder]:
     """Run the model and collect state snapshots plus forklift trajectories."""
-    model = Model1SimModel()
+    active_params = params or Model1Params()
+    model = Model1SimModel(params=active_params)
 
     if sim_time_override is not None:
         model.params.sim_time = sim_time_override
@@ -645,9 +647,13 @@ def build_animation(
     return fig, anim
 
 
-def main():
+def run_animation_cli(
+    *,
+    model_label: str,
+    params_factory=Model1Params,
+):
     parser = argparse.ArgumentParser(
-        description="Animate Model 1 warehouse simulation")
+        description=f"Animate {model_label} warehouse simulation")
     parser.add_argument(
         "--speed",
         type=float,
@@ -717,7 +723,9 @@ def main():
         sim_time_override = args.sim_time
 
     print("Running model and recording forklift movements ...")
+    default_params = params_factory()
     snapshots, model, recorder = run_and_record(
+        params=default_params,
         sample_dt=sample_dt,
         recording_interval=recording_interval,
         sim_time_override=sim_time_override,
@@ -737,8 +745,7 @@ def main():
         f"   Expected playback duration: {expected_playback_time:.1f}s (at {speed}x speed)")
     print(f"   Frame interval: {1000/playback_fps:.1f}ms ({playback_fps} fps)")
 
-    layout, _, _ = create_warehouse_with_standard_config(
-        model.env, Model1Params())
+    layout, _, _ = create_warehouse_with_standard_config(model.env, model.params)
 
     snapshots_for_anim = snapshots[::snapshot_stride]
 
@@ -770,6 +777,10 @@ def main():
     print("=" * 70 + "\n")
 
     plt.show()
+
+
+def main():
+    run_animation_cli(model_label="Model 1", params_factory=Model1Params)
 
 
 if __name__ == "__main__":
