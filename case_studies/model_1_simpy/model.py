@@ -75,6 +75,7 @@ class Model1SimModel:
             name="retrieve",
             outbound_pos=self.layout.outbound_area.get_access_point(),
             unloading_time_s=self.params.unloading_time_s,
+            retrieving_time_s=self.params.retrieving_time_s,
             request_priority=self.params.forklift_retrieve_priority,
             logger=self.logger,
         )
@@ -94,6 +95,7 @@ class Model1SimModel:
             name="store",
             inbound_pos=self.layout.inbound_area.get_access_point(),
             loading_time_s=self.params.loading_time_s,
+            storing_time_s=self.params.storing_time_s,
             request_priority=self.params.forklift_store_priority,
             logger=self.logger,
         )

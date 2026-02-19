@@ -19,6 +19,8 @@ class Model1Params(SimulationParams):
     service2_time_s: float = 30.0  # Downstream service
     delay_time_s: float = 5 * 60.0  # Delay block
     loading_time_s: float = 1.0  # Store: load pallet onto forklift
+    storing_time_s: float = 0.0  # Store: put-away handling time in storage cell
+    retrieving_time_s: float = 8.0  # Retrieve: in-slot extraction time (cell -> aisle)
     unloading_time_s: float = 1.0  # Retrieve: unload pallet at destination
 
     # Storage / transport

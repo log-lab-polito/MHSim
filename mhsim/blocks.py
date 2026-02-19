@@ -356,6 +356,7 @@ class StoreBlock:
         name: str = "store",
         inbound_pos=None,
         loading_time_s: float = 0.0,
+        storing_time_s: float = 0.0,
         request_priority: int = 1,
         logger: Optional[SimulationLogger] = None,
     ):
@@ -367,6 +368,7 @@ class StoreBlock:
         self.name = name
         self.inbound_pos = inbound_pos
         self.loading_time_s = loading_time_s
+        self.storing_time_s = storing_time_s
         self.request_priority = request_priority
         self.logger = logger
         self.entered_count = 0
@@ -418,6 +420,9 @@ class StoreBlock:
                 storage_slot.level,
                 dwell_status=ForklifStatus.UNLOADING,
             )
+            if self.storing_time_s > 0:
+                fl.status = ForklifStatus.UNLOADING
+                yield self.env.timeout(self.storing_time_s)
             fl.current_load = None
             self.slot_manager.complete_store(storage_slot)
 
@@ -443,6 +448,7 @@ class RetrieveBlock:
         name: str = "retrieve",
         outbound_pos=None,
         unloading_time_s: float = 0.0,
+        retrieving_time_s: float = 0.0,
         request_priority: int = 1,
         logger: Optional[SimulationLogger] = None,
     ):
@@ -454,6 +460,7 @@ class RetrieveBlock:
         self.name = name
         self.outbound_pos = outbound_pos
         self.unloading_time_s = unloading_time_s
+        self.retrieving_time_s = retrieving_time_s
         self.request_priority = request_priority
         self.logger = logger
         self.entered_count = 0
@@ -493,6 +500,9 @@ class RetrieveBlock:
                 storage_slot.level,
                 dwell_status=ForklifStatus.LOADING,
             )
+            if self.retrieving_time_s > 0:
+                fl.status = ForklifStatus.LOADING
+                yield self.env.timeout(self.retrieving_time_s)
             fl.current_load = pallet
             self.slot_manager.complete_retrieve(storage_slot)
 
