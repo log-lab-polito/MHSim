@@ -24,6 +24,12 @@ class ForklifStatus(Enum):
     MOVING = "moving"
     LOADING = "loading"
     UNLOADING = "unloading"
+    CHARGING = "charging"
+    MAINTENANCE = "maintenance"
+
+
+# Keep a correctly-spelled alias for API clarity while preserving compatibility.
+ForkliftStatus = ForklifStatus
 
 
 @dataclass(frozen=True)
@@ -43,6 +49,20 @@ class LiftProfile:
         up = height / self.elevation_speed if self.elevation_speed > 0 else 0.0
         down = height / self.lowering_speed if self.lowering_speed > 0 else 0.0
         return up + down
+
+
+@dataclass(frozen=True)
+class ChargingStation:
+    """Simple charger location for transporter battery operations."""
+    id: str
+    position: Position3D
+
+
+@dataclass(frozen=True)
+class ForkliftAssignment:
+    """A specific transporter assignment returned by ForkliftFleet.seize()."""
+    request: object
+    forklift: Forklift
 
 
 @dataclass
@@ -65,9 +85,26 @@ class Forklift:
     turn_radius: float = 1.0
     route_calc_delay_s: float = 0.0
     resume_delay_s: float = 0.0
+    home_position: Optional[Position3D] = None
+    charging_station: Optional[ChargingStation] = None
+
+    # Battery settings (disabled by default when discharge_per_meter == 0).
+    battery_soc: float = 1.0
+    discharge_per_meter: float = 0.0
+    charge_rate_per_second: float = 0.0
+    charge_when_below: float = 0.20
+    charge_until: float = 0.95
+
+    # Set by ForkliftFleet assignment lifecycle.
+    is_reserved: bool = False
 
     def __post_init__(self):
         """Initialize forklift process."""
+        if self.home_position is None:
+            self.home_position = self.position
+        self.battery_soc = min(max(self.battery_soc, 0.0), 1.0)
+        self.charge_when_below = min(max(self.charge_when_below, 0.0), 1.0)
+        self.charge_until = min(max(self.charge_until, 0.0), 1.0)
         if not self.router:
             # Create a simple router if none provided
             from .spatial import WarehouseLayout, RectangularNode, Storage
@@ -81,6 +118,44 @@ class Forklift:
                 storage=Storage(),
             )
             self.router = Router(default_layout)
+
+    def _consume_battery(self, horizontal_distance_m: float) -> None:
+        """Apply travel energy usage to battery SOC."""
+        if self.discharge_per_meter <= 0 or horizontal_distance_m <= 0:
+            return
+        self.battery_soc = max(0.0, self.battery_soc - horizontal_distance_m * self.discharge_per_meter)
+
+    def needs_charging(self) -> bool:
+        """Whether the transporter should go to a charging station."""
+        if self.charging_station is None:
+            return False
+        if self.discharge_per_meter <= 0:
+            return False
+        if self.charge_rate_per_second <= 0:
+            return False
+        return self.battery_soc <= self.charge_when_below
+
+    def charge_if_needed(self, update_interval: float = 0.1) -> Generator:
+        """Move to charger and charge battery when below threshold."""
+        if not self.needs_charging():
+            yield self.env.timeout(0)
+            return
+
+        target_station = self.charging_station
+        if target_station is None:
+            yield self.env.timeout(0)
+            return
+
+        if self.position.distance_xy(target_station.position) > 0.01:
+            yield from self.move_to(target_station.position, update_interval=update_interval)
+
+        self.status = ForklifStatus.CHARGING
+        target_soc = max(self.battery_soc, self.charge_until)
+        if target_soc > self.battery_soc:
+            charge_time = (target_soc - self.battery_soc) / self.charge_rate_per_second
+            yield self.env.timeout(charge_time)
+            self.battery_soc = target_soc
+        self.status = ForklifStatus.IDLE
 
     def _move_direct_to(self, target: Position3D, update_interval: float = 0.05) -> Generator:
         """Move directly to target using acceleration profile (no routing)."""
@@ -96,6 +171,7 @@ class Forklift:
         from .movement import AcceleratingInterpolator
         start_xy = Position3D(start_pos.x, start_pos.y, 0)
         target_xy = Position3D(target.x, target.y, 0)
+        horizontal_distance = start_xy.distance_xy(target_xy)
         interpolator = AcceleratingInterpolator(
             start_xy, target_xy, self.movement_profile.horizontal)
         horizontal_time = interpolator.travel_time
@@ -116,6 +192,7 @@ class Forklift:
         total_time = max(horizontal_time, vertical_time)
         if total_time <= 0:
             self.position = target
+            self._consume_battery(horizontal_distance)
             if self.status == ForklifStatus.MOVING:
                 self.status = ForklifStatus.IDLE
             yield self.env.timeout(0)
@@ -141,6 +218,7 @@ class Forklift:
             self.position = Position3D(xy_pos.x, xy_pos.y, z)
 
         self.position = target
+        self._consume_battery(horizontal_distance)
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 
@@ -356,6 +434,7 @@ class Forklift:
         total_time = max(horizontal_time, vertical_time)
         if total_time <= 0:
             self.position = target
+            self._consume_battery(total_distance)
             if self.status == ForklifStatus.MOVING:
                 self.status = ForklifStatus.IDLE
             yield self.env.timeout(0)
@@ -383,6 +462,7 @@ class Forklift:
             self.position = Position3D(xy_pos.x, xy_pos.y, z)
 
         self.position = Position3D(target.x, target.y, target.z)
+        self._consume_battery(total_distance)
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 
@@ -453,6 +533,7 @@ class Forklift:
         shelf_level: int,
         update_interval: float = 0.1,
         dwell_time_s: float = 0.0,
+        dwell_status: Optional[ForklifStatus] = None,
     ) -> Generator:
         """Move to position, lift to shelf level, dwell, then return to ground."""
         if target_pos is None:
@@ -467,7 +548,12 @@ class Forklift:
             elevated_pos = target_pos._replace(z=shelf_height_m)
             yield from self.move_to(elevated_pos, update_interval=update_interval)
 
-        yield self.env.timeout(dwell_time_s)
+        if dwell_time_s > 0:
+            if dwell_status is not None:
+                self.status = dwell_status
+            yield self.env.timeout(dwell_time_s)
+            if self.status == dwell_status:
+                self.status = ForklifStatus.IDLE
 
         if self.lift_profile and shelf_level > 0:
             ground_pos = target_pos._replace(z=0)
@@ -481,7 +567,11 @@ class Forklift:
 
     def is_available(self) -> bool:
         """Check if forklift is available for next task."""
-        return self.status == ForklifStatus.IDLE and self.current_load is None
+        return (
+            self.status == ForklifStatus.IDLE
+            and self.current_load is None
+            and not self.is_reserved
+        )
 
 
 @dataclass
@@ -493,18 +583,24 @@ class ForkliftFleet:
     name: str = "fleet"
 
     # Resource for managing forklift allocation
-    _resource: Optional[simpy.Resource] = None
+    _resource: Optional[simpy.PriorityResource] = None
+    _available_forklifts: list[Forklift] = field(default_factory=list)
+    _active_assignments: dict[str, object] = field(default_factory=dict)
 
     def __init__(
         self,
         env: simpy.Environment,
         count: int = 0,
         name: str = "fleet",
+        home_position: Optional[Position3D] = None,
+        charging_station: Optional[ChargingStation] = None,
         **kwargs
     ):
         """Initialize ForkliftFleet."""
         self.env = env
         self.forklifts = []
+        self._available_forklifts = []
+        self._active_assignments = {}
         self.name = name
         self._resource = simpy.PriorityResource(
             self.env, capacity=max(1, count))
@@ -513,25 +609,124 @@ class ForkliftFleet:
         # Track pending requests (waiting in queue) per operation
         self.pending_store = 0
         self.pending_retrieve = 0
-        self.home_position: Optional[Position3D] = None
+        self.home_position: Optional[Position3D] = home_position
+        self.charging_station: Optional[ChargingStation] = charging_station
         self.return_home_policy: str = "stay"
 
     # __post_init__ is no longer needed since we use __init__ directly
 
+    def _rebuild_resource(self) -> None:
+        self._resource = simpy.PriorityResource(
+            self.env, capacity=max(1, len(self.forklifts))
+        )
+
+    def set_home_position(self, position: Optional[Position3D]) -> None:
+        self.home_position = position
+        for fl in self.forklifts:
+            fl.home_position = position
+
+    def set_charging_station(self, station: Optional[ChargingStation]) -> None:
+        self.charging_station = station
+        for fl in self.forklifts:
+            fl.charging_station = station
+
     def add_forklift(self, forklift: Forklift) -> None:
         """Add a forklift to the fleet."""
+        if self.resource.users or self.resource.queue:
+            raise RuntimeError("Cannot add forklifts while seize requests are active")
         self.forklifts.append(forklift)
-        # Update resource capacity
-        # Preserve PriorityResource so request(priority=...) works
-        self._resource = simpy.PriorityResource(
-            self.env, capacity=len(self.forklifts))
+        self._available_forklifts.append(forklift)
+        if forklift.home_position is None:
+            forklift.home_position = self.home_position
+        if forklift.charging_station is None:
+            forklift.charging_station = self.charging_station
+        # Preserve PriorityResource so request(priority=...) works.
+        self._rebuild_resource()
+
+    def _select_available_forklift(
+        self,
+        near_position: Optional[Position3D] = None,
+    ) -> Optional[Forklift]:
+        if not self._available_forklifts:
+            return None
+        if near_position is None:
+            return self._available_forklifts.pop(0)
+
+        best_idx = 0
+        best_cost = self._available_forklifts[0].position.distance_xy(near_position)
+        for i in range(1, len(self._available_forklifts)):
+            cost = self._available_forklifts[i].position.distance_xy(near_position)
+            if cost < best_cost:
+                best_cost = cost
+                best_idx = i
+        return self._available_forklifts.pop(best_idx)
+
+    def seize(
+        self,
+        priority: int = 1,
+        near_position: Optional[Position3D] = None,
+    ) -> Generator[object, object, ForkliftAssignment]:
+        """Seize a specific transporter from the fleet with queue priority."""
+        if not self.forklifts:
+            raise RuntimeError(f"{self.name} has no forklifts configured")
+
+        req = self.resource.request(priority=priority)
+        yield req
+
+        forklift = self._select_available_forklift(near_position=near_position)
+        while forklift is None:
+            # Defensive fallback if resource and pool get out-of-sync.
+            yield self.env.timeout(0)
+            forklift = self._select_available_forklift(near_position=near_position)
+
+        forklift.is_reserved = True
+        self._active_assignments[forklift.id] = req
+        return ForkliftAssignment(request=req, forklift=forklift)
+
+    def release(self, assignment: Optional[ForkliftAssignment]) -> None:
+        """Release a previously seized transporter."""
+        if assignment is None:
+            return
+        forklift = assignment.forklift
+        if self._active_assignments.pop(forklift.id, None) is None:
+            return
+        forklift.is_reserved = False
+        if forklift.status != ForklifStatus.MAINTENANCE:
+            forklift.status = ForklifStatus.IDLE
+        self._available_forklifts.append(forklift)
+        self.resource.release(assignment.request)
 
     def get_available_forklift(self) -> Optional[Forklift]:
-        """Get first available forklift."""
-        for fl in self.forklifts:
+        """Get first currently-available forklift without reserving it."""
+        for fl in self._available_forklifts:
             if fl.is_available():
                 return fl
         return None
+
+    @property
+    def waiting_requests_count(self) -> int:
+        """Number of queued seize requests still waiting for a transporter."""
+        return len(self.resource.queue)
+
+    def resolve_home_position(self, forklift: Forklift) -> Optional[Position3D]:
+        return self.home_position if self.home_position is not None else forklift.home_position
+
+    def run_post_task_policy(
+        self,
+        forklift: Forklift,
+    ) -> Generator:
+        """Apply return-home and charging behavior after a completed task."""
+        return_policy = self.return_home_policy
+        home_pos = self.resolve_home_position(forklift)
+        if home_pos is not None and return_policy != "stay":
+            should_return = return_policy == "always"
+            if return_policy == "idle":
+                should_return = self.waiting_requests_count == 0
+            if should_return and forklift.position.distance_xy(home_pos) > 0.01:
+                yield from forklift.move_to(home_pos)
+
+        if forklift.needs_charging():
+            yield from forklift.charge_if_needed()
 
     def count_total(self) -> int:
         """Get total number of forklifts."""
@@ -551,9 +746,15 @@ def create_forklift_fleet(
     lift_profile: Optional[LiftProfile] = None,
     router: Optional[Router] = None,
     home_position: Position3D = None,
+    charging_station: Optional[ChargingStation] = None,
     turn_radius: float = 1.0,
     route_calc_delay_s: float = 0.0,
     resume_delay_s: float = 0.0,
+    discharge_per_meter: float = 0.0,
+    charge_rate_per_second: float = 0.0,
+    charge_when_below: float = 0.20,
+    charge_until: float = 0.95,
+    initial_battery_soc: float = 1.0,
     name_prefix: str = "forklift"
 ) -> ForkliftFleet:
     """
@@ -566,6 +767,7 @@ def create_forklift_fleet(
         lift_profile: Lift profile for shelf operations (optional)
         router: Router instance (shared across fleet)
         home_position: Starting position for all forklifts
+        charging_station: Optional charging station assigned to each forklift
         name_prefix: Prefix for forklift IDs
 
     Returns:
@@ -574,7 +776,13 @@ def create_forklift_fleet(
     if home_position is None:
         home_position = Position3D(0, 0, 0)
 
-    fleet = ForkliftFleet(env, name=f"{name_prefix}_fleet")
+    fleet = ForkliftFleet(
+        env,
+        count=count,
+        name=f"{name_prefix}_fleet",
+        home_position=home_position,
+        charging_station=charging_station,
+    )
 
     for i in range(count):
         fl = Forklift(
@@ -587,6 +795,13 @@ def create_forklift_fleet(
             turn_radius=turn_radius,
             route_calc_delay_s=route_calc_delay_s,
             resume_delay_s=resume_delay_s,
+            home_position=home_position,
+            charging_station=charging_station,
+            battery_soc=initial_battery_soc,
+            discharge_per_meter=discharge_per_meter,
+            charge_rate_per_second=charge_rate_per_second,
+            charge_when_below=charge_when_below,
+            charge_until=charge_until,
         )
         fleet.add_forklift(fl)
 

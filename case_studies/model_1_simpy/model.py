@@ -42,9 +42,13 @@ class Model1SimModel:
         )
 
         if self.fleet.forklifts:
-            self.fleet.home_position = self.fleet.forklifts[0].position
+            home_position = self.fleet.forklifts[0].position
         else:
-            self.fleet.home_position = self.layout.forklifts_home.get_access_point()
+            home_position = self.layout.forklifts_home.get_access_point()
+        if hasattr(self.fleet, "set_home_position"):
+            self.fleet.set_home_position(home_position)
+        else:
+            self.fleet.home_position = home_position
         self.fleet.return_home_policy = self.params.forklift_return_home_policy
 
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)
