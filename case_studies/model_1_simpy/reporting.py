@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from typing import Any
 
 DEFAULT_BLOCK_MAPPING = [
@@ -46,7 +47,13 @@ def compare_blocks_with_anylogic(
     console_logging: bool = False,
 ):
     mapping = block_mapping or DEFAULT_BLOCK_MAPPING
-    model = model_cls(params=params, console_logging=console_logging)
+    model_kwargs = {
+        "params": params,
+        "console_logging": console_logging,
+    }
+    if "enable_logging" in inspect.signature(model_cls).parameters:
+        model_kwargs["enable_logging"] = False
+    model = model_cls(**model_kwargs)
     stats = model.run()
     block_stats = {}
     for name, _, _ in mapping:
@@ -83,9 +90,18 @@ def compare_blocks_with_anylogic(
     in_flight = stats.created - stats.completed
     throughput_per_hour = (stats.completed / params.sim_time) * 3600
     print(f"Created: {stats.created}  Completed: {stats.completed}  In-flight: {in_flight}")
-    print(
-        f"Storage: {model.storage.level}/{model.storage.capacity}  Avg cycle: {stats.avg_time_in_system:.2f}s"
-    )
+    summary_parts = [f"Avg cycle: {stats.avg_time_in_system:.2f}s"]
+
+    storage = getattr(model, "storage", None)
+    if storage is not None and hasattr(storage, "level") and hasattr(storage, "capacity"):
+        summary_parts.insert(0, f"Storage: {storage.level}/{storage.capacity}")
+
+    conveyor = getattr(model, "conveyor", None)
+    if conveyor is not None and hasattr(conveyor, "occupancy"):
+        capacity = getattr(conveyor, "max_items", "?")
+        summary_parts.insert(0, f"Conveyor occ: {conveyor.occupancy}/{capacity}")
+
+    print("  ".join(summary_parts))
     print(f"Throughput: {throughput_per_hour:.1f} pallets/hour")
     print("=" * 78)
 

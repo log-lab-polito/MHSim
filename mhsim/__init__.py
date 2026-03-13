@@ -2,3 +2,4 @@
 
 from .params import SimulationParams  # noqa: F401
 from .stats import SimulationStats  # noqa: F401
+from .conveyor import Conveyor  # noqa: F401

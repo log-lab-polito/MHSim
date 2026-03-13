@@ -9,14 +9,22 @@ from .forklift import ForkliftFleet, ForklifStatus, ForkliftAssignment
 from .stats import SimulationStats
 from .logger import SimulationLogger
 from .movement import Position3D
+from .conveyor import Conveyor
 from .storage_slots import StorageSlotManager, StorageSlot
 
 
 PositionResolver = Optional[Callable[[Pallet], Optional[Position3D]] | Position3D]
+DistanceResolver = Optional[Callable[[Pallet], float] | float]
 DEFAULT_TRANSPORTER_ASSIGNMENT_KEY = "_transporter_assignment"
 
 
 def _resolve_position(resolver: PositionResolver, pallet: Pallet):
+    if callable(resolver):
+        return resolver(pallet)
+    return resolver
+
+
+def _resolve_distance(resolver: DistanceResolver, pallet: Pallet) -> Optional[float]:
     if callable(resolver):
         return resolver(pallet)
     return resolver
@@ -145,6 +153,106 @@ class DelayBlock:
             self.logger.log_event(
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
         yield self.env.timeout(self.delay_s)
+        self.finished_count += 1
+        if self.next_block:
+            yield from self.next_block.handle(pallet)
+        self.completed_count += 1
+
+
+class ConveyorEnterBlock:
+    """AnyLogic-style conveyor entry block."""
+
+    def __init__(
+        self,
+        env: simpy.Environment,
+        conveyor: Conveyor,
+        next_block,
+        name: str = "conveyor_enter",
+        logger: Optional[SimulationLogger] = None,
+    ):
+        self.env = env
+        self.conveyor = conveyor
+        self.next_block = next_block
+        self.name = name
+        self.logger = logger
+        self.entered_count = 0
+        self.finished_count = 0
+        self.completed_count = 0
+
+    def handle(self, pallet: Pallet):
+        self.entered_count += 1
+        if self.logger:
+            self.logger.log_event(
+                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        yield from self.conveyor.enter()
+        self.finished_count += 1
+        if self.next_block:
+            yield from self.next_block.handle(pallet)
+        self.completed_count += 1
+
+
+class ConveyBlock:
+    """AnyLogic-style conveyor travel block."""
+
+    def __init__(
+        self,
+        env: simpy.Environment,
+        conveyor: Conveyor,
+        next_block,
+        name: str = "convey",
+        distance_m: DistanceResolver = None,
+        logger: Optional[SimulationLogger] = None,
+    ):
+        self.env = env
+        self.conveyor = conveyor
+        self.next_block = next_block
+        self.name = name
+        self.distance_m = distance_m
+        self.logger = logger
+        self.entered_count = 0
+        self.finished_count = 0
+        self.completed_count = 0
+
+    def handle(self, pallet: Pallet):
+        self.entered_count += 1
+        if self.logger:
+            self.logger.log_event(
+                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        distance = _resolve_distance(self.distance_m, pallet)
+        yield self.env.timeout(self.conveyor.travel_time_s(distance))
+        self.finished_count += 1
+        if self.next_block:
+            yield from self.next_block.handle(pallet)
+        self.completed_count += 1
+
+
+class ConveyorExitBlock:
+    """AnyLogic-style conveyor exit block."""
+
+    def __init__(
+        self,
+        env: simpy.Environment,
+        conveyor: Conveyor,
+        next_block,
+        name: str = "conveyor_exit",
+        logger: Optional[SimulationLogger] = None,
+    ):
+        self.env = env
+        self.conveyor = conveyor
+        self.next_block = next_block
+        self.name = name
+        self.logger = logger
+        self.entered_count = 0
+        self.finished_count = 0
+        self.completed_count = 0
+
+    def handle(self, pallet: Pallet):
+        self.entered_count += 1
+        if self.logger:
+            self.logger.log_event(
+                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self.conveyor.leave()
+        yield self.env.timeout(0)
         self.finished_count += 1
         if self.next_block:
             yield from self.next_block.handle(pallet)
