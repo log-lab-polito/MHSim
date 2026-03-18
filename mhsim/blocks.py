@@ -9,7 +9,7 @@ from .forklift import ForkliftFleet, ForklifStatus, ForkliftAssignment
 from .stats import SimulationStats
 from .logger import SimulationLogger
 from .movement import Position3D
-from .conveyor import Conveyor
+from .conveyor import Conveyor, ConveyorSpur
 from .storage_slots import StorageSlotManager, StorageSlot
 
 
@@ -253,6 +253,38 @@ class ConveyorExitBlock:
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
         self.conveyor.leave()
         yield self.env.timeout(0)
+        self.finished_count += 1
+        if self.next_block:
+            yield from self.next_block.handle(pallet)
+        self.completed_count += 1
+
+
+class ConveyorSpurBlock:
+    """AnyLogic-style conveyor spur transfer block."""
+
+    def __init__(
+        self,
+        env: simpy.Environment,
+        spur: ConveyorSpur,
+        next_block,
+        name: str = "conveyor_spur",
+        logger: Optional[SimulationLogger] = None,
+    ):
+        self.env = env
+        self.spur = spur
+        self.next_block = next_block
+        self.name = name
+        self.logger = logger
+        self.entered_count = 0
+        self.finished_count = 0
+        self.completed_count = 0
+
+    def handle(self, pallet: Pallet):
+        self.entered_count += 1
+        if self.logger:
+            self.logger.log_event(
+                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        yield from self.spur.transfer()
         self.finished_count += 1
         if self.next_block:
             yield from self.next_block.handle(pallet)

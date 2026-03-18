@@ -71,3 +71,34 @@ class Conveyor:
             raise RuntimeError(f"Conveyor {self.id} leave() called with empty occupancy")
         self._occupancy -= 1
         self.total_exited += 1
+
+
+@dataclass
+class ConveyorSpur:
+    """Transfer point that moves items from one conveyor onto another."""
+
+    id: str
+    env: simpy.Environment
+    source_conveyor: Conveyor
+    target_conveyor: Conveyor
+    target_offset_m: float = 0.0
+
+    def __post_init__(self) -> None:
+        if self.source_conveyor is self.target_conveyor:
+            raise ValueError("source_conveyor and target_conveyor must be different")
+        if self.target_offset_m < 0:
+            raise ValueError("target_offset_m must be >= 0")
+        if self.target_offset_m > self.target_conveyor.length_m:
+            raise ValueError("target_offset_m must be within the target conveyor length")
+        self._transfer_mutex = simpy.Resource(self.env, capacity=1)
+        self.total_transferred = 0
+
+    def remaining_target_distance_m(self) -> float:
+        return self.target_conveyor.length_m - self.target_offset_m
+
+    def transfer(self) -> Generator:
+        with self._transfer_mutex.request() as req:
+            yield req
+            yield from self.target_conveyor.enter()
+            self.source_conveyor.leave()
+            self.total_transferred += 1

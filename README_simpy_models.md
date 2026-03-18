@@ -5,6 +5,7 @@ This README covers:
 - `case_studies/model_1_simpy`
 - `case_studies/model_2_simpy`
 - `case_studies/model_3_simpy`
+- `case_studies/model_4_simpy`
 - `mhsim`
 
 ## What each package is
@@ -13,6 +14,7 @@ This README covers:
 - `case_studies/model_1_simpy`: Model 1 scenario implementation and runnable entrypoints.
 - `case_studies/model_2_simpy`: Model 2 scenario wrappers and runnable entrypoints.
 - `case_studies/model_3_simpy`: Conveyor-focused scenario for testing `Conveyor Enter`/`Convey`/`Conveyor Exit`.
+- `case_studies/model_4_simpy`: Conveyor spur merge scenario for testing `Conveyor Spur`.
 
 ## Prerequisites
 
@@ -120,6 +122,14 @@ Common animation options:
 
 ```bash
 python -m case_studies.model_3_simpy.run_model_animation --speed 10 --fps 20 --record-fps 20 --sim-time 900
+```
+
+### Model 4
+
+Run conveyor spur model:
+
+```bash
+python -m case_studies.model_4_simpy.run_model
 ```
 
 ## About `mhsim`
