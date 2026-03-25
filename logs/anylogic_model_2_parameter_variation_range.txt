@@ -1,0 +1,350 @@
+ITERATION #1
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 291
+    In flight: 85
+    Avg cycle (s): 3427.6119255599274
+    Storage level: 3
+    Throughput (/h): 58.2
+
+ITERATION #2
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 301
+    Completed: 295
+    In flight: 6
+    Avg cycle (s): 400.09712048346745
+    Storage level: 3
+    Throughput (/h): 59.0
+
+ITERATION #3
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 251
+    Completed: 246
+    In flight: 5
+    Avg cycle (s): 335.6678080713778
+    Storage level: 2
+    Throughput (/h): 49.2
+
+ITERATION #4
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 300.0
+RESULTS
+    Created: 376
+    Completed: 286
+    In flight: 90
+    Avg cycle (s): 3594.3081467151137
+    Storage level: 5
+    Throughput (/h): 57.2
+
+ITERATION #5
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 2
+    Delay time (s): 300.0
+RESULTS
+    Created: 301
+    Completed: 293
+    In flight: 8
+    Avg cycle (s): 488.79588955690394
+    Storage level: 4
+    Throughput (/h): 58.6
+
+ITERATION #6
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 2
+    Delay time (s): 300.0
+RESULTS
+    Created: 251
+    Completed: 244
+    In flight: 7
+    Avg cycle (s): 473.8646429787856
+    Storage level: 4
+    Throughput (/h): 48.8
+
+ITERATION #7
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 420.0
+RESULTS
+    Created: 376
+    Completed: 288
+    In flight: 88
+    Avg cycle (s): 3512.434855210354
+    Storage level: 9
+    Throughput (/h): 57.6
+
+ITERATION #8
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 2
+    Delay time (s): 420.0
+RESULTS
+    Created: 301
+    Completed: 290
+    In flight: 11
+    Avg cycle (s): 599.8370471705135
+    Storage level: 7
+    Throughput (/h): 58.0
+
+ITERATION #9
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 2
+    Delay time (s): 420.0
+RESULTS
+    Created: 251
+    Completed: 243
+    In flight: 8
+    Avg cycle (s): 583.2175273064486
+    Storage level: 6
+    Throughput (/h): 48.6
+
+ITERATION #10
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 3
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 366
+    In flight: 10
+    Avg cycle (s): 449.20564303600537
+    Storage level: 4
+    Throughput (/h): 73.2
+
+ITERATION #11
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 3
+    Delay time (s): 180.0
+RESULTS
+    Created: 301
+    Completed: 295
+    In flight: 6
+    Avg cycle (s): 357.152777148936
+    Storage level: 3
+    Throughput (/h): 59.0
+
+ITERATION #12
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 3
+    Delay time (s): 180.0
+RESULTS
+    Created: 251
+    Completed: 246
+    In flight: 5
+    Avg cycle (s): 334.48547864376604
+    Storage level: 2
+    Throughput (/h): 49.2
+
+ITERATION #13
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 3
+    Delay time (s): 300.0
+RESULTS
+    Created: 376
+    Completed: 364
+    In flight: 12
+    Avg cycle (s): 522.6274247435146
+    Storage level: 6
+    Throughput (/h): 72.8
+
+ITERATION #14
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 3
+    Delay time (s): 300.0
+RESULTS
+    Created: 301
+    Completed: 292
+    In flight: 9
+    Avg cycle (s): 473.6426951000794
+    Storage level: 5
+    Throughput (/h): 58.4
+
+ITERATION #15
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 3
+    Delay time (s): 300.0
+RESULTS
+    Created: 251
+    Completed: 244
+    In flight: 7
+    Avg cycle (s): 468.69931946632147
+    Storage level: 4
+    Throughput (/h): 48.8
+
+ITERATION #16
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 3
+    Delay time (s): 420.0
+RESULTS
+    Created: 376
+    Completed: 362
+    In flight: 14
+    Avg cycle (s): 658.2967384213838
+    Storage level: 8
+    Throughput (/h): 72.4
+
+ITERATION #17
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 3
+    Delay time (s): 420.0
+RESULTS
+    Created: 301
+    Completed: 290
+    In flight: 11
+    Avg cycle (s): 596.5662592375763
+    Storage level: 7
+    Throughput (/h): 58.0
+
+ITERATION #18
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 3
+    Delay time (s): 420.0
+RESULTS
+    Created: 251
+    Completed: 243
+    In flight: 8
+    Avg cycle (s): 585.2949537518336
+    Storage level: 6
+    Throughput (/h): 48.6
+
+ITERATION #19
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 4
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 367
+    In flight: 9
+    Avg cycle (s): 445.05800096317483
+    Storage level: 4
+    Throughput (/h): 73.4
+
+ITERATION #20
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 4
+    Delay time (s): 180.0
+RESULTS
+    Created: 301
+    Completed: 295
+    In flight: 6
+    Avg cycle (s): 354.6424237642205
+    Storage level: 3
+    Throughput (/h): 59.0
+
+ITERATION #21
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 4
+    Delay time (s): 180.0
+RESULTS
+    Created: 251
+    Completed: 246
+    In flight: 5
+    Avg cycle (s): 337.26682525951327
+    Storage level: 2
+    Throughput (/h): 49.2
+
+ITERATION #22
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 4
+    Delay time (s): 300.0
+RESULTS
+    Created: 376
+    Completed: 364
+    In flight: 12
+    Avg cycle (s): 505.4333150195172
+    Storage level: 7
+    Throughput (/h): 72.8
+
+ITERATION #23
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 4
+    Delay time (s): 300.0
+RESULTS
+    Created: 301
+    Completed: 293
+    In flight: 8
+    Avg cycle (s): 472.8455764565057
+    Storage level: 5
+    Throughput (/h): 58.6
+
+ITERATION #24
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 4
+    Delay time (s): 300.0
+RESULTS
+    Created: 251
+    Completed: 244
+    In flight: 7
+    Avg cycle (s): 472.3782110102953
+    Storage level: 4
+    Throughput (/h): 48.8
+
+ITERATION #25
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 4
+    Delay time (s): 420.0
+RESULTS
+    Created: 376
+    Completed: 363
+    In flight: 13
+    Avg cycle (s): 651.4782424809107
+    Storage level: 9
+    Throughput (/h): 72.6
+
+ITERATION #26
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 4
+    Delay time (s): 420.0
+RESULTS
+    Created: 301
+    Completed: 291
+    In flight: 10
+    Avg cycle (s): 585.3542594411789
+    Storage level: 7
+    Throughput (/h): 58.2
+
+ITERATION #27
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 4
+    Delay time (s): 420.0
+RESULTS
+    Created: 251
+    Completed: 243
+    In flight: 8
+    Avg cycle (s): 588.7936636645277
+    Storage level: 6
+    Throughput (/h): 48.6

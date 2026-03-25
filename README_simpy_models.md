@@ -86,6 +86,58 @@ Compare AnyLogic vs SimPy block counts:
 python -m case_studies.model_2_simpy.compare_blocks
 ```
 
+Run parameter-variation validation experiments:
+
+```bash
+python -m case_studies.model_2_simpy.run_parameter_variation
+```
+
+Run the ranged validation with explicit options:
+
+```bash
+python -m case_studies.model_2_simpy.run_parameter_variation --run-until 1200 --range-replications 2
+```
+
+Compare AnyLogic vs SimPy parameter-variation range outputs:
+
+```bash
+python case_studies/model_2_simpy/compare_parameter_variation_range.py
+```
+
+The comparison script supports multiple console views. The default `--view full`
+prints the detailed per-combination audit table.
+
+Quick summary view:
+
+```bash
+python case_studies/model_2_simpy/compare_parameter_variation_range.py --view overview
+```
+
+Hotspot matrix for a single metric:
+
+```bash
+python case_studies/model_2_simpy/compare_parameter_variation_range.py --view matrix --metric avg_time_in_system_s
+```
+
+Worst mismatches first:
+
+```bash
+python case_studies/model_2_simpy/compare_parameter_variation_range.py --view offenders --top 8
+```
+
+Available views:
+
+- `full`: detailed per-parameter-combination comparison table
+- `overview`: one compact summary row per metric with match/close/diff counts
+- `matrix`: grid view by `arrival_rate_s x delay_time_s`, split by forklift count
+- `offenders`: top mismatches sorted by severity
+- `all`: prints overview, matrix, offenders, and full in sequence
+
+Metric filtering is supported for `matrix` and `offenders` via `--metric`. Use
+`--metric all` or one of:
+`created`, `completed`, `in_flight`, `avg_time_in_system_s`, `storage_level`,
+`throughput_per_hour`.
+
 Run animation:
 
 ```bash

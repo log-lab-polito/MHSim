@@ -4,3 +4,12 @@ from .params import SimulationParams  # noqa: F401
 from .stats import SimulationStats  # noqa: F401
 from .conveyor import Conveyor  # noqa: F401
 from .conveyor import ConveyorSpur  # noqa: F401
+from .experiments import ChoiceParameter  # noqa: F401
+from .experiments import ParameterVariationExperiment  # noqa: F401
+from .experiments import ParameterVariationResult  # noqa: F401
+from .experiments import RangeParameter  # noqa: F401
+from .experiments import RangeVariation  # noqa: F401
+from .experiments import attribute_metric  # noqa: F401
+from .experiments import model_attr_metric  # noqa: F401
+from .experiments import stats_attr_metric  # noqa: F401
+from .experiments import throughput_per_hour_metric  # noqa: F401
