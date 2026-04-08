@@ -110,6 +110,7 @@ def run_model_and_print_summary(
     model_label: str,
     console_logging: bool = True,
     include_forklift_benchmarks: bool = False,
+    include_forklift_utilization: bool = False,
 ):
     model = model_cls(params=params, console_logging=console_logging)
     stats = model.run()
@@ -119,6 +120,11 @@ def run_model_and_print_summary(
     print(f"Pallets completed: {stats.completed}")
     print(f"Average time in system: {stats.avg_time_in_system:.2f} s")
     print(f"Storage level at end: {model.storage.level}")
+    if include_forklift_utilization:
+        fleet = getattr(model, "fleet", None)
+        utilization = getattr(fleet, "utilization", None)
+        if utilization is not None:
+            print(f"Forklifts utilization (%): {utilization:.6f}")
     if include_forklift_benchmarks:
         print_forklift_movement_benchmarks(stats)
     return stats, model

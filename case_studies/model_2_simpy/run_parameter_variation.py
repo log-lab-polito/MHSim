@@ -26,6 +26,7 @@ def _metrics():
         "throughput_per_hour": lambda _ctx, model, stats: (
             (stats.completed / model.env.now) * 3600.0 if model.env.now else 0.0
         ),
+        "forklift_utilization": model_attr_metric("fleet.utilization"),
     }
 
 
@@ -97,6 +98,10 @@ def _print_summary(title: str, result: ParameterVariationResult) -> None:
             "metric_avg_time_in_system_s",
             row.get("metric_avg_time_in_system_s_mean"),
         )
+        forklift_utilization = row.get(
+            "metric_forklift_utilization",
+            row.get("metric_forklift_utilization_mean"),
+        )
         parts = [f"iter={row['iteration']}"]
         if arrival != "":
             parts.append(f"arrival={arrival}")
@@ -108,6 +113,8 @@ def _print_summary(title: str, result: ParameterVariationResult) -> None:
             parts.append(f"throughput/h={_format_number(throughput)}")
         if avg_cycle is not None:
             parts.append(f"avg_cycle_s={_format_number(avg_cycle)}")
+        if forklift_utilization is not None:
+            parts.append(f"forklift_util={_format_number(forklift_utilization)}")
         print("  ".join(parts))
 
 

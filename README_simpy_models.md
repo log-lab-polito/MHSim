@@ -149,7 +149,7 @@ Available views:
 Metric filtering is supported for `matrix` and `offenders` via `--metric`. Use
 `--metric all` or one of:
 `created`, `completed`, `in_flight`, `avg_time_in_system_s`, `storage_level`,
-`throughput_per_hour`.
+`throughput_per_hour`, `forklift_utilization`.
 
 Run animation:
 

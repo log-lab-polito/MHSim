@@ -605,6 +605,8 @@ class ForkliftFleet:
     _resource: Optional[simpy.PriorityResource] = None
     _available_forklifts: list[Forklift] = field(default_factory=list)
     _active_assignments: dict[str, object] = field(default_factory=dict)
+    _busy_since_by_forklift: dict[str, float] = field(default_factory=dict)
+    _completed_busy_time_s: float = 0.0
 
     def __init__(
         self,
@@ -620,6 +622,8 @@ class ForkliftFleet:
         self.forklifts = []
         self._available_forklifts = []
         self._active_assignments = {}
+        self._busy_since_by_forklift = {}
+        self._completed_busy_time_s = 0.0
         self.name = name
         self._resource = simpy.PriorityResource(
             self.env, capacity=max(1, count))
@@ -700,6 +704,7 @@ class ForkliftFleet:
 
         forklift.is_reserved = True
         self._active_assignments[forklift.id] = req
+        self._busy_since_by_forklift[forklift.id] = self.env.now
         return ForkliftAssignment(request=req, forklift=forklift)
 
     def release(self, assignment: Optional[ForkliftAssignment]) -> None:
@@ -709,6 +714,9 @@ class ForkliftFleet:
         forklift = assignment.forklift
         if self._active_assignments.pop(forklift.id, None) is None:
             return
+        busy_started_at = self._busy_since_by_forklift.pop(forklift.id, None)
+        if busy_started_at is not None:
+            self._completed_busy_time_s += max(0.0, self.env.now - busy_started_at)
         forklift.is_reserved = False
         if forklift.status != ForklifStatus.MAINTENANCE:
             forklift.status = ForklifStatus.IDLE
@@ -750,6 +758,20 @@ class ForkliftFleet:
     def count_total(self) -> int:
         """Get total number of forklifts."""
         return len(self.forklifts)
+
+    @property
+    def busy_time_s(self) -> float:
+        total = self._completed_busy_time_s
+        for busy_started_at in self._busy_since_by_forklift.values():
+            total += max(0.0, self.env.now - busy_started_at)
+        return total
+
+    @property
+    def utilization(self) -> float:
+        forklift_count = self.count_total()
+        if forklift_count <= 0 or self.env.now <= 0:
+            return 0.0
+        return self.busy_time_s / (forklift_count * self.env.now)
 
     # Legacy compatibility methods
     @property

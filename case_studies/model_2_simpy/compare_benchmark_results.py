@@ -64,6 +64,9 @@ SUMMARY_METRICS = [
     ("storage_level", "Storage level"),
     ("throughput_per_hour", "Throughput (/h)"),
 ]
+OPTIONAL_SUMMARY_METRICS = [
+    ("forklift_utilization", "Forklifts Utilization (%)"),
+]
 
 BENCHMARK_METRICS = [
     ("store_seize_to_load_start_s", "Seize to Loading time (s)"),
@@ -128,6 +131,7 @@ class SimPyBenchmarkRow:
     avg_time_in_system_s: float
     storage_level: int
     throughput_per_hour: float
+    forklift_utilization: float
     benchmarks: dict[str, BenchmarkStats]
 
 
@@ -297,6 +301,7 @@ def run_simpy_benchmark(anylogic_row: AnyLogicBenchmarkRow, *, sim_time: float) 
         avg_time_in_system_s=stats.avg_time_in_system,
         storage_level=int(model.storage.level),
         throughput_per_hour=((stats.completed / sim_time) * 3600.0 if sim_time else 0.0),
+        forklift_utilization=model.fleet.utilization,
         benchmarks=benchmarks,
     )
 
@@ -346,6 +351,22 @@ def write_comparison_csv(
                         simpy_count=None,
                     )
                 )
+            for metric_key, label in OPTIONAL_SUMMARY_METRICS:
+                anylogic_value = getattr(anylogic_row, metric_key)
+                if anylogic_value is None:
+                    continue
+                writer.writerow(
+                    _build_csv_row(
+                        anylogic_row=anylogic_row,
+                        section="summary",
+                        metric_key=metric_key,
+                        metric_label=label,
+                        stat="value",
+                        anylogic_value=anylogic_value,
+                        simpy_value=getattr(simpy_row, metric_key),
+                        simpy_count=None,
+                    )
+                )
 
             for metric_key, label in BENCHMARK_METRICS:
                 anylogic_stats = anylogic_row.benchmarks.get(metric_key)
@@ -384,14 +405,10 @@ def print_report(anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[Sim
             f"delay_s={_format_value(anylogic_row.delay_time_s)}"
         )
 
-        if anylogic_row.forklift_utilization is not None:
-            print(
-                "AnyLogic reported forklift utilization: "
-                f"{_format_value(anylogic_row.forklift_utilization)} "
-                "(no direct SimPy comparator in this script)"
-            )
-
         print("\nSummary metrics:")
+        summary_metrics = list(SUMMARY_METRICS)
+        if anylogic_row.forklift_utilization is not None:
+            summary_metrics.extend(OPTIONAL_SUMMARY_METRICS)
         _print_table(
             ["Metric", "AnyLogic", "SimPy", "Diff", "Diff %", "Status"],
             [
@@ -416,7 +433,7 @@ def print_report(anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[Sim
                         getattr(simpy_row, metric_key),
                     ),
                 ]
-                for metric_key, label in SUMMARY_METRICS
+                for metric_key, label in summary_metrics
             ],
             indent="  ",
         )
