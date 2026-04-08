@@ -80,6 +80,19 @@ Run model:
 python -m case_studies.model_2_simpy.run_model
 ```
 
+The Model 2 runner now prints forklift benchmark rows for the six timing windows
+around store and retrieve handling. To export the same table as CSV:
+
+```bash
+python -m case_studies.model_2_simpy.run_model --csv logs/model_2_forklift_benchmarks.csv
+```
+
+Compare an AnyLogic benchmark text export against fresh SimPy runs:
+
+```bash
+python -m case_studies.model_2_simpy.compare_benchmark_results --anylogic logs/anylogic_model_2_forklift_timing.txt --csv logs/model_2_benchmark_comparison.csv
+```
+
 Compare AnyLogic vs SimPy block counts:
 
 ```bash

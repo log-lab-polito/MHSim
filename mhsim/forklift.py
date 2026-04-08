@@ -10,7 +10,7 @@ from __future__ import annotations
 import simpy
 import math
 from dataclasses import dataclass, field
-from typing import Optional, Generator
+from typing import Optional, Generator, Callable
 from enum import Enum
 
 from .movement import Position3D, MovementProfile
@@ -534,10 +534,23 @@ class Forklift:
         update_interval: float = 0.1,
         dwell_time_s: float = 0.0,
         dwell_status: Optional[ForklifStatus] = None,
+        on_dwell_start: Optional[Callable[[float], None]] = None,
+        on_dwell_end: Optional[Callable[[float], None]] = None,
     ) -> Generator:
         """Move to position, lift to shelf level, dwell, then return to ground."""
         if target_pos is None:
-            yield self.env.timeout(dwell_time_s)
+            if dwell_status is not None:
+                self.status = dwell_status
+            if on_dwell_start is not None:
+                on_dwell_start(self.env.now)
+            if dwell_time_s > 0:
+                yield self.env.timeout(dwell_time_s)
+            else:
+                yield self.env.timeout(0)
+            if on_dwell_end is not None:
+                on_dwell_end(self.env.now)
+            if dwell_status is not None and self.status == dwell_status:
+                self.status = ForklifStatus.IDLE
             return
 
         if self.position != target_pos:
@@ -548,11 +561,17 @@ class Forklift:
             elevated_pos = target_pos._replace(z=shelf_height_m)
             yield from self.move_to(elevated_pos, update_interval=update_interval)
 
-        if dwell_time_s > 0:
+        should_notify_dwell = on_dwell_start is not None or on_dwell_end is not None
+        if dwell_time_s > 0 or should_notify_dwell:
             if dwell_status is not None:
                 self.status = dwell_status
-            yield self.env.timeout(dwell_time_s)
-            if self.status == dwell_status:
+            if on_dwell_start is not None:
+                on_dwell_start(self.env.now)
+            if dwell_time_s > 0:
+                yield self.env.timeout(dwell_time_s)
+            if on_dwell_end is not None:
+                on_dwell_end(self.env.now)
+            if dwell_status is not None and self.status == dwell_status:
                 self.status = ForklifStatus.IDLE
 
         if self.lift_profile and shelf_level > 0:

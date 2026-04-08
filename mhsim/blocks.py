@@ -77,6 +77,17 @@ def _run_fleet_post_task(fleet: ForkliftFleet, forklift) -> Generator:
     yield from fleet.run_post_task_policy(forklift)
 
 
+def _record_forklift_movement_duration(
+    stats: Optional[object],
+    metric_name: str,
+    start_time: float,
+    end_time: float,
+) -> None:
+    recorder = getattr(stats, "record_forklift_movement", None)
+    if callable(recorder):
+        recorder(metric_name, max(0.0, end_time - start_time))
+
+
 class Sink:
     def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[SimulationLogger] = None):
         self.env = env
@@ -492,6 +503,7 @@ class StoreBlock:
         storage: simpy.Container,
         fleet: ForkliftFleet,
         slot_manager: StorageSlotManager,
+        stats: Optional[object],
         next_block,
         name: str = "store",
         inbound_pos=None,
@@ -504,6 +516,7 @@ class StoreBlock:
         self.storage = storage
         self.fleet = fleet
         self.slot_manager = slot_manager
+        self.stats = stats
         self.next_block = next_block
         self.name = name
         self.inbound_pos = inbound_pos
@@ -531,7 +544,10 @@ class StoreBlock:
             pending_attr="pending_store",
             near_position=self.inbound_pos,
         )
+        seize_at = self.env.now
         fl = assignment.forklift
+        load_started_at = seize_at
+        load_finished_at = seize_at
         try:
             storage_slot: StorageSlot | None = None
             while storage_slot is None:
@@ -545,12 +561,34 @@ class StoreBlock:
                 if storage_slot is None:
                     yield self.env.timeout(0.1)
 
+            def mark_load_start(timestamp: float) -> None:
+                nonlocal load_started_at
+                load_started_at = timestamp
+
+            def mark_load_end(timestamp: float) -> None:
+                nonlocal load_finished_at
+                load_finished_at = timestamp
+
             # Load at inbound (with elevation to shelf level)
             yield from fl.perform_lift(
                 self.inbound_pos,
                 0,
                 dwell_time_s=self.loading_time_s,
                 dwell_status=ForklifStatus.LOADING,
+                on_dwell_start=mark_load_start,
+                on_dwell_end=mark_load_end,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_seize_to_load_start_s",
+                seize_at,
+                load_started_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_load_duration_s",
+                load_started_at,
+                load_finished_at,
             )
             fl.current_load = pallet
 
@@ -567,6 +605,12 @@ class StoreBlock:
             self.slot_manager.complete_store(storage_slot)
 
             yield from _run_fleet_post_task(self.fleet, fl)
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_load_finish_to_release_s",
+                load_finished_at,
+                self.env.now,
+            )
         finally:
             self.fleet.release(assignment)
 
@@ -584,6 +628,7 @@ class RetrieveBlock:
         storage: simpy.Container,
         fleet: ForkliftFleet,
         slot_manager: StorageSlotManager,
+        stats: Optional[object],
         next_block,
         name: str = "retrieve",
         outbound_pos=None,
@@ -596,6 +641,7 @@ class RetrieveBlock:
         self.storage = storage
         self.fleet = fleet
         self.slot_manager = slot_manager
+        self.stats = stats
         self.next_block = next_block
         self.name = name
         self.outbound_pos = outbound_pos
@@ -620,7 +666,10 @@ class RetrieveBlock:
             pending_attr="pending_retrieve",
             near_position=self.outbound_pos,
         )
+        seize_at = self.env.now
         fl = assignment.forklift
+        unload_started_at = seize_at
+        unload_finished_at = seize_at
         try:
             storage_slot: StorageSlot | None = None
             while storage_slot is None:
@@ -646,16 +695,44 @@ class RetrieveBlock:
             fl.current_load = pallet
             self.slot_manager.complete_retrieve(storage_slot)
 
+            def mark_unload_start(timestamp: float) -> None:
+                nonlocal unload_started_at
+                unload_started_at = timestamp
+
+            def mark_unload_end(timestamp: float) -> None:
+                nonlocal unload_finished_at
+                unload_finished_at = timestamp
+
             # Unload at outbound (with elevation to shelf level)
             yield from fl.perform_lift(
                 self.outbound_pos,
                 0,
                 dwell_time_s=self.unloading_time_s,
                 dwell_status=ForklifStatus.UNLOADING,
+                on_dwell_start=mark_unload_start,
+                on_dwell_end=mark_unload_end,
             )
             fl.current_load = None
 
             yield from _run_fleet_post_task(self.fleet, fl)
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_seize_to_unload_start_s",
+                seize_at,
+                unload_started_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_unload_duration_s",
+                unload_started_at,
+                unload_finished_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_unload_finish_to_release_s",
+                unload_finished_at,
+                self.env.now,
+            )
         finally:
             self.fleet.release(assignment)
 

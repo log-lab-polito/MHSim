@@ -12,12 +12,12 @@ class Model1Params(SimulationParams):
     log_filename_prefix: str = "simpy_model1"
 
     # Source
-    arrival_rate_per_min: float = 1.0
+    arrival_rate_per_min: float = 1 / 0.8
 
     # Process times
     service1_time_s: float = 30.0  # Upstream service
     service2_time_s: float = 30.0  # Downstream service
-    delay_time_s: float = 5 * 60.0  # Delay block
+    delay_time_s: float = 3 * 60.0  # Delay block
     loading_time_s: float = 1.0  # Store: load pallet onto forklift
     storing_time_s: float = 0.0  # Store: put-away handling time in storage cell
     retrieving_time_s: float = 8.0  # Retrieve: in-slot extraction time (cell -> aisle)
@@ -46,7 +46,7 @@ class Model1Params(SimulationParams):
     forklift_route_calc_delay_s: float = 0.0  # s - delay for route calculation
     forklift_resume_delay_s: float = 0.0  # s - delay to resume movement
     # Forklift return-home policy: "stay", "always", or "idle" (no queued tasks)
-    forklift_return_home_policy: str = "stay"
+    forklift_return_home_policy: str = "idle"
 
     # ==================== Storage Configuration (AnyLogic style) ====================
     # Rack dimensions and organization

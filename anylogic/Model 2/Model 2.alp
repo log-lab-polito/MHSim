@@ -24,6 +24,7 @@ traceln("PARAMETERS");
 traceln("    Arrival rate (s): " + arrival_rate_s);
 traceln("    Forklift capacity: " + forklift_capacity);
 traceln("    Delay time (s): " + delay_time_s);
+forklifts_fleet.resetStats();
 ]]></StartupCode>
 			<DestroyCode><![CDATA[traceln("RESULTS");
 traceln("    Created: " + created_count);
@@ -31,7 +32,16 @@ traceln("    Completed: " + completed_count);
 traceln("    In flight: " + (created_count - completed_count));
 traceln("    Avg cycle (s): " + timeMeasureEnd.dataset.getYMean());
 traceln("    Storage level: " + storage_level);
-traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));]]></DestroyCode>
+traceln("    Storage level: " + delay.size());
+traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));
+traceln("    Forklifts Utilization (%): " + forklifts_fleet.utilization());
+
+logArrayStats("Seize to Loading time (s)", time_seize_loading);
+logArrayStats("Loading time (s)", time_loading);
+logArrayStats("Loading to Release time (s)", time_loading_release);
+logArrayStats("Seize to Unloading time (s)", time_seize_unloading);
+logArrayStats("Unloading time (s)", time_unloading);
+logArrayStats("Unloading to release time (s)", time_unloading_release);]]></DestroyCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1764169459615</Id>
@@ -260,6 +270,96 @@ traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));]]></Dest
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
 					</Properties>                 
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1774541066904</Id>
+					<Name><![CDATA[time_seize_loading]]></Name>
+					<X>20</X><Y>470</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1774957641934</Id>
+					<Name><![CDATA[time_loading]]></Name>
+					<X>20</X><Y>490</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1774957656256</Id>
+					<Name><![CDATA[time_loading_release]]></Name>
+					<X>20</X><Y>510</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1774957668186</Id>
+					<Name><![CDATA[time_seize_unloading]]></Name>
+					<X>20</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1774958075797</Id>
+					<Name><![CDATA[time_unloading]]></Name>
+					<X>20</X><Y>550</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1774958088694</Id>
+					<Name><![CDATA[time_unloading_release]]></Name>
+					<X>20</X><Y>570</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
 				</Variable>
 			</Variables>
 			<Connectors>
@@ -608,6 +708,112 @@ traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));]]></Dest
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[int capacity = storage.capacity();
 return capacity;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1774958738895</Id>
+					<Name><![CDATA[arrayAvg]]></Name>
+					<X>530</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[values]]></Name>
+						<Type><![CDATA[ArrayList<Double>]]></Type>
+					</Parameter>
+					<Body><![CDATA[if (values == null || values.isEmpty()) return Double.NaN;
+
+double sum = 0.0;
+int n = 0;
+
+for (int i = 0; i < values.size(); i++) {
+    Double v = values.get(i);
+    if (v == null) continue;
+
+    sum += v;
+    n++;
+}
+
+return n == 0 ? Double.NaN : sum / n;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double[]]]></ReturnType>
+					<Id>1774959222967</Id>
+					<Name><![CDATA[arrayStats]]></Name>
+					<X>530</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[values]]></Name>
+						<Type><![CDATA[ArrayList<Double>]]></Type>
+					</Parameter>
+					<Body><![CDATA[if (values == null || values.isEmpty()) {
+    return new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN };
+}
+
+int n = 0;
+double mean = 0.0;
+double m2 = 0.0;
+double min = Double.POSITIVE_INFINITY;
+double max = Double.NEGATIVE_INFINITY;
+
+for (int i = 0; i < values.size(); i++) {
+    Double xObj = values.get(i);
+    if (xObj == null) continue;
+
+    double x = xObj;
+    n++;
+
+    if (x < min) min = x;
+    if (x > max) max = x;
+
+    double delta = x - mean;
+    mean += delta / n;
+    double delta2 = x - mean;
+    m2 += delta * delta2;
+}
+
+if (n == 0) {
+    return new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN };
+}
+
+double stdPop = Math.sqrt(m2 / n);
+double stdSample = n > 1 ? Math.sqrt(m2 / (n - 1)) : Double.NaN;
+
+// [mean, min, max, stdPop, stdSample]
+return new double[] { mean, min, max, stdPop, stdSample };
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double[]]]></ReturnType>
+					<Id>1774959753078</Id>
+					<Name><![CDATA[logArrayStats]]></Name>
+					<X>530</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[title]]></Name>
+						<Type><![CDATA[String]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[values]]></Name>
+						<Type><![CDATA[ArrayList<Double>]]></Type>
+					</Parameter>
+					<Body><![CDATA[traceln("    " + title);
+double[] s = arrayStats(values);
+traceln("      avg = " + s[0]);
+traceln("      min = " + s[1]);
+traceln("      max = " + s[2]);
+traceln("      std dev (pop) = " + s[3]);
+traceln("      std dev (sample) = " + s[4]);]]></Body>
 				</Function>
 			</Functions>
 			<Connectivity>
@@ -1097,15 +1303,28 @@ return capacity;]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onSeizeTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[((Forklift)unit).seize_time = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onResourceArrived]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onLoadingStart]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_started_time = time();
+time_seize_loading.add(f.loading_started_time - f.seize_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onLoadingFinished]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_finished_time = time();
+time_loading.add(f.loading_finished_time - f.loading_started_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onStorageStart]]></Name>
@@ -1118,6 +1337,11 @@ return capacity;]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onReleaseTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.release_time = time();
+time_loading_release.add(f.release_time - f.loading_finished_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
@@ -2046,6 +2270,9 @@ storage_level--;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onSeizeTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[((Forklift)unit).seize_time = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onResourceArrived]]></Name>
@@ -2058,15 +2285,30 @@ storage_level--;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onUnloadingStart]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_started_time = time();
+time_seize_unloading.add(f.loading_started_time - f.seize_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onUnloadingFinished]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_finished_time = time();
+time_unloading.add(f.loading_finished_time - f.loading_started_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onReleaseResource]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onReleaseTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.release_time = time();
+time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
@@ -2548,6 +2790,104 @@ storage_level--;]]></Code>
 					<InitializationType>SPECIFIED_NUMBER</InitializationType>
 					<InitializationDatabaseTableQuery>
 						<Id>1770055734108</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1774539231923</Id>
+					<Name><![CDATA[transporterControl]]></Name>
+					<X>360</X><Y>-50</Y>
+					<Label><X>-60</X><Y>-30</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[TransporterControl]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+							<ClassName><![CDATA[TransporterControl]]></ClassName>
+							<ItemName><![CDATA[1531905793075]]></ItemName>
+						</GenericParameterSubstituteReference>
+						<GenericParameterSubstituteValue Class="CodeValue">
+							<Code><![CDATA[Forklift]]></Code>
+						</GenericParameterSubstituteValue>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[automaticNavigation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[avoidCollisions]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[false]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[canEnterNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[canEnterPath]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[resolveCollisions]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[collisionDetectionTimeout]]></Name>
+							<Value Class="CodeUnitValue">
+								<Code><![CDATA[0]]></Code>
+								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[findPath]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[pathsToAvoid]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[nodesToAvoid]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[pathsToInclude]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnterPath]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExitPath]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnterNode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExitNode]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1774539231921</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -3715,6 +4055,56 @@ storage_level--;]]></Code>
 			</ScaleRuler>
 			<CurrentLevel>1764172235806</CurrentLevel>
 			<ConnectionsId>1764172235800</ConnectionsId>
+			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1774540794769</Id>
+					<Name><![CDATA[seize_time]]></Name>
+					<X>80</X><Y>70</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1774540803843</Id>
+					<Name><![CDATA[loading_started_time]]></Name>
+					<X>80</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1774957518126</Id>
+					<Name><![CDATA[loading_finished_time]]></Name>
+					<X>80</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1774957553083</Id>
+					<Name><![CDATA[release_time]]></Name>
+					<X>80</X><Y>160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+			</Variables>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1764172235800</Id>
@@ -3959,14 +4349,20 @@ storage_level--;]]></Code>
 				<Parameter>
 					<ParameterName><![CDATA[arrival_rate_s]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[60]]></Code>
+						<Code><![CDATA[48]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[delay_time_s]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[180]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[forklift_capacity]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[2]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[iteration]]></ParameterName>

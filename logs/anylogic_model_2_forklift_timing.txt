@@ -1,0 +1,50 @@
+ITERATION #0
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 338
+    In flight: 38
+    Avg cycle (s): 1578.41703987675
+    Storage level: 3
+    Storage level: 3
+    Throughput (/h): 67.6
+    Forklifts Utilization (%): 0.9944174746261554
+    Seize to Loading time (s)
+      avg = 31.74433882102226
+      min = 18.071368909961166
+      max = 46.749967882851706
+      std dev (pop) = 8.575114370744897
+      std dev (sample) = 8.587115936269178
+    Loading time (s)
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Loading to Release time (s)
+      avg = 31.95196173085131
+      min = 18.605082887419485
+      max = 57.11302375165906
+      std dev (pop) = 7.34130403464178
+      std dev (sample) = 7.351578782895403
+    Seize to Unloading time (s)
+      avg = 36.01569568450866
+      min = 16.098138391000248
+      max = 66.36880179535547
+      std dev (pop) = 10.685388181274195
+      std dev (sample) = 10.701230129456057
+    Unloading time (s)
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Unloading to release time (s)
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0

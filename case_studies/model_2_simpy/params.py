@@ -11,4 +11,4 @@ class Model2Params(Model1Params):
 
     log_filename_prefix: str = "simpy_model2"
     sim_time: float = 18000.0  # seconds, 5 hours
-    n_forklifts: int = 3
+    n_forklifts: int = 2

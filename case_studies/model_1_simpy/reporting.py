@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import csv
 import inspect
+from pathlib import Path
 from typing import Any
+
+from .stats import FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 
 DEFAULT_BLOCK_MAPPING = [
     ("service1", "service1", "SERVICE1 (upstream)"),
@@ -12,12 +16,100 @@ DEFAULT_BLOCK_MAPPING = [
 ]
 
 
+def build_forklift_movement_benchmark_rows(stats: Any) -> list[dict[str, Any]]:
+    summaries_fn = getattr(stats, "forklift_movement_summaries", None)
+    if not callable(summaries_fn):
+        return []
+
+    summaries = summaries_fn()
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    for metric_name, label in FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items():
+        summary = summaries.get(metric_name)
+        seen.add(metric_name)
+        if summary is None:
+            continue
+        rows.append(
+            {
+                "metric_key": metric_name,
+                "metric": label,
+                "count": summary.count,
+                "avg_s": summary.average,
+                "min_s": summary.minimum,
+                "max_s": summary.maximum,
+                "std_dev_s": summary.std_dev,
+            }
+        )
+
+    for metric_name, summary in summaries.items():
+        if metric_name in seen:
+            continue
+        rows.append(
+            {
+                "metric_key": metric_name,
+                "metric": metric_name,
+                "count": summary.count,
+                "avg_s": summary.average,
+                "min_s": summary.minimum,
+                "max_s": summary.maximum,
+                "std_dev_s": summary.std_dev,
+            }
+        )
+
+    return rows
+
+
+def print_forklift_movement_benchmarks(stats: Any) -> None:
+    rows = build_forklift_movement_benchmark_rows(stats)
+    if not rows:
+        return
+
+    print("\nForklift movement benchmarks:")
+    print(
+        f"{'Metric':<54} {'Count':>7} {'Avg (s)':>10} {'Min (s)':>10} "
+        f"{'Max (s)':>10} {'Std (s)':>10}"
+    )
+    print("-" * 108)
+    for row in rows:
+        print(
+            f"{row['metric']:<54} {row['count']:>7} {row['avg_s']:>10.2f} "
+            f"{row['min_s']:>10.2f} {row['max_s']:>10.2f} {row['std_dev_s']:>10.2f}"
+        )
+
+
+def write_forklift_movement_benchmark_csv(
+    stats: Any,
+    output_path: str | Path,
+) -> Path:
+    rows = build_forklift_movement_benchmark_rows(stats)
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.open("w", newline="") as csv_file:
+        writer = csv.DictWriter(
+            csv_file,
+            fieldnames=[
+                "metric_key",
+                "metric",
+                "count",
+                "avg_s",
+                "min_s",
+                "max_s",
+                "std_dev_s",
+            ],
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+    return output
+
+
 def run_model_and_print_summary(
     *,
     model_cls: type[Any],
     params: Any,
     model_label: str,
     console_logging: bool = True,
+    include_forklift_benchmarks: bool = False,
 ):
     model = model_cls(params=params, console_logging=console_logging)
     stats = model.run()
@@ -27,6 +119,8 @@ def run_model_and_print_summary(
     print(f"Pallets completed: {stats.completed}")
     print(f"Average time in system: {stats.avg_time_in_system:.2f} s")
     print(f"Storage level at end: {model.storage.level}")
+    if include_forklift_benchmarks:
+        print_forklift_movement_benchmarks(stats)
     return stats, model
 
 
