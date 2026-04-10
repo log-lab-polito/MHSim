@@ -204,6 +204,7 @@ class MovementProfileBuilder:
 def create_warehouse_with_standard_config(
     env: simpy.Environment,
     params: Model1Params,
+    stats: Optional[object] = None,
 ) -> tuple[WarehouseLayout, Router, ForkliftFleet]:
     """
     Create a complete warehouse system matching AnyLogic Model 1 exactly.
@@ -363,6 +364,9 @@ def create_warehouse_with_standard_config(
         turn_radius=params.forklift_turn_radius,
         route_calc_delay_s=params.forklift_route_calc_delay_s,
         resume_delay_s=params.forklift_resume_delay_s,
+        min_distance_to_obstacle_m=params.forklift_min_distance_to_obstacle_m,
+        avoid_collisions=params.forklift_avoid_collisions,
+        stats=stats,
         name_prefix="fl",
     )
 
@@ -378,6 +382,9 @@ def create_custom_warehouse(
     turn_radius: float = 1.0,
     route_calc_delay_s: float = 0.0,
     resume_delay_s: float = 0.0,
+    min_distance_to_obstacle_m: float = 1.0,
+    avoid_collisions: bool = False,
+    stats: Optional[object] = None,
 ) -> tuple[WarehouseLayout, Router, ForkliftFleet]:
     """
     Create a warehouse system with custom configuration.
@@ -405,6 +412,9 @@ def create_custom_warehouse(
         turn_radius=turn_radius,
         route_calc_delay_s=route_calc_delay_s,
         resume_delay_s=resume_delay_s,
+        min_distance_to_obstacle_m=min_distance_to_obstacle_m,
+        avoid_collisions=avoid_collisions,
+        stats=stats,
         name_prefix="fl",
     )
 

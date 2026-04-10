@@ -45,6 +45,8 @@ class Model1Params(SimulationParams):
     forklift_turn_radius: float = 1.0  # m - rounded corner radius
     forklift_route_calc_delay_s: float = 0.0  # s - delay for route calculation
     forklift_resume_delay_s: float = 0.0  # s - delay to resume movement
+    forklift_min_distance_to_obstacle_m: float = 1.0  # m - AnyLogic default
+    forklift_avoid_collisions: bool = False  # AnyLogic TransporterControl option
     # Forklift return-home policy: "stay", "always", or "idle" (no queued tasks)
     forklift_return_home_policy: str = "idle"
 

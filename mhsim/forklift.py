@@ -14,8 +14,9 @@ from typing import Optional, Generator, Callable
 from enum import Enum
 
 from .movement import Position3D, MovementProfile
-from .routing import Router
+from .routing import Route, RouteStep, Router
 from .pallet import Pallet
+from .traffic import PathTrafficController
 
 
 class ForklifStatus(Enum):
@@ -82,6 +83,8 @@ class Forklift:
     status: ForklifStatus = ForklifStatus.IDLE
     current_load: Optional[Pallet] = None
     router: Optional[Router] = None
+    traffic_controller: Optional[PathTrafficController] = None
+    stats: Optional[object] = None
     turn_radius: float = 1.0
     route_calc_delay_s: float = 0.0
     resume_delay_s: float = 0.0
@@ -97,6 +100,8 @@ class Forklift:
 
     # Set by ForkliftFleet assignment lifecycle.
     is_reserved: bool = False
+    _traffic_wait_reason: Optional[str] = field(default=None, init=False, repr=False)
+    _traffic_wait_started_at: Optional[float] = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
         """Initialize forklift process."""
@@ -222,202 +227,102 @@ class Forklift:
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 
+    def _start_traffic_wait(self, reason: Optional[str]) -> None:
+        """Start or switch an active traffic wait reason."""
+        if reason is None:
+            return
+        if self._traffic_wait_reason == reason:
+            return
+        self._finish_traffic_wait()
+        self._traffic_wait_reason = reason
+        self._traffic_wait_started_at = self.env.now
+
+    def _finish_traffic_wait(self) -> bool:
+        """Finish the active traffic wait and record metrics."""
+        if self._traffic_wait_reason is None or self._traffic_wait_started_at is None:
+            return False
+        recorder = getattr(self.stats, "record_traffic_wait", None)
+        if callable(recorder):
+            recorder(
+                self._traffic_wait_reason,
+                max(0.0, self.env.now - self._traffic_wait_started_at),
+            )
+        self._traffic_wait_reason = None
+        self._traffic_wait_started_at = None
+        return True
+
+    def _resume_after_traffic_wait(self) -> Generator:
+        """Apply resume delay once after a traffic-induced stop."""
+        if self._finish_traffic_wait() and self.resume_delay_s > 0:
+            yield self.env.timeout(self.resume_delay_s)
+
+    def _route_position(self, step: RouteStep, progress_m: float) -> Position3D:
+        """Interpolate a position along a route step."""
+        if step.length <= 1e-9:
+            return step.end
+        fraction = max(0.0, min(1.0, progress_m / step.length))
+        return Position3D(
+            step.start.x + (step.end.x - step.start.x) * fraction,
+            step.start.y + (step.end.y - step.start.y) * fraction,
+            0,
+        )
+
+    def _compute_horizontal_motion(
+        self,
+        current_speed: float,
+        dt: float,
+        route_remaining_m: float,
+        available_distance_m: float,
+    ) -> tuple[float, float]:
+        """Compute horizontal motion for the current tick."""
+        effective_distance = min(max(0.0, route_remaining_m), max(0.0, available_distance_m))
+        if effective_distance <= 1e-9:
+            return 0.0, 0.0
+
+        horizontal = self.movement_profile.horizontal
+        max_speed = max(0.0, horizontal.max_speed)
+        acceleration = max(0.0, horizontal.acceleration)
+        deceleration = max(0.0, horizontal.deceleration)
+        if max_speed <= 0 or dt <= 0:
+            return 0.0, 0.0
+
+        stop_speed_limit = (
+            math.sqrt(max(0.0, 2.0 * deceleration * effective_distance))
+            if deceleration > 0
+            else max_speed
+        )
+        accelerated_speed = current_speed + acceleration * dt if acceleration > 0 else current_speed
+        decelerated_speed = max(0.0, current_speed - deceleration * dt) if deceleration > 0 else current_speed
+        target_upper = min(max_speed, accelerated_speed, stop_speed_limit)
+        next_speed = decelerated_speed if target_upper < decelerated_speed else target_upper
+        distance = 0.5 * (current_speed + next_speed) * dt
+
+        if distance > effective_distance:
+            distance = effective_distance
+            if effective_distance <= max(1e-6, current_speed * dt * 0.25):
+                next_speed = 0.0
+
+        return distance, next_speed
+
     def _move_along_route(
         self,
-        waypoints: list[Position3D],
+        route: Route,
         update_interval: float = 0.05,
     ) -> Generator:
-        """Move along a route polyline with a single accel/cruise/decel profile."""
-        if len(waypoints) < 2:
+        """Move along routed path steps with shared traffic control."""
+        if len(route.waypoints) < 2:
             yield self.env.timeout(0)
+            return
+
+        if not route.steps:
+            yield from self._move_direct_to(route.waypoints[-1], update_interval=update_interval)
             return
 
         self.status = ForklifStatus.MOVING
         start_pos = self.position
-        target = waypoints[-1]
+        target = route.waypoints[-1]
         height_change = target.z - start_pos.z
-
-        def rot90(u: Position3D, sign: float) -> Position3D:
-            if sign > 0:
-                return Position3D(-u.y, u.x, 0)
-            return Position3D(u.y, -u.x, 0)
-
-        def normalize(vx: float, vy: float) -> Position3D:
-            norm = math.hypot(vx, vy)
-            if norm <= 1e-9:
-                return Position3D(0.0, 0.0, 0)
-            return Position3D(vx / norm, vy / norm, 0)
-
-        def angle_between(u: Position3D, v: Position3D) -> float:
-            dot = max(-1.0, min(1.0, u.x * v.x + u.y * v.y))
-            return math.acos(dot)
-
-        route_xy = [Position3D(wp.x, wp.y, 0) for wp in waypoints]
-        compacted = []
-        for p in route_xy:
-            if not compacted or compacted[-1].distance_xy(p) > 1e-6:
-                compacted.append(p)
-        route_xy = compacted
-
-        segments: list[dict] = []
-        current = route_xy[0]
-        turn_radius = max(0.0, getattr(self, "turn_radius", 1.0))
-
-        for i in range(1, len(route_xy) - 1):
-            prev_pt = route_xy[i - 1]
-            corner = route_xy[i]
-            next_pt = route_xy[i + 1]
-
-            u1 = normalize(corner.x - prev_pt.x, corner.y - prev_pt.y)
-            u2 = normalize(next_pt.x - corner.x, next_pt.y - corner.y)
-
-            if (u1.x == 0 and u1.y == 0) or (u2.x == 0 and u2.y == 0):
-                continue
-
-            ang = angle_between(u1, u2)
-            if turn_radius <= 0 or ang < 1e-3 or abs(math.pi - ang) < 1e-3:
-                # Straight or U-turn; keep as sharp corner
-                if current.distance_xy(corner) > 1e-6:
-                    segments.append(
-                        {"kind": "line", "start": current, "end": corner,
-                         "length": current.distance_xy(corner)}
-                    )
-                    current = corner
-                continue
-
-            t = turn_radius * math.tan(ang / 2.0)
-            incoming_len = corner.distance_xy(prev_pt)
-            outgoing_len = corner.distance_xy(next_pt)
-            available_in = corner.distance_xy(current)
-            if t > incoming_len or t > outgoing_len or t > available_in:
-                if current.distance_xy(corner) > 1e-6:
-                    segments.append(
-                        {"kind": "line", "start": current, "end": corner,
-                         "length": current.distance_xy(corner)}
-                    )
-                    current = corner
-                continue
-
-            tangent_in = Position3D(corner.x - u1.x * t, corner.y - u1.y * t, 0)
-            tangent_out = Position3D(corner.x + u2.x * t, corner.y + u2.y * t, 0)
-
-            if current.distance_xy(tangent_in) > 1e-6:
-                segments.append(
-                    {"kind": "line", "start": current, "end": tangent_in,
-                     "length": current.distance_xy(tangent_in)}
-                )
-
-            cross = u1.x * u2.y - u1.y * u2.x
-            sign = 1.0 if cross > 0 else -1.0
-            n1 = rot90(u1, sign)
-            center = Position3D(
-                tangent_in.x + n1.x * turn_radius,
-                tangent_in.y + n1.y * turn_radius,
-                0,
-            )
-
-            start_ang = math.atan2(tangent_in.y - center.y, tangent_in.x - center.x)
-            end_ang = math.atan2(tangent_out.y - center.y, tangent_out.x - center.x)
-            if sign > 0:
-                delta = (end_ang - start_ang) % (2 * math.pi)
-            else:
-                delta = (start_ang - end_ang) % (2 * math.pi)
-            arc_len = turn_radius * delta
-
-            segments.append(
-                {
-                    "kind": "arc",
-                    "center": center,
-                    "radius": turn_radius,
-                    "start_ang": start_ang,
-                    "sign": sign,
-                    "length": arc_len,
-                }
-            )
-
-            current = tangent_out
-
-        if current.distance_xy(route_xy[-1]) > 1e-6:
-            segments.append(
-                {"kind": "line", "start": current, "end": route_xy[-1],
-                 "length": current.distance_xy(route_xy[-1])}
-            )
-
-        total_distance = sum(seg["length"] for seg in segments)
-
-        horiz = self.movement_profile.horizontal
-        a = horiz.acceleration
-        d = horiz.deceleration
-        v_max = horiz.max_speed
-
-        accel_time = 0.0
-        decel_time = 0.0
-        cruise_time = 0.0
-        accel_dist = 0.0
-        cruise_dist = 0.0
-        peak_speed = 0.0
-
-        if total_distance > 0 and v_max > 0 and a > 0 and d > 0:
-            accel_time = v_max / a
-            decel_time = v_max / d
-            accel_dist = 0.5 * a * accel_time ** 2
-            decel_dist = 0.5 * d * decel_time ** 2
-
-            if total_distance >= accel_dist + decel_dist:
-                cruise_dist = total_distance - accel_dist - decel_dist
-                cruise_time = cruise_dist / v_max
-                peak_speed = v_max
-            else:
-                peak_speed = math.sqrt(2 * total_distance * a * d / (a + d))
-                accel_time = peak_speed / a
-                decel_time = peak_speed / d
-                cruise_time = 0.0
-                cruise_dist = 0.0
-                accel_dist = 0.5 * a * accel_time ** 2
-
-        horizontal_time = accel_time + cruise_time + decel_time
-
-        def distance_at_time(t: float) -> float:
-            if t <= 0 or total_distance <= 0:
-                return 0.0
-            if t <= accel_time:
-                return 0.5 * a * t ** 2
-            cruise_start_time = accel_time
-            cruise_end_time = accel_time + cruise_time
-            if t <= cruise_end_time:
-                return accel_dist + peak_speed * (t - cruise_start_time)
-            decel_elapsed = t - cruise_end_time
-            dist_in_decel = peak_speed * decel_elapsed - 0.5 * d * decel_elapsed ** 2
-            return accel_dist + cruise_dist + dist_in_decel
-
-        def position_at_distance(dist: float) -> Position3D:
-            if dist <= 0 or not segments:
-                return route_xy[0]
-            remaining = dist
-            for seg in segments:
-                if remaining <= seg["length"] + 1e-9:
-                    if seg["kind"] == "line":
-                        start = seg["start"]
-                        end = seg["end"]
-                        if seg["length"] <= 1e-9:
-                            return end
-                        frac = remaining / seg["length"]
-                        return Position3D(
-                            start.x + (end.x - start.x) * frac,
-                            start.y + (end.y - start.y) * frac,
-                            0,
-                        )
-                    center = seg["center"]
-                    radius = seg["radius"]
-                    sign = seg["sign"]
-                    angle = seg["start_ang"] + sign * (remaining / radius)
-                    return Position3D(
-                        center.x + radius * math.cos(angle),
-                        center.y + radius * math.sin(angle),
-                        0,
-                    )
-                remaining -= seg["length"]
-            return route_xy[-1]
+        total_distance = route.total_distance
 
         vertical_speed = 0.0
         if height_change != 0:
@@ -429,10 +334,8 @@ class Forklift:
                 )
             else:
                 vertical_speed = self.movement_profile.elevation.speed
-        vertical_time = abs(height_change) / vertical_speed if vertical_speed > 0 else 0.0
-
-        total_time = max(horizontal_time, vertical_time)
-        if total_time <= 0:
+        vertical_total_distance = abs(height_change)
+        if total_distance <= 0 and vertical_total_distance <= 0:
             self.position = target
             self._consume_battery(total_distance)
             if self.status == ForklifStatus.MOVING:
@@ -440,29 +343,204 @@ class Forklift:
             yield self.env.timeout(0)
             return
 
-        elapsed = 0.0
-        while elapsed < total_time:
-            dt = min(update_interval, total_time - elapsed)
-            yield self.env.timeout(dt)
-            elapsed += dt
+        traffic = self.traffic_controller
+        current_speed = 0.0
+        current_step_index = 0
+        active_step: Optional[RouteStep] = None
+        step_progress = 0.0
+        occupied_node_id: Optional[str] = None
+        occupied_node_release_progress: Optional[float] = None
+        horizontal_distance = 0.0
+        vertical_distance = 0.0
+        current_z = start_pos.z
+        current_xy = Position3D(start_pos.x, start_pos.y, 0)
 
-            if horizontal_time > 0:
-                t_h = min(elapsed, horizontal_time)
-                dist_traveled = distance_at_time(t_h)
-                xy_pos = position_at_distance(dist_traveled)
+        while horizontal_distance < total_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
+            dt = max(update_interval, 1e-3)
+
+            if active_step is None and current_step_index < len(route.steps):
+                next_step = route.steps[current_step_index]
+                following_step = (
+                    route.steps[current_step_index + 1]
+                    if current_step_index + 1 < len(route.steps)
+                    else None
+                )
+                wait_reason = None
+                if traffic is not None:
+                    wait_reason = traffic.try_enter_edge(self.id, next_step, following_step)
+                if wait_reason is not None:
+                    if occupied_node_id is not None and traffic is not None:
+                        traffic.leave_node(self.id, occupied_node_id)
+                        occupied_node_id = None
+                        occupied_node_release_progress = None
+                    self._start_traffic_wait(wait_reason)
+                    current_speed = 0.0
+                    yield self.env.timeout(dt)
+                else:
+                    yield from self._resume_after_traffic_wait()
+                    active_step = next_step
+                    step_progress = 0.0
+                    if occupied_node_id is not None and traffic is not None:
+                        clearance_distance = min(
+                            next_step.length,
+                            max(0.0, traffic.min_distance_to_obstacle_m),
+                        )
+                        if clearance_distance <= 1e-9:
+                            traffic.leave_node(self.id, occupied_node_id)
+                            occupied_node_id = None
+                            occupied_node_release_progress = None
+                        else:
+                            occupied_node_release_progress = clearance_distance
+                if vertical_total_distance > 0:
+                    delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
+                    vertical_distance += delta_z
+                    direction = 1.0 if height_change >= 0 else -1.0
+                    current_z = start_pos.z + direction * vertical_distance
+                self.position = Position3D(current_xy.x, current_xy.y, current_z)
+                continue
+
+            route_remaining = max(0.0, total_distance - horizontal_distance)
+            if route_remaining <= 1e-9:
+                current_xy = Position3D(target.x, target.y, 0)
+                current_speed = 0.0
+                yield self.env.timeout(dt)
             else:
-                xy_pos = route_xy[-1]
+                available_distance = route_remaining
+                wait_reason = None
+                if traffic is not None and active_step is not None:
+                    allowance = traffic.available_distance(
+                        self.id,
+                        active_step,
+                        step_progress,
+                        route_remaining,
+                    )
+                    available_distance = allowance.allowed_distance_m
+                    wait_reason = allowance.wait_reason
 
-            if vertical_time > 0:
-                z_progress = min(elapsed / vertical_time, 1.0)
-                z = start_pos.z + height_change * z_progress
+                move_distance, next_speed = self._compute_horizontal_motion(
+                    current_speed=current_speed,
+                    dt=dt,
+                    route_remaining_m=route_remaining,
+                    available_distance_m=available_distance,
+                )
+
+                if move_distance <= 1e-9 and wait_reason is not None:
+                    self._start_traffic_wait(wait_reason)
+                    current_speed = 0.0
+                    yield self.env.timeout(dt)
+                else:
+                    yield from self._resume_after_traffic_wait()
+                    yield self.env.timeout(dt)
+                    current_speed = next_speed
+                    remaining_move = move_distance
+                    blocked_reason: Optional[str] = None
+
+                    while remaining_move > 1e-9 and horizontal_distance < total_distance - 1e-9:
+                        if active_step is None:
+                            if current_step_index >= len(route.steps):
+                                break
+                            next_step = route.steps[current_step_index]
+                            following_step = (
+                                route.steps[current_step_index + 1]
+                                if current_step_index + 1 < len(route.steps)
+                                else None
+                            )
+                            if traffic is not None:
+                                blocked_reason = traffic.try_enter_edge(self.id, next_step, following_step)
+                                if blocked_reason is not None:
+                                    break
+                            active_step = next_step
+                            step_progress = 0.0
+                            if occupied_node_id is not None and traffic is not None:
+                                clearance_distance = min(
+                                    next_step.length,
+                                    max(0.0, traffic.min_distance_to_obstacle_m),
+                                )
+                                if clearance_distance <= 1e-9:
+                                    traffic.leave_node(self.id, occupied_node_id)
+                                    occupied_node_id = None
+                                    occupied_node_release_progress = None
+                                else:
+                                    occupied_node_release_progress = clearance_distance
+
+                        step_allowance = remaining_move
+                        if traffic is not None and active_step is not None:
+                            allowance = traffic.available_distance(
+                                self.id,
+                                active_step,
+                                step_progress,
+                                remaining_move,
+                            )
+                            step_allowance = allowance.allowed_distance_m
+                            if step_allowance <= 1e-9:
+                                blocked_reason = allowance.wait_reason
+                                break
+
+                        step_remaining = max(0.0, active_step.length - step_progress)
+                        travel = min(remaining_move, step_allowance, step_remaining)
+                        if travel <= 1e-9:
+                            break
+
+                        step_progress += travel
+                        horizontal_distance += travel
+                        remaining_move -= travel
+                        current_xy = self._route_position(active_step, step_progress)
+                        if traffic is not None:
+                            traffic.update_progress(self.id, active_step, step_progress)
+                            if (
+                                occupied_node_id is not None
+                                and occupied_node_release_progress is not None
+                                and step_progress >= occupied_node_release_progress - 1e-9
+                            ):
+                                traffic.leave_node(self.id, occupied_node_id)
+                                occupied_node_id = None
+                                occupied_node_release_progress = None
+
+                        if step_progress >= active_step.length - 1e-9:
+                            if traffic is not None:
+                                if occupied_node_id is not None:
+                                    traffic.leave_node(self.id, occupied_node_id)
+                                    occupied_node_id = None
+                                    occupied_node_release_progress = None
+                                blocked_reason = traffic.enter_node(self.id, active_step.end_node_id)
+                                if blocked_reason is not None:
+                                    backed_off_progress = max(0.0, active_step.length - 1e-6)
+                                    horizontal_distance -= max(0.0, step_progress - backed_off_progress)
+                                    step_progress = backed_off_progress
+                                    traffic.update_progress(self.id, active_step, step_progress)
+                                    current_xy = self._route_position(active_step, step_progress)
+                                    break
+                                traffic.leave_edge(self.id, active_step)
+                                occupied_node_id = active_step.end_node_id
+                                occupied_node_release_progress = None
+                            current_step_index += 1
+                            active_step = None
+                            step_progress = 0.0
+
+                            if current_step_index >= len(route.steps) and occupied_node_id is not None and traffic is not None:
+                                traffic.leave_node(self.id, occupied_node_id)
+                                occupied_node_id = None
+                                occupied_node_release_progress = None
+
+                    if blocked_reason is not None:
+                        self._start_traffic_wait(blocked_reason)
+                        current_speed = 0.0
+
+            if vertical_total_distance > 0:
+                delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
+                vertical_distance += delta_z
+                direction = 1.0 if height_change >= 0 else -1.0
+                current_z = start_pos.z + direction * vertical_distance
             else:
-                z = target.z
+                current_z = target.z
 
-            self.position = Position3D(xy_pos.x, xy_pos.y, z)
+            self.position = Position3D(current_xy.x, current_xy.y, current_z)
 
-        self.position = Position3D(target.x, target.y, target.z)
+        self._finish_traffic_wait()
+        if traffic is not None:
+            traffic.release_forklift(self.id)
         self._consume_battery(total_distance)
+        self.position = Position3D(target.x, target.y, target.z)
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 
@@ -481,9 +559,6 @@ class Forklift:
             yield self.env.timeout(0)
             return
 
-        if self.resume_delay_s > 0 and self.status == ForklifStatus.IDLE:
-            yield self.env.timeout(self.resume_delay_s)
-
         # Check if this is a pure vertical movement
         xy_distance = self.position.distance_xy(target)
         is_vertical_only = xy_distance < 0.01
@@ -495,7 +570,7 @@ class Forklift:
                 self.position) or self.router.nearest_path_id(target)
             route = self.router.route_between_nodes(
                 self.position, target, path_id)
-            yield from self._move_along_route(route.waypoints, update_interval)
+            yield from self._move_along_route(route, update_interval)
             return
 
         # Fallback: direct movement (also used for vertical-only movements)
@@ -607,6 +682,8 @@ class ForkliftFleet:
     _active_assignments: dict[str, object] = field(default_factory=dict)
     _busy_since_by_forklift: dict[str, float] = field(default_factory=dict)
     _completed_busy_time_s: float = 0.0
+    traffic_controller: Optional[PathTrafficController] = None
+    stats: Optional[object] = None
 
     def __init__(
         self,
@@ -615,6 +692,10 @@ class ForkliftFleet:
         name: str = "fleet",
         home_position: Optional[Position3D] = None,
         charging_station: Optional[ChargingStation] = None,
+        min_distance_to_obstacle_m: float = 1.0,
+        avoid_collisions: bool = False,
+        stats: Optional[object] = None,
+        traffic_debug_enabled: bool = False,
         **kwargs
     ):
         """Initialize ForkliftFleet."""
@@ -635,6 +716,12 @@ class ForkliftFleet:
         self.home_position: Optional[Position3D] = home_position
         self.charging_station: Optional[ChargingStation] = charging_station
         self.return_home_policy: str = "stay"
+        self.stats = stats
+        self.traffic_controller = PathTrafficController(
+            min_distance_to_obstacle_m=min_distance_to_obstacle_m,
+            avoid_collisions=avoid_collisions,
+            debug_enabled=traffic_debug_enabled,
+        )
 
     # __post_init__ is no longer needed since we use __init__ directly
 
@@ -663,6 +750,10 @@ class ForkliftFleet:
             forklift.home_position = self.home_position
         if forklift.charging_station is None:
             forklift.charging_station = self.charging_station
+        if forklift.traffic_controller is None:
+            forklift.traffic_controller = self.traffic_controller
+        if forklift.stats is None:
+            forklift.stats = self.stats
         # Preserve PriorityResource so request(priority=...) works.
         self._rebuild_resource()
 
@@ -718,6 +809,9 @@ class ForkliftFleet:
         if busy_started_at is not None:
             self._completed_busy_time_s += max(0.0, self.env.now - busy_started_at)
         forklift.is_reserved = False
+        if self.traffic_controller is not None:
+            self.traffic_controller.release_forklift(forklift.id)
+        forklift._finish_traffic_wait()
         if forklift.status != ForklifStatus.MAINTENANCE:
             forklift.status = ForklifStatus.IDLE
         self._available_forklifts.append(forklift)
@@ -796,7 +890,11 @@ def create_forklift_fleet(
     charge_when_below: float = 0.20,
     charge_until: float = 0.95,
     initial_battery_soc: float = 1.0,
-    name_prefix: str = "forklift"
+    name_prefix: str = "forklift",
+    min_distance_to_obstacle_m: float = 1.0,
+    avoid_collisions: bool = False,
+    stats: Optional[object] = None,
+    traffic_debug_enabled: bool = False,
 ) -> ForkliftFleet:
     """
     Factory function to create a fleet of identical forklifts.
@@ -823,6 +921,10 @@ def create_forklift_fleet(
         name=f"{name_prefix}_fleet",
         home_position=home_position,
         charging_station=charging_station,
+        min_distance_to_obstacle_m=min_distance_to_obstacle_m,
+        avoid_collisions=avoid_collisions,
+        stats=stats,
+        traffic_debug_enabled=traffic_debug_enabled,
     )
 
     for i in range(count):
@@ -833,6 +935,8 @@ def create_forklift_fleet(
             lift_profile=lift_profile,
             position=home_position,
             router=router,
+            traffic_controller=fleet.traffic_controller,
+            stats=stats,
             turn_radius=turn_radius,
             route_calc_delay_s=route_calc_delay_s,
             resume_delay_s=resume_delay_s,

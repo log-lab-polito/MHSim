@@ -78,6 +78,24 @@ def print_forklift_movement_benchmarks(stats: Any) -> None:
         )
 
 
+def print_traffic_wait_summary(stats: Any) -> None:
+    summaries_fn = getattr(stats, "traffic_wait_summaries", None)
+    if not callable(summaries_fn):
+        return
+
+    summaries = summaries_fn()
+    if not summaries:
+        return
+
+    print("\nTraffic waits:")
+    print(f"{'Reason':<22} {'Count':>7} {'Total (s)':>12} {'Avg (s)':>10}")
+    print("-" * 56)
+    for reason, summary in sorted(summaries.items()):
+        print(
+            f"{reason:<22} {summary.count:>7} {summary.total_s:>12.2f} {summary.average_s:>10.2f}"
+        )
+
+
 def write_forklift_movement_benchmark_csv(
     stats: Any,
     output_path: str | Path,
@@ -127,6 +145,7 @@ def run_model_and_print_summary(
             print(f"Forklifts utilization (%): {utilization:.6f}")
     if include_forklift_benchmarks:
         print_forklift_movement_benchmarks(stats)
+    print_traffic_wait_summary(stats)
     return stats, model
 
 

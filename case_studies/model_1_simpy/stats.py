@@ -3,6 +3,8 @@ from __future__ import annotations
 import statistics
 from dataclasses import dataclass, field
 
+from mhsim.stats import SimulationStats
+
 
 FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
     "store_seize_to_load_start_s": "Store: seize -> load start",
@@ -37,22 +39,12 @@ def _summarize_samples(samples: list[float]) -> DurationBenchmarkSummary | None:
 
 
 @dataclass
-class Model1Stats:
-    created: int = 0
-    completed: int = 0
-    time_in_system: list[float] = field(default_factory=list)
+class Model1Stats(SimulationStats):
     forklift_movement_samples: dict[str, list[float]] = field(
         default_factory=lambda: {
             metric_name: [] for metric_name in FORKLIFT_MOVEMENT_BENCHMARK_ORDER
         }
     )
-
-    def record_created(self, count: int = 1) -> None:
-        self.created += count
-
-    def record_completed(self, duration: float) -> None:
-        self.completed += 1
-        self.time_in_system.append(duration)
 
     def record_forklift_movement(self, metric_name: str, duration: float) -> None:
         self.forklift_movement_samples.setdefault(metric_name, []).append(duration)
@@ -77,9 +69,3 @@ class Model1Stats:
                 summaries[metric_name] = summary
 
         return summaries
-
-    @property
-    def avg_time_in_system(self) -> float:
-        if not self.time_in_system:
-            return 0.0
-        return sum(self.time_in_system) / len(self.time_in_system)

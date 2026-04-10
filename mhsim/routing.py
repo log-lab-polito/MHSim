@@ -1,20 +1,35 @@
-"""
-Routing module for forklift path planning and navigation.
-"""
+"""Routing module for forklift path planning and navigation."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import List, Optional, Tuple, Dict
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Tuple
+
 from .movement import Position3D
 from .spatial import Path, WarehouseLayout
+
+
+@dataclass(frozen=True)
+class RouteStep:
+    """A single traversable path segment in a route."""
+
+    start_node_id: str
+    end_node_id: str
+    edge_id: str
+    directed_edge_id: str
+    start: Position3D
+    end: Position3D
+    length: float
+    path_id: Optional[str] = None
 
 
 @dataclass
 class Route:
     """A complete route from start to destination."""
+
     waypoints: List[Position3D]
     total_distance: float
+    steps: List[RouteStep] = field(default_factory=list)
 
     def __iter__(self):
         """Iterate through waypoints."""
@@ -26,222 +41,290 @@ class Router:
 
     def __init__(self, layout: WarehouseLayout):
         self.layout = layout
-        # Build a graph from path waypoints for multi-path routing
-        self._nodes: List[Position3D] = []
-        self._adj: Dict[int, List[Tuple[int, float]]] = {}
+        self._node_positions: Dict[str, Position3D] = {}
+        self._adj: Dict[str, List[Tuple[str, float, Optional[str]]]] = {}
         self._build_graph()
 
     @staticmethod
     def _key(p: Position3D) -> Tuple[float, float]:
-        # Merge nearly-identical coordinates by rounding
+        # Merge nearly-identical coordinates by rounding.
         return (round(p.x, 3), round(p.y, 3))
 
-    def _index_for(self, p: Position3D) -> int:
-        key = self._key(p)
-        for i, n in enumerate(self._nodes):
-            if self._key(n) == key:
-                return i
-        # New node
-        self._nodes.append(Position3D(key[0], key[1], 0))
-        idx = len(self._nodes) - 1
-        self._adj[idx] = []
-        return idx
+    @classmethod
+    def _node_id(cls, p: Position3D) -> str:
+        x, y = cls._key(p)
+        return f"{x:.3f}:{y:.3f}"
 
-    def _add_edge(self, i: int, j: int, w: float, bidirectional: bool):
-        self._adj[i].append((j, w))
+    @staticmethod
+    def _edge_id(start_node_id: str, end_node_id: str) -> str:
+        first, second = sorted((start_node_id, end_node_id))
+        return f"{first}|{second}"
+
+    @staticmethod
+    def _directed_edge_id(start_node_id: str, end_node_id: str) -> str:
+        return f"{start_node_id}->{end_node_id}"
+
+    def _ensure_node(self, p: Position3D, nodes: Optional[Dict[str, Position3D]] = None) -> str:
+        node_positions = self._node_positions if nodes is None else nodes
+        node_id = self._node_id(p)
+        if node_id not in node_positions:
+            x, y = self._key(p)
+            node_positions[node_id] = Position3D(x, y, 0)
+        return node_id
+
+    def _add_edge(
+        self,
+        start_node_id: str,
+        end_node_id: str,
+        weight: float,
+        bidirectional: bool,
+        path_id: Optional[str],
+        adj: Optional[Dict[str, List[Tuple[str, float, Optional[str]]]]] = None,
+    ) -> None:
+        adjacency = self._adj if adj is None else adj
+        adjacency.setdefault(start_node_id, []).append((end_node_id, weight, path_id))
         if bidirectional:
-            self._adj[j].append((i, w))
+            adjacency.setdefault(end_node_id, []).append((start_node_id, weight, path_id))
 
-    def _build_graph(self):
-        self._nodes = []
+    def _build_graph(self) -> None:
+        self._node_positions = {}
         self._adj = {}
-        if not getattr(self.layout, 'paths', None):
+        if not getattr(self.layout, "paths", None):
             return
-        for path in self.layout.paths:
-            wps = path.waypoints
-            if len(wps) < 2:
-                continue
-            # Add nodes and edges for consecutive waypoints
-            idxs = [self._index_for(p) for p in wps]
-            for a, b in zip(idxs[:-1], idxs[1:]):
-                pa = self._nodes[a]
-                pb = self._nodes[b]
-                dist = pa.distance_xy(pb)
-                self._add_edge(a, b, dist, path.bidirectional)
 
-    def _find_node_index(self, p: Position3D) -> Optional[int]:
-        key = self._key(p)
-        for i, n in enumerate(self._nodes):
-            if self._key(n) == key:
-                return i
-        return None
+        for path in self.layout.paths:
+            waypoints = path.waypoints
+            if len(waypoints) < 2:
+                continue
+            node_ids = [self._ensure_node(point) for point in waypoints]
+            for start_node_id, end_node_id in zip(node_ids[:-1], node_ids[1:]):
+                start = self._node_positions[start_node_id]
+                end = self._node_positions[end_node_id]
+                distance = start.distance_xy(end)
+                self._add_edge(
+                    start_node_id,
+                    end_node_id,
+                    distance,
+                    path.bidirectional,
+                    path.id,
+                )
 
     def _project_onto_paths(
         self,
         position: Position3D,
         preferred_path: Optional[Path] = None,
-    ) -> Optional[Tuple[Position3D, Position3D, Position3D]]:
+    ) -> Optional[Tuple[Position3D, Position3D, Position3D, Optional[str]]]:
         """Project a point onto the nearest path segment."""
-        def project_point(p: Position3D, a: Position3D, b: Position3D) -> Position3D:
+
+        def project_point(point: Position3D, a: Position3D, b: Position3D) -> Position3D:
             abx = b.x - a.x
             aby = b.y - a.y
             denom = abx * abx + aby * aby
             if denom <= 1e-12:
                 return a
-            t = ((p.x - a.x) * abx + (p.y - a.y) * aby) / denom
+            t = ((point.x - a.x) * abx + (point.y - a.y) * aby) / denom
             t = max(0.0, min(1.0, t))
             return Position3D(a.x + abx * t, a.y + aby * t, 0)
 
         best = None
         best_dist = float("inf")
-        paths = (
-            [preferred_path] if preferred_path is not None else getattr(self.layout, "paths", [])
-        )
+        paths = [preferred_path] if preferred_path is not None else getattr(self.layout, "paths", [])
         for path in paths:
-            wps = path.waypoints
-            if len(wps) < 2:
+            if path is None:
                 continue
-            for a, b in zip(wps[:-1], wps[1:]):
-                proj = project_point(position, a, b)
-                d = position.distance_xy(proj)
-                if d < best_dist:
-                    best_dist = d
-                    best = (proj, a, b)
+            waypoints = path.waypoints
+            if len(waypoints) < 2:
+                continue
+            for a, b in zip(waypoints[:-1], waypoints[1:]):
+                projection = project_point(position, a, b)
+                distance = position.distance_xy(projection)
+                if distance < best_dist:
+                    best_dist = distance
+                    best = (projection, a, b, path.id)
         return best
+
+    def _clone_graph(
+        self,
+    ) -> tuple[Dict[str, Position3D], Dict[str, List[Tuple[str, float, Optional[str]]]]]:
+        nodes = dict(self._node_positions)
+        adj = {node_id: list(edges) for node_id, edges in self._adj.items()}
+        return nodes, adj
 
     def route_between_nodes(
         self,
         start: Position3D,
         end: Position3D,
-        preferred_path_id: Optional[str] = None
+        preferred_path_id: Optional[str] = None,
     ) -> Route:
         """
         Create a route strictly along predefined paths using shortest-path over
         the path graph. Start/end are projected to nearest graph nodes.
         Falls back to direct route if no graph is available.
         """
-        # Ensure graph reflects latest layout
-        if not self._nodes or not self._adj:
+        if not self._node_positions or not self._adj:
             self._build_graph()
 
-        if not self._nodes:
-            # No paths defined
-            return Route(waypoints=[start, end], total_distance=start.distance_xy(end))
+        if not self._node_positions:
+            return Route(
+                waypoints=[start, end],
+                total_distance=start.distance_xy(end),
+                steps=[],
+            )
 
         bias_path = self.layout.get_path(preferred_path_id) if preferred_path_id else None
-        proj_start = self._project_onto_paths(start, bias_path)
-        proj_end = self._project_onto_paths(end, None)
-        if proj_start is None or proj_end is None:
-            return Route(waypoints=[start, end], total_distance=start.distance_xy(end))
+        projected_start = self._project_onto_paths(start, bias_path)
+        projected_end = self._project_onto_paths(end, None)
+        if projected_start is None or projected_end is None:
+            return Route(
+                waypoints=[start, end],
+                total_distance=start.distance_xy(end),
+                steps=[],
+            )
 
-        proj_s, seg_s_a, seg_s_b = proj_start
-        proj_e, seg_e_a, seg_e_b = proj_end
+        start_projection, start_a, start_b, start_path_id = projected_start
+        end_projection, end_a, end_b, end_path_id = projected_end
 
-        # Clone graph for projection nodes
-        nodes = list(self._nodes)
-        adj: Dict[int, List[Tuple[int, float]]] = {i: list(v) for i, v in self._adj.items()}
+        nodes, adj = self._clone_graph()
 
-        def ensure_node(p: Position3D) -> int:
-            key = self._key(p)
-            for i, n in enumerate(nodes):
-                if self._key(n) == key:
-                    return i
-            idx = len(nodes)
-            nodes.append(Position3D(key[0], key[1], 0))
-            adj[idx] = []
-            return idx
+        def ensure_node(point: Position3D) -> str:
+            return self._ensure_node(point, nodes)
 
-        def add_projection(proj: Position3D, a: Position3D, b: Position3D) -> int:
-            idx_proj = ensure_node(proj)
-            idx_a = ensure_node(a)
-            idx_b = ensure_node(b)
-            dist_a = proj.distance_xy(a)
-            dist_b = proj.distance_xy(b)
-            if idx_proj != idx_a:
-                adj[idx_proj].append((idx_a, dist_a))
-                adj[idx_a].append((idx_proj, dist_a))
-            if idx_proj != idx_b:
-                adj[idx_proj].append((idx_b, dist_b))
-                adj[idx_b].append((idx_proj, dist_b))
-            return idx_proj
+        def add_projection(
+            projection: Position3D,
+            a: Position3D,
+            b: Position3D,
+            path_id: Optional[str],
+        ) -> str:
+            projection_node_id = ensure_node(projection)
+            a_node_id = ensure_node(a)
+            b_node_id = ensure_node(b)
 
-        i_start = add_projection(proj_s, seg_s_a, seg_s_b)
-        i_end = add_projection(proj_e, seg_e_a, seg_e_b)
+            dist_to_a = projection.distance_xy(nodes[a_node_id])
+            dist_to_b = projection.distance_xy(nodes[b_node_id])
+            if projection_node_id != a_node_id:
+                self._add_edge(
+                    projection_node_id,
+                    a_node_id,
+                    dist_to_a,
+                    True,
+                    path_id,
+                    adj=adj,
+                )
+            if projection_node_id != b_node_id:
+                self._add_edge(
+                    projection_node_id,
+                    b_node_id,
+                    dist_to_b,
+                    True,
+                    path_id,
+                    adj=adj,
+                )
+            return projection_node_id
 
-        # Dijkstra for shortest path
+        start_node_id = add_projection(start_projection, start_a, start_b, start_path_id)
+        end_node_id = add_projection(end_projection, end_a, end_b, end_path_id)
+
         import heapq
-        N = len(nodes)
-        dist = [float('inf')] * N
-        prev = [-1] * N
-        dist[i_start] = 0.0
-        pq = [(0.0, i_start)]
-        visited = [False] * N
+
+        distances = {node_id: float("inf") for node_id in nodes}
+        previous: Dict[str, Optional[str]] = {node_id: None for node_id in nodes}
+        distances[start_node_id] = 0.0
+        pq: list[tuple[float, str]] = [(0.0, start_node_id)]
+        visited: set[str] = set()
+
         while pq:
-            d, u = heapq.heappop(pq)
-            if visited[u]:
+            distance, node_id = heapq.heappop(pq)
+            if node_id in visited:
                 continue
-            visited[u] = True
-            if u == i_end:
+            visited.add(node_id)
+            if node_id == end_node_id:
                 break
-            for v, w in adj.get(u, []):
-                nd = d + w
-                if nd < dist[v]:
-                    dist[v] = nd
-                    prev[v] = u
-                    heapq.heappush(pq, (nd, v))
+            for neighbor_id, weight, _path_id in adj.get(node_id, []):
+                next_distance = distance + weight
+                if next_distance < distances[neighbor_id]:
+                    distances[neighbor_id] = next_distance
+                    previous[neighbor_id] = node_id
+                    heapq.heappush(pq, (next_distance, neighbor_id))
 
-        # Reconstruct
-        if dist[i_end] == float('inf'):
-            # Unreachable, fallback to direct
-            return Route(waypoints=[start, end], total_distance=start.distance_xy(end))
+        if distances[end_node_id] == float("inf"):
+            return Route(
+                waypoints=[start, end],
+                total_distance=start.distance_xy(end),
+                steps=[],
+            )
 
-        path_idxs = []
-        u = i_end
-        while u != -1:
-            path_idxs.append(u)
-            u = prev[u]
-        path_idxs.reverse()
+        node_path: list[str] = []
+        cursor: Optional[str] = end_node_id
+        while cursor is not None:
+            node_path.append(cursor)
+            cursor = previous[cursor]
+        node_path.reverse()
 
-        waypoints = [start] + [nodes[i] for i in path_idxs] + [end]
-        # Remove duplicates and compress identical consecutive points
-        unique = []
-        for wp in waypoints:
-            if not unique or wp.distance_xy(unique[-1]) > 1e-6:
-                unique.append(wp)
+        full_node_path = list(node_path)
+        actual_start_node_id = ensure_node(start)
+        actual_end_node_id = ensure_node(end)
+        if nodes[actual_start_node_id].distance_xy(nodes[start_node_id]) > 1e-6:
+            full_node_path = [actual_start_node_id] + full_node_path
+        if nodes[actual_end_node_id].distance_xy(nodes[end_node_id]) > 1e-6:
+            full_node_path = full_node_path + [actual_end_node_id]
 
-        total_dist = 0.0
-        for i in range(len(unique) - 1):
-            total_dist += unique[i].distance_xy(unique[i + 1])
+        unique_waypoints: list[Position3D] = []
+        for waypoint in [nodes[node_id] for node_id in full_node_path]:
+            if not unique_waypoints or waypoint.distance_xy(unique_waypoints[-1]) > 1e-6:
+                unique_waypoints.append(waypoint)
 
-        return Route(waypoints=unique, total_distance=total_dist)
+        steps: list[RouteStep] = []
+        total_distance = 0.0
+        for step_start_id, step_end_id in zip(full_node_path[:-1], full_node_path[1:]):
+            step_start = nodes[step_start_id]
+            step_end = nodes[step_end_id]
+            length = step_start.distance_xy(step_end)
+            if length <= 1e-9:
+                continue
+
+            path_id = None
+            for neighbor_id, _weight, candidate_path_id in adj.get(step_start_id, []):
+                if neighbor_id == step_end_id:
+                    path_id = candidate_path_id
+                    break
+
+            steps.append(
+                RouteStep(
+                    start_node_id=step_start_id,
+                    end_node_id=step_end_id,
+                    edge_id=self._edge_id(step_start_id, step_end_id),
+                    directed_edge_id=self._directed_edge_id(step_start_id, step_end_id),
+                    start=step_start,
+                    end=step_end,
+                    length=length,
+                    path_id=path_id,
+                )
+            )
+            total_distance += length
+
+        return Route(waypoints=unique_waypoints, total_distance=total_distance, steps=steps)
 
     def distance_between(
         self,
         start: Position3D,
         end: Position3D,
-        preferred_path_id: Optional[str] = None
+        preferred_path_id: Optional[str] = None,
     ) -> float:
         """Get distance between two positions."""
         route = self.route_between_nodes(start, end, preferred_path_id)
         return route.total_distance
 
     def nearest_path_id(self, position: Position3D) -> Optional[str]:
-        """Return the ID of the nearest path to a given position.
-
-        Uses simple minimum distance to any waypoint on each path as a proxy
-        for proximity. If no paths exist, returns None.
-        """
-        if not getattr(self.layout, 'paths', None):
+        """Return the ID of the nearest path to a given position."""
+        if not getattr(self.layout, "paths", None):
             return None
 
         best_id = None
-        best_dist = float('inf')
-
+        best_dist = float("inf")
         for path in self.layout.paths:
-            for wp in path.waypoints:
-                d = position.distance_xy(wp)
-                if d < best_dist:
-                    best_dist = d
+            for waypoint in path.waypoints:
+                distance = position.distance_xy(waypoint)
+                if distance < best_dist:
+                    best_dist = distance
                     best_id = path.id
-
         return best_id

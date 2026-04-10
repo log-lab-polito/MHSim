@@ -34,7 +34,7 @@ class Model1SimModel:
             )
 
         self.layout, self.router, self.fleet = create_warehouse_with_standard_config(
-            self.env, self.params
+            self.env, self.params, stats=self.stats
         )
 
         self.storage = simpy.Container(
