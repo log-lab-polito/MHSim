@@ -50,9 +50,9 @@ ANYLOGIC_SUMMARY_KEY_MAP = {
 ANYLOGIC_BENCHMARK_KEY_MAP = {
     "Seize to Loading time (s)": "store_seize_to_load_start_s",
     "Loading time (s)": "store_load_duration_s",
-    "Loading to Release time (s)": "store_load_finish_to_release_s",
-    "Seize to Unloading time (s)": "retrieve_seize_to_unload_start_s",
-    "Unloading time (s)": "retrieve_unload_duration_s",
+    "Loading to Release time (s)": "store_unload_finish_to_release_s",
+    "Seize to Unloading time (s)": "retrieve_seize_to_load_start_s",
+    "Unloading time (s)": "retrieve_load_duration_s",
     "Unloading to release time (s)": "retrieve_unload_finish_to_release_s",
 }
 
@@ -71,9 +71,9 @@ OPTIONAL_SUMMARY_METRICS = [
 BENCHMARK_METRICS = [
     ("store_seize_to_load_start_s", "Seize to Loading time (s)"),
     ("store_load_duration_s", "Loading time (s)"),
-    ("store_load_finish_to_release_s", "Loading to Release time (s)"),
-    ("retrieve_seize_to_unload_start_s", "Seize to Unloading time (s)"),
-    ("retrieve_unload_duration_s", "Unloading time (s)"),
+    ("store_unload_finish_to_release_s", "Loading to Release time (s)"),
+    ("retrieve_seize_to_load_start_s", "Seize to Unloading time (s)"),
+    ("retrieve_load_duration_s", "Unloading time (s)"),
     ("retrieve_unload_finish_to_release_s", "Unloading to release time (s)"),
 ]
 

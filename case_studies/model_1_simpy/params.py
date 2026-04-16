@@ -12,15 +12,13 @@ class Model1Params(SimulationParams):
     log_filename_prefix: str = "simpy_model1"
 
     # Source
-    arrival_rate_per_min: float = 1 / 0.8
+    arrival_rate_per_min: float = 0.5
 
     # Process times
     service1_time_s: float = 30.0  # Upstream service
     service2_time_s: float = 30.0  # Downstream service
     delay_time_s: float = 3 * 60.0  # Delay block
     loading_time_s: float = 1.0  # Store: load pallet onto forklift
-    storing_time_s: float = 0.0  # Store: put-away handling time in storage cell
-    retrieving_time_s: float = 8.0  # Retrieve: in-slot extraction time (cell -> aisle)
     unloading_time_s: float = 1.0  # Retrieve: unload pallet at destination
 
     # Storage / transport
@@ -39,10 +37,10 @@ class Model1Params(SimulationParams):
     forklift_acceleration: float = 1.0  # m/s^2
     forklift_deceleration: float = 1.0  # m/s^2
 
-    # Vertical movement (lift/lower)
+    # Vertical movement (lift/lower). Horizontal motion stays on designed paths.
     forklift_elevation_speed: float = 0.2  # m/s - used by STORE
     forklift_lowering_speed: float = 0.2  # m/s - used by RETRIEVE
-    forklift_turn_radius: float = 1.0  # m - rounded corner radius
+    forklift_turn_radius: float = 1.0  # m - rounded corner radius on path-guided routes
     forklift_route_calc_delay_s: float = 0.0  # s - delay for route calculation
     forklift_resume_delay_s: float = 0.0  # s - delay to resume movement
     forklift_min_distance_to_obstacle_m: float = 1.0  # m - AnyLogic default

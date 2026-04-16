@@ -191,7 +191,7 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[60]]></Code>
+							<Code><![CDATA[48]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1764170457863</Id>
@@ -215,7 +215,7 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[300]]></Code>
+							<Code><![CDATA[180]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1773928374589</Id>
@@ -239,7 +239,7 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[3]]></Code>
+							<Code><![CDATA[2]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1773928381043</Id>
@@ -4349,7 +4349,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Parameter>
 					<ParameterName><![CDATA[arrival_rate_s]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[48]]></Code>
+						<Code><![CDATA[120]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -4361,7 +4361,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Parameter>
 					<ParameterName><![CDATA[forklift_capacity]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[2]]></Code>
+						<Code><![CDATA[1]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -4450,7 +4450,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 					<Code><![CDATA[2]]></Code>
 				</Expression>
 				<From Class="CodeValue">
-					<Code><![CDATA[2]]></Code>
+					<Code><![CDATA[1]]></Code>
 				</From>
 				<To Class="CodeValue">
 					<Code><![CDATA[4]]></Code>

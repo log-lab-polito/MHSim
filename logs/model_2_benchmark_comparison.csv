@@ -1,31 +1,32 @@
 iteration,arrival_rate_s,forklift_capacity,delay_time_s,section,metric_key,metric,stat,anylogic_value,simpy_value,simpy_count,diff,diff_pct,status
-0,48.0,2,180.0,summary,created,Created,value,376,375,,-1.0,-0.26595744680851063,CLOSE
-0,48.0,2,180.0,summary,completed,Completed,value,338,368,,30.0,8.875739644970414,DIFF
-0,48.0,2,180.0,summary,in_flight,In flight,value,38,7,,-31.0,-81.57894736842105,DIFF
-0,48.0,2,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,1578.41703987675,361.0999662162471,,-1217.317073660503,-77.12265154940019,DIFF
-0,48.0,2,180.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
-0,48.0,2,180.0,summary,throughput_per_hour,Throughput (/h),value,67.6,73.60000000000001,,6.000000000000014,8.875739644970436,DIFF
-0,48.0,2,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),avg,31.74433882102226,34.40388538486744,374,2.6595465638451827,8.37801845185679,DIFF
-0,48.0,2,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),min,18.071368909961166,26.312388980481046,374,8.24102007051988,45.60263315734387,DIFF
-0,48.0,2,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),max,46.749967882851706,35.88318530730976,374,-10.866782575541947,-23.244470675942384,DIFF
-0,48.0,2,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),std dev (pop),8.575114370744897,3.3534176270972456,374,-5.221696743647652,-60.89361048596786,DIFF
-0,48.0,2,180.0,benchmark,store_load_duration_s,Loading time (s),avg,1.0,1.0,374,0.0,0.0,MATCH
-0,48.0,2,180.0,benchmark,store_load_duration_s,Loading time (s),min,1.0,1.0,374,0.0,0.0,MATCH
-0,48.0,2,180.0,benchmark,store_load_duration_s,Loading time (s),max,1.0,1.0,374,0.0,0.0,MATCH
-0,48.0,2,180.0,benchmark,store_load_duration_s,Loading time (s),std dev (pop),0.0,0.0,374,0.0,,MATCH
-0,48.0,2,180.0,benchmark,store_load_finish_to_release_s,Loading to Release time (s),avg,31.95196173085131,27.050038783728773,373,-4.901922947122536,-15.34153986667263,DIFF
-0,48.0,2,180.0,benchmark,store_load_finish_to_release_s,Loading to Release time (s),min,18.605082887419485,26.312388980000833,373,7.707306092581348,41.425808953492634,DIFF
-0,48.0,2,180.0,benchmark,store_load_finish_to_release_s,Loading to Release time (s),max,57.11302375165906,45.42477796077782,373,-11.68824579088124,-20.465114650039364,DIFF
-0,48.0,2,180.0,benchmark,store_load_finish_to_release_s,Loading to Release time (s),std dev (pop),7.34130403464178,2.9812415451473413,373,-4.360062489494439,-59.39084485427103,DIFF
-0,48.0,2,180.0,benchmark,retrieve_seize_to_unload_start_s,Seize to Unloading time (s),avg,36.01569568450866,29.626371513766344,369,-6.389324170742313,-17.740388042790293,DIFF
-0,48.0,2,180.0,benchmark,retrieve_seize_to_unload_start_s,Seize to Unloading time (s),min,16.098138391000248,26.219879091804614,369,10.121740700804366,62.87522479284301,DIFF
-0,48.0,2,180.0,benchmark,retrieve_seize_to_unload_start_s,Seize to Unloading time (s),max,66.36880179535547,43.39349133419273,369,-22.975310461162735,-34.61763635873047,DIFF
-0,48.0,2,180.0,benchmark,retrieve_seize_to_unload_start_s,Seize to Unloading time (s),std dev (pop),10.685388181274195,5.142100541197336,369,-5.543287640076859,-51.877269651198034,DIFF
-0,48.0,2,180.0,benchmark,retrieve_unload_duration_s,Unloading time (s),avg,1.0,1.0,369,0.0,0.0,MATCH
-0,48.0,2,180.0,benchmark,retrieve_unload_duration_s,Unloading time (s),min,1.0,1.0,369,0.0,0.0,MATCH
-0,48.0,2,180.0,benchmark,retrieve_unload_duration_s,Unloading time (s),max,1.0,1.0,369,0.0,0.0,MATCH
-0,48.0,2,180.0,benchmark,retrieve_unload_duration_s,Unloading time (s),std dev (pop),0.0,0.0,369,0.0,,MATCH
-0,48.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),avg,0.0,3.065927946555731,369,3.065927946555731,,DIFF
-0,48.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),min,0.0,0.0,369,0.0,,MATCH
-0,48.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),max,0.0,28.28318530728211,369,28.28318530728211,,DIFF
-0,48.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),std dev (pop),0.0,8.792854717144063,369,8.792854717144063,,DIFF
+0,120.0,1,180.0,summary,created,Created,value,151,150,,-1.0,-0.6622516556291391,CLOSE
+0,120.0,1,180.0,summary,completed,Completed,value,147,147,,0.0,0.0,MATCH
+0,120.0,1,180.0,summary,in_flight,In flight,value,4,3,,-1.0,-25.0,DIFF
+0,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,354.1183349800862,401.35782312953677,,47.23948814945055,13.340028878229946,DIFF
+0,120.0,1,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+0,120.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.4,,0.0,0.0,MATCH
+0,120.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9178477851355441,0.9797194444439905,,0.0618716593084464,6.7409498950100355,DIFF
+0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),avg,32.43681667766286,32.28600000003484,150,-0.15081667762802198,-0.4649552362882751,CLOSE
+0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),min,28.06846530337043,28.999999999577994,150,0.9315346962075637,3.318794548042874,DIFF
+0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),max,36.92323160263186,38.300000000139335,150,1.376768397507476,3.7287321227033146,DIFF
+0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Seize to Loading time (s),std dev (pop),4.426989586958809,4.445447559021518,150,0.018457972062708272,0.41694184501997594,CLOSE
+0,120.0,1,180.0,benchmark,store_load_duration_s,Loading time (s),avg,1.0,1.0,150,0.0,0.0,MATCH
+0,120.0,1,180.0,benchmark,store_load_duration_s,Loading time (s),min,1.0,1.0,150,0.0,0.0,MATCH
+0,120.0,1,180.0,benchmark,store_load_duration_s,Loading time (s),max,1.0,1.0,150,0.0,0.0,MATCH
+0,120.0,1,180.0,benchmark,store_load_duration_s,Loading time (s),std dev (pop),0.0,0.0,150,0.0,,MATCH
+0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Loading to Release time (s),avg,26.469874519153546,36.223666666643986,150,9.75379214749044,36.848652759697124,DIFF
+0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Loading to Release time (s),min,23.10225456635999,28.199999999589636,150,5.0977454332296475,22.066008400118033,DIFF
+0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Loading to Release time (s),max,28.171754470695305,49.55000000018026,150,21.378245529484957,75.88538921749776,DIFF
+0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Loading to Release time (s),std dev (pop),2.357933795654357,9.954651670829122,150,7.596717875174765,322.1768944138899,DIFF
+0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Seize to Unloading time (s),avg,27.613831326570306,28.15442176873747,147,0.540590442167165,1.957679960357415,DIFF
+0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Seize to Unloading time (s),min,15.13879652659034,19.899999999710417,147,4.7612034731200765,31.45034326049183,DIFF
+0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Seize to Unloading time (s),max,40.15643369411919,37.70000000013715,147,-2.456433693982035,-6.117160982703934,DIFF
+0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Seize to Unloading time (s),std dev (pop),8.520377664503897,7.102957430363474,147,-1.4174202341404234,-16.635650319180463,DIFF
+0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Unloading time (s),avg,1.0,1.0,147,0.0,0.0,MATCH
+0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Unloading time (s),min,1.0,1.0,147,0.0,0.0,MATCH
+0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Unloading time (s),max,1.0,1.0,147,0.0,0.0,MATCH
+0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Unloading time (s),std dev (pop),0.0,0.0,147,0.0,,MATCH
+0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),avg,0.0,19.759183673335194,147,19.759183673335194,,DIFF
+0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),min,0.0,0.0,147,0.0,,MATCH
+0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),max,0.0,30.900000000112414,147,30.900000000112414,,DIFF
+0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Unloading to release time (s),std dev (pop),0.0,14.836894421182448,147,14.836894421182448,,DIFF

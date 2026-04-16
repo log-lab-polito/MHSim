@@ -14,7 +14,7 @@ from typing import Optional, Generator, Callable
 from enum import Enum
 
 from .movement import Position3D, MovementProfile
-from .routing import Route, RouteStep, Router
+from .routing import Route, RouteMotionSegment, RouteStep, Router
 from .pallet import Pallet
 from .traffic import PathTrafficController
 
@@ -256,16 +256,22 @@ class Forklift:
         if self._finish_traffic_wait() and self.resume_delay_s > 0:
             yield self.env.timeout(self.resume_delay_s)
 
-    def _route_position(self, step: RouteStep, progress_m: float) -> Position3D:
-        """Interpolate a position along a route step."""
-        if step.length <= 1e-9:
-            return step.end
-        fraction = max(0.0, min(1.0, progress_m / step.length))
-        return Position3D(
-            step.start.x + (step.end.x - step.start.x) * fraction,
-            step.start.y + (step.end.y - step.start.y) * fraction,
-            0,
-        )
+    @staticmethod
+    def _route_position(step: RouteStep, progress_m: float) -> Position3D:
+        """Interpolate a position along a routed path step."""
+        return Router.position_along_step(step, progress_m)
+
+    @staticmethod
+    def _motion_segment_position(
+        segment: RouteMotionSegment,
+        progress_m: float,
+    ) -> Position3D:
+        """Interpolate a position along a routed motion segment."""
+        return segment.position_at(progress_m)
+
+    def _has_path_network(self) -> bool:
+        """Whether horizontal travel is constrained to designed paths."""
+        return bool(self.router and getattr(self.router.layout, "paths", None))
 
     def _compute_horizontal_motion(
         self,
@@ -318,6 +324,21 @@ class Forklift:
             yield from self._move_direct_to(route.waypoints[-1], update_interval=update_interval)
             return
 
+        motion_segments = list(route.motion_segments)
+        if not motion_segments:
+            for step_index, step in enumerate(route.steps):
+                motion_segments.append(
+                    RouteMotionSegment(
+                        kind="straight",
+                        start=step.start,
+                        end=step.end,
+                        length=step.length,
+                        step_index=step_index,
+                        start_progress_m=0.0,
+                        end_progress_m=step.length,
+                    )
+                )
+
         self.status = ForklifStatus.MOVING
         start_pos = self.position
         target = route.waypoints[-1]
@@ -345,10 +366,11 @@ class Forklift:
 
         traffic = self.traffic_controller
         current_speed = 0.0
-        current_step_index = 0
-        active_step: Optional[RouteStep] = None
-        step_progress = 0.0
+        current_segment_index = 0
+        active_segment: Optional[RouteMotionSegment] = None
+        segment_progress = 0.0
         occupied_node_id: Optional[str] = None
+        occupied_node_release_step_index: Optional[int] = None
         occupied_node_release_progress: Optional[float] = None
         horizontal_distance = 0.0
         vertical_distance = 0.0
@@ -358,39 +380,50 @@ class Forklift:
         while horizontal_distance < total_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
             dt = max(update_interval, 1e-3)
 
-            if active_step is None and current_step_index < len(route.steps):
-                next_step = route.steps[current_step_index]
-                following_step = (
-                    route.steps[current_step_index + 1]
-                    if current_step_index + 1 < len(route.steps)
-                    else None
-                )
+            if active_segment is None and current_segment_index < len(motion_segments):
+                next_segment = motion_segments[current_segment_index]
                 wait_reason = None
-                if traffic is not None:
-                    wait_reason = traffic.try_enter_edge(self.id, next_step, following_step)
+                if next_segment.kind == "straight" and next_segment.step_index is not None:
+                    next_step = route.steps[next_segment.step_index]
+                    following_step = (
+                        route.steps[next_segment.step_index + 1]
+                        if next_segment.step_index + 1 < len(route.steps)
+                        else None
+                    )
+                    if traffic is not None:
+                        wait_reason = traffic.try_enter_edge(self.id, next_step, following_step)
                 if wait_reason is not None:
                     if occupied_node_id is not None and traffic is not None:
                         traffic.leave_node(self.id, occupied_node_id)
                         occupied_node_id = None
+                        occupied_node_release_step_index = None
                         occupied_node_release_progress = None
                     self._start_traffic_wait(wait_reason)
                     current_speed = 0.0
                     yield self.env.timeout(dt)
                 else:
                     yield from self._resume_after_traffic_wait()
-                    active_step = next_step
-                    step_progress = 0.0
-                    if occupied_node_id is not None and traffic is not None:
+                    active_segment = next_segment
+                    segment_progress = 0.0
+                    if (
+                        occupied_node_id is not None
+                        and traffic is not None
+                        and next_segment.kind == "straight"
+                    ):
                         clearance_distance = min(
-                            next_step.length,
+                            next_segment.length,
                             max(0.0, traffic.min_distance_to_obstacle_m),
                         )
                         if clearance_distance <= 1e-9:
                             traffic.leave_node(self.id, occupied_node_id)
                             occupied_node_id = None
+                            occupied_node_release_step_index = None
                             occupied_node_release_progress = None
                         else:
-                            occupied_node_release_progress = clearance_distance
+                            occupied_node_release_step_index = next_segment.step_index
+                            occupied_node_release_progress = (
+                                next_segment.start_progress_m + clearance_distance
+                            )
                 if vertical_total_distance > 0:
                     delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
                     vertical_distance += delta_z
@@ -407,12 +440,22 @@ class Forklift:
             else:
                 available_distance = route_remaining
                 wait_reason = None
-                if traffic is not None and active_step is not None:
+                if (
+                    traffic is not None
+                    and active_segment is not None
+                    and active_segment.kind == "straight"
+                    and active_segment.step_index is not None
+                ):
+                    active_step = route.steps[active_segment.step_index]
+                    requested_distance = min(
+                        route_remaining,
+                        max(0.0, active_segment.length - segment_progress),
+                    )
                     allowance = traffic.available_distance(
                         self.id,
                         active_step,
-                        step_progress,
-                        route_remaining,
+                        active_segment.start_progress_m + segment_progress,
+                        requested_distance,
                     )
                     available_distance = allowance.allowed_distance_m
                     wait_reason = allowance.wait_reason
@@ -436,39 +479,64 @@ class Forklift:
                     blocked_reason: Optional[str] = None
 
                     while remaining_move > 1e-9 and horizontal_distance < total_distance - 1e-9:
-                        if active_step is None:
-                            if current_step_index >= len(route.steps):
+                        if active_segment is None:
+                            if current_segment_index >= len(motion_segments):
                                 break
-                            next_step = route.steps[current_step_index]
-                            following_step = (
-                                route.steps[current_step_index + 1]
-                                if current_step_index + 1 < len(route.steps)
-                                else None
-                            )
-                            if traffic is not None:
-                                blocked_reason = traffic.try_enter_edge(self.id, next_step, following_step)
-                                if blocked_reason is not None:
-                                    break
-                            active_step = next_step
-                            step_progress = 0.0
-                            if occupied_node_id is not None and traffic is not None:
+                            next_segment = motion_segments[current_segment_index]
+                            if next_segment.kind == "straight" and next_segment.step_index is not None:
+                                next_step = route.steps[next_segment.step_index]
+                                following_step = (
+                                    route.steps[next_segment.step_index + 1]
+                                    if next_segment.step_index + 1 < len(route.steps)
+                                    else None
+                                )
+                                if traffic is not None:
+                                    blocked_reason = traffic.try_enter_edge(
+                                        self.id,
+                                        next_step,
+                                        following_step,
+                                    )
+                                    if blocked_reason is not None:
+                                        if occupied_node_id is not None:
+                                            traffic.leave_node(self.id, occupied_node_id)
+                                            occupied_node_id = None
+                                            occupied_node_release_step_index = None
+                                            occupied_node_release_progress = None
+                                        break
+                            active_segment = next_segment
+                            segment_progress = 0.0
+                            if (
+                                occupied_node_id is not None
+                                and traffic is not None
+                                and next_segment.kind == "straight"
+                            ):
                                 clearance_distance = min(
-                                    next_step.length,
+                                    next_segment.length,
                                     max(0.0, traffic.min_distance_to_obstacle_m),
                                 )
                                 if clearance_distance <= 1e-9:
                                     traffic.leave_node(self.id, occupied_node_id)
                                     occupied_node_id = None
+                                    occupied_node_release_step_index = None
                                     occupied_node_release_progress = None
                                 else:
-                                    occupied_node_release_progress = clearance_distance
+                                    occupied_node_release_step_index = next_segment.step_index
+                                    occupied_node_release_progress = (
+                                        next_segment.start_progress_m + clearance_distance
+                                    )
 
                         step_allowance = remaining_move
-                        if traffic is not None and active_step is not None:
+                        if (
+                            traffic is not None
+                            and active_segment is not None
+                            and active_segment.kind == "straight"
+                            and active_segment.step_index is not None
+                        ):
+                            active_step = route.steps[active_segment.step_index]
                             allowance = traffic.available_distance(
                                 self.id,
                                 active_step,
-                                step_progress,
+                                active_segment.start_progress_m + segment_progress,
                                 remaining_move,
                             )
                             step_allowance = allowance.allowed_distance_m
@@ -476,51 +544,82 @@ class Forklift:
                                 blocked_reason = allowance.wait_reason
                                 break
 
-                        step_remaining = max(0.0, active_step.length - step_progress)
+                        if active_segment is None:
+                            break
+                        step_remaining = max(0.0, active_segment.length - segment_progress)
                         travel = min(remaining_move, step_allowance, step_remaining)
                         if travel <= 1e-9:
                             break
 
-                        step_progress += travel
+                        segment_progress += travel
                         horizontal_distance += travel
                         remaining_move -= travel
-                        current_xy = self._route_position(active_step, step_progress)
-                        if traffic is not None:
-                            traffic.update_progress(self.id, active_step, step_progress)
+                        current_xy = self._motion_segment_position(active_segment, segment_progress)
+                        if (
+                            traffic is not None
+                            and active_segment.kind == "straight"
+                            and active_segment.step_index is not None
+                        ):
+                            active_step = route.steps[active_segment.step_index]
+                            raw_progress = active_segment.start_progress_m + segment_progress
+                            traffic.update_progress(self.id, active_step, raw_progress)
                             if (
                                 occupied_node_id is not None
+                                and occupied_node_release_step_index == active_segment.step_index
                                 and occupied_node_release_progress is not None
-                                and step_progress >= occupied_node_release_progress - 1e-9
+                                and raw_progress >= occupied_node_release_progress - 1e-9
                             ):
                                 traffic.leave_node(self.id, occupied_node_id)
                                 occupied_node_id = None
+                                occupied_node_release_step_index = None
                                 occupied_node_release_progress = None
 
-                        if step_progress >= active_step.length - 1e-9:
-                            if traffic is not None:
-                                if occupied_node_id is not None:
-                                    traffic.leave_node(self.id, occupied_node_id)
-                                    occupied_node_id = None
+                        if segment_progress >= active_segment.length - 1e-9:
+                            if active_segment.kind == "straight":
+                                if traffic is not None and active_segment.step_index is not None:
+                                    active_step = route.steps[active_segment.step_index]
+                                    if occupied_node_id is not None:
+                                        traffic.leave_node(self.id, occupied_node_id)
+                                        occupied_node_id = None
+                                        occupied_node_release_step_index = None
+                                        occupied_node_release_progress = None
+                                    blocked_reason = traffic.enter_node(self.id, active_step.end_node_id)
+                                    if blocked_reason is not None:
+                                        backed_off_progress = max(0.0, active_segment.length - 1e-6)
+                                        rollback = max(0.0, segment_progress - backed_off_progress)
+                                        horizontal_distance -= rollback
+                                        remaining_move += rollback
+                                        segment_progress = backed_off_progress
+                                        traffic.update_progress(
+                                            self.id,
+                                            active_step,
+                                            active_segment.start_progress_m + segment_progress,
+                                        )
+                                        current_xy = self._motion_segment_position(active_segment, segment_progress)
+                                        break
+                                    traffic.leave_edge(self.id, active_step)
+                                    occupied_node_id = active_step.end_node_id
+                                    occupied_node_release_step_index = None
                                     occupied_node_release_progress = None
-                                blocked_reason = traffic.enter_node(self.id, active_step.end_node_id)
-                                if blocked_reason is not None:
-                                    backed_off_progress = max(0.0, active_step.length - 1e-6)
-                                    horizontal_distance -= max(0.0, step_progress - backed_off_progress)
-                                    step_progress = backed_off_progress
-                                    traffic.update_progress(self.id, active_step, step_progress)
-                                    current_xy = self._route_position(active_step, step_progress)
-                                    break
-                                traffic.leave_edge(self.id, active_step)
-                                occupied_node_id = active_step.end_node_id
-                                occupied_node_release_progress = None
-                            current_step_index += 1
-                            active_step = None
-                            step_progress = 0.0
 
-                            if current_step_index >= len(route.steps) and occupied_node_id is not None and traffic is not None:
-                                traffic.leave_node(self.id, occupied_node_id)
-                                occupied_node_id = None
-                                occupied_node_release_progress = None
+                                if blocked_reason is None:
+                                    current_segment_index += 1
+                                    active_segment = None
+                                    segment_progress = 0.0
+
+                                    if (
+                                        current_segment_index >= len(motion_segments)
+                                        and occupied_node_id is not None
+                                        and traffic is not None
+                                    ):
+                                        traffic.leave_node(self.id, occupied_node_id)
+                                        occupied_node_id = None
+                                        occupied_node_release_step_index = None
+                                        occupied_node_release_progress = None
+                            else:
+                                current_segment_index += 1
+                                active_segment = None
+                                segment_progress = 0.0
 
                     if blocked_reason is not None:
                         self._start_traffic_wait(blocked_reason)
@@ -545,14 +644,10 @@ class Forklift:
             self.status = ForklifStatus.IDLE
 
     def move_to(self, target: Position3D, preferred_path_id: Optional[str] = None, update_interval: float = 0.05) -> Generator:
-        """Move to a target, preferring predefined paths when available.
+        """Move to a target while keeping horizontal travel on designed paths.
 
-        If a router and path network are available, route via the nearest or
-        specified path and traverse waypoints in sequence, constraining motion
-        to those predefined paths. Falls back to direct movement if no paths.
-
-        Pure vertical movements (XY unchanged) bypass routing to avoid forcing
-        through ground-level waypoints.
+        When a path network is available, all horizontal movement is routed
+        over that network. Only pure vertical moves bypass path routing.
         """
         # Avoid any routing/resume delays if we're already at the target.
         if self.position.distance_to(target) < 0.01:
@@ -563,22 +658,39 @@ class Forklift:
         xy_distance = self.position.distance_xy(target)
         is_vertical_only = xy_distance < 0.01
 
-        if self.router and not is_vertical_only:
+        if self._has_path_network() and not is_vertical_only:
             if self.route_calc_delay_s > 0:
                 yield self.env.timeout(self.route_calc_delay_s)
             path_id = preferred_path_id or self.router.nearest_path_id(
                 self.position) or self.router.nearest_path_id(target)
             route = self.router.route_between_nodes(
-                self.position, target, path_id)
+                self.position,
+                target,
+                path_id,
+                turn_radius=self.turn_radius,
+            )
+            if not route.steps and route.total_distance > 1e-9:
+                raise RuntimeError(
+                    "Horizontal forklift movement must follow designed paths, but no routed path was found."
+                )
             yield from self._move_along_route(route, update_interval)
             return
 
-        # Fallback: direct movement (also used for vertical-only movements)
+        # Fallback is only for pure vertical movement or cases without a path network.
         yield from self._move_direct_to(target, update_interval)
 
     def estimate_travel_time(self, start: Position3D, end: Position3D) -> float:
-        if self.router:
-            xy_distance = self.router.distance_between(start, end)
+        if self._has_path_network():
+            route = self.router.route_between_nodes(
+                start,
+                end,
+                turn_radius=self.turn_radius,
+            )
+            if not route.steps and route.total_distance > 1e-9:
+                raise RuntimeError(
+                    "Horizontal forklift movement must follow designed paths, but no routed path was found."
+                )
+            xy_distance = route.total_distance
         else:
             xy_distance = start.distance_xy(end)
         horizontal_time = self.movement_profile.horizontal.travel_time(xy_distance)

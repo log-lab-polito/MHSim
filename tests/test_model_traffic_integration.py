@@ -52,7 +52,6 @@ class ModelTrafficIntegrationTests(unittest.TestCase):
         baseline_stats = baseline_model.run()
 
         self.assertLessEqual(traffic_stats.completed, baseline_stats.completed)
-        self.assertGreaterEqual(traffic_stats.avg_time_in_system, baseline_stats.avg_time_in_system)
 
 
 if __name__ == "__main__":

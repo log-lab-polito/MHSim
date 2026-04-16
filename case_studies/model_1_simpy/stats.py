@@ -9,9 +9,9 @@ from mhsim.stats import SimulationStats
 FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
     "store_seize_to_load_start_s": "Store: seize -> load start",
     "store_load_duration_s": "Store: load start -> load finish",
-    "store_load_finish_to_release_s": "Store: load finish -> release",
-    "retrieve_seize_to_unload_start_s": "Retrieve: seize -> unload start",
-    "retrieve_unload_duration_s": "Retrieve: unload start -> finish",
+    "store_unload_finish_to_release_s": "Store: unload finish -> release",
+    "retrieve_seize_to_load_start_s": "Retrieve: seize -> load start",
+    "retrieve_load_duration_s": "Retrieve: load start -> load finish",
     "retrieve_unload_finish_to_release_s": "Retrieve: unload finish -> release",
 }
 FORKLIFT_MOVEMENT_BENCHMARK_ORDER = tuple(FORKLIFT_MOVEMENT_BENCHMARK_LABELS)
