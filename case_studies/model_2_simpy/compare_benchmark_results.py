@@ -31,6 +31,7 @@ from pathlib import Path
 
 from case_studies.model_1_simpy.model import Model1SimModel
 from case_studies.model_1_simpy.reporting import build_forklift_movement_benchmark_rows
+from case_studies.model_1_simpy.stats import FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 from .params import Model2Params
 
 
@@ -54,6 +55,20 @@ ANYLOGIC_BENCHMARK_KEY_MAP = {
     "Seize to Unloading time (s)": "retrieve_seize_to_load_start_s",
     "Unloading time (s)": "retrieve_load_duration_s",
     "Unloading to release time (s)": "retrieve_unload_finish_to_release_s",
+    "Store: seize -> loading start": "store_seize_to_loading_start_s",
+    "Store: loading start -> loading finish": "store_loading_duration_s",
+    "Store: loading finish -> unloading start": (
+        "store_loading_finish_to_unloading_start_s"
+    ),
+    "Store: unloading start -> unloading finish": "store_unloading_duration_s",
+    "Store: unloading finish -> release": "store_unloading_finish_to_release_s",
+    "Retrieve: seize -> loading start": "retrieve_seize_to_loading_start_s",
+    "Retrieve: loading start -> loading finish": "retrieve_loading_duration_s",
+    "Retrieve: loading finish -> unloading start": (
+        "retrieve_loading_finish_to_unloading_start_s"
+    ),
+    "Retrieve: unloading start -> unloading finish": "retrieve_unloading_duration_s",
+    "Retrieve: unloading finish -> release": "retrieve_unloading_finish_to_release_s",
 }
 
 SUMMARY_METRICS = [
@@ -66,15 +81,6 @@ SUMMARY_METRICS = [
 ]
 OPTIONAL_SUMMARY_METRICS = [
     ("forklift_utilization", "Forklifts Utilization (%)"),
-]
-
-BENCHMARK_METRICS = [
-    ("store_seize_to_load_start_s", "Seize to Loading time (s)"),
-    ("store_load_duration_s", "Loading time (s)"),
-    ("store_unload_finish_to_release_s", "Loading to Release time (s)"),
-    ("retrieve_seize_to_load_start_s", "Seize to Unloading time (s)"),
-    ("retrieve_load_duration_s", "Unloading time (s)"),
-    ("retrieve_unload_finish_to_release_s", "Unloading to release time (s)"),
 ]
 
 BENCHMARK_STAT_FIELDS = [
@@ -335,6 +341,7 @@ def write_comparison_csv(
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
+        benchmark_metrics = _ordered_benchmark_metrics(anylogic_rows)
         for anylogic_row, simpy_row in zip(anylogic_rows, simpy_rows):
             for metric_key, label in SUMMARY_METRICS:
                 anylogic_value = getattr(anylogic_row, metric_key)
@@ -368,7 +375,7 @@ def write_comparison_csv(
                     )
                 )
 
-            for metric_key, label in BENCHMARK_METRICS:
+            for metric_key, label in benchmark_metrics:
                 anylogic_stats = anylogic_row.benchmarks.get(metric_key)
                 simpy_stats = simpy_row.benchmarks.get(metric_key)
                 if anylogic_stats is None or simpy_stats is None:
@@ -396,6 +403,7 @@ def print_report(anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[Sim
     print("=" * 112)
     print("Arrival conversion used for SimPy: arrival_rate_per_min = 60 / arrival_rate_s")
 
+    benchmark_metrics = _ordered_benchmark_metrics(anylogic_rows)
     for anylogic_row, simpy_row in zip(anylogic_rows, simpy_rows):
         print("\n" + "-" * 112)
         print(
@@ -440,7 +448,7 @@ def print_report(anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[Sim
 
         print("\nForklift benchmark metrics:")
         benchmark_rows: list[list[str]] = []
-        for metric_key, label in BENCHMARK_METRICS:
+        for metric_key, label in benchmark_metrics:
             anylogic_stats = anylogic_row.benchmarks.get(metric_key)
             simpy_stats = simpy_row.benchmarks.get(metric_key)
             if anylogic_stats is None or simpy_stats is None:
@@ -470,6 +478,31 @@ def print_report(anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[Sim
             benchmark_rows,
             indent="  ",
         )
+
+
+def _ordered_benchmark_metrics(
+    anylogic_rows: list[AnyLogicBenchmarkRow],
+) -> list[tuple[str, str]]:
+    present_keys = {
+        metric_key
+        for row in anylogic_rows
+        for metric_key in row.benchmarks
+    }
+    ordered_metrics: list[tuple[str, str]] = []
+    seen: set[str] = set()
+
+    for metric_key, label in FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items():
+        if metric_key not in present_keys:
+            continue
+        ordered_metrics.append((metric_key, label))
+        seen.add(metric_key)
+
+    for metric_key in sorted(present_keys):
+        if metric_key in seen:
+            continue
+        ordered_metrics.append((metric_key, metric_key))
+
+    return ordered_metrics
 
 
 def _build_csv_row(

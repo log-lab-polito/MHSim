@@ -85,7 +85,7 @@ class Forklift:
     router: Optional[Router] = None
     traffic_controller: Optional[PathTrafficController] = None
     stats: Optional[object] = None
-    turn_radius: float = 1.0
+    turn_radius: float = 0.5
     route_calc_delay_s: float = 0.0
     resume_delay_s: float = 0.0
     home_position: Optional[Position3D] = None
@@ -279,36 +279,81 @@ class Forklift:
         dt: float,
         route_remaining_m: float,
         available_distance_m: float,
-    ) -> tuple[float, float]:
-        """Compute horizontal motion for the current tick."""
+    ) -> tuple[float, float, float]:
+        """Compute horizontal motion for the current tick.
+
+        Returns:
+            Tuple of (distance_m, end_speed_mps, elapsed_time_s).
+
+        The routed mover advances in discrete updates for visualization and
+        traffic checks, but the elapsed simulation time for a tick should match
+        the distance actually traveled in that tick. Otherwise the final
+        partial movement on each routed segment incurs a full fixed-step delay,
+        which systematically slows SimPy relative to AnyLogic.
+        """
         effective_distance = min(max(0.0, route_remaining_m), max(0.0, available_distance_m))
         if effective_distance <= 1e-9:
-            return 0.0, 0.0
+            return 0.0, 0.0, 0.0
 
         horizontal = self.movement_profile.horizontal
         max_speed = max(0.0, horizontal.max_speed)
         acceleration = max(0.0, horizontal.acceleration)
         deceleration = max(0.0, horizontal.deceleration)
         if max_speed <= 0 or dt <= 0:
-            return 0.0, 0.0
+            return 0.0, 0.0, 0.0
 
-        stop_speed_limit = (
-            math.sqrt(max(0.0, 2.0 * deceleration * effective_distance))
-            if deceleration > 0
-            else max_speed
-        )
-        accelerated_speed = current_speed + acceleration * dt if acceleration > 0 else current_speed
-        decelerated_speed = max(0.0, current_speed - deceleration * dt) if deceleration > 0 else current_speed
-        target_upper = min(max_speed, accelerated_speed, stop_speed_limit)
-        next_speed = decelerated_speed if target_upper < decelerated_speed else target_upper
-        distance = 0.5 * (current_speed + next_speed) * dt
+        def next_speed_for_interval(interval_s: float) -> float:
+            stop_speed_limit = (
+                math.sqrt(max(0.0, 2.0 * deceleration * effective_distance))
+                if deceleration > 0
+                else max_speed
+            )
+            accelerated_speed = (
+                current_speed + acceleration * interval_s
+                if acceleration > 0
+                else current_speed
+            )
+            decelerated_speed = (
+                max(0.0, current_speed - deceleration * interval_s)
+                if deceleration > 0
+                else current_speed
+            )
+            target_upper = min(max_speed, accelerated_speed, stop_speed_limit)
+            return decelerated_speed if target_upper < decelerated_speed else target_upper
 
-        if distance > effective_distance:
-            distance = effective_distance
-            if effective_distance <= max(1e-6, current_speed * dt * 0.25):
+        elapsed_time = dt
+        next_speed = next_speed_for_interval(elapsed_time)
+        distance = 0.5 * (current_speed + next_speed) * elapsed_time
+
+        # Refine the interval so the final partial move only consumes the time
+        # needed to cover that remaining distance, rather than a full update
+        # step. This removes the fixed-step drift that showed up in Model 6.
+        if distance > effective_distance + 1e-9:
+            for _ in range(4):
+                avg_speed = current_speed + next_speed
+                if avg_speed <= 1e-9:
+                    elapsed_time = 0.0
+                    next_speed = 0.0
+                    distance = 0.0
+                    break
+
+                elapsed_time = min(
+                    elapsed_time,
+                    max(0.0, 2.0 * effective_distance / avg_speed),
+                )
+                next_speed = next_speed_for_interval(elapsed_time)
+                distance = 0.5 * (current_speed + next_speed) * elapsed_time
+                if abs(distance - effective_distance) <= 1e-6:
+                    break
+
+            distance = min(distance, effective_distance)
+            if distance >= effective_distance - 1e-6:
+                distance = effective_distance
+
+            if distance <= 1e-9 and effective_distance <= max(1e-6, current_speed * dt * 0.25):
                 next_speed = 0.0
 
-        return distance, next_speed
+        return distance, next_speed, elapsed_time
 
     def _move_along_route(
         self,
@@ -424,7 +469,9 @@ class Forklift:
                             occupied_node_release_progress = (
                                 next_segment.start_progress_m + clearance_distance
                             )
-                if vertical_total_distance > 0:
+                # No simulation time passes when we simply activate the next
+                # routed segment, so vertical movement must not advance here.
+                if wait_reason is not None and vertical_total_distance > 0:
                     delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
                     vertical_distance += delta_z
                     direction = 1.0 if height_change >= 0 else -1.0
@@ -447,10 +494,7 @@ class Forklift:
                     and active_segment.step_index is not None
                 ):
                     active_step = route.steps[active_segment.step_index]
-                    requested_distance = min(
-                        route_remaining,
-                        max(0.0, active_segment.length - segment_progress),
-                    )
+                    requested_distance = route_remaining
                     allowance = traffic.available_distance(
                         self.id,
                         active_step,
@@ -460,7 +504,7 @@ class Forklift:
                     available_distance = allowance.allowed_distance_m
                     wait_reason = allowance.wait_reason
 
-                move_distance, next_speed = self._compute_horizontal_motion(
+                move_distance, next_speed, move_time = self._compute_horizontal_motion(
                     current_speed=current_speed,
                     dt=dt,
                     route_remaining_m=route_remaining,
@@ -473,7 +517,10 @@ class Forklift:
                     yield self.env.timeout(dt)
                 else:
                     yield from self._resume_after_traffic_wait()
-                    yield self.env.timeout(dt)
+                    if move_time <= 1e-9 and move_distance > 1e-9:
+                        move_time = dt
+                    yield self.env.timeout(move_time)
+                    dt = move_time
                     current_speed = next_speed
                     remaining_move = move_distance
                     blocked_reason: Optional[str] = None
@@ -994,7 +1041,7 @@ def create_forklift_fleet(
     router: Optional[Router] = None,
     home_position: Position3D = None,
     charging_station: Optional[ChargingStation] = None,
-    turn_radius: float = 1.0,
+    turn_radius: float = 0.5,
     route_calc_delay_s: float = 0.0,
     resume_delay_s: float = 0.0,
     discharge_per_meter: float = 0.0,

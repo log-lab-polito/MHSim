@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import simpy
 from random import Random
-from typing import Any, Optional, Callable, Generator
+from typing import Any, Optional, Callable, Generator, Union
 
 from .pallet import Pallet
 from .forklift import ForkliftFleet, ForklifStatus, ForkliftAssignment
@@ -13,8 +13,8 @@ from .conveyor import Conveyor, ConveyorSpur
 from .storage_slots import StorageSlotManager, StorageSlot
 
 
-PositionResolver = Optional[Callable[[Pallet], Optional[Position3D]] | Position3D]
-DistanceResolver = Optional[Callable[[Pallet], float] | float]
+PositionResolver = Optional[Union[Callable[[Pallet], Optional[Position3D]], Position3D]]
+DistanceResolver = Optional[Union[Callable[[Pallet], float], float]]
 DEFAULT_TRANSPORTER_ASSIGNMENT_KEY = "_transporter_assignment"
 
 
@@ -86,6 +86,59 @@ def _record_forklift_movement_duration(
     recorder = getattr(stats, "record_forklift_movement", None)
     if callable(recorder):
         recorder(metric_name, max(0.0, end_time - start_time))
+
+
+def _record_move_by_transporter_benchmarks(
+    stats: Optional[object],
+    benchmark_prefix: Optional[str],
+    *,
+    enter_at: float,
+    seize_at: float,
+    load_started_at: float,
+    load_finished_at: float,
+    unload_started_at: float,
+    unload_finished_at: float,
+    release_at: float,
+) -> None:
+    if not benchmark_prefix:
+        return
+
+    _record_forklift_movement_duration(
+        stats,
+        f"{benchmark_prefix}_enter_to_seize_s",
+        enter_at,
+        seize_at,
+    )
+    _record_forklift_movement_duration(
+        stats,
+        f"{benchmark_prefix}_seize_to_loading_start_s",
+        seize_at,
+        load_started_at,
+    )
+    _record_forklift_movement_duration(
+        stats,
+        f"{benchmark_prefix}_loading_duration_s",
+        load_started_at,
+        load_finished_at,
+    )
+    _record_forklift_movement_duration(
+        stats,
+        f"{benchmark_prefix}_loading_finish_to_unloading_start_s",
+        load_finished_at,
+        unload_started_at,
+    )
+    _record_forklift_movement_duration(
+        stats,
+        f"{benchmark_prefix}_unloading_duration_s",
+        unload_started_at,
+        unload_finished_at,
+    )
+    _record_forklift_movement_duration(
+        stats,
+        f"{benchmark_prefix}_unloading_finish_to_release_s",
+        unload_finished_at,
+        release_at,
+    )
 
 
 class Sink:
@@ -423,6 +476,8 @@ class MoveByTransporterBlock:
         assignment_key: str = DEFAULT_TRANSPORTER_ASSIGNMENT_KEY,
         auto_seize_if_missing: bool = True,
         apply_post_task_policy_if_auto_seized: bool = True,
+        stats: Optional[object] = None,
+        benchmark_prefix: Optional[str] = None,
         logger: Optional[SimulationLogger] = None,
     ):
         self.env = env
@@ -437,6 +492,10 @@ class MoveByTransporterBlock:
         self.assignment_key = assignment_key
         self.auto_seize_if_missing = auto_seize_if_missing
         self.apply_post_task_policy_if_auto_seized = apply_post_task_policy_if_auto_seized
+        self.stats = stats
+        self.benchmark_prefix = (
+            benchmark_prefix.lower() if benchmark_prefix is not None else None
+        )
         self.logger = logger
         self.entered_count = 0
         self.finished_count = 0
@@ -448,9 +507,11 @@ class MoveByTransporterBlock:
             self.logger.log_event(
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
 
+        enter_at = self.env.now
         pickup = _resolve_position(self.pickup_pos, pallet)
         assignment = _get_assignment(pallet, assignment_key=self.assignment_key)
         auto_seized = assignment is None
+        seize_at = enter_at
         if auto_seized:
             if not self.auto_seize_if_missing:
                 raise RuntimeError(
@@ -461,9 +522,30 @@ class MoveByTransporterBlock:
                 priority=self.request_priority,
                 near_position=pickup,
             )
+            seize_at = self.env.now
 
         try:
             fl = assignment.forklift
+            load_started_at = seize_at
+            load_finished_at = seize_at
+            unload_started_at = seize_at
+            unload_finished_at = seize_at
+
+            def mark_load_start(timestamp: float) -> None:
+                nonlocal load_started_at
+                load_started_at = timestamp
+
+            def mark_load_end(timestamp: float) -> None:
+                nonlocal load_finished_at
+                load_finished_at = timestamp
+
+            def mark_unload_start(timestamp: float) -> None:
+                nonlocal unload_started_at
+                unload_started_at = timestamp
+
+            def mark_unload_end(timestamp: float) -> None:
+                nonlocal unload_finished_at
+                unload_finished_at = timestamp
 
             if pickup is not None:
                 yield from fl.perform_lift(
@@ -471,6 +553,8 @@ class MoveByTransporterBlock:
                     0,
                     dwell_time_s=self.loading_time_s,
                     dwell_status=ForklifStatus.LOADING,
+                    on_dwell_start=mark_load_start,
+                    on_dwell_end=mark_load_end,
                 )
                 fl.current_load = pallet
 
@@ -481,8 +565,23 @@ class MoveByTransporterBlock:
                     0,
                     dwell_time_s=self.unloading_time_s,
                     dwell_status=ForklifStatus.UNLOADING,
+                    on_dwell_start=mark_unload_start,
+                    on_dwell_end=mark_unload_end,
                 )
                 fl.current_load = None
+
+            release_at = self.env.now
+            _record_move_by_transporter_benchmarks(
+                self.stats,
+                self.benchmark_prefix,
+                enter_at=enter_at,
+                seize_at=seize_at,
+                load_started_at=load_started_at,
+                load_finished_at=load_finished_at,
+                unload_started_at=unload_started_at,
+                unload_finished_at=unload_finished_at,
+                release_at=release_at,
+            )
 
             if auto_seized and self.apply_post_task_policy_if_auto_seized:
                 yield from _run_fleet_post_task(self.fleet, fl)
@@ -531,6 +630,7 @@ class StoreBlock:
         if self.logger:
             self.logger.log_event(
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        enter_at = self.env.now
 
         # Block until storage has room (hard capacity constraint)
         while self.storage.level >= self.storage.capacity:
@@ -546,6 +646,8 @@ class StoreBlock:
         fl = assignment.forklift
         load_started_at = seize_at
         load_finished_at = seize_at
+        unload_started_at = seize_at
+        unload_finished_at = seize_at
         try:
             storage_slot: StorageSlot | None = None
             while storage_slot is None:
@@ -567,6 +669,14 @@ class StoreBlock:
                 nonlocal load_finished_at
                 load_finished_at = timestamp
 
+            def mark_unload_start(timestamp: float) -> None:
+                nonlocal unload_started_at
+                unload_started_at = timestamp
+
+            def mark_unload_end(timestamp: float) -> None:
+                nonlocal unload_finished_at
+                unload_finished_at = timestamp
+
             # Load at inbound (with elevation to shelf level)
             yield from fl.perform_lift(
                 self.inbound_pos,
@@ -575,6 +685,24 @@ class StoreBlock:
                 dwell_status=ForklifStatus.LOADING,
                 on_dwell_start=mark_load_start,
                 on_dwell_end=mark_load_end,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_enter_to_seize_s",
+                enter_at,
+                seize_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_seize_to_loading_start_s",
+                seize_at,
+                load_started_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_loading_duration_s",
+                load_started_at,
+                load_finished_at,
             )
             _record_forklift_movement_duration(
                 self.stats,
@@ -595,16 +723,37 @@ class StoreBlock:
                 storage_slot.ground_pos,
                 storage_slot.level,
                 dwell_status=ForklifStatus.UNLOADING,
+                on_dwell_start=mark_unload_start,
+                on_dwell_end=mark_unload_end,
             )
             fl.current_load = None
             self.slot_manager.complete_store(storage_slot)
 
             yield from _run_fleet_post_task(self.fleet, fl)
+            release_at = self.env.now
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_loading_finish_to_unloading_start_s",
+                load_finished_at,
+                unload_started_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_unloading_duration_s",
+                unload_started_at,
+                unload_finished_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "store_unloading_finish_to_release_s",
+                unload_finished_at,
+                release_at,
+            )
             _record_forklift_movement_duration(
                 self.stats,
                 "store_unload_finish_to_release_s",
                 load_finished_at,
-                self.env.now,
+                release_at,
             )
         finally:
             self.fleet.release(assignment)
@@ -651,6 +800,7 @@ class RetrieveBlock:
         if self.logger:
             self.logger.log_event(
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        enter_at = self.env.now
         yield self.storage.get(1)
 
         assignment = yield from _seize_forklift(
@@ -661,6 +811,8 @@ class RetrieveBlock:
         )
         seize_at = self.env.now
         fl = assignment.forklift
+        load_started_at = seize_at
+        load_finished_at = seize_at
         unload_started_at = seize_at
         unload_finished_at = seize_at
         try:
@@ -672,15 +824,25 @@ class RetrieveBlock:
                         self.outbound_pos._replace(z=0) if self.outbound_pos else fl.position,
                     )
                     + fl.lift_cycle_time(slot.level)
-                )
+                    )
                 if storage_slot is None:
                     yield self.env.timeout(0.1)
+
+            def mark_load_start(timestamp: float) -> None:
+                nonlocal load_started_at
+                load_started_at = timestamp
+
+            def mark_load_end(timestamp: float) -> None:
+                nonlocal load_finished_at
+                load_finished_at = timestamp
 
             # Load at storage (with elevation to shelf level)
             yield from fl.perform_lift(
                 storage_slot.ground_pos,
                 storage_slot.level,
                 dwell_status=ForklifStatus.LOADING,
+                on_dwell_start=mark_load_start,
+                on_dwell_end=mark_load_end,
             )
             fl.current_load = pallet
             self.slot_manager.complete_retrieve(storage_slot)
@@ -705,6 +867,43 @@ class RetrieveBlock:
             fl.current_load = None
 
             yield from _run_fleet_post_task(self.fleet, fl)
+            release_at = self.env.now
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_enter_to_seize_s",
+                enter_at,
+                seize_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_seize_to_loading_start_s",
+                seize_at,
+                load_started_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_loading_duration_s",
+                load_started_at,
+                load_finished_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_loading_finish_to_unloading_start_s",
+                load_finished_at,
+                unload_started_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_unloading_duration_s",
+                unload_started_at,
+                unload_finished_at,
+            )
+            _record_forklift_movement_duration(
+                self.stats,
+                "retrieve_unloading_finish_to_release_s",
+                unload_finished_at,
+                release_at,
+            )
             _record_forklift_movement_duration(
                 self.stats,
                 "retrieve_seize_to_load_start_s",
@@ -721,7 +920,7 @@ class RetrieveBlock:
                 self.stats,
                 "retrieve_unload_finish_to_release_s",
                 unload_finished_at,
-                self.env.now,
+                release_at,
             )
         finally:
             self.fleet.release(assignment)

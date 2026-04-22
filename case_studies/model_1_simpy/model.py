@@ -135,3 +135,6 @@ class Model1SimModel:
             f"completed={self.stats.completed} avg_Tsys={self.stats.avg_time_in_system:.2f}s "
             f"created={self.stats.created} storage_level={self.storage.level}"
         )
+
+    def get_storage_level(self) -> int:
+        return int(self.storage.level)

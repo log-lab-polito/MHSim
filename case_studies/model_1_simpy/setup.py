@@ -213,8 +213,8 @@ def create_warehouse_with_standard_config(
     - Receiving area (inbound): Point node at (160, 405)
     - Outbound area: Point node at (430, 405)
     - Forklift home: X=240, Y=260, 100×40 m
-    - Storage: 2 racks × 10 bays × 6 shelves (2.4m depth, 1.0m shelf height)
-    - 7 navigation nodes and 9 paths for routing
+    - Storage: 1 rack × 10 bays × 6 shelves (2.4m depth, 1.0m shelf height)
+    - 7 navigation nodes and 8 paths for routing
 
     Args:
         env: SimPy environment
@@ -230,25 +230,16 @@ def create_warehouse_with_standard_config(
         .set_inbound_area_point(Position3D(16, 40.5, 0))
         .set_outbound_area_point(Position3D(43, 40.5, 0))
         .set_forklifts_home(Position3D(24, 26, 0), width=10, depth=4)
-        # Storage racks - 2 racks, back-to-back, 10 bays each
-        # Rack 1 and Rack 2 positioned at storage center (340, 380)
+        # Storage racks - 1 rack, 10 bays × 6 shelves (2.4m depth, 1.0m shelf height)
+        # Rack positioned at (290, 405)
         .add_shelf(
-            "rack_1",
-            Position3D(34, 38, 0),
+            "rack",
+            Position3D(29, 40.5, 0),
             levels=6,
             positions_per_level=10,
             cell_depth=0.24,  # rack depth scaled
             level_height=0.1,  # shelf height scaled
             position_spacing=0.1,  # bay spacing scaled
-        )
-        .add_shelf(
-            "rack_2",
-            Position3D(34, 41, 0),  # Back-to-back placement (offset in Y)
-            levels=6,
-            positions_per_level=10,
-            cell_depth=0.24,
-            level_height=0.1,
-            position_spacing=0.1,
         )
         # Paths - navigation routes connecting nodes (aligned and connected)
         # Top horizontal: 230 → 290 → 350 @ y=355
@@ -287,15 +278,6 @@ def create_warehouse_with_standard_config(
                 Position3D(35, 45.3, 0),
             ],
         )
-        # Center vertical: 355 → 405 → 453 @ x=290
-        .add_path(
-            "center_vertical",
-            [
-                Position3D(29, 35.5, 0),
-                Position3D(29, 40.5, 0),
-                Position3D(29, 45.3, 0),
-            ],
-        )
         # Connectors: tie areas and shelves to the grid so paths are truly connected
         # Inbound connector: inbound access (160,405) -> left vertical node (230,405)
         .add_path(
@@ -321,21 +303,12 @@ def create_warehouse_with_standard_config(
                 Position3D(29, 35.5, 0),
             ],
         )
-        # Rack connectors: from shelf access to nearest right vertical nodes
+        # Rack connector: from shelf access to right vertical node
         .add_path(
-            "rack1_connector",
+            "rack_connector",
             [
-                Position3D(34.45, 37.76, 0),  # rack_1 access
-                Position3D(35, 37.76, 0),
-                Position3D(35, 35.5, 0),
-            ],
-        )
-        .add_path(
-            "rack2_connector",
-            [
-                Position3D(34.45, 40.76, 0),  # rack_2 access
-                Position3D(35, 40.76, 0),
-                Position3D(35, 40.5, 0),
+                Position3D(29, 40.5, 0), # Rack access point (aligned with shelf center)
+                Position3D(35, 40.5, 0), # Shelf center
             ],
         )
         .build()
@@ -379,7 +352,7 @@ def create_custom_warehouse(
     movement_profile: MovementProfile,
     n_forklifts: int,
     lift_profile: Optional[LiftProfile] = None,
-    turn_radius: float = 1.0,
+    turn_radius: float = 0.5,
     route_calc_delay_s: float = 0.0,
     resume_delay_s: float = 0.0,
     min_distance_to_obstacle_m: float = 1.0,

@@ -2,6 +2,14 @@
 """Animate Model 3 conveyor simulation to inspect conveyor behavior."""
 
 from __future__ import annotations
+from mhsim.spatial import Path, PointNode, RectangularNode, Shelf, Storage, WarehouseLayout
+from mhsim.movement import Position3D
+from .params import Model3Params
+from .model import Model3SimModel
+from matplotlib.patches import Circle, Rectangle
+from matplotlib import animation
+import numpy as np
+import matplotlib.pyplot as plt
 
 import argparse
 import os
@@ -15,21 +23,13 @@ import matplotlib
 
 matplotlib.use("TkAgg")
 
-import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib import animation
-from matplotlib.patches import Circle, Rectangle
 
 if __package__ in (None, ""):
-    package_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    package_root = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), ".."))
     if package_root not in sys.path:
         sys.path.insert(0, package_root)
     __package__ = "model_3_simpy"
-
-from .model import Model3SimModel
-from .params import Model3Params
-from mhsim.movement import Position3D
-from mhsim.spatial import Path, PointNode, RectangularNode, Shelf, Storage, WarehouseLayout
 
 
 @dataclass
@@ -79,7 +79,8 @@ def _attach_conveyor_trace(model: Model3SimModel) -> List[ConveyorItemTrace]:
     def traced_enter():
         nonlocal next_id
         yield from original_enter()
-        traces.append(ConveyorItemTrace(item_id=next_id, entered_t=model.env.now))
+        traces.append(ConveyorItemTrace(
+            item_id=next_id, entered_t=model.env.now))
         active_ids.append(next_id)
         next_id += 1
 
@@ -158,7 +159,8 @@ def run_and_record(
     while model.env.now < stop_time:
         model.env.run(until=min(stop_time, model.env.now + chunk))
         if model.env.now - last_report >= 10.0 or model.env.now >= stop_time:
-            pct = (model.env.now / stop_time) * 100.0 if stop_time > 0 else 100.0
+            pct = (model.env.now / stop_time) * \
+                100.0 if stop_time > 0 else 100.0
             print(
                 f"   ... model progress {model.env.now:.0f}/{stop_time:.0f}s ({pct:.0f}%) "
                 f"created={model.stats.created} completed={model.stats.completed} conveyor_occ={model.conveyor.occupancy}"
@@ -194,19 +196,8 @@ def _build_reference_warehouse_layout() -> WarehouseLayout:
     storage = Storage()
     storage.add_shelf(
         Shelf(
-            id="rack_1",
-            position=Position3D(34, 38, 0),
-            levels=6,
-            positions_per_level=10,
-            cell_depth=0.24,
-            level_height=0.1,
-            position_spacing=0.1,
-        )
-    )
-    storage.add_shelf(
-        Shelf(
-            id="rack_2",
-            position=Position3D(34, 41, 0),
+            id="rack",
+            position=Position3D(29, 40.5, 0),
             levels=6,
             positions_per_level=10,
             cell_depth=0.24,
@@ -218,23 +209,23 @@ def _build_reference_warehouse_layout() -> WarehouseLayout:
     paths = [
         Path(
             "path_top",
-            [Position3D(23, 35.5, 0), Position3D(29, 35.5, 0), Position3D(35, 35.5, 0)],
+            [Position3D(23, 35.5, 0), Position3D(
+                29, 35.5, 0), Position3D(35, 35.5, 0)],
         ),
         Path(
             "path_bottom",
-            [Position3D(23, 45.3, 0), Position3D(29, 45.3, 0), Position3D(35, 45.3, 0)],
+            [Position3D(23, 45.3, 0), Position3D(
+                29, 45.3, 0), Position3D(35, 45.3, 0)],
         ),
         Path(
             "left_vertical",
-            [Position3D(23, 35.5, 0), Position3D(23, 40.5, 0), Position3D(23, 45.3, 0)],
+            [Position3D(23, 35.5, 0), Position3D(
+                23, 40.5, 0), Position3D(23, 45.3, 0)],
         ),
         Path(
             "right_vertical",
-            [Position3D(35, 35.5, 0), Position3D(35, 40.5, 0), Position3D(35, 45.3, 0)],
-        ),
-        Path(
-            "center_vertical",
-            [Position3D(29, 35.5, 0), Position3D(29, 40.5, 0), Position3D(29, 45.3, 0)],
+            [Position3D(35, 35.5, 0), Position3D(
+                35, 40.5, 0), Position3D(35, 45.3, 0)],
         ),
         Path(
             "inbound_connector",
@@ -249,19 +240,16 @@ def _build_reference_warehouse_layout() -> WarehouseLayout:
             [Position3D(29, 28, 0), Position3D(29, 35.5, 0)],
         ),
         Path(
-            "rack1_connector",
-            [Position3D(34.45, 37.76, 0), Position3D(35, 37.76, 0), Position3D(35, 35.5, 0)],
-        ),
-        Path(
-            "rack2_connector",
-            [Position3D(34.45, 40.76, 0), Position3D(35, 40.76, 0), Position3D(35, 40.5, 0)],
+            "rack_connector",
+            [Position3D(29, 40.5, 0), Position3D(35, 40.5, 0)],
         ),
     ]
 
     return WarehouseLayout(
         inbound_area=PointNode("inbound", Position3D(16, 40.5, 0)),
         outbound_area=PointNode("outbound", Position3D(43, 40.5, 0)),
-        forklifts_home=RectangularNode("home", Position3D(24, 26, 0), width=10, depth=4, height=2.5),
+        forklifts_home=RectangularNode("home", Position3D(
+            24, 26, 0), width=10, depth=4, height=2.5),
         storage=storage,
         paths=paths,
     )
@@ -350,12 +338,14 @@ def _draw_warehouse_map(ax, layout: WarehouseLayout, conveyor_length_m: float):
             continue
         xs = [p.x for p in path.waypoints]
         ys = [p.y for p in path.waypoints]
-        ax.plot(xs, ys, linestyle="-", color="#90CAF9", linewidth=0.8, alpha=0.9)
+        ax.plot(xs, ys, linestyle="-", color="#90CAF9",
+                linewidth=0.8, alpha=0.9)
         ax.scatter(xs, ys, s=4, color="#2196F3", alpha=0.8)
 
     conveyor_y = 40.5
     conveyor_start = layout.inbound_area.position.x
-    conveyor_end = min(layout.outbound_area.position.x, conveyor_start + conveyor_length_m)
+    conveyor_end = min(layout.outbound_area.position.x,
+                       conveyor_start + conveyor_length_m)
     ax.plot(
         [conveyor_start, conveyor_end],
         [conveyor_y, conveyor_y],
@@ -403,8 +393,10 @@ def build_animation(
     ax_counts = fig.add_subplot(gs[1, 1])
 
     conveyor_length = model.params.conveyor_length_m
-    _draw_warehouse_map(ax_warehouse, layout=layout, conveyor_length_m=conveyor_length)
-    map_status_text = ax_warehouse.text(0.02, 0.98, "", transform=ax_warehouse.transAxes, va="top", fontsize=10)
+    _draw_warehouse_map(ax_warehouse, layout=layout,
+                        conveyor_length_m=conveyor_length)
+    map_status_text = ax_warehouse.text(
+        0.02, 0.98, "", transform=ax_warehouse.transAxes, va="top", fontsize=10)
 
     ax_conveyor.set_xlim(-1.0, conveyor_length + 1.0)
     ax_conveyor.set_ylim(0.0, 1.0)
@@ -413,20 +405,26 @@ def build_animation(
     ax_conveyor.set_title("Conveyor State", fontweight="bold")
     ax_conveyor.grid(True, axis="x", alpha=0.25)
 
-    belt = Rectangle((0.0, 0.35), conveyor_length, 0.3, facecolor="#CFD8DC", edgecolor="#455A64", lw=1.2)
+    belt = Rectangle((0.0, 0.35), conveyor_length, 0.3,
+                     facecolor="#CFD8DC", edgecolor="#455A64", lw=1.2)
     ax_conveyor.add_patch(belt)
-    ax_conveyor.text(0.0, 0.75, "Enter", ha="left", va="bottom", fontsize=9, color="#2E7D32")
-    ax_conveyor.text(conveyor_length, 0.75, "Exit", ha="right", va="bottom", fontsize=9, color="#1565C0")
+    ax_conveyor.text(0.0, 0.75, "Enter", ha="left",
+                     va="bottom", fontsize=9, color="#2E7D32")
+    ax_conveyor.text(conveyor_length, 0.75, "Exit", ha="right",
+                     va="bottom", fontsize=9, color="#1565C0")
 
-    pallet_scatter = ax_conveyor.scatter([], [], s=120, color="#FB8C00", edgecolors="black", linewidths=1.0, zorder=3)
-    summary_text = ax_conveyor.text(0.01, 0.98, "", transform=ax_conveyor.transAxes, va="top", fontsize=10)
+    pallet_scatter = ax_conveyor.scatter(
+        [], [], s=120, color="#FB8C00", edgecolors="black", linewidths=1.0, zorder=3)
+    summary_text = ax_conveyor.text(
+        0.01, 0.98, "", transform=ax_conveyor.transAxes, va="top", fontsize=10)
 
     ax_pipeline.set_xlim(0.0, 1.0)
     ax_pipeline.set_ylim(0.0, 1.0)
     ax_pipeline.axis("off")
     ax_pipeline.set_title("Pipeline State", fontweight="bold")
 
-    node_names = ["source", "service1", "conv_enter", "convey", "conv_exit", "service2", "sink"]
+    node_names = ["source", "service1", "conv_enter",
+                  "convey", "conv_exit", "service2", "sink"]
     x_positions = np.linspace(0.08, 0.92, len(node_names))
     stat_texts = {}
     for name, x in zip(node_names, x_positions):
@@ -450,8 +448,10 @@ def build_animation(
             arrowprops={"arrowstyle": "->", "lw": 1.0, "color": "#607D8B"},
         )
 
-    (line_created,) = ax_counts.plot([], [], color="#2E7D32", lw=2.0, label="Created")
-    (line_completed,) = ax_counts.plot([], [], color="#1565C0", lw=2.0, linestyle="--", label="Completed")
+    (line_created,) = ax_counts.plot(
+        [], [], color="#2E7D32", lw=2.0, label="Created")
+    (line_completed,) = ax_counts.plot(
+        [], [], color="#1565C0", lw=2.0, linestyle="--", label="Completed")
     ax_counts_occ = ax_counts.twinx()
     (line_occ,) = ax_counts_occ.plot(
         [], [], color="#EF6C00", lw=2.0, linestyle="-.", label="Conveyor occupancy"
@@ -515,7 +515,8 @@ def build_animation(
         stat_texts["sink"].set_text(f"in:{snap.sink_in}")
 
         line_created.set_data(times[: frame_idx + 1], created[: frame_idx + 1])
-        line_completed.set_data(times[: frame_idx + 1], completed[: frame_idx + 1])
+        line_completed.set_data(
+            times[: frame_idx + 1], completed[: frame_idx + 1])
         line_occ.set_data(times[: frame_idx + 1], occupancy[: frame_idx + 1])
 
         return [
@@ -533,7 +534,8 @@ def build_animation(
         while True:
             elapsed = time.perf_counter() - start
             target_sim_time = min(elapsed * playback_speed, max_time)
-            idx = int(np.searchsorted(times_arr, target_sim_time, side="right") - 1)
+            idx = int(np.searchsorted(
+                times_arr, target_sim_time, side="right") - 1)
             if idx < 0:
                 idx = 0
             yield idx
@@ -554,7 +556,8 @@ def build_animation(
 
 
 def run_animation_cli():
-    parser = argparse.ArgumentParser(description="Animate Model 3 conveyor simulation.")
+    parser = argparse.ArgumentParser(
+        description="Animate Model 3 conveyor simulation.")
     parser.add_argument(
         "--speed",
         type=float,
@@ -594,7 +597,8 @@ def run_animation_cli():
     print("MODEL 3 CONVEYOR ANIMATION")
     print("=" * 70)
     print(f"Mode: FULL ({speed}x speed)")
-    print(f"  - Snapshot resolution: {record_fps:.2f} fps ({sample_dt:.3f}s per snapshot)")
+    print(
+        f"  - Snapshot resolution: {record_fps:.2f} fps ({sample_dt:.3f}s per snapshot)")
     print(f"  - Target render rate: {playback_fps:.1f} fps")
 
     params = Model3Params()

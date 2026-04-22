@@ -36,12 +36,16 @@ traceln("    Storage level: " + delay.size());
 traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 traceln("    Forklifts Utilization (%): " + forklifts_fleet.utilization());
 
-logArrayStats("Seize to Loading time (s)", time_seize_loading);
-logArrayStats("Loading time (s)", time_loading);
-logArrayStats("Loading to Release time (s)", time_loading_release);
-logArrayStats("Seize to Unloading time (s)", time_seize_unloading);
-logArrayStats("Unloading time (s)", time_unloading);
-logArrayStats("Unloading to release time (s)", time_unloading_release);]]></DestroyCode>
+logArrayStats("Store: seize -> loading start", time_seize_loading_store);
+logArrayStats("Store: loading start -> loading finish", time_loading_store);
+logArrayStats("Store: loading finish -> unloading start", time_loading_unloading_store);
+logArrayStats("Store: unloading start -> unloading finish", time_unloading_store);
+logArrayStats("Store: unloading finish -> release", time_unloading_release_store);
+logArrayStats("Retrieve: seize -> loading start", time_seize_loading_retrieve);
+logArrayStats("Retrieve: loading start -> loading finish", time_loading_retrieve);
+logArrayStats("Retrieve: loading finish -> unloading start", time_loading_unloading_retrieve);
+logArrayStats("Retrieve: unloading start -> unloading finish", time_unloading_retrieve);
+logArrayStats("Retrieve: unloading finish -> release", time_unloading_release_retrieve);]]></DestroyCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1764169459615</Id>
@@ -273,8 +277,8 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1774541066904</Id>
-					<Name><![CDATA[time_seize_loading]]></Name>
-					<X>20</X><Y>470</Y>
+					<Name><![CDATA[time_seize_loading_store]]></Name>
+					<X>30</X><Y>640</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -288,8 +292,8 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1774957641934</Id>
-					<Name><![CDATA[time_loading]]></Name>
-					<X>20</X><Y>490</Y>
+					<Name><![CDATA[time_loading_store]]></Name>
+					<X>30</X><Y>660</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -303,23 +307,8 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1774957656256</Id>
-					<Name><![CDATA[time_loading_release]]></Name>
-					<X>20</X><Y>510</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
-						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
-						<ElementClass><![CDATA[Double]]></ElementClass>
-						<ValueElementClass><![CDATA[String]]></ValueElementClass>
-					</Properties>
-
-				</Variable>
-				<Variable Class="CollectionVariable">
-					<Id>1774957668186</Id>
-					<Name><![CDATA[time_seize_unloading]]></Name>
-					<X>20</X><Y>530</Y>
+					<Name><![CDATA[time_loading_unloading_store]]></Name>
+					<X>30</X><Y>680</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -333,8 +322,8 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1774958075797</Id>
-					<Name><![CDATA[time_unloading]]></Name>
-					<X>20</X><Y>550</Y>
+					<Name><![CDATA[time_unloading_store]]></Name>
+					<X>30</X><Y>700</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -348,8 +337,83 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1774958088694</Id>
-					<Name><![CDATA[time_unloading_release]]></Name>
-					<X>20</X><Y>570</Y>
+					<Name><![CDATA[time_unloading_release_store]]></Name>
+					<X>30</X><Y>720</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1776396880968</Id>
+					<Name><![CDATA[time_seize_loading_retrieve]]></Name>
+					<X>244</X><Y>637.6</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1776396880981</Id>
+					<Name><![CDATA[time_loading_retrieve]]></Name>
+					<X>244</X><Y>657.6</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1776396880987</Id>
+					<Name><![CDATA[time_loading_unloading_retrieve]]></Name>
+					<X>244</X><Y>677.6</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1776396880995</Id>
+					<Name><![CDATA[time_unloading_retrieve]]></Name>
+					<X>244</X><Y>697.6</Y>
+					<Label><X>11</X><Y>-2.6</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1776396881002</Id>
+					<Name><![CDATA[time_unloading_release_retrieve]]></Name>
+					<X>244</X><Y>717.6</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -701,7 +765,7 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1774958738895</Id>
 					<Name><![CDATA[arrayAvg]]></Name>
-					<X>530</X><Y>460</Y>
+					<X>510</X><Y>630</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -730,7 +794,7 @@ return n == 0 ? Double.NaN : sum / n;]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1774959222967</Id>
 					<Name><![CDATA[arrayStats]]></Name>
-					<X>530</X><Y>480</Y>
+					<X>510</X><Y>650</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -781,7 +845,7 @@ return new double[] { mean, min, max, stdPop, stdSample };
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1774959753078</Id>
 					<Name><![CDATA[logArrayStats]]></Name>
-					<X>530</X><Y>500</Y>
+					<X>510</X><Y>670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -2389,12 +2453,26 @@ completed_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onSeizeTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.seize_time = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onLoadingStarted]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_started_time = time();
+time_seize_loading_store.add(f.loading_started_time - f.seize_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onLoadingFinished]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_finished_time = time();
+time_loading_store.add(f.loading_finished_time - f.loading_started_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onTaskSuspended]]></Name>
@@ -2404,12 +2482,27 @@ completed_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onReleaseTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.release_time = time();
+time_unloading_release_store.add(f.release_time - f.unloading_finished_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onUnloadingStarted]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.unloading_started_time = time();
+time_loading_unloading_store.add(f.unloading_started_time - f.loading_finished_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onUnloadingFinished]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.unloading_finished_time = time();
+time_unloading_store.add(f.unloading_finished_time - f.unloading_started_time);]]></Code>
+							</Value>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -2755,12 +2848,26 @@ completed_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onSeizeTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.seize_time = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onLoadingStarted]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_started_time = time();
+time_seize_loading_retrieve.add(f.loading_started_time - f.seize_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onLoadingFinished]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.loading_finished_time = time();
+time_loading_retrieve.add(f.loading_finished_time - f.loading_started_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onTaskSuspended]]></Name>
@@ -2770,12 +2877,27 @@ completed_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onReleaseTransporter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.release_time = time();
+time_unloading_release_retrieve.add(f.release_time - f.unloading_finished_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onUnloadingStarted]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.unloading_started_time = time();
+time_loading_unloading_retrieve.add(f.unloading_started_time - f.loading_finished_time);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onUnloadingFinished]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Forklift f = ((Forklift)unit);
+f.unloading_finished_time = time();
+time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time);]]></Code>
+							</Value>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -2946,7 +3068,7 @@ completed_count++;]]></Code>
 						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 					</SpeedLimitValue>
 				</PointNode>
-				<Path SourceId="1764172552716" TargetId="1776171809021">
+				<Path SourceId="1764172552716" TargetId="1764172552718">
 					<Id>1764172552720</Id>
 					<Name><![CDATA[path1]]></Name>
 					<X>350</X><Y>453</Y>
@@ -2968,10 +3090,10 @@ completed_count++;]]></Code>
 					<Points>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-25</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-50.00031526074849</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-25.000315260748494</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-75.0003152607485</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-95.0003152607485</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-120</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>-95</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 					</Points>
 					<Bidirectional>true</Bidirectional>
 					<SpeedLimit>false</SpeedLimit>
@@ -3161,43 +3283,7 @@ completed_count++;]]></Code>
 				<Attractor>
 					<Id>1764174235814</Id>
 					<Name><![CDATA[attractor50]]></Name>
-					<X>245</X><Y>280</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>	
-				</Attractor>
-				<Attractor>
-					<Id>1764174235816</Id>
-					<Name><![CDATA[attractor51]]></Name>
-					<X>270</X><Y>280</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>	
-				</Attractor>
-				<Attractor>
-					<Id>1764174235818</Id>
-					<Name><![CDATA[attractor52]]></Name>
-					<X>295</X><Y>280</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>	
-				</Attractor>
-				<Attractor>
-					<Id>1773929913955</Id>
-					<Name><![CDATA[attractor53]]></Name>
-					<X>320</X><Y>280</Y>
+					<X>290</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3544,42 +3630,6 @@ completed_count++;]]></Code>
 						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 					</SpeedLimitValue>
 				</PointNode>
-				<Path SourceId="1776171678073" TargetId="1764172574508">
-					<Id>1776171768864</Id>
-					<Name><![CDATA[path10]]></Name>
-					<X>290</X><Y>395</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<LineColor>-14774017</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineWidth>1</LineWidth>
-					<PathType>dashedLine</PathType>
-					
-					<Width Class="UnitValue">
-						<Value Class="Double">1</Value>
-						<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
-					</Width>
-					<Points>
-						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>25</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-25</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-30</Y><Z>0</Z></Point>
-						<Point><X>0</X><Y>-5</Y><Z>0</Z></Point>
-						<Point><X>-20</X><Y>0</Y><Z>0</Z></Point>
-					</Points>
-					<Bidirectional>true</Bidirectional>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="CodeUnitValue">
-						<Code><![CDATA[10.0]]></Code>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
-					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
-				</Path>
 				<PointNode>
 					<Id>1776171678073</Id>
 					<Name><![CDATA[storage_rack]]></Name>
@@ -3636,151 +3686,10 @@ completed_count++;]]></Code>
 					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
 					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
 				</Path>
-				<Path SourceId="1776171809021" TargetId="1764172552718">
-					<Id>1776171809025</Id>
-					<Name><![CDATA[path13]]></Name>
-					<X>279.9996847392515</X><Y>453</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<LineColor>-14774017</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineWidth>1</LineWidth>
-					<PathType>dashedLine</PathType>
-					
-					<Width Class="UnitValue">
-						<Value Class="Double">1</Value>
-						<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
-					</Width>
-					<Points>
-						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>25</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-25</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-49.99968473925151</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-24.999684739251506</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>70.0003152607485</X><Y>0</Y><Z>0</Z></Point>
-					</Points>
-					<Bidirectional>true</Bidirectional>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="CodeUnitValue">
-						<Code><![CDATA[10.0]]></Code>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
-					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
-				</Path>
-				<PointNode>
-					<Id>1776171809021</Id>
-					<Name><![CDATA[node7]]></Name>
-					<X>289.9996847392515</X><Y>452.9998373467362</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<FakeNode>true</FakeNode>	
-					<Lock>false</Lock>
-					<Color>-14774017</Color>
-					<Radius>10</Radius>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="UnitValue">
-						<Value Class="Double">10</Value>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-				</PointNode>
-				<Path SourceId="1776171678073" TargetId="1776171809021">
-					<Id>1776171796098</Id>
-					<Name><![CDATA[path12]]></Name>
-					<X>289.9996847392515</X><Y>414.9998373467362</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<LineColor>-14774017</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineWidth>1</LineWidth>
-					<PathType>dashedLine</PathType>
-					
-					<Width Class="UnitValue">
-						<Value Class="Double">1</Value>
-						<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
-					</Width>
-					<Points>
-						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-0.2590000000000001</X><Y>24.999</Y><Z>0</Z></Point>
-						<Point><X>-0.2590000000000001</X><Y>24.999</Y><Z>0</Z></Point>
-						<Point><X>-0.29000000000000015</X><Y>28.004</Y><Z>0</Z></Point>
-						<Point><X>-0.03100000000000014</X><Y>3.005</Y><Z>0</Z></Point>
-						<Point><X>-0.03100000000000014</X><Y>3.005</Y><Z>0</Z></Point>
-					</Points>
-					<Bidirectional>true</Bidirectional>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="CodeUnitValue">
-						<Code><![CDATA[10.0]]></Code>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
-					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
-				</Path>
-				<Path SourceId="1776171678073" TargetId="1764172583068">
-					<Id>1776171826346</Id>
-					<Name><![CDATA[path14]]></Name>
-					<X>279.99973714778844</X><Y>404.99952114433654</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<LineColor>-14774017</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineWidth>1</LineWidth>
-					<PathType>dashedLine</PathType>
-					
-					<Width Class="UnitValue">
-						<Value Class="Double">1</Value>
-						<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
-					</Width>
-					<Points>
-						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>24.937</X><Y>-1.7730000000000001</Y><Z>0</Z></Point>
-						<Point><X>-25</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-40</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>-15</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>70.422</X><Y>-2.873</Y><Z>0</Z></Point>
-					</Points>
-					<Bidirectional>true</Bidirectional>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="CodeUnitValue">
-						<Code><![CDATA[10.0]]></Code>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
-					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
-				</Path>
 			</Presentation>
 
 					<Z>0</Z>
 				</Network>
-				<Control Type="Window3D">
-					<Id>1764173447258</Id>
-					<Name><![CDATA[window3d]]></Name>
-					<X>-710</X><Y>130</Y>
-					<Width>500</Width>
-					<Height>300</Height>
-					<MakeDefaultViewArea>true</MakeDefaultViewArea>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ShowLabel>false</ShowLabel>
-					<FollowCamera>false</FollowCamera>
-					<NavigationType>full</NavigationType>
-					<FarClippingDistance>2000</FarClippingDistance>
-				</Control>
 			</Presentation>
 
 				</Level>
@@ -4087,6 +3996,42 @@ completed_count++;]]></Code>
 				<Variable Class="PlainVariable">
 					<Id>1774957553083</Id>
 					<Name><![CDATA[release_time]]></Name>
+					<X>80</X><Y>160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776396982633</Id>
+					<Name><![CDATA[enter_time]]></Name>
+					<X>80</X><Y>70</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776397007769</Id>
+					<Name><![CDATA[unloading_started_time]]></Name>
+					<X>80</X><Y>160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1776397026317</Id>
+					<Name><![CDATA[unloading_finished_time]]></Name>
 					<X>80</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -4445,7 +4390,7 @@ completed_count++;]]></Code>
 					<Code><![CDATA[1]]></Code>
 				</From>
 				<To Class="CodeValue">
-					<Code><![CDATA[4]]></Code>
+					<Code><![CDATA[1]]></Code>
 				</To>
 				<Step Class="CodeValue">
 					<Code><![CDATA[1]]></Code>

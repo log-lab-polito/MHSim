@@ -6,6 +6,7 @@ This README covers:
 - `case_studies/model_2_simpy`
 - `case_studies/model_3_simpy`
 - `case_studies/model_4_simpy`
+- `case_studies/model_6_simpy`
 - `mhsim`
 
 ## What each package is
@@ -15,6 +16,7 @@ This README covers:
 - `case_studies/model_2_simpy`: Model 2 scenario wrappers and runnable entrypoints.
 - `case_studies/model_3_simpy`: Conveyor-focused scenario for testing `Conveyor Enter`/`Convey`/`Conveyor Exit`.
 - `case_studies/model_4_simpy`: Conveyor spur merge scenario for testing `Conveyor Spur`.
+- `case_studies/model_6_simpy`: Simplified transporter-focused warehouse scenario for AnyLogic Model 6 parity work.
 
 ## Prerequisites
 
@@ -80,8 +82,15 @@ Run model:
 python -m case_studies.model_2_simpy.run_model
 ```
 
-The Model 2 runner now prints forklift benchmark rows for the six timing windows
-around store and retrieve handling. To export the same table as CSV:
+The Model 2 runner now prints forklift benchmark rows for both:
+
+- the original six legacy timing windows used by the existing AnyLogic
+  comparison workflow
+- the `MoveByTransporter`-style phase windows
+  (`enter -> seize -> loading start -> loading finish -> unloading start ->
+  unloading finish -> release`)
+
+To export the same table as CSV:
 
 ```bash
 python -m case_studies.model_2_simpy.run_model --csv logs/model_2_forklift_benchmarks.csv
@@ -195,6 +204,112 @@ Run conveyor spur model:
 
 ```bash
 python -m case_studies.model_4_simpy.run_model
+```
+
+### Model 6
+
+Run model:
+
+```bash
+python -m case_studies.model_6_simpy.run_model
+```
+
+Export the forklift benchmark table as CSV:
+
+```bash
+python -m case_studies.model_6_simpy.run_model --csv logs/model_6_forklift_benchmarks.csv
+```
+
+Compare an AnyLogic benchmark text export against fresh SimPy runs:
+
+```bash
+python -m case_studies.model_6_simpy.compare_benchmark_results --anylogic logs/anylogic_model_6_forklift_timing.txt --csv logs/model_6_benchmark_comparison.csv
+```
+
+Run parameter-variation validation experiments:
+
+```bash
+python -m case_studies.model_6_simpy.run_parameter_variation
+```
+
+Run the ranged validation with explicit options:
+
+```bash
+python -m case_studies.model_6_simpy.run_parameter_variation --run-until 1200 --range-replications 2
+```
+
+Compare AnyLogic vs SimPy parameter-variation range outputs:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py
+```
+
+The range comparison reads these SimPy CSVs by default:
+
+- `logs/model_6_parameter_variation_range_runs.csv`
+- `logs/model_6_parameter_variation_range_summary.csv`
+
+If you recently changed the range metrics or benchmark export logic, rerun the
+Model 6 range experiment first so those files are refreshed.
+
+Detailed full view:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --view full
+```
+
+Quick summary view:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --view overview
+```
+
+Hotspot matrix for a single metric:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --view matrix --metric avg_time_in_system_s
+```
+
+Worst mismatches first:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --view offenders --top 8
+```
+
+Worst mismatches for one forklift phase benchmark average:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --view offenders --metric benchmark_store_loading_finish_to_unloading_start_s__average --top 8
+```
+
+Worst mismatches across all forklift average-duration benchmarks:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --view offenders --metric benchmark_avg_only --top 10
+```
+
+The `--metric` option accepts:
+
+- summary metrics such as `avg_time_in_system_s`, `throughput_per_hour`, and `forklift_utilization`
+- forklift phase benchmark metrics such as `benchmark_store_seize_to_loading_start_s__average`
+- the shortcut `benchmark_avg_only` to combine all forklift phase `__average` duration metrics in one offenders ranking
+
+To compare against non-default SimPy CSV outputs:
+
+```bash
+python case_studies/model_6_simpy/compare_parameter_variation_range.py --anylogic logs/anylogic_model_6_parameter_variation_range.txt --simpy-runs /tmp/model6_phase_only/model_6_parameter_variation_range_runs.csv --simpy-summary /tmp/model6_phase_only/model_6_parameter_variation_range_summary.csv --view offenders --metric benchmark_avg_only --top 10
+```
+
+Run animation:
+
+```bash
+python -m case_studies.model_6_simpy.run_model_animation
+```
+
+Common animation options:
+
+```bash
+python -m case_studies.model_6_simpy.run_model_animation --speed 10 --fps 20 --record-fps 20 --trail-seconds 15 --sim-time 900
 ```
 
 ## About `mhsim`

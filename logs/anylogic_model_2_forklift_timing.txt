@@ -1,3 +1,4 @@
+
 ITERATION #0
 PARAMETERS
     Arrival rate (s): 120.0
@@ -7,42 +8,66 @@ RESULTS
     Created: 151
     Completed: 147
     In flight: 4
-    Avg cycle (s): 354.1183349800862
-    Storage level: 2
+    Avg cycle (s): 381.27709930535707
+    Storage level: 0
     Storage level: 2
     Throughput (/h): 29.4
-    Forklifts Utilization (%): 0.9178477851355441
-    Seize to Loading time (s)
-      avg = 32.43681667766286
+    Forklifts Utilization (%): 0.9171353084762108
+    Store: seize -> loading start
+      avg = 28.068465303371017
       min = 28.06846530337043
-      max = 36.92323160263186
-      std dev (pop) = 4.426989586958809
-      std dev (sample) = 4.441820414387121
-    Loading time (s)
+      max = 28.06846530337134
+      std dev (pop) = 3.906053184839715E-13
+      std dev (sample) = 3.919138826803006E-13
+    Store: loading start -> loading finish
       avg = 1.0
       min = 1.0
       max = 1.0
       std dev (pop) = 0.0
       std dev (sample) = 0.0
-    Loading to Release time (s)
-      avg = 26.469874519153546
-      min = 23.10225456635999
-      max = 28.171754470695305
-      std dev (pop) = 2.357933795654357
-      std dev (sample) = 2.3658330934782668
-    Seize to Unloading time (s)
-      avg = 27.613831326570306
-      min = 15.13879652659034
-      max = 40.15643369411919
-      std dev (pop) = 8.520377664503897
-      std dev (sample) = 8.549309420643155
-    Unloading time (s)
+    Store: loading finish -> unloading start
+      avg = 34.67014198877547
+      min = 34.67014198877496
+      max = 34.67014198877587
+      std dev (pop) = 3.8675461831948347E-13
+      std dev (sample) = 3.880502823116229E-13
+    Store: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
       max = 1.0
       std dev (pop) = 0.0
       std dev (sample) = 0.0
-    Unloading to release time (s)
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.53849201321048
+      min = 14.53849201320918
+      max = 14.538492013210998
+      std dev (pop) = 5.761616640937285E-13
+      std dev (sample) = 5.781180760532352E-13
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
       avg = 0.0
       min = 0.0
       max = 0.0

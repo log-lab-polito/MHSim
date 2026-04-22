@@ -6,13 +6,72 @@ from dataclasses import dataclass, field
 from mhsim.stats import SimulationStats
 
 
+# Keep the original six benchmark keys first because the Model 2 comparison
+# workflow still maps AnyLogic's legacy text export onto them.
 FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
-    "store_seize_to_load_start_s": "Store: seize -> load start",
-    "store_load_duration_s": "Store: load start -> load finish",
-    "store_unload_finish_to_release_s": "Store: unload finish -> release",
-    "retrieve_seize_to_load_start_s": "Retrieve: seize -> load start",
-    "retrieve_load_duration_s": "Retrieve: load start -> load finish",
-    "retrieve_unload_finish_to_release_s": "Retrieve: unload finish -> release",
+    "store_seize_to_load_start_s": "Store legacy: seize -> load start",
+    "store_load_duration_s": "Store legacy: load start -> load finish",
+    "store_unload_finish_to_release_s": "Store legacy: load finish -> release",
+    "retrieve_seize_to_load_start_s": "Retrieve legacy: seize -> unload start",
+    "retrieve_load_duration_s": "Retrieve legacy: unload start -> unload finish",
+    "retrieve_unload_finish_to_release_s": "Retrieve legacy: unload finish -> release",
+    "store_enter_to_seize_s": "Store: enter -> seize",
+    "store_seize_to_loading_start_s": "Store: seize -> loading start",
+    "store_loading_duration_s": "Store: loading start -> loading finish",
+    "store_loading_finish_to_unloading_start_s": (
+        "Store: loading finish -> unloading start"
+    ),
+    "store_unloading_duration_s": (
+        "Store: unloading start -> unloading finish"
+    ),
+    "store_unloading_finish_to_release_s": (
+        "Store: unloading finish -> release"
+    ),
+    "retrieve_enter_to_seize_s": "Retrieve: enter -> seize",
+    "retrieve_seize_to_loading_start_s": (
+        "Retrieve: seize -> loading start"
+    ),
+    "retrieve_loading_duration_s": (
+        "Retrieve: loading start -> loading finish"
+    ),
+    "retrieve_loading_finish_to_unloading_start_s": (
+        "Retrieve: loading finish -> unloading start"
+    ),
+    "retrieve_unloading_duration_s": (
+        "Retrieve: unloading start -> unloading finish"
+    ),
+    "retrieve_unloading_finish_to_release_s": (
+        "Retrieve: unloading finish -> release"
+    ),
+}
+FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS: dict[str, str] = {
+    "store_exact_enter_to_seize_s": "store_enter_to_seize_s",
+    "store_exact_seize_to_loading_start_s": "store_seize_to_loading_start_s",
+    "store_exact_loading_duration_s": "store_loading_duration_s",
+    "store_exact_loading_finish_to_unloading_start_s": (
+        "store_loading_finish_to_unloading_start_s"
+    ),
+    "store_exact_unloading_duration_s": "store_unloading_duration_s",
+    "store_exact_unloading_finish_to_release_s": (
+        "store_unloading_finish_to_release_s"
+    ),
+    "retrieve_exact_enter_to_seize_s": "retrieve_enter_to_seize_s",
+    "retrieve_exact_seize_to_loading_start_s": (
+        "retrieve_seize_to_loading_start_s"
+    ),
+    "retrieve_exact_loading_duration_s": "retrieve_loading_duration_s",
+    "retrieve_exact_loading_finish_to_unloading_start_s": (
+        "retrieve_loading_finish_to_unloading_start_s"
+    ),
+    "retrieve_exact_unloading_duration_s": "retrieve_unloading_duration_s",
+    "retrieve_exact_unloading_finish_to_release_s": (
+        "retrieve_unloading_finish_to_release_s"
+    ),
+}
+PHASE_FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
+    metric_key: label
+    for metric_key, label in FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items()
+    if label.startswith(("Store:", "Retrieve:"))
 }
 FORKLIFT_MOVEMENT_BENCHMARK_ORDER = tuple(FORKLIFT_MOVEMENT_BENCHMARK_LABELS)
 

@@ -16,6 +16,18 @@ DEFAULT_BLOCK_MAPPING = [
 ]
 
 
+def resolve_model_storage_level(model: Any) -> int | float | None:
+    getter = getattr(model, "get_storage_level", None)
+    if callable(getter):
+        return getter()
+
+    storage = getattr(model, "storage", None)
+    if storage is not None and hasattr(storage, "level"):
+        return storage.level
+
+    return None
+
+
 def build_forklift_movement_benchmark_rows(stats: Any) -> list[dict[str, Any]]:
     summaries_fn = getattr(stats, "forklift_movement_summaries", None)
     if not callable(summaries_fn):
@@ -137,7 +149,9 @@ def run_model_and_print_summary(
     print(f"Pallets created: {stats.created}")
     print(f"Pallets completed: {stats.completed}")
     print(f"Average time in system: {stats.avg_time_in_system:.2f} s")
-    print(f"Storage level at end: {model.storage.level}")
+    storage_level = resolve_model_storage_level(model)
+    if storage_level is not None:
+        print(f"Storage level at end: {storage_level}")
     if include_forklift_utilization:
         fleet = getattr(model, "fleet", None)
         utilization = getattr(fleet, "utilization", None)
@@ -211,9 +225,17 @@ def compare_blocks_with_anylogic(
     print(f"Created: {stats.created}  Completed: {stats.completed}  In-flight: {in_flight}")
     summary_parts = [f"Avg cycle: {stats.avg_time_in_system:.2f}s"]
 
+    storage_level = resolve_model_storage_level(model)
     storage = getattr(model, "storage", None)
-    if storage is not None and hasattr(storage, "level") and hasattr(storage, "capacity"):
-        summary_parts.insert(0, f"Storage: {storage.level}/{storage.capacity}")
+    if (
+        storage is not None
+        and hasattr(storage, "level")
+        and hasattr(storage, "capacity")
+        and storage_level is not None
+    ):
+        summary_parts.insert(0, f"Storage: {storage_level}/{storage.capacity}")
+    elif storage_level is not None:
+        summary_parts.insert(0, f"Storage: {storage_level}")
 
     conveyor = getattr(model, "conveyor", None)
     if conveyor is not None and hasattr(conveyor, "occupancy"):

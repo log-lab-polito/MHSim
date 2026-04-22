@@ -1,0 +1,7 @@
+metric_key,metric,count,avg_s,min_s,max_s,std_dev_s
+store_seize_to_load_start_s,Store: seize -> load start,150,31.356000000032328,28.999999999577994,38.300000000139335,4.044757594714013
+store_load_duration_s,Store: load start -> load finish,150,1.0,1.0,1.0,0.0
+store_unload_finish_to_release_s,Store: unload finish -> release,149,30.197651006693302,23.599999999656575,41.05000000014934,8.107723419380466
+retrieve_seize_to_load_start_s,Retrieve: seize -> load start,148,31.587837837869504,25.099999999634747,41.90000000015243,7.8159824597880245
+retrieve_load_duration_s,Retrieve: load start -> load finish,148,1.0,1.0,1.0,0.0
+retrieve_unload_finish_to_release_s,Retrieve: unload finish -> release,148,22.96621621606282,0.0,30.900000000112414,13.498481165992503
