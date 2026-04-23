@@ -1,4 +1,4 @@
-"""SimPy replication of AnyLogic Model 1."""
+"""SimPy replication of the parameterized warehouse Model 1."""
 
 from .params import Model1Params  # noqa: F401
 

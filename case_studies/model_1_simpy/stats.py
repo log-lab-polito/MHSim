@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from mhsim.stats import SimulationStats
 
 
-# Keep the original six benchmark keys first because the Model 2 comparison
+# Keep the original six benchmark keys first because the Model 1 comparison
 # workflow still maps AnyLogic's legacy text export onto them.
 FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
     "store_seize_to_load_start_s": "Store legacy: seize -> load start",

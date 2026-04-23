@@ -1,4 +1,4 @@
-"""Factory and initialization utilities for SimPy Model 6."""
+"""Factory and initialization utilities for SimPy Model 2."""
 
 from __future__ import annotations
 
@@ -14,23 +14,23 @@ from mhsim.movement import (
 from mhsim.routing import Router
 from mhsim.spatial import Path, PointNode, RectangularNode, Storage, WarehouseLayout
 
-from .params import Model6Params
+from .params import Model2Params
 
 
-def create_model6_warehouse(
+def create_model2_warehouse(
     env: simpy.Environment,
-    params: Model6Params,
+    params: Model2Params,
     *,
     stats: object | None = None,
 ) -> tuple[WarehouseLayout, Router, ForkliftFleet]:
-    """Create the simplified Model 6 warehouse and transporter fleet."""
+    """Create the simplified Model 2 warehouse and transporter fleet."""
     receiving_area = PointNode("receiving_area", Position3D(16, 40.5, 0))
     outbound_area = PointNode("outbound_area", Position3D(43, 40.5, 0))
     home_area = RectangularNode(
         "home_location_forklifts", Position3D(23, 26, 0), 12.0, 4.0, 2.5
     )
     storage_rack = PointNode("storage_rack", Position3D(29, 40.5, 0))
-    # AnyLogic Model 6 defines the path graph with explicit intermediate nodes.
+    # AnyLogic Model 2 defines the path graph with explicit intermediate nodes.
     # Keep the same fixed positions here instead of tuning geometry to match
     # benchmark outputs.
     top_left = PointNode("node1", Position3D(23, 35.5, 0))

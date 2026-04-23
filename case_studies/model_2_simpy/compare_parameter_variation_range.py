@@ -2,10 +2,10 @@
 """
 Compare AnyLogic and SimPy outputs for Model 2 parameter-variation range runs.
 
-This script is intentionally tolerant of:
-- AnyLogic iteration order differing from SimPy iteration order
-- deterministic SimPy summaries that use either scalar metric columns or
-  older mean/min/max columns
+This comparison focuses on the summary metrics, like the Model 2 range audit.
+For per-phase forklift timing details on one or more matching iterations, use
+`case_studies.model_2_simpy.compare_benchmark_results` against the same
+AnyLogic text export.
 """
 
 from __future__ import annotations
@@ -13,24 +13,22 @@ from __future__ import annotations
 import argparse
 import csv
 import math
-import re
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-ANYLOGIC_KEY_MAP = {
-    "Arrival rate (s)": "arrival_rate_s",
-    "Forklift capacity": "forklift_capacity",
-    "Delay time (s)": "delay_time_s",
-    "Created": "created",
-    "Completed": "completed",
-    "In flight": "in_flight",
-    "Avg cycle (s)": "avg_time_in_system_s",
-    "Storage level": "storage_level",
-    "Throughput (/h)": "throughput_per_hour",
-    "Forklifts Utilization (%)": "forklift_utilization",
-}
+from case_studies.model_2_simpy.compare_benchmark_results import (
+    BENCHMARK_STAT_FIELDS,
+    BenchmarkStats,
+    MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    parse_anylogic_benchmark_output,
+)
+from case_studies.model_1_simpy.stats import FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS
+
 
 METRICS = [
     ("created", "Created"),
@@ -43,6 +41,28 @@ METRICS = [
 OPTIONAL_METRICS = [
     ("forklift_utilization", "Forklifts Utilization (%)"),
 ]
+BENCHMARK_METRIC_PREFIX = "benchmark_"
+BENCHMARK_STAT_LABELS = {field_name: label for field_name, label in BENCHMARK_STAT_FIELDS}
+BENCHMARK_STAT_DISPLAY_LABELS = {
+    "average": "avg",
+    "minimum": "min",
+    "maximum": "max",
+    "std_dev_pop": "std",
+}
+BENCHMARK_AVG_ONLY = "benchmark_avg_only"
+BENCHMARK_METRIC_NAME_ALIASES = {
+    f"{BENCHMARK_METRIC_PREFIX}{old_key}__{stat_field}": (
+        f"{BENCHMARK_METRIC_PREFIX}{new_key}__{stat_field}"
+    )
+    for old_key, new_key in FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS.items()
+    for stat_field, _ in BENCHMARK_STAT_FIELDS
+}
+BENCHMARK_METRIC_OLD_NAME_ALIASES = {
+    new_name: old_name for old_name, new_name in BENCHMARK_METRIC_NAME_ALIASES.items()
+}
+FORKLIFT_MOVEMENT_OLD_METRIC_KEYS = {
+    new_key: old_key for old_key, new_key in FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS.items()
+}
 
 
 @dataclass(frozen=True)
@@ -58,6 +78,7 @@ class AnyLogicRangeRow:
     storage_level: int
     throughput_per_hour: float
     forklift_utilization: float | None
+    benchmarks: dict[str, BenchmarkStats]
 
     @property
     def match_key(self) -> tuple[float, int, float]:
@@ -71,7 +92,7 @@ class SimPyRangeSummaryRow:
     arrival_rate_per_min: float
     arrival_rate_s: float
     forklift_capacity: int
-    delay_time_s: float | None
+    delay_time_s: float
     created: int
     completed: int
     in_flight: int
@@ -79,9 +100,10 @@ class SimPyRangeSummaryRow:
     storage_level: int
     throughput_per_hour: float
     forklift_utilization: float | None
+    benchmarks: dict[str, BenchmarkStats]
 
     @property
-    def match_key(self) -> tuple[float, int, float | None]:
+    def match_key(self) -> tuple[float, int, float]:
         return (self.arrival_rate_s, self.forklift_capacity, self.delay_time_s)
 
 
@@ -92,7 +114,7 @@ class SimPyRangeRunRow:
     arrival_rate_per_min: float
     arrival_rate_s: float
     forklift_capacity: int
-    delay_time_s: float | None
+    delay_time_s: float
     created: int
     completed: int
     in_flight: int
@@ -100,99 +122,37 @@ class SimPyRangeRunRow:
     storage_level: int
     throughput_per_hour: float
     forklift_utilization: float | None
+    benchmarks: dict[str, BenchmarkStats]
 
 
 @dataclass(frozen=True)
 class ComparisonContext:
     validation_issues: list[str]
     anylogic_by_key: dict[tuple[float, int, float], AnyLogicRangeRow]
-    simpy_by_key: dict[tuple[float, int, float | None], SimPyRangeSummaryRow]
+    simpy_by_key: dict[tuple[float, int, float], SimPyRangeSummaryRow]
     common_keys: list[tuple[float, int, float]]
     anylogic_only: list[tuple[float, int, float]]
-    simpy_only: list[tuple[float, int, float | None]]
+    simpy_only: list[tuple[float, int, float]]
 
 
 def parse_anylogic_range_output(path: str | Path) -> list[AnyLogicRangeRow]:
-    iteration_re = re.compile(r"^ITERATION #(\d+)\s*$")
-    key_value_re = re.compile(r"^\s*([^:]+):\s*(.+?)\s*$")
-    rows: list[AnyLogicRangeRow] = []
-
-    current_iteration: int | None = None
-    values: dict[str, Any] = {}
-
-    def finalize_current() -> None:
-        nonlocal current_iteration, values
-        if current_iteration is None:
-            return
-        required = [
-            "arrival_rate_s",
-            "forklift_capacity",
-            "delay_time_s",
-            "created",
-            "completed",
-            "in_flight",
-            "avg_time_in_system_s",
-            "storage_level",
-            "throughput_per_hour",
-        ]
-        missing = [name for name in required if name not in values]
-        if missing:
-            raise ValueError(
-                f"AnyLogic iteration #{current_iteration} is missing fields: {', '.join(missing)}"
-            )
-        rows.append(
-            AnyLogicRangeRow(
-                iteration=current_iteration,
-                arrival_rate_s=float(values["arrival_rate_s"]),
-                forklift_capacity=int(values["forklift_capacity"]),
-                delay_time_s=float(values["delay_time_s"]),
-                created=int(values["created"]),
-                completed=int(values["completed"]),
-                in_flight=int(values["in_flight"]),
-                avg_time_in_system_s=float(values["avg_time_in_system_s"]),
-                storage_level=int(values["storage_level"]),
-                throughput_per_hour=float(values["throughput_per_hour"]),
-                forklift_utilization=(
-                    None
-                    if "forklift_utilization" not in values
-                    else float(values["forklift_utilization"])
-                ),
-            )
+    return [
+        AnyLogicRangeRow(
+            iteration=row.iteration,
+            arrival_rate_s=row.arrival_rate_s,
+            forklift_capacity=row.forklift_capacity,
+            delay_time_s=row.delay_time_s,
+            created=row.created,
+            completed=row.completed,
+            in_flight=row.in_flight,
+            avg_time_in_system_s=row.avg_time_in_system_s,
+            storage_level=row.storage_level,
+            throughput_per_hour=row.throughput_per_hour,
+            forklift_utilization=row.forklift_utilization,
+            benchmarks=row.benchmarks,
         )
-        current_iteration = None
-        values = {}
-
-    with Path(path).open() as handle:
-        for raw_line in handle:
-            line = raw_line.rstrip("\n")
-            if not line.strip():
-                finalize_current()
-                continue
-
-            iteration_match = iteration_re.match(line)
-            if iteration_match:
-                finalize_current()
-                current_iteration = int(iteration_match.group(1))
-                values = {}
-                continue
-
-            if line.startswith("PARAMETERS") or line.startswith("RESULTS"):
-                continue
-            if line.startswith("WARNING"):
-                continue
-
-            match = key_value_re.match(line)
-            if not match or current_iteration is None:
-                continue
-
-            label, raw_value = match.groups()
-            normalized_key = ANYLOGIC_KEY_MAP.get(label)
-            if normalized_key is None:
-                continue
-            values[normalized_key] = _parse_number(raw_value)
-
-    finalize_current()
-    return rows
+        for row in parse_anylogic_benchmark_output(path)
+    ]
 
 
 def load_simpy_summary_rows(path: str | Path) -> list[SimPyRangeSummaryRow]:
@@ -208,7 +168,7 @@ def load_simpy_summary_rows(path: str | Path) -> list[SimPyRangeSummaryRow]:
                     arrival_rate_per_min=arrival_rate_per_min,
                     arrival_rate_s=60.0 / arrival_rate_per_min,
                     forklift_capacity=_int_field(record, "param_n_forklifts"),
-                    delay_time_s=_optional_float_field(record, "param_delay_time_s"),
+                    delay_time_s=_float_field(record, "param_delay_time_s"),
                     created=_metric_int_field(record, "created"),
                     completed=_metric_int_field(record, "completed"),
                     in_flight=_metric_int_field(record, "in_flight"),
@@ -222,6 +182,7 @@ def load_simpy_summary_rows(path: str | Path) -> list[SimPyRangeSummaryRow]:
                     forklift_utilization=_optional_metric_float_field(
                         record, "forklift_utilization"
                     ),
+                    benchmarks=_load_summary_benchmarks(record),
                 )
             )
     return rows
@@ -240,7 +201,7 @@ def load_simpy_run_rows(path: str | Path) -> list[SimPyRangeRunRow]:
                     arrival_rate_per_min=arrival_rate_per_min,
                     arrival_rate_s=60.0 / arrival_rate_per_min,
                     forklift_capacity=_int_field(record, "param_n_forklifts"),
-                    delay_time_s=_optional_float_field(record, "param_delay_time_s"),
+                    delay_time_s=_float_field(record, "param_delay_time_s"),
                     created=_int_field(record, "metric_created"),
                     completed=_int_field(record, "metric_completed"),
                     in_flight=_int_field(record, "metric_in_flight"),
@@ -254,6 +215,7 @@ def load_simpy_run_rows(path: str | Path) -> list[SimPyRangeRunRow]:
                     forklift_utilization=_optional_float_field(
                         record, "metric_forklift_utilization"
                     ),
+                    benchmarks=_load_run_benchmarks(record),
                 )
             )
     return rows
@@ -275,14 +237,14 @@ def validate_simpy_runs(
         for other in rows[1:]:
             for field_name, _ in metrics:
                 if not _values_match(
-                    getattr(first, field_name),
-                    getattr(other, field_name),
+                    _metric_value(first, field_name),
+                    _metric_value(other, field_name),
                 ):
                     issues.append(
                         f"SimPy iteration {iteration} differs across replications "
                         f"for '{field_name}': replication {first.replication}="
-                        f"{getattr(first, field_name)} vs replication {other.replication}="
-                        f"{getattr(other, field_name)}"
+                        f"{_metric_value(first, field_name)} vs replication {other.replication}="
+                        f"{_metric_value(other, field_name)}"
                     )
         summary = summary_by_iteration.get(iteration)
         if summary is None:
@@ -290,12 +252,12 @@ def validate_simpy_runs(
             continue
         for field_name, _ in metrics:
             if not _values_match(
-                getattr(first, field_name),
-                getattr(summary, field_name),
+                _metric_value(first, field_name),
+                _metric_value(summary, field_name),
             ):
                 issues.append(
                     f"SimPy summary mismatch for iteration {iteration} field '{field_name}': "
-                    f"summary={getattr(summary, field_name)} runs={getattr(first, field_name)}"
+                    f"summary={_metric_value(summary, field_name)} runs={_metric_value(first, field_name)}"
                 )
     return issues
 
@@ -381,10 +343,9 @@ def _print_unmatched(context: ComparisonContext) -> None:
     if context.anylogic_only:
         print("\nAnyLogic combinations without a matching SimPy summary row:")
         for arrival_rate_s, forklift_capacity, delay_time_s in context.anylogic_only:
-            anylogic = context.anylogic_by_key[(arrival_rate_s, forklift_capacity, delay_time_s)]
             print(
                 f"  arrival_s={arrival_rate_s:g}  forklifts={forklift_capacity}  "
-                f"delay_s={anylogic.delay_time_s:g}"
+                f"delay_s={delay_time_s:g}"
             )
 
     if context.simpy_only:
@@ -392,7 +353,7 @@ def _print_unmatched(context: ComparisonContext) -> None:
         for arrival_rate_s, forklift_capacity, delay_time_s in context.simpy_only:
             print(
                 f"  arrival_s={arrival_rate_s:g}  forklifts={forklift_capacity}  "
-                f"delay_s={_format_optional(delay_time_s)}"
+                f"delay_s={delay_time_s:g}"
             )
 
 
@@ -418,6 +379,7 @@ def _available_simpy_metrics(
             getattr(row, field_name) is not None for row in run_rows
         ):
             metrics.append((field_name, label))
+    metrics.extend(_available_benchmark_metrics(summary_rows, run_rows))
     return metrics
 
 
@@ -433,6 +395,7 @@ def _comparison_metrics(
             for anylogic, simpy in matched
         ):
             metrics.append((field_name, label))
+    metrics.extend(_comparison_benchmark_metrics(matched))
     return metrics
 
 
@@ -440,8 +403,16 @@ def _selected_metrics(
     metric_name: str,
     available_metrics: list[tuple[str, str]],
 ) -> list[tuple[str, str]]:
+    metric_name = BENCHMARK_METRIC_NAME_ALIASES.get(metric_name, metric_name)
     if metric_name == "all":
         return available_metrics
+    if metric_name == BENCHMARK_AVG_ONLY:
+        return [
+            (field_name, label)
+            for field_name, label in available_metrics
+            if field_name.startswith(BENCHMARK_METRIC_PREFIX)
+            and field_name.endswith("__average")
+        ]
     for field_name, label in available_metrics:
         if field_name == metric_name:
             return [(field_name, label)]
@@ -455,21 +426,21 @@ def _print_full_view(context: ComparisonContext) -> None:
         print(
             f"\narrival_s={anylogic.arrival_rate_s:g}  "
             f"forklifts={anylogic.forklift_capacity}  "
-            f"delay_s={_format_optional(anylogic.delay_time_s)}  "
+            f"delay_s={anylogic.delay_time_s:g}  "
             f"AnyLogic iteration={anylogic.iteration}  SimPy iteration={simpy.iteration}"
         )
         print(
-            f"  {'Metric':<26} {'AnyLogic':>14} {'SimPy':>14} "
+            f"  {'Metric':<40} {'AnyLogic':>14} {'SimPy':>14} "
             f"{'Diff':>14} {'Diff %':>10} {'Status':>8}"
         )
-        print(f"  {'-' * 88}")
+        print(f"  {'-' * 102}")
         for field_name, label in metrics:
-            anylogic_value = getattr(anylogic, field_name)
-            simpy_value = getattr(simpy, field_name)
+            anylogic_value = _metric_value(anylogic, field_name)
+            simpy_value = _metric_value(simpy, field_name)
             diff = _numeric_diff(anylogic_value, simpy_value)
             diff_pct = _percent_diff(anylogic_value, simpy_value)
             print(
-                f"  {label:<26} "
+                f"  {_truncate(label, 40):<40} "
                 f"{_format_value(anylogic_value):>14} "
                 f"{_format_value(simpy_value):>14} "
                 f"{_format_diff(diff):>14} "
@@ -482,10 +453,10 @@ def _print_overview_view(context: ComparisonContext) -> None:
     metrics = _comparison_metrics(context)
     print("\nOverview:")
     print(
-        f"  {'Metric':<26} {'Match':>7} {'Close':>7} {'Diff':>7} "
+        f"  {'Metric':<40} {'Match':>7} {'Close':>7} {'Diff':>7} "
         f"{'Worst Diff':>14} {'Worst %':>10} {'Worst Case':>22}"
     )
-    print(f"  {'-' * 100}")
+    print(f"  {'-' * 114}")
 
     for field_name, label in metrics:
         counts = {"MATCH": 0, "CLOSE": 0, "DIFF": 0}
@@ -493,8 +464,8 @@ def _print_overview_view(context: ComparisonContext) -> None:
         worst_pct: tuple[float, float | None, tuple[float, int, float]] | None = None
 
         for anylogic, simpy in _matched_rows(context):
-            anylogic_value = getattr(anylogic, field_name)
-            simpy_value = getattr(simpy, field_name)
+            anylogic_value = _metric_value(anylogic, field_name)
+            simpy_value = _metric_value(simpy, field_name)
             diff = _numeric_diff(anylogic_value, simpy_value)
             diff_pct = _percent_diff(anylogic_value, simpy_value)
             status = _status(anylogic_value, simpy_value)
@@ -513,7 +484,7 @@ def _print_overview_view(context: ComparisonContext) -> None:
         worst_pct_value = None if worst_pct is None else worst_pct[1]
         worst_case_key = None if worst_pct is None else worst_pct[2]
         print(
-            f"  {label:<26} "
+            f"  {_truncate(label, 40):<40} "
             f"{counts['MATCH']:>7} {counts['CLOSE']:>7} {counts['DIFF']:>7} "
             f"{_format_diff(worst_diff_value):>14} "
             f"{_format_percent(worst_pct_value):>10} "
@@ -548,7 +519,12 @@ def _print_matrix_view(context: ComparisonContext, *, metric_name: str) -> None:
                     if anylogic is None or simpy is None:
                         row_cells.append("---")
                         continue
-                    row_cells.append(_matrix_cell(getattr(anylogic, field_name), getattr(simpy, field_name)))
+                    row_cells.append(
+                        _matrix_cell(
+                            _metric_value(anylogic, field_name),
+                            _metric_value(simpy, field_name),
+                        )
+                    )
                 rows.append(row_cells)
             _print_table(header, rows, indent="  ")
 
@@ -559,11 +535,26 @@ def _print_offenders_view(
     metric_name: str,
     top: int,
 ) -> None:
-    offenders: list[tuple[float, str, tuple[float, int, float], int, int | float, int | float, float, float | None, str]] = []
+    offenders: list[
+        tuple[
+            float,
+            str,
+            tuple[float, int, float],
+            int,
+            int,
+            int | float,
+            int | float,
+            float,
+            float | None,
+            str,
+        ]
+    ] = []
     for anylogic, simpy in _matched_rows(context):
-        for field_name, label in _selected_metrics(metric_name, _comparison_metrics(context)):
-            anylogic_value = getattr(anylogic, field_name)
-            simpy_value = getattr(simpy, field_name)
+        for field_name, label in _selected_metrics(
+            metric_name, _comparison_metrics(context)
+        ):
+            anylogic_value = _metric_value(anylogic, field_name)
+            simpy_value = _metric_value(simpy, field_name)
             diff = _numeric_diff(anylogic_value, simpy_value)
             diff_pct = _percent_diff(anylogic_value, simpy_value)
             severity = abs(diff_pct) if diff_pct is not None else abs(diff)
@@ -607,7 +598,18 @@ def _print_offenders_view(
     ]
     rows: list[list[str]] = []
     for index, offender in enumerate(offenders[:top], start=1):
-        _, label, key, anylogic_iteration, simpy_iteration, _anylogic_value, _simpy_value, diff, diff_pct, status = offender
+        (
+            _severity,
+            label,
+            key,
+            anylogic_iteration,
+            simpy_iteration,
+            _anylogic_value,
+            _simpy_value,
+            diff,
+            diff_pct,
+            status,
+        ) = offender
         rows.append(
             [
                 str(index),
@@ -627,9 +629,20 @@ def _metric_float_field(record: dict[str, str], metric_name: str) -> float:
     direct = record.get(f"metric_{metric_name}")
     if direct not in (None, ""):
         return float(direct)
+    old_metric_name = BENCHMARK_METRIC_OLD_NAME_ALIASES.get(metric_name)
+    if old_metric_name is None:
+        old_metric_name = FORKLIFT_MOVEMENT_OLD_METRIC_KEYS.get(metric_name)
+    if old_metric_name is not None:
+        direct = record.get(f"metric_{old_metric_name}")
+        if direct not in (None, ""):
+            return float(direct)
     mean = record.get(f"metric_{metric_name}_mean")
     if mean not in (None, ""):
         return float(mean)
+    if old_metric_name is not None:
+        mean = record.get(f"metric_{old_metric_name}_mean")
+        if mean not in (None, ""):
+            return float(mean)
     raise KeyError(f"CSV row is missing metric field '{metric_name}'")
 
 
@@ -637,9 +650,20 @@ def _optional_metric_float_field(record: dict[str, str], metric_name: str) -> fl
     direct = record.get(f"metric_{metric_name}")
     if direct not in (None, ""):
         return float(direct)
+    old_metric_name = BENCHMARK_METRIC_OLD_NAME_ALIASES.get(metric_name)
+    if old_metric_name is None:
+        old_metric_name = FORKLIFT_MOVEMENT_OLD_METRIC_KEYS.get(metric_name)
+    if old_metric_name is not None:
+        direct = record.get(f"metric_{old_metric_name}")
+        if direct not in (None, ""):
+            return float(direct)
     mean = record.get(f"metric_{metric_name}_mean")
     if mean not in (None, ""):
         return float(mean)
+    if old_metric_name is not None:
+        mean = record.get(f"metric_{old_metric_name}_mean")
+        if mean not in (None, ""):
+            return float(mean)
     return None
 
 
@@ -664,15 +688,133 @@ def _float_field(record: dict[str, str], field_name: str) -> float:
 def _optional_float_field(record: dict[str, str], field_name: str) -> float | None:
     value = record.get(field_name)
     if value in (None, ""):
+        old_field_name = BENCHMARK_METRIC_OLD_NAME_ALIASES.get(field_name)
+        if old_field_name is not None:
+            value = record.get(old_field_name)
+    if value in (None, ""):
         return None
     return float(value)
 
 
-def _parse_number(raw_value: str) -> int | float:
-    value = raw_value.strip()
-    if re.search(r"[.eE]", value):
-        return float(value)
-    return int(value)
+def _benchmark_metric_name(metric_key: str, stat_field: str) -> str:
+    return f"{BENCHMARK_METRIC_PREFIX}{metric_key}__{stat_field}"
+
+
+def _decode_benchmark_metric_name(metric_name: str) -> tuple[str, str] | None:
+    if not metric_name.startswith(BENCHMARK_METRIC_PREFIX):
+        return None
+    payload = metric_name[len(BENCHMARK_METRIC_PREFIX) :]
+    if "__" not in payload:
+        return None
+    metric_key, stat_field = payload.rsplit("__", 1)
+    return metric_key, stat_field
+
+
+def _benchmark_metric_label(metric_name: str) -> str:
+    decoded = _decode_benchmark_metric_name(metric_name)
+    if decoded is None:
+        return metric_name
+    metric_key, stat_field = decoded
+    metric_label = MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS.get(metric_key, metric_key)
+    stat_label = BENCHMARK_STAT_DISPLAY_LABELS.get(
+        stat_field,
+        BENCHMARK_STAT_LABELS.get(stat_field, stat_field),
+    )
+    return f"{metric_label} [{stat_label}]"
+
+
+def _metric_value(row: AnyLogicRangeRow | SimPyRangeSummaryRow | SimPyRangeRunRow, metric_name: str) -> int | float:
+    decoded = _decode_benchmark_metric_name(metric_name)
+    if decoded is None:
+        value = getattr(row, metric_name)
+        assert value is not None
+        return value
+    benchmark_key, stat_field = decoded
+    benchmark = row.benchmarks[benchmark_key]
+    return getattr(benchmark, stat_field)
+
+
+def _load_summary_benchmarks(record: dict[str, str]) -> dict[str, BenchmarkStats]:
+    benchmarks: dict[str, BenchmarkStats] = {}
+    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+        values: dict[str, float] = {}
+        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
+            value = _optional_metric_float_field(
+                record,
+                _benchmark_metric_name(metric_key, stat_field),
+            )
+            if value is not None:
+                values[stat_field] = value
+        if len(values) == len(BENCHMARK_STAT_FIELDS):
+            benchmarks[metric_key] = BenchmarkStats(
+                average=values["average"],
+                minimum=values["minimum"],
+                maximum=values["maximum"],
+                std_dev_pop=values["std_dev_pop"],
+            )
+    return benchmarks
+
+
+def _load_run_benchmarks(record: dict[str, str]) -> dict[str, BenchmarkStats]:
+    benchmarks: dict[str, BenchmarkStats] = {}
+    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+        values: dict[str, float] = {}
+        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
+            value = _optional_float_field(
+                record,
+                f"metric_{_benchmark_metric_name(metric_key, stat_field)}",
+            )
+            if value is not None:
+                values[stat_field] = value
+        if len(values) == len(BENCHMARK_STAT_FIELDS):
+            benchmarks[metric_key] = BenchmarkStats(
+                average=values["average"],
+                minimum=values["minimum"],
+                maximum=values["maximum"],
+                std_dev_pop=values["std_dev_pop"],
+            )
+    return benchmarks
+
+
+def _available_benchmark_metrics(
+    summary_rows: list[SimPyRangeSummaryRow],
+    run_rows: list[SimPyRangeRunRow],
+) -> list[tuple[str, str]]:
+    metrics: list[tuple[str, str]] = []
+    common_benchmark_keys = set.intersection(
+        *[
+            {key for row in rows for key in row.benchmarks}
+            for rows in (summary_rows, run_rows)
+        ]
+    ) if summary_rows and run_rows else set()
+    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+        if metric_key not in common_benchmark_keys:
+            continue
+        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
+            metric_name = _benchmark_metric_name(metric_key, stat_field)
+            metrics.append((metric_name, _benchmark_metric_label(metric_name)))
+    return metrics
+
+
+def _comparison_benchmark_metrics(
+    matched: list[tuple[AnyLogicRangeRow, SimPyRangeSummaryRow]],
+) -> list[tuple[str, str]]:
+    if not matched:
+        return []
+    common_benchmark_keys = set.intersection(
+        *[
+            set(anylogic.benchmarks) & set(simpy.benchmarks)
+            for anylogic, simpy in matched
+        ]
+    )
+    metrics: list[tuple[str, str]] = []
+    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+        if metric_key not in common_benchmark_keys:
+            continue
+        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
+            metric_name = _benchmark_metric_name(metric_key, stat_field)
+            metrics.append((metric_name, _benchmark_metric_label(metric_name)))
+    return metrics
 
 
 def _values_match(left: Any, right: Any) -> bool:
@@ -717,12 +859,6 @@ def _format_percent(value: float | None) -> str:
     return text
 
 
-def _format_optional(value: float | None) -> str:
-    if value is None:
-        return "n/a"
-    return _format_value(value)
-
-
 def _status(anylogic_value: int | float, simpy_value: int | float) -> str:
     if _values_match(anylogic_value, simpy_value):
         return "MATCH"
@@ -736,15 +872,21 @@ def _status(anylogic_value: int | float, simpy_value: int | float) -> str:
     return "DIFF"
 
 
-def _format_case(key: tuple[float, int, float] | tuple[float, int, float | None] | None) -> str:
+def _format_case(key: tuple[float, int, float] | None) -> str:
     if key is None:
         return "n/a"
     arrival_rate_s, forklift_capacity, delay_time_s = key
     return (
         f"a={_format_value(arrival_rate_s)} "
         f"f={forklift_capacity} "
-        f"d={_format_optional(delay_time_s)}"
+        f"d={_format_value(delay_time_s)}"
     )
+
+
+def _truncate(text: str, max_width: int) -> str:
+    if max_width < 4 or len(text) <= max_width:
+        return text
+    return text[: max_width - 3] + "..."
 
 
 def _matrix_cell(anylogic_value: int | float, simpy_value: int | float) -> str:
@@ -760,18 +902,36 @@ def _print_table(header: list[str], rows: list[list[str]], *, indent: str = "") 
         print(f"{indent}<no rows>")
         return
 
-    widths = [len(column) for column in header]
+    max_width_by_header = {
+        "Metric": 52,
+        "Case": 18,
+    }
+    widths = [
+        min(len(column), max_width_by_header.get(column, len(column)))
+        for column in header
+    ]
+    display_rows: list[list[str]] = []
     for row in rows:
+        display_row: list[str] = []
         for index, value in enumerate(row):
-            widths[index] = max(widths[index], len(value))
+            max_width = max_width_by_header.get(header[index], len(value))
+            display_value = _truncate(value, max_width)
+            widths[index] = max(widths[index], len(display_value))
+            display_row.append(display_value)
+        display_rows.append(display_row)
+
+    display_header = [
+        _truncate(column, max_width_by_header.get(column, len(column)))
+        for column in header
+    ]
 
     header_line = indent + "  ".join(
-        value.ljust(widths[index]) for index, value in enumerate(header)
+        value.ljust(widths[index]) for index, value in enumerate(display_header)
     )
     divider = indent + "  ".join("-" * width for width in widths)
     print(header_line)
     print(divider)
-    for row in rows:
+    for row in display_rows:
         print(
             indent
             + "  ".join(value.ljust(widths[index]) for index, value in enumerate(row))
@@ -801,15 +961,17 @@ def main() -> None:
         "--view",
         choices=("full", "overview", "matrix", "offenders", "all"),
         default="full",
-        help="Console view to print. Default keeps the existing detailed full report.",
+        help="Console view to print. Default keeps the detailed full report.",
     )
     parser.add_argument(
         "--metric",
-        choices=("all",) + tuple(
-            field_name for field_name, _ in (METRICS + OPTIONAL_METRICS)
-        ),
         default="all",
-        help="Metric filter for matrix/offenders views.",
+        help=(
+            "Metric filter for matrix/offenders views. Supports summary metrics "
+            "plus benchmark metric names like "
+            "'benchmark_store_seize_to_loading_start_s__average', "
+            "or the shortcut 'benchmark_avg_only' for all forklift average-duration metrics."
+        ),
     )
     parser.add_argument(
         "--top",

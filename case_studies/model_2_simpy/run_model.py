@@ -6,7 +6,8 @@ from case_studies.model_1_simpy.reporting import (
     run_model_and_print_summary,
     write_forklift_movement_benchmark_csv,
 )
-from case_studies.model_1_simpy.model import Model1SimModel
+
+from .model import Model2SimModel
 from .params import Model2Params
 
 
@@ -32,7 +33,7 @@ def main():
         params.sim_time = args.sim_time
 
     stats, _model = run_model_and_print_summary(
-        model_cls=Model1SimModel,
+        model_cls=Model2SimModel,
         params=params,
         model_label="Model 2",
         console_logging=False,

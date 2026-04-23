@@ -6,10 +6,11 @@ from mhsim.params import SimulationParams
 @dataclass
 class Model1Params(SimulationParams):
     """
-    Parameters mirroring AnyLogic Model 1 configuration.
+    Parameters mirroring the parameterized warehouse Model 1 configuration.
     """
 
     log_filename_prefix: str = "simpy_model1"
+    sim_time: float = 18000.0  # seconds, 5 hours
 
     # Source
     arrival_rate_per_min: float = 0.5

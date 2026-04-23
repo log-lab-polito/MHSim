@@ -10,13 +10,13 @@ from .model import Model1SimModel
 from .params import Model1Params
 
 ANYLOGIC_BLOCKS = {
-    "source": 181,
-    "service1": 180,  # upstream service
-    "store": 126,
-    "delay": 124,
-    "retrieve": 87,
-    "service2": 87,  # downstream service
-    "sink": 87,
+    "source": 151,
+    "service1": 150,  # upstream service
+    "store": 150,
+    "delay": 148,
+    "retrieve": 148,
+    "service2": 147,  # downstream service
+    "sink": 147,
 }
 BLOCK_MAPPING = DEFAULT_BLOCK_MAPPING
 

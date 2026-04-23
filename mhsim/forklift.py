@@ -327,7 +327,8 @@ class Forklift:
 
         # Refine the interval so the final partial move only consumes the time
         # needed to cover that remaining distance, rather than a full update
-        # step. This removes the fixed-step drift that showed up in Model 6.
+        # step. This removes the fixed-step drift that showed up in the
+        # simplified transporter validation model.
         if distance > effective_distance + 1e-9:
             for _ in range(4):
                 avg_speed = current_speed + next_speed

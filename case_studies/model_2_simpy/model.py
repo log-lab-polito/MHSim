@@ -10,13 +10,13 @@ from case_studies.model_1_simpy.stats import Model1Stats
 from mhsim.blocks import DelayBlock, MoveByTransporterBlock, ServiceBlock, Sink, Source
 from mhsim.logger import SimulationLogger
 
-from .params import Model6Params
-from .setup import create_model6_warehouse
+from .params import Model2Params
+from .setup import create_model2_warehouse
 
 
 @dataclass
-class Model6SimModel:
-    params: Model6Params = field(default_factory=Model6Params)
+class Model2SimModel:
+    params: Model2Params = field(default_factory=Model2Params)
     console_logging: bool = False
     enable_logging: bool = True
 
@@ -29,11 +29,11 @@ class Model6SimModel:
         if self.enable_logging:
             self.logger = SimulationLogger(
                 filename_prefix=getattr(
-                    self.params, "log_filename_prefix", "simpy_model6"
+                    self.params, "log_filename_prefix", "simpy_model2"
                 )
             )
 
-        self.layout, self.router, self.fleet = create_model6_warehouse(
+        self.layout, self.router, self.fleet = create_model2_warehouse(
             self.env, self.params, stats=self.stats
         )
 
@@ -64,7 +64,7 @@ class Model6SimModel:
             dropoff_pos=self.layout.outbound_area.get_access_point(),
             loading_time_s=self.params.retrieve_loading_time_s,
             unloading_time_s=self.params.retrieve_unloading_time_s,
-            # Match AnyLogic Model 6 release behavior: after the outbound move,
+            # Match AnyLogic Model 2 release behavior: after the outbound move,
             # the transporter returns to its home location only when no other
             # tasks are queued.
             apply_post_task_policy_if_auto_seized=True,

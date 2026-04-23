@@ -8,17 +8,17 @@ RESULTS
     Created: 151
     Completed: 147
     In flight: 4
-    Avg cycle (s): 381.27709930535707
+    Avg cycle (s): 378.4708742392347
     Storage level: 0
     Storage level: 2
     Throughput (/h): 29.4
-    Forklifts Utilization (%): 0.9171353084762108
+    Forklifts Utilization (%): 0.8689502358531785
     Store: seize -> loading start
-      avg = 28.068465303371017
-      min = 28.06846530337043
-      max = 28.06846530337134
-      std dev (pop) = 3.906053184839715E-13
-      std dev (sample) = 3.919138826803006E-13
+      avg = 25.153469024299206
+      min = 25.15346902429883
+      max = 25.15346902429974
+      std dev (pop) = 4.2232198026756363E-13
+      std dev (sample) = 4.237367982348301E-13
     Store: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -26,11 +26,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Store: loading finish -> unloading start
-      avg = 34.67014198877547
-      min = 34.67014198877496
-      max = 34.67014198877587
-      std dev (pop) = 3.8675461831948347E-13
-      std dev (sample) = 3.880502823116229E-13
+      avg = 34.706443939653084
+      min = 34.70644393965267
+      max = 34.70644393965358
+      std dev (pop) = 4.04888840052053E-13
+      std dev (sample) = 4.0624525537594494E-13
     Store: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -56,11 +56,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Retrieve: loading finish -> unloading start
-      avg = 14.53849201321048
-      min = 14.53849201320918
-      max = 14.538492013210998
-      std dev (pop) = 5.761616640937285E-13
-      std dev (sample) = 5.781180760532352E-13
+      avg = 14.61096127528357
+      min = 14.610961275282534
+      max = 14.610961275284808
+      std dev (pop) = 9.66033180389942E-13
+      std dev (sample) = 9.69313438319577E-13
     Retrieve: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
