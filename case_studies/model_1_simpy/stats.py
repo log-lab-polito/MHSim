@@ -44,30 +44,6 @@ FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
         "Retrieve: unloading finish -> release"
     ),
 }
-FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS: dict[str, str] = {
-    "store_exact_enter_to_seize_s": "store_enter_to_seize_s",
-    "store_exact_seize_to_loading_start_s": "store_seize_to_loading_start_s",
-    "store_exact_loading_duration_s": "store_loading_duration_s",
-    "store_exact_loading_finish_to_unloading_start_s": (
-        "store_loading_finish_to_unloading_start_s"
-    ),
-    "store_exact_unloading_duration_s": "store_unloading_duration_s",
-    "store_exact_unloading_finish_to_release_s": (
-        "store_unloading_finish_to_release_s"
-    ),
-    "retrieve_exact_enter_to_seize_s": "retrieve_enter_to_seize_s",
-    "retrieve_exact_seize_to_loading_start_s": (
-        "retrieve_seize_to_loading_start_s"
-    ),
-    "retrieve_exact_loading_duration_s": "retrieve_loading_duration_s",
-    "retrieve_exact_loading_finish_to_unloading_start_s": (
-        "retrieve_loading_finish_to_unloading_start_s"
-    ),
-    "retrieve_exact_unloading_duration_s": "retrieve_unloading_duration_s",
-    "retrieve_exact_unloading_finish_to_release_s": (
-        "retrieve_unloading_finish_to_release_s"
-    ),
-}
 PHASE_FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
     metric_key: label
     for metric_key, label in FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items()

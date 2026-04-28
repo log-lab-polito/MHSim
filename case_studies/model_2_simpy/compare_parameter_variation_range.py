@@ -27,7 +27,6 @@ from case_studies.model_2_simpy.compare_benchmark_results import (
     MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
     parse_anylogic_benchmark_output,
 )
-from case_studies.model_1_simpy.stats import FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS
 
 
 METRICS = [
@@ -50,19 +49,6 @@ BENCHMARK_STAT_DISPLAY_LABELS = {
     "std_dev_pop": "std",
 }
 BENCHMARK_AVG_ONLY = "benchmark_avg_only"
-BENCHMARK_METRIC_NAME_ALIASES = {
-    f"{BENCHMARK_METRIC_PREFIX}{old_key}__{stat_field}": (
-        f"{BENCHMARK_METRIC_PREFIX}{new_key}__{stat_field}"
-    )
-    for old_key, new_key in FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS.items()
-    for stat_field, _ in BENCHMARK_STAT_FIELDS
-}
-BENCHMARK_METRIC_OLD_NAME_ALIASES = {
-    new_name: old_name for old_name, new_name in BENCHMARK_METRIC_NAME_ALIASES.items()
-}
-FORKLIFT_MOVEMENT_OLD_METRIC_KEYS = {
-    new_key: old_key for old_key, new_key in FORKLIFT_MOVEMENT_RENAMED_METRIC_KEYS.items()
-}
 
 
 @dataclass(frozen=True)
@@ -403,7 +389,7 @@ def _selected_metrics(
     metric_name: str,
     available_metrics: list[tuple[str, str]],
 ) -> list[tuple[str, str]]:
-    metric_name = BENCHMARK_METRIC_NAME_ALIASES.get(metric_name, metric_name)
+    metric_name = _normalize_selected_metric_name(metric_name)
     if metric_name == "all":
         return available_metrics
     if metric_name == BENCHMARK_AVG_ONLY:
@@ -417,6 +403,25 @@ def _selected_metrics(
         if field_name == metric_name:
             return [(field_name, label)]
     raise ValueError(f"Unsupported metric: {metric_name}")
+
+
+def _normalize_selected_metric_name(metric_name: str) -> str:
+    if metric_name in {"all", BENCHMARK_AVG_ONLY}:
+        return metric_name
+
+    benchmark_name = metric_name
+    if benchmark_name.startswith(BENCHMARK_METRIC_PREFIX):
+        benchmark_name = benchmark_name[len(BENCHMARK_METRIC_PREFIX) :]
+
+    if "__" in benchmark_name:
+        metric_key, stat_field = benchmark_name.rsplit("__", 1)
+        if metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+            return _benchmark_metric_name(metric_key, stat_field)
+        return metric_name
+
+    if benchmark_name in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+        return _benchmark_metric_name(benchmark_name, "average")
+    return metric_name
 
 
 def _print_full_view(context: ComparisonContext) -> None:
@@ -629,20 +634,9 @@ def _metric_float_field(record: dict[str, str], metric_name: str) -> float:
     direct = record.get(f"metric_{metric_name}")
     if direct not in (None, ""):
         return float(direct)
-    old_metric_name = BENCHMARK_METRIC_OLD_NAME_ALIASES.get(metric_name)
-    if old_metric_name is None:
-        old_metric_name = FORKLIFT_MOVEMENT_OLD_METRIC_KEYS.get(metric_name)
-    if old_metric_name is not None:
-        direct = record.get(f"metric_{old_metric_name}")
-        if direct not in (None, ""):
-            return float(direct)
     mean = record.get(f"metric_{metric_name}_mean")
     if mean not in (None, ""):
         return float(mean)
-    if old_metric_name is not None:
-        mean = record.get(f"metric_{old_metric_name}_mean")
-        if mean not in (None, ""):
-            return float(mean)
     raise KeyError(f"CSV row is missing metric field '{metric_name}'")
 
 
@@ -650,20 +644,9 @@ def _optional_metric_float_field(record: dict[str, str], metric_name: str) -> fl
     direct = record.get(f"metric_{metric_name}")
     if direct not in (None, ""):
         return float(direct)
-    old_metric_name = BENCHMARK_METRIC_OLD_NAME_ALIASES.get(metric_name)
-    if old_metric_name is None:
-        old_metric_name = FORKLIFT_MOVEMENT_OLD_METRIC_KEYS.get(metric_name)
-    if old_metric_name is not None:
-        direct = record.get(f"metric_{old_metric_name}")
-        if direct not in (None, ""):
-            return float(direct)
     mean = record.get(f"metric_{metric_name}_mean")
     if mean not in (None, ""):
         return float(mean)
-    if old_metric_name is not None:
-        mean = record.get(f"metric_{old_metric_name}_mean")
-        if mean not in (None, ""):
-            return float(mean)
     return None
 
 
@@ -687,10 +670,6 @@ def _float_field(record: dict[str, str], field_name: str) -> float:
 
 def _optional_float_field(record: dict[str, str], field_name: str) -> float | None:
     value = record.get(field_name)
-    if value in (None, ""):
-        old_field_name = BENCHMARK_METRIC_OLD_NAME_ALIASES.get(field_name)
-        if old_field_name is not None:
-            value = record.get(old_field_name)
     if value in (None, ""):
         return None
     return float(value)

@@ -2,8 +2,8 @@ iteration,arrival_rate_s,forklift_capacity,delay_time_s,section,metric_key,metri
 0,120.0,1,180.0,summary,created,Created,value,151,150,,-1.0,0.6622516556291391,MATCH
 0,120.0,1,180.0,summary,completed,Completed,value,147,147,,0.0,0.0,MATCH
 0,120.0,1,180.0,summary,in_flight,In flight,value,4,3,,-1.0,25.0,DIFF
-0,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,378.4708742392347,405.15768046224883,,26.686806223014116,7.051217950828405,DIFF
-0,120.0,1,180.0,summary,storage_level,Storage level,value,2,3,,1.0,50.0,DIFF
+0,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,378.4708742392355,378.56515316283384,,0.09427892359832413,0.02491048321428544,MATCH
+0,120.0,1,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
 0,120.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.4,,0.0,0.0,MATCH
 0,120.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.8689502358531785,0.8733993786169324,,0.004449142763753855,0.5120135285291069,MATCH
 0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,avg,25.153469024299206,25.513015474592127,150,0.3595464502929211,1.429410988780854,CLOSE
