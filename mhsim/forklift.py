@@ -877,10 +877,14 @@ class ForkliftFleet:
         self.charging_station: Optional[ChargingStation] = charging_station
         self.return_home_policy: str = "stay"
         self.stats = stats
-        self.traffic_controller = PathTrafficController(
-            min_distance_to_obstacle_m=min_distance_to_obstacle_m,
-            avoid_collisions=avoid_collisions,
-            debug_enabled=traffic_debug_enabled,
+        self.traffic_controller = (
+            PathTrafficController(
+                min_distance_to_obstacle_m=min_distance_to_obstacle_m,
+                avoid_collisions=avoid_collisions,
+                debug_enabled=traffic_debug_enabled,
+            )
+            if avoid_collisions
+            else None
         )
 
     # __post_init__ is no longer needed since we use __init__ directly

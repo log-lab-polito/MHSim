@@ -30,7 +30,7 @@ forklifts_fleet.resetStats();
 traceln("    Created: " + created_count);
 traceln("    Completed: " + completed_count);
 traceln("    In flight: " + (created_count - completed_count));
-traceln("    Avg cycle (s): " + timeMeasureEnd.dataset.getYMean());
+traceln("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
 traceln("    Storage level: " + storage_level);
 traceln("    Storage level: " + delay.size());
 traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));
@@ -56,7 +56,7 @@ logArrayStats("Retrieve: unloading finish -> release", time_unloading_release_re
 				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
 			</GenericParameter>
 			<FlowChartsUsage>ENTITY</FlowChartsUsage>
-			<SamplesToKeep>100</SamplesToKeep>
+			<SamplesToKeep>100000</SamplesToKeep>
 			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
@@ -171,6 +171,36 @@ logArrayStats("Retrieve: unloading finish -> release", time_unloading_release_re
 					<Id>1774454117006</Id>
 					<Name><![CDATA[storage_level]]></Name>
 					<X>20</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777430000001</Id>
+					<Name><![CDATA[total_cycle_time_s]]></Name>
+					<X>20</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777430000002</Id>
+					<Name><![CDATA[cycle_time_samples]]></Name>
+					<X>20</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1443,6 +1473,9 @@ traceln("      std dev (sample) = " + s[4]);]]></Body>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[//traceln("Pallet " + agent.getId() + " entering sink block at " + time());
+Pallet p = (Pallet)agent;
+total_cycle_time_s += time() - p.cycle_start_time;
+cycle_time_samples++;
 completed_count++;]]></Code>
 							</Value>
 						</Parameter>
@@ -1693,7 +1726,9 @@ completed_count++;]]></Code>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[created_count++;]]></Code>
+								<Code><![CDATA[Pallet p = (Pallet)agent;
+p.cycle_start_time = time();
+created_count++;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -3292,6 +3327,66 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>	
 				</Attractor>
+				<Attractor>
+					<Id>1777344220484</Id>
+					<Name><![CDATA[attractor51]]></Name>
+					<X>290</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>	
+				</Attractor>
+				<Attractor>
+					<Id>1777344223777</Id>
+					<Name><![CDATA[attractor52]]></Name>
+					<X>290</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>	
+				</Attractor>
+				<Attractor>
+					<Id>1777345162897</Id>
+					<Name><![CDATA[attractor53]]></Name>
+					<X>290</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>	
+				</Attractor>
+				<Attractor>
+					<Id>1777345181542</Id>
+					<Name><![CDATA[attractor54]]></Name>
+					<X>290</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>	
+				</Attractor>
+				<Attractor>
+					<Id>1777345184022</Id>
+					<Name><![CDATA[attractor55]]></Name>
+					<X>290</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>	
+				</Attractor>
 			</Presentation>
 
 					<Sloped>false</Sloped>
@@ -3710,7 +3805,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
 			</GenericParameter>
 			<FlowChartsUsage>ENTITY</FlowChartsUsage>
-			<SamplesToKeep>100</SamplesToKeep>
+			<SamplesToKeep>100000</SamplesToKeep>
 			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
@@ -3790,6 +3885,23 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 			</ScaleRuler>
 			<CurrentLevel>1764171403261</CurrentLevel>
 			<ConnectionsId>1764171403255</ConnectionsId>
+			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1777430000003</Id>
+					<Name><![CDATA[cycle_start_time]]></Name>
+					<X>80</X><Y>70</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+			</Variables>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1764171403255</Id>
@@ -3876,7 +3988,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
 			</GenericParameter>
 			<FlowChartsUsage>TRANSPORTER</FlowChartsUsage>
-			<SamplesToKeep>100</SamplesToKeep>
+			<SamplesToKeep>100000</SamplesToKeep>
 			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
@@ -4390,7 +4502,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 					<Code><![CDATA[1]]></Code>
 				</From>
 				<To Class="CodeValue">
-					<Code><![CDATA[1]]></Code>
+					<Code><![CDATA[4]]></Code>
 				</To>
 				<Step Class="CodeValue">
 					<Code><![CDATA[1]]></Code>

@@ -8,7 +8,7 @@ RESULTS
     Created: 151
     Completed: 147
     In flight: 4
-    Avg cycle (s): 378.4708742392347
+    Avg cycle (s): 378.4708742392355
     Storage level: 0
     Storage level: 2
     Throughput (/h): 29.4

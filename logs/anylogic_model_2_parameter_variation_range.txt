@@ -1,3 +1,4 @@
+
 ITERATION #1
 PARAMETERS
     Arrival rate (s): 48.0
@@ -7,7 +8,7 @@ RESULTS
     Created: 376
     Completed: 125
     In flight: 251
-    Avg cycle (s): 7332.650086590367
+    Avg cycle (s): 6172.0436932164175
     Storage level: 0
     Storage level: 3
     Throughput (/h): 25.0
@@ -82,7 +83,7 @@ RESULTS
     Created: 301
     Completed: 148
     In flight: 153
-    Avg cycle (s): 6127.703750429139
+    Avg cycle (s): 4704.573302346318
     Storage level: 0
     Storage level: 3
     Throughput (/h): 29.6
@@ -157,7 +158,7 @@ RESULTS
     Created: 251
     Completed: 170
     In flight: 81
-    Avg cycle (s): 4215.440979708124
+    Avg cycle (s): 3071.7962228152096
     Storage level: 0
     Storage level: 2
     Throughput (/h): 34.0
@@ -232,7 +233,7 @@ RESULTS
     Created: 376
     Completed: 124
     In flight: 252
-    Avg cycle (s): 7383.848259522745
+    Avg cycle (s): 6270.113731118113
     Storage level: 0
     Storage level: 4
     Throughput (/h): 24.8
@@ -307,7 +308,7 @@ RESULTS
     Created: 301
     Completed: 147
     In flight: 154
-    Avg cycle (s): 6191.869222637464
+    Avg cycle (s): 4798.761917517631
     Storage level: 0
     Storage level: 4
     Throughput (/h): 29.4
@@ -382,7 +383,7 @@ RESULTS
     Created: 251
     Completed: 169
     In flight: 82
-    Avg cycle (s): 4306.298881597153
+    Avg cycle (s): 3177.5435054346613
     Storage level: 0
     Storage level: 3
     Throughput (/h): 33.8
@@ -457,7 +458,7 @@ RESULTS
     Created: 376
     Completed: 124
     In flight: 252
-    Avg cycle (s): 7532.451685744936
+    Avg cycle (s): 6419.339909681064
     Storage level: 0
     Storage level: 5
     Throughput (/h): 24.8
@@ -532,7 +533,7 @@ RESULTS
     Created: 301
     Completed: 147
     In flight: 154
-    Avg cycle (s): 6305.96867434567
+    Avg cycle (s): 4914.665555366429
     Storage level: 0
     Storage level: 5
     Throughput (/h): 29.4
@@ -607,7 +608,7 @@ RESULTS
     Created: 251
     Completed: 168
     In flight: 83
-    Avg cycle (s): 4355.073608008234
+    Avg cycle (s): 3241.162743996282
     Storage level: 0
     Storage level: 4
     Throughput (/h): 33.6
@@ -660,6 +661,2031 @@ RESULTS
       max = 14.97837634523421
       std dev (pop) = 0.09270181557680175
       std dev (sample) = 0.09297895166766944
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #10
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 348
+    In flight: 28
+    Avg cycle (s): 791.7103772537
+    Storage level: 0
+    Storage level: 3
+    Throughput (/h): 69.6
+    Forklifts Utilization (%): 0.9958890654995605
+    Store: seize -> loading start
+      avg = 38.36922931728469
+      min = 19.086920414621773
+      max = 47.99314922862732
+      std dev (pop) = 3.788971696062376
+      std dev (sample) = 3.794201473149242
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.45376802161521
+      min = 34.641676248162184
+      max = 41.28686747849133
+      std dev (pop) = 2.042944536198446
+      std dev (sample) = 2.0457721424461037
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 3.2955796436070006
+      min = 0.0
+      max = 20.6669014087729
+      std dev (pop) = 6.421876329344287
+      std dev (sample) = 6.431123096306881
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.616073025344768
+      min = 14.500100005696368
+      max = 20.636724344796676
+      std dev (pop) = 1.638928897221457
+      std dev (sample) = 1.6412887672662317
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #11
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 301
+    Completed: 295
+    In flight: 6
+    Avg cycle (s): 318.4708742392374
+    Storage level: 0
+    Storage level: 3
+    Throughput (/h): 59.0
+    Forklifts Utilization (%): 0.8678007398989926
+    Store: seize -> loading start
+      avg = 25.15346902429925
+      min = 25.15346902429883
+      max = 25.15346902429974
+      std dev (pop) = 4.086303412474205E-13
+      std dev (sample) = 4.0931309918594186E-13
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 34.70644393965324
+      min = 34.70644393965267
+      max = 34.70644393965358
+      std dev (pop) = 4.4310452741442776E-13
+      std dev (sample) = 4.438473687195195E-13
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading start -> loading finish
+      avg = 1.0000000000000022
+      min = 1.0
+      max = 1.0000000000000568
+      std dev (pop) = 3.865128711897835E-15
+      std dev (sample) = 3.87167423515056E-15
+    Retrieve: loading finish -> unloading start
+      avg = 14.610961275283598
+      min = 14.610961275282534
+      max = 14.610961275284808
+      std dev (pop) = 9.591722292246963E-13
+      std dev (sample) = 9.607965694725206E-13
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #12
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 2
+    Delay time (s): 180.0
+RESULTS
+    Created: 251
+    Completed: 245
+    In flight: 6
+    Avg cycle (s): 368.9611020858214
+    Storage level: 0
+    Storage level: 3
+    Throughput (/h): 49.0
+    Forklifts Utilization (%): 0.9854429042774214
+    Store: seize -> loading start
+      avg = 32.515677039440135
+      min = 19.65344848809127
+      max = 42.91119614759691
+      std dev (pop) = 4.644947461718586
+      std dev (sample) = 4.654302853798455
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 35.959202123903815
+      min = 34.64204951749116
+      max = 37.65331585497552
+      std dev (pop) = 0.4218317129870408
+      std dev (sample) = 0.4226813245486873
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 23.603155091444428
+      min = 0.0
+      max = 24.48929208044865
+      std dev (pop) = 3.2623496016707803
+      std dev (sample) = 3.26900067809926
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 19.277744311716194
+      min = 14.500101074061831
+      max = 20.676060601919744
+      std dev (pop) = 1.7310780026700805
+      std dev (sample) = 1.7346072173482139
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #13
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 300.0
+RESULTS
+    Created: 376
+    Completed: 353
+    In flight: 23
+    Avg cycle (s): 833.4136868003616
+    Storage level: 0
+    Storage level: 6
+    Throughput (/h): 70.6
+    Forklifts Utilization (%): 0.9953335982493408
+    Store: seize -> loading start
+      avg = 38.31516262162161
+      min = 25.15346902429951
+      max = 47.346279960287575
+      std dev (pop) = 3.139120539056298
+      std dev (sample) = 3.1433943606937897
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.26852593339633
+      min = 34.641678953094925
+      max = 41.02933722384478
+      std dev (pop) = 2.1526546858032036
+      std dev (sample) = 2.155593464899608
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 2.899133795866479
+      min = 0.0
+      max = 20.018766634666463
+      std dev (pop) = 6.065916357475685
+      std dev (sample) = 6.074502230644122
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.259027113743018
+      min = 14.500100005694549
+      max = 20.059079435018248
+      std dev (pop) = 1.4542962623548106
+      std dev (sample) = 1.4563605590111275
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #14
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 2
+    Delay time (s): 300.0
+RESULTS
+    Created: 301
+    Completed: 293
+    In flight: 8
+    Avg cycle (s): 438.47087423923887
+    Storage level: 0
+    Storage level: 5
+    Throughput (/h): 58.6
+    Forklifts Utilization (%): 0.8667663984740319
+    Store: seize -> loading start
+      avg = 25.15346902429925
+      min = 25.15346902429883
+      max = 25.15346902429974
+      std dev (pop) = 4.086303412474205E-13
+      std dev (sample) = 4.0931309918594186E-13
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 34.70644393965324
+      min = 34.70644393965267
+      max = 34.70644393965358
+      std dev (pop) = 4.4310452741442776E-13
+      std dev (sample) = 4.438473687195195E-13
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading start -> loading finish
+      avg = 1.0000000000000022
+      min = 1.0
+      max = 1.0000000000000568
+      std dev (pop) = 3.873926599940538E-15
+      std dev (sample) = 3.8805317651801715E-15
+    Retrieve: loading finish -> unloading start
+      avg = 14.610961275283605
+      min = 14.610961275282534
+      max = 14.610961275284808
+      std dev (pop) = 9.584592141694612E-13
+      std dev (sample) = 9.600934169148452E-13
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #15
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 2
+    Delay time (s): 300.0
+RESULTS
+    Created: 251
+    Completed: 244
+    In flight: 7
+    Avg cycle (s): 458.39245574095713
+    Storage level: 0
+    Storage level: 4
+    Throughput (/h): 48.8
+    Forklifts Utilization (%): 0.925688122238479
+    Store: seize -> loading start
+      avg = 25.79881046453335
+      min = 17.8890074875344
+      max = 40.71425300900955
+      std dev (pop) = 5.01313281702667
+      std dev (sample) = 5.023189262072469
+    Store: loading start -> loading finish
+      avg = 0.9999999999999931
+      min = 0.9999999999990905
+      max = 1.0
+      std dev (pop) = 5.749555701857474E-14
+      std dev (sample) = 5.761089425990437E-14
+    Store: loading finish -> unloading start
+      avg = 36.9447648977069
+      min = 34.64168362950187
+      max = 40.99040667013605
+      std dev (pop) = 2.1843201834031154
+      std dev (sample) = 2.1887196242820757
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 16.59748977726349
+      min = 0.0
+      max = 26.521152809926207
+      std dev (pop) = 7.679571262927491
+      std dev (sample) = 7.695291998444628
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.683053837296947
+      min = 14.500100005694549
+      max = 20.689709598538684
+      std dev (pop) = 0.8322989877394729
+      std dev (sample) = 0.8340027745537965
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #16
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 2
+    Delay time (s): 420.0
+RESULTS
+    Created: 376
+    Completed: 342
+    In flight: 34
+    Avg cycle (s): 1113.8180976967476
+    Storage level: 0
+    Storage level: 7
+    Throughput (/h): 68.4
+    Forklifts Utilization (%): 0.9945003973740111
+    Store: seize -> loading start
+      avg = 38.097226580969824
+      min = 17.89547794660257
+      max = 46.1596358176439
+      std dev (pop) = 4.116745836411899
+      std dev (sample) = 4.1224123853245205
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.39174563717568
+      min = 34.641675295575624
+      max = 41.4056177932016
+      std dev (pop) = 2.079268739331345
+      std dev (sample) = 2.0821466213167428
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 3.5982069121433
+      min = 0.0
+      max = 20.21343959269052
+      std dev (pop) = 6.675732325130598
+      std dev (sample) = 6.685513623160492
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.557186356902793
+      min = 14.500100045717772
+      max = 20.065278764028335
+      std dev (pop) = 1.5960686588305752
+      std dev (sample) = 1.5984072222222536
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #17
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 2
+    Delay time (s): 420.0
+RESULTS
+    Created: 301
+    Completed: 291
+    In flight: 10
+    Avg cycle (s): 558.4708742392364
+    Storage level: 0
+    Storage level: 7
+    Throughput (/h): 58.2
+    Forklifts Utilization (%): 0.8657320570490712
+    Store: seize -> loading start
+      avg = 25.15346902429925
+      min = 25.15346902429883
+      max = 25.15346902429974
+      std dev (pop) = 4.086303412474205E-13
+      std dev (sample) = 4.0931309918594186E-13
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 34.70644393965324
+      min = 34.70644393965267
+      max = 34.70644393965358
+      std dev (pop) = 4.4310452741442776E-13
+      std dev (sample) = 4.438473687195195E-13
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading start -> loading finish
+      avg = 1.0000000000000022
+      min = 1.0
+      max = 1.0000000000000568
+      std dev (pop) = 3.880040556449644E-15
+      std dev (sample) = 3.886701575184075E-15
+    Retrieve: loading finish -> unloading start
+      avg = 14.610961275283612
+      min = 14.610961275282534
+      max = 14.610961275284808
+      std dev (pop) = 9.577244092901016E-13
+      std dev (sample) = 9.593685725765136E-13
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #18
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 2
+    Delay time (s): 420.0
+RESULTS
+    Created: 251
+    Completed: 242
+    In flight: 9
+    Avg cycle (s): 597.4080576540185
+    Storage level: 0
+    Storage level: 6
+    Throughput (/h): 48.4
+    Forklifts Utilization (%): 0.9445538977056736
+    Store: seize -> loading start
+      avg = 32.807453357694186
+      min = 17.883113373501146
+      max = 40.66920150780061
+      std dev (pop) = 5.7320966402122755
+      std dev (sample) = 5.743595341117171
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 36.419807512568966
+      min = 34.64167548656678
+      max = 45.064711587734564
+      std dev (pop) = 2.2565286940620157
+      std dev (sample) = 2.261073570155106
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 21.556628652547058
+      min = 0.0
+      max = 34.18360493125783
+      std dev (pop) = 9.263053262131164
+      std dev (sample) = 9.282172071454587
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.48429791846229
+      min = 14.500100005696368
+      max = 20.605753970441583
+      std dev (pop) = 1.7291912566277892
+      std dev (sample) = 1.7327602826264143
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #19
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 3
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 369
+    In flight: 7
+    Avg cycle (s): 340.67393807637774
+    Storage level: 0
+    Storage level: 4
+    Throughput (/h): 73.8
+    Forklifts Utilization (%): 0.9437362909204405
+    Store: seize -> loading start
+      avg = 25.46809928832699
+      min = 18.14298246069211
+      max = 42.908484059351395
+      std dev (pop) = 4.131855608659764
+      std dev (sample) = 4.137390581815907
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.63843672603088
+      min = 34.64167539515836
+      max = 52.03430476723656
+      std dev (pop) = 3.1001165302759826
+      std dev (sample) = 3.1042694008990583
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 18.064840114767073
+      min = 0.07049192443218999
+      max = 37.59845051935372
+      std dev (pop) = 7.671892498660292
+      std dev (sample) = 7.682309193883837
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.333939206651136
+      min = 14.500100005696368
+      max = 20.17986139598179
+      std dev (pop) = 1.386333632711449
+      std dev (sample) = 1.3882159603030604
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #20
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 3
+    Delay time (s): 180.0
+RESULTS
+    Created: 301
+    Completed: 295
+    In flight: 6
+    Avg cycle (s): 325.7068820609586
+    Storage level: 0
+    Storage level: 3
+    Throughput (/h): 59.0
+    Forklifts Utilization (%): 0.6473324603482996
+    Store: seize -> loading start
+      avg = 25.244744076762757
+      min = 17.882799561562933
+      max = 39.673487992018636
+      std dev (pop) = 2.3233433422148546
+      std dev (sample) = 2.3272252886850198
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 35.616375927986795
+      min = 34.64186441263064
+      max = 42.54498457093223
+      std dev (pop) = 1.8422982204838732
+      std dev (sample) = 1.8453867360141882
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 6.18893532497347
+      min = 0.0
+      max = 30.797432924990062
+      std dev (pop) = 10.142566142283991
+      std dev (sample) = 10.159742388529622
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.621925028543117
+      min = 14.500100005696368
+      max = 19.500285400380108
+      std dev (pop) = 0.3056316191339645
+      std dev (sample) = 0.30614920057016637
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #21
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 3
+    Delay time (s): 180.0
+RESULTS
+    Created: 251
+    Completed: 246
+    In flight: 5
+    Avg cycle (s): 351.79268556453604
+    Storage level: 0
+    Storage level: 2
+    Throughput (/h): 49.2
+    Forklifts Utilization (%): 0.6825623558541264
+    Store: seize -> loading start
+      avg = 29.487022393483397
+      min = 19.169550529093613
+      max = 38.86811274376123
+      std dev (pop) = 3.9397239205906165
+      std dev (sample) = 3.9476270858465767
+    Store: loading start -> loading finish
+      avg = 0.9999999999999931
+      min = 0.9999999999990905
+      max = 1.0
+      std dev (pop) = 5.749555701857474E-14
+      std dev (sample) = 5.761089425990437E-14
+    Store: loading finish -> unloading start
+      avg = 37.640956019598136
+      min = 34.64172364612568
+      max = 46.24783062001006
+      std dev (pop) = 2.564557659054483
+      std dev (sample) = 2.569722936511251
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 23.54232648708561
+      min = 11.477141395957005
+      max = 34.43740193119811
+      std dev (pop) = 3.4093113409913283
+      std dev (sample) = 3.4162620339170053
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 17.056715093834732
+      min = 14.500100249060779
+      max = 20.577390819422362
+      std dev (pop) = 2.1509132821956523
+      std dev (sample) = 2.155298431053883
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #22
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 3
+    Delay time (s): 300.0
+RESULTS
+    Created: 376
+    Completed: 366
+    In flight: 10
+    Avg cycle (s): 456.4304609414727
+    Storage level: 0
+    Storage level: 6
+    Throughput (/h): 73.2
+    Forklifts Utilization (%): 0.9343190953964492
+    Store: seize -> loading start
+      avg = 24.47520134842377
+      min = 18.07468353934746
+      max = 27.071713430468662
+      std dev (pop) = 1.7278412341267868
+      std dev (sample) = 1.7301558248953814
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 36.73024987720133
+      min = 34.64240521055217
+      max = 44.50070256912477
+      std dev (pop) = 2.205099050010022
+      std dev (sample) = 2.2080609036620316
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 15.61799631663925
+      min = 5.2461463410982105
+      max = 30.631483164582278
+      std dev (pop) = 5.636400073588609
+      std dev (sample) = 5.644094821299179
+    Retrieve: loading start -> loading finish
+      avg = 1.0000000000000047
+      min = 1.0
+      max = 1.0000000000002274
+      std dev (pop) = 1.2520052442246005E-14
+      std dev (sample) = 1.2537144671968592E-14
+    Retrieve: loading finish -> unloading start
+      avg = 15.61190677243343
+      min = 14.500100273176486
+      max = 20.52329708668185
+      std dev (pop) = 1.9114140091964393
+      std dev (sample) = 1.9140305935962498
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #23
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 3
+    Delay time (s): 300.0
+RESULTS
+    Created: 301
+    Completed: 293
+    In flight: 8
+    Avg cycle (s): 456.8470033989132
+    Storage level: 0
+    Storage level: 5
+    Throughput (/h): 58.6
+    Forklifts Utilization (%): 0.7476811382884945
+    Store: seize -> loading start
+      avg = 25.273795568730588
+      min = 17.88316611614937
+      max = 40.31996117235394
+      std dev (pop) = 3.6027039969758197
+      std dev (sample) = 3.6087437396852633
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.25807642088854
+      min = 34.641908210567635
+      max = 41.89274304659011
+      std dev (pop) = 2.3462393930143373
+      std dev (sample) = 2.3501727392677245
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 15.729137922208443
+      min = 0.0
+      max = 35.772598653084515
+      std dev (pop) = 10.186620059071362
+      std dev (sample) = 10.203988562833041
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.600630107360514
+      min = 14.500100005696368
+      max = 17.29673169540183
+      std dev (pop) = 0.28392279108194096
+      std dev (sample) = 0.28440854471525
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #24
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 3
+    Delay time (s): 300.0
+RESULTS
+    Created: 251
+    Completed: 244
+    In flight: 7
+    Avg cycle (s): 459.8936475929942
+    Storage level: 0
+    Storage level: 4
+    Throughput (/h): 48.8
+    Forklifts Utilization (%): 0.6318169495023004
+    Store: seize -> loading start
+      avg = 26.399387561640545
+      min = 17.878813349091615
+      max = 39.922869543606794
+      std dev (pop) = 5.029745722218855
+      std dev (sample) = 5.039835493085895
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 36.98235154457729
+      min = 34.64168362950187
+      max = 41.01693139609051
+      std dev (pop) = 2.218362510642786
+      std dev (sample) = 2.2228305161979374
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 18.010341962759668
+      min = 0.03310191966374987
+      max = 32.13155022403407
+      std dev (pop) = 7.6027404766308955
+      std dev (sample) = 7.618303932994082
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.63190484359079
+      min = 14.500100005696368
+      max = 20.61358085801203
+      std dev (pop) = 0.6374244852800045
+      std dev (sample) = 0.6387347117093602
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #25
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 3
+    Delay time (s): 420.0
+RESULTS
+    Created: 376
+    Completed: 364
+    In flight: 12
+    Avg cycle (s): 580.4299643264332
+    Storage level: 0
+    Storage level: 10
+    Throughput (/h): 72.8
+    Forklifts Utilization (%): 0.9435589565977005
+    Store: seize -> loading start
+      avg = 25.13459796956217
+      min = 18.024435805553367
+      max = 41.71999529077766
+      std dev (pop) = 3.0246449857981745
+      std dev (sample) = 3.0286967558474887
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.30274676104353
+      min = 34.641699050604075
+      max = 50.425537505256216
+      std dev (pop) = 2.775501238918248
+      std dev (sample) = 2.779219259659355
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 18.475627191015512
+      min = 0.38151760158871184
+      max = 34.13854922476821
+      std dev (pop) = 7.261852118402941
+      std dev (sample) = 7.271847790193314
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.496335832662707
+      min = 14.500100005696368
+      max = 20.007531138639024
+      std dev (pop) = 1.4689112912645481
+      std dev (sample) = 1.470933193517204
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #26
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 3
+    Delay time (s): 420.0
+RESULTS
+    Created: 301
+    Completed: 291
+    In flight: 10
+    Avg cycle (s): 575.674134735908
+    Storage level: 0
+    Storage level: 7
+    Throughput (/h): 58.2
+    Forklifts Utilization (%): 0.7331988148820693
+    Store: seize -> loading start
+      avg = 25.470145117480293
+      min = 17.878773518284106
+      max = 40.67621397488256
+      std dev (pop) = 3.6849569702070113
+      std dev (sample) = 3.6911139619194673
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 36.951411871594445
+      min = 34.64206666674545
+      max = 50.77872451368785
+      std dev (pop) = 2.4394451920580265
+      std dev (sample) = 2.4435347929039986
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 14.659085732412587
+      min = 0.0
+      max = 34.86780461484523
+      std dev (pop) = 10.729819820996271
+      std dev (sample) = 10.748240126094865
+    Retrieve: loading start -> loading finish
+      avg = 1.0000000000000022
+      min = 1.0
+      max = 1.0000000000000568
+      std dev (pop) = 3.880040556449644E-15
+      std dev (sample) = 3.886701575184075E-15
+    Retrieve: loading finish -> unloading start
+      avg = 14.654600935562817
+      min = 14.500100005694549
+      max = 19.318299814273814
+      std dev (pop) = 0.4660473880940005
+      std dev (sample) = 0.4668502265669543
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #27
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 3
+    Delay time (s): 420.0
+RESULTS
+    Created: 251
+    Completed: 242
+    In flight: 9
+    Avg cycle (s): 589.9862260248754
+    Storage level: 0
+    Storage level: 6
+    Throughput (/h): 48.4
+    Forklifts Utilization (%): 0.69886556587803
+    Store: seize -> loading start
+      avg = 28.837991091293787
+      min = 25.15346902429883
+      max = 40.62586833919522
+      std dev (pop) = 4.962448475325955
+      std dev (sample) = 4.972403246565055
+    Store: loading start -> loading finish
+      avg = 0.9999999999999931
+      min = 0.9999999999990905
+      max = 1.0
+      std dev (pop) = 5.749555701857474E-14
+      std dev (sample) = 5.761089425990437E-14
+    Store: loading finish -> unloading start
+      avg = 36.28379625140999
+      min = 34.64168362950187
+      max = 45.56834852445354
+      std dev (pop) = 2.0784644292325396
+      std dev (sample) = 2.082650665959604
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 26.021611267059527
+      min = 0.0
+      max = 31.872792526548892
+      std dev (pop) = 5.334165582495811
+      std dev (sample) = 5.345175223894315
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.828271407648808
+      min = 14.500100005696368
+      max = 19.516240216868027
+      std dev (pop) = 0.725512574778795
+      std dev (sample) = 0.7270100223467203
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #28
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 4
+    Delay time (s): 180.0
+RESULTS
+    Created: 376
+    Completed: 368
+    In flight: 8
+    Avg cycle (s): 341.417615507795
+    Storage level: 0
+    Storage level: 4
+    Throughput (/h): 73.6
+    Forklifts Utilization (%): 0.7388670762769947
+    Store: seize -> loading start
+      avg = 24.59898423138742
+      min = 17.92590403158647
+      max = 30.65334823113153
+      std dev (pop) = 2.111414789458881
+      std dev (sample) = 2.1142432097349055
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 38.19788527452172
+      min = 34.641819301721625
+      max = 53.660752983437305
+      std dev (pop) = 3.3095908856530545
+      std dev (sample) = 3.314024365049458
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 19.189794518038916
+      min = 0.10948822163118166
+      max = 37.827917976272374
+      std dev (pop) = 8.034940553505105
+      std dev (sample) = 8.045850185893697
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.37885164078251
+      min = 14.500100005696368
+      max = 19.77214324473016
+      std dev (pop) = 1.2327673353414772
+      std dev (sample) = 1.2344411546260978
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #29
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 4
+    Delay time (s): 180.0
+RESULTS
+    Created: 301
+    Completed: 295
+    In flight: 6
+    Avg cycle (s): 325.2133639990768
+    Storage level: 0
+    Storage level: 3
+    Throughput (/h): 59.0
+    Forklifts Utilization (%): 0.48266307644255957
+    Store: seize -> loading start
+      avg = 25.244334534676252
+      min = 17.92054010114589
+      max = 39.673487992017726
+      std dev (pop) = 2.149665347229879
+      std dev (sample) = 2.153257104700714
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 35.50651373789528
+      min = 34.64186441263064
+      max = 41.008664934744274
+      std dev (pop) = 1.7390496652961707
+      std dev (sample) = 1.7419650900843713
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 5.819808112600654
+      min = 0.0
+      max = 31.821130438164573
+      std dev (pop) = 10.080053670123453
+      std dev (sample) = 10.097124052665542
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.610592204456985
+      min = 14.500100005696368
+      max = 17.453995501832196
+      std dev (pop) = 0.1873797023497033
+      std dev (sample) = 0.18769702637439697
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #30
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 4
+    Delay time (s): 180.0
+RESULTS
+    Created: 251
+    Completed: 246
+    In flight: 5
+    Avg cycle (s): 350.7978780063443
+    Storage level: 0
+    Storage level: 2
+    Throughput (/h): 49.2
+    Forklifts Utilization (%): 0.5133886437568975
+    Store: seize -> loading start
+      avg = 29.12152628843138
+      min = 19.224166492605946
+      max = 39.81990267371657
+      std dev (pop) = 4.112886436587012
+      std dev (sample) = 4.121136969325477
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.34822718178738
+      min = 34.65369728529657
+      max = 42.94689187136373
+      std dev (pop) = 2.2286449968257127
+      std dev (sample) = 2.2331337123438058
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 23.412362459645653
+      min = 11.061162717546722
+      max = 34.451844448843985
+      std dev (pop) = 3.639555609322383
+      std dev (sample) = 3.646975710010215
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 16.92711403188131
+      min = 14.500101430311588
+      max = 20.62064461427508
+      std dev (pop) = 2.151816080206006
+      std dev (sample) = 2.156203069632937
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #31
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 4
+    Delay time (s): 300.0
+RESULTS
+    Created: 376
+    Completed: 366
+    In flight: 10
+    Avg cycle (s): 456.47083803138185
+    Storage level: 0
+    Storage level: 7
+    Throughput (/h): 73.2
+    Forklifts Utilization (%): 0.7039176802727174
+    Store: seize -> loading start
+      avg = 24.43468261493263
+      min = 17.95838563246798
+      max = 31.152892827452888
+      std dev (pop) = 1.9912470325010545
+      std dev (sample) = 1.9939144778128037
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 36.946224388759475
+      min = 34.642967257369946
+      max = 45.89274304659011
+      std dev (pop) = 2.4774216518777066
+      std dev (sample) = 2.4807403695770507
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 15.423942729691428
+      min = 1.3167391148381284
+      max = 29.78559057851544
+      std dev (pop) = 5.696890018233645
+      std dev (sample) = 5.704667346111874
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.661875298273497
+      min = 14.500100273175121
+      max = 20.663058329937485
+      std dev (pop) = 1.8826689247777462
+      std dev (sample) = 1.8852391224588114
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #32
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 4
+    Delay time (s): 300.0
+RESULTS
+    Created: 301
+    Completed: 293
+    In flight: 8
+    Avg cycle (s): 457.0277626310397
+    Storage level: 0
+    Storage level: 5
+    Throughput (/h): 58.6
+    Forklifts Utilization (%): 0.563434762200882
+    Store: seize -> loading start
+      avg = 25.396090520456248
+      min = 17.884484423652793
+      max = 38.29731422067675
+      std dev (pop) = 3.474488493266438
+      std dev (sample) = 3.4802938247889017
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.073007442474605
+      min = 34.64167974153315
+      max = 41.20644393965358
+      std dev (pop) = 2.302080915647021
+      std dev (sample) = 2.305940232548576
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 15.931131615103952
+      min = 0.0
+      max = 31.141078352797194
+      std dev (pop) = 10.125948420885877
+      std dev (sample) = 10.143213477619009
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.606354711987912
+      min = 14.500100005696368
+      max = 17.718241936753657
+      std dev (pop) = 0.3258462965651171
+      std dev (sample) = 0.32640187462681
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #33
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 4
+    Delay time (s): 300.0
+RESULTS
+    Created: 251
+    Completed: 244
+    In flight: 7
+    Avg cycle (s): 459.4468468746472
+    Storage level: 0
+    Storage level: 4
+    Throughput (/h): 48.8
+    Forklifts Utilization (%): 0.4744006133137123
+    Store: seize -> loading start
+      avg = 26.11141504767185
+      min = 17.879975645280865
+      max = 38.893866075974074
+      std dev (pop) = 4.849170891470252
+      std dev (sample) = 4.858898425602628
+    Store: loading start -> loading finish
+      avg = 0.9999999999999931
+      min = 0.9999999999990905
+      max = 1.0
+      std dev (pop) = 5.749555701857474E-14
+      std dev (sample) = 5.761089425990437E-14
+    Store: loading finish -> unloading start
+      avg = 37.03109620171059
+      min = 34.64168362950187
+      max = 41.20644393965267
+      std dev (pop) = 2.28563170878772
+      std dev (sample) = 2.2902352012840543
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 17.875114852058285
+      min = 0.16795729280966043
+      max = 30.141676532091424
+      std dev (pop) = 7.450885259531299
+      std dev (sample) = 7.466137855349907
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.582741050970931
+      min = 14.500100005696368
+      max = 20.0277161132326
+      std dev (pop) = 0.3602412104475369
+      std dev (sample) = 0.3609816864815947
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #34
+PARAMETERS
+    Arrival rate (s): 48.0
+    Forklift capacity: 4
+    Delay time (s): 420.0
+RESULTS
+    Created: 376
+    Completed: 363
+    In flight: 13
+    Avg cycle (s): 581.1218918928283
+    Storage level: 0
+    Storage level: 9
+    Throughput (/h): 72.6
+    Forklifts Utilization (%): 0.7318240545896098
+    Store: seize -> loading start
+      avg = 24.62378231088001
+      min = 17.889505657662085
+      max = 30.927129939211227
+      std dev (pop) = 1.7826052480273802
+      std dev (sample) = 1.7849931998655695
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 37.683360238325946
+      min = 34.64464056070619
+      max = 52.53430476723588
+      std dev (pop) = 3.082563586652113
+      std dev (sample) = 3.0866929436094246
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 19.349033013036255
+      min = 0.050666523591644363
+      max = 40.15429793969997
+      std dev (pop) = 8.21681045922177
+      std dev (sample) = 8.22812059597131
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 15.487091399800978
+      min = 14.500100005696368
+      max = 20.089290591189638
+      std dev (pop) = 1.3758408401394053
+      std dev (sample) = 1.3777346343463919
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #35
+PARAMETERS
+    Arrival rate (s): 60.0
+    Forklift capacity: 4
+    Delay time (s): 420.0
+RESULTS
+    Created: 301
+    Completed: 291
+    In flight: 10
+    Avg cycle (s): 575.3984941081573
+    Storage level: 0
+    Storage level: 7
+    Throughput (/h): 58.2
+    Forklifts Utilization (%): 0.5498658381818283
+    Store: seize -> loading start
+      avg = 25.642850053422706
+      min = 17.882799561562933
+      max = 40.177978889510996
+      std dev (pop) = 3.474534731637064
+      std dev (sample) = 3.4803401404166756
+    Store: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: loading finish -> unloading start
+      avg = 36.84450608803332
+      min = 34.64198234016931
+      max = 43.881517080670164
+      std dev (pop) = 2.3487062578424944
+      std dev (sample) = 2.3526437396642974
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 14.302821422598287
+      min = 0.0
+      max = 35.526239299199005
+      std dev (pop) = 11.003328878280753
+      std dev (sample) = 11.022218727170994
+    Retrieve: loading start -> loading finish
+      avg = 1.0000000000000022
+      min = 1.0
+      max = 1.0000000000000568
+      std dev (pop) = 3.880040556449644E-15
+      std dev (sample) = 3.886701575184075E-15
+    Retrieve: loading finish -> unloading start
+      avg = 14.642720310261579
+      min = 14.500100005696368
+      max = 20.00025821406598
+      std dev (pop) = 0.412669629163415
+      std dev (sample) = 0.41338051621776994
+    Retrieve: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+
+ITERATION #36
+PARAMETERS
+    Arrival rate (s): 72.0
+    Forklift capacity: 4
+    Delay time (s): 420.0
+RESULTS
+    Created: 251
+    Completed: 242
+    In flight: 9
+    Avg cycle (s): 589.360361413413
+    Storage level: 0
+    Storage level: 6
+    Throughput (/h): 48.4
+    Forklifts Utilization (%): 0.5193907961005957
+    Store: seize -> loading start
+      avg = 29.174764537421552
+      min = 25.15346902429883
+      max = 39.27454647926356
+      std dev (pop) = 5.035164863456287
+      std dev (sample) = 5.045265505229413
+    Store: loading start -> loading finish
+      avg = 0.9999999999999931
+      min = 0.9999999999990905
+      max = 1.0
+      std dev (pop) = 5.749555701857474E-14
+      std dev (sample) = 5.761089425990437E-14
+    Store: loading finish -> unloading start
+      avg = 36.233637686857705
+      min = 34.64168362950187
+      max = 44.81837677852127
+      std dev (pop) = 2.1124968097536208
+      std dev (sample) = 2.1167515911231836
+    Store: unloading start -> unloading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Store: unloading finish -> release
+      avg = 0.0
+      min = 0.0
+      max = 0.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: seize -> loading start
+      avg = 25.00468793954496
+      min = 0.20316839726365288
+      max = 31.772570593262117
+      std dev (pop) = 5.863488474046641
+      std dev (sample) = 5.875590630315533
+    Retrieve: loading start -> loading finish
+      avg = 1.0
+      min = 1.0
+      max = 1.0
+      std dev (pop) = 0.0
+      std dev (sample) = 0.0
+    Retrieve: loading finish -> unloading start
+      avg = 14.898895518553559
+      min = 14.500100005694549
+      max = 20.250133235928843
+      std dev (pop) = 0.8581412964081107
+      std dev (sample) = 0.8599124877587697
     Retrieve: unloading start -> unloading finish
       avg = 1.0
       min = 1.0

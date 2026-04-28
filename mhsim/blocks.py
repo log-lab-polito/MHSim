@@ -508,6 +508,7 @@ class MoveByTransporterBlock:
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
 
         enter_at = self.env.now
+        downstream_process: Optional[simpy.Process] = None
         pickup = _resolve_position(self.pickup_pos, pallet)
         assignment = _get_assignment(pallet, assignment_key=self.assignment_key)
         auto_seized = assignment is None
@@ -583,6 +584,16 @@ class MoveByTransporterBlock:
                 release_at=release_at,
             )
 
+            # AnyLogic's MoveByTransporter releases the item flow as soon as the
+            # unload completes. The transporter's idle return-home behavior is a
+            # post-task concern and must not inflate pallet cycle time.
+            if (
+                auto_seized
+                and self.apply_post_task_policy_if_auto_seized
+                and self.next_block is not None
+            ):
+                downstream_process = self.env.process(self.next_block.handle(pallet))
+
             if auto_seized and self.apply_post_task_policy_if_auto_seized:
                 yield from _run_fleet_post_task(self.fleet, fl)
         finally:
@@ -590,7 +601,7 @@ class MoveByTransporterBlock:
                 self.fleet.release(assignment)
 
         self.finished_count += 1
-        if self.next_block:
+        if self.next_block and downstream_process is None:
             yield from self.next_block.handle(pallet)
         self.completed_count += 1
 

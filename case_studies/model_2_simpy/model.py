@@ -132,7 +132,7 @@ class Model2SimModel:
         return max(
             0,
             getattr(self.delay, "entered_count", 0)
-            - getattr(self.delay, "completed_count", 0),
+            - getattr(self.delay, "finished_count", 0),
         )
 
     def _log_summary(self) -> None:
