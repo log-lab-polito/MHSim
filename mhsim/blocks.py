@@ -7,7 +7,7 @@ from typing import Any, Optional, Callable, Generator, Union
 from .pallet import Pallet
 from .forklift import ForkliftFleet, ForklifStatus, ForkliftAssignment
 from .stats import SimulationStats
-from .logger import SimulationLogger
+from .cyclic_position_logger import CyclicPositionLogger
 from .movement import Position3D
 from .conveyor import Conveyor, ConveyorSpur
 from .storage_slots import StorageSlotManager, StorageSlot
@@ -142,7 +142,7 @@ def _record_move_by_transporter_benchmarks(
 
 
 class Sink:
-    def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[SimulationLogger] = None):
+    def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[CyclicPositionLogger] = None):
         self.env = env
         self.stats = stats
         self.name = name
@@ -169,7 +169,7 @@ class ServiceBlock:
         name: str = "service",
         capacity: int = 1,
         queue_capacity: int = 0,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.service_time_s = service_time_s
@@ -201,7 +201,7 @@ class ServiceBlock:
 
 
 class DelayBlock:
-    def __init__(self, env: simpy.Environment, delay_s: float, next_block, name: str = "delay", logger: Optional[SimulationLogger] = None):
+    def __init__(self, env: simpy.Environment, delay_s: float, next_block, name: str = "delay", logger: Optional[CyclicPositionLogger] = None):
         self.env = env
         self.delay_s = delay_s
         self.next_block = next_block
@@ -232,7 +232,7 @@ class ConveyorEnterBlock:
         conveyor: Conveyor,
         next_block,
         name: str = "conveyor_enter",
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.conveyor = conveyor
@@ -265,7 +265,7 @@ class ConveyBlock:
         next_block,
         name: str = "convey",
         distance_m: DistanceResolver = None,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.conveyor = conveyor
@@ -299,7 +299,7 @@ class ConveyorExitBlock:
         conveyor: Conveyor,
         next_block,
         name: str = "conveyor_exit",
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.conveyor = conveyor
@@ -332,7 +332,7 @@ class ConveyorSpurBlock:
         spur: ConveyorSpur,
         next_block,
         name: str = "conveyor_spur",
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.spur = spur
@@ -368,7 +368,7 @@ class SeizeTransporterBlock:
         near_position: PositionResolver = None,
         pending_attr: Optional[str] = None,
         assignment_key: str = DEFAULT_TRANSPORTER_ASSIGNMENT_KEY,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.fleet = fleet
@@ -421,7 +421,7 @@ class ReleaseTransporterBlock:
         assignment_key: str = DEFAULT_TRANSPORTER_ASSIGNMENT_KEY,
         apply_post_task_policy: bool = True,
         strict: bool = True,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.fleet = fleet
@@ -478,7 +478,7 @@ class MoveByTransporterBlock:
         apply_post_task_policy_if_auto_seized: bool = True,
         stats: Optional[object] = None,
         benchmark_prefix: Optional[str] = None,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.fleet = fleet
@@ -619,7 +619,7 @@ class StoreBlock:
         inbound_pos=None,
         loading_time_s: float = 0.0,
         request_priority: int = 1,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.storage = storage
@@ -789,7 +789,7 @@ class RetrieveBlock:
         outbound_pos=None,
         unloading_time_s: float = 0.0,
         request_priority: int = 1,
-        logger: Optional[SimulationLogger] = None,
+        logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
         self.storage = storage

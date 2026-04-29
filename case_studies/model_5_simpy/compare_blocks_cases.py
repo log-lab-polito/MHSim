@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Run a parameter sweep of Model 1 SimPy scenarios and export block/summary metrics to CSV.
+Run a parameter sweep of Model 5 SimPy scenarios and export block/summary metrics to CSV.
 """
 
 from __future__ import annotations
@@ -10,8 +10,8 @@ import csv
 from typing import Dict, List
 
 from .compare_blocks import ANYLOGIC_BLOCKS, BLOCK_MAPPING
-from .model import Model1SimModel
-from .params import Model1Params
+from .model import Model5SimModel
+from .params import Model5Params
 
 
 PRIORITY_MODES = [
@@ -38,8 +38,8 @@ def _case_id(
     )
 
 
-def _collect_metrics(params: Model1Params) -> Dict[str, str | int | float]:
-    model = Model1SimModel(
+def _collect_metrics(params: Model5Params) -> Dict[str, str | int | float]:
+    model = Model5SimModel(
         params=params,
         console_logging=False,
         enable_logging=False,
@@ -76,7 +76,7 @@ def _collect_metrics(params: Model1Params) -> Dict[str, str | int | float]:
     }
 
 
-def _metric_rows(base_params: Model1Params) -> List[tuple[str, str, str | int | float]]:
+def _metric_rows(base_params: Model5Params) -> List[tuple[str, str, str | int | float]]:
     throughput_anylogic = (ANYLOGIC_BLOCKS["sink"] / base_params.sim_time) * 3600
     return [
         ("source_created", "SOURCE (created)", ANYLOGIC_BLOCKS["source"]),
@@ -116,7 +116,7 @@ def write_csv(
     output_path: str,
     cases: List[Dict[str, str]],
     results: Dict[str, Dict[str, str | int | float]],
-    base_params: Model1Params,
+    base_params: Model5Params,
 ) -> None:
     with open(output_path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
@@ -144,16 +144,16 @@ def write_csv(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run Model 1 SimPy sweep and export block stats to CSV."
+        description="Run Model 5 SimPy sweep and export block stats to CSV."
     )
     parser.add_argument(
         "--output",
-        default="case_studies/model_1_simpy/compare_blocks_cases.csv",
+        default="case_studies/model_5_simpy/compare_blocks_cases.csv",
         help="CSV output path.",
     )
     args = parser.parse_args()
 
-    base_params = Model1Params()
+    base_params = Model5Params()
     cases: List[Dict[str, str]] = []
     results: Dict[str, Dict[str, str | int | float]] = {}
 
@@ -161,7 +161,7 @@ def main() -> None:
         for store_policy in STORE_POLICIES:
             for retrieve_policy in RETRIEVE_POLICIES:
                 for return_home_policy in RETURN_HOME_POLICIES:
-                    params = Model1Params(
+                    params = Model5Params(
                         storage_store_policy=store_policy,
                         storage_retrieve_policy=retrieve_policy,
                         forklift_return_home_policy=return_home_policy,

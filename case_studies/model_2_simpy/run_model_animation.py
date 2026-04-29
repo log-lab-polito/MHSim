@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from case_studies.model_1_simpy.run_model_animation import Snapshot, run_animation_cli
+from case_studies.model_5_simpy.run_model_animation import Snapshot, run_animation_cli
 
 from .model import Model2SimModel
 from .params import Model2Params

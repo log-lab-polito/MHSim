@@ -3,9 +3,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from case_studies.model_1_simpy.model import Model1SimModel
+from case_studies.model_5_simpy.reporting import build_forklift_movement_benchmark_rows
 from mhsim.experiments import (
-    ChoiceParameter,
     ParameterVariationExperiment,
     ParameterVariationResult,
     RangeVariation,
@@ -13,21 +12,68 @@ from mhsim.experiments import (
     stats_attr_metric,
 )
 
+from .compare_benchmark_results import (
+    BENCHMARK_STAT_FIELDS,
+    BenchmarkStats,
+)
+from .benchmark_labels import MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
+from .anylogic_range import range_variation_parameters
+from .model import Model1SimModel
 from .params import Model1Params
 
 
+def _build_benchmark_stats_map(stats: object) -> dict[str, BenchmarkStats]:
+    cached = getattr(stats, "_model1_range_benchmark_cache", None)
+    if cached is not None:
+        return cached
+
+    benchmarks: dict[str, BenchmarkStats] = {}
+    for row in build_forklift_movement_benchmark_rows(stats):
+        benchmarks[row["metric_key"]] = BenchmarkStats(
+            average=float(row["avg_s"]),
+            minimum=float(row["min_s"]),
+            maximum=float(row["max_s"]),
+            std_dev_pop=float(row["std_dev_s"]),
+            count=int(row["count"]),
+        )
+
+    setattr(stats, "_model1_range_benchmark_cache", benchmarks)
+    return benchmarks
+
+
+def _benchmark_metric_name(metric_key: str, stat_field: str) -> str:
+    return f"benchmark_{metric_key}__{stat_field}"
+
+
+def _benchmark_metric(metric_key: str, stat_field: str):
+    def collector(_ctx, _model, stats):
+        benchmarks = _build_benchmark_stats_map(stats)
+        benchmark = benchmarks.get(metric_key)
+        if benchmark is None:
+            raise KeyError(f"Missing benchmark '{metric_key}' in Model 1 run")
+        return getattr(benchmark, stat_field)
+
+    return collector
+
+
 def _metrics():
-    return {
+    metrics = {
         "created": stats_attr_metric("created"),
         "completed": stats_attr_metric("completed"),
         "avg_time_in_system_s": stats_attr_metric("avg_time_in_system"),
         "in_flight": lambda _ctx, _model, stats: stats.created - stats.completed,
-        "storage_level": model_attr_metric("storage.level", transform=int),
         "throughput_per_hour": lambda _ctx, model, stats: (
             (stats.completed / model.env.now) * 3600.0 if model.env.now else 0.0
         ),
         "forklift_utilization": model_attr_metric("fleet.utilization"),
     }
+    for metric_key in MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
+        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
+            metrics[_benchmark_metric_name(metric_key, stat_field)] = _benchmark_metric(
+                metric_key,
+                stat_field,
+            )
+    return metrics
 
 
 def build_range_validation_experiment(
@@ -40,18 +86,7 @@ def build_range_validation_experiment(
         model_cls=Model1SimModel,
         base_params=Model1Params(),
         variation=RangeVariation(
-            parameters=[
-                ChoiceParameter("n_forklifts", [1, 2, 3, 4]),
-                ChoiceParameter("delay_time_s", [180.0, 300.0, 420.0]),
-                ChoiceParameter(
-                    "arrival_rate_per_min",
-                    [
-                        60.0 / 96.0,
-                        60.0 / 120.0,
-                        60.0 / 144.0,
-                    ],
-                ),
-            ],
+            parameters=range_variation_parameters(),
         ),
         metrics=_metrics(),
         replications=replications,
@@ -87,9 +122,11 @@ def _print_summary(title: str, result: ParameterVariationResult) -> None:
     print(f"\n--- {title} ---")
     print(f"Iterations: {result.total_iterations}  Total runs: {result.total_runs}")
     for row in rows:
-        arrival = row.get("param_arrival_rate_per_min", "")
+        arrival = row.get("param_arrival_rate_s", "")
         forklifts = row.get("param_n_forklifts", "")
-        delay = row.get("param_delay_time_s", "")
+        max_speed = row.get("param_forklift_max_speed", "")
+        acceleration = row.get("param_forklift_acceleration", "")
+        displacement = row.get("param_displacement_m", "")
         throughput = row.get(
             "metric_throughput_per_hour",
             row.get("metric_throughput_per_hour_mean"),
@@ -104,11 +141,15 @@ def _print_summary(title: str, result: ParameterVariationResult) -> None:
         )
         parts = [f"iter={row['iteration']}"]
         if arrival != "":
-            parts.append(f"arrival={arrival}")
+            parts.append(f"arrival_s={_format_number(float(arrival))}")
         if forklifts != "":
             parts.append(f"forklifts={forklifts}")
-        if delay != "":
-            parts.append(f"delay_s={delay}")
+        if max_speed != "":
+            parts.append(f"speed={_format_number(float(max_speed))}")
+        if acceleration != "":
+            parts.append(f"accel={_format_number(float(acceleration))}")
+        if displacement != "":
+            parts.append(f"displacement={_format_number(float(displacement))}")
         if throughput is not None:
             parts.append(f"throughput/h={_format_number(throughput)}")
         if avg_cycle is not None:

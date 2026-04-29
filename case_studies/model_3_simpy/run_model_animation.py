@@ -246,8 +246,8 @@ def _build_reference_warehouse_layout() -> WarehouseLayout:
     ]
 
     return WarehouseLayout(
-        inbound_area=PointNode("inbound", Position3D(16, 40.5, 0)),
-        outbound_area=PointNode("outbound", Position3D(43, 40.5, 0)),
+        inbound_area=PointNode("A", Position3D(16, 40.5, 0)),
+        outbound_area=PointNode("B", Position3D(43, 40.5, 0)),
         forklifts_home=RectangularNode("home", Position3D(
             24, 26, 0), width=10, depth=4, height=2.5),
         storage=storage,

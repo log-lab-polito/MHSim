@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from case_studies.model_1_simpy.reporting import build_forklift_movement_benchmark_rows
+from case_studies.model_5_simpy.reporting import build_forklift_movement_benchmark_rows
 from mhsim.experiments import (
     ChoiceParameter,
     ParameterVariationExperiment,

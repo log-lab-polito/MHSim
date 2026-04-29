@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from mhsim.stats import SimulationStats
 
 
-# Keep the original six benchmark keys first because the Model 1 comparison
+# Keep the original six benchmark keys first because the Model 5 comparison
 # workflow still maps AnyLogic's legacy text export onto them.
 FORKLIFT_MOVEMENT_BENCHMARK_LABELS: dict[str, str] = {
     "store_seize_to_load_start_s": "Store legacy: seize -> load start",
@@ -74,7 +74,7 @@ def _summarize_samples(samples: list[float]) -> DurationBenchmarkSummary | None:
 
 
 @dataclass
-class Model1Stats(SimulationStats):
+class Model5Stats(SimulationStats):
     forklift_movement_samples: dict[str, list[float]] = field(
         default_factory=lambda: {
             metric_name: [] for metric_name in FORKLIFT_MOVEMENT_BENCHMARK_ORDER

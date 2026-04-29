@@ -14,7 +14,7 @@ from mhsim.blocks import (
     Sink,
 )
 from mhsim.conveyor import Conveyor, ConveyorSpur
-from mhsim.logger import SimulationLogger
+from mhsim.cyclic_position_logger import CyclicPositionLogger
 from mhsim.pallet import Pallet
 from mhsim.stats import SimulationStats
 
@@ -99,9 +99,9 @@ class Model4SimModel:
         self.stats = SimulationStats()
         self._pallet_counter = 0
 
-        self.logger: Optional[SimulationLogger] = None
+        self.logger: Optional[CyclicPositionLogger] = None
         if self.enable_logging:
-            self.logger = SimulationLogger(
+            self.logger = CyclicPositionLogger(
                 filename_prefix=getattr(
                     self.params, "log_filename_prefix", "simpy_model4"
                 )

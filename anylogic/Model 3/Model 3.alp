@@ -550,13 +550,13 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[entityLocationQueue]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[receiving_area]]></Code>
+								<Code><![CDATA[A]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[entityLocationDelay]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[receiving_area]]></Code>
+								<Code><![CDATA[A]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -851,7 +851,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[locationNode]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[receiving_area]]></Code>
+								<Code><![CDATA[A]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -1054,13 +1054,13 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[entityLocationQueue]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[outbound_area]]></Code>
+								<Code><![CDATA[B]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[entityLocationDelay]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[outbound_area]]></Code>
+								<Code><![CDATA[B]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -1410,7 +1410,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[locationNode]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[receiving_area]]></Code>
+								<Code><![CDATA[A]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2001,7 +2001,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 				</ConveyorNetwork>
 				<PointNode>
 					<Id>1765979270521</Id>
-					<Name><![CDATA[receiving_area]]></Name>
+					<Name><![CDATA[A]]></Name>
 					<X>160</X><Y>405</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -2021,7 +2021,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 				</PointNode>
 				<PointNode>
 					<Id>1765979315951</Id>
-					<Name><![CDATA[outbound_area]]></Name>
+					<Name><![CDATA[B]]></Name>
 					<X>430</X><Y>405</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>

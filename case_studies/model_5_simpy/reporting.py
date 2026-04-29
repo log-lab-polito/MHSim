@@ -34,10 +34,14 @@ def build_forklift_movement_benchmark_rows(stats: Any) -> list[dict[str, Any]]:
         return []
 
     summaries = summaries_fn()
+    labels = {
+        **FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+        **getattr(stats, "forklift_movement_benchmark_labels", {}),
+    }
     rows: list[dict[str, Any]] = []
     seen: set[str] = set()
 
-    for metric_name, label in FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items():
+    for metric_name, label in labels.items():
         summary = summaries.get(metric_name)
         seen.add(metric_name)
         if summary is None:
@@ -141,6 +145,8 @@ def run_model_and_print_summary(
     console_logging: bool = True,
     include_forklift_benchmarks: bool = False,
     include_forklift_utilization: bool = False,
+    include_in_flight: bool = False,
+    storage_level_label: str = "Storage level at end",
 ):
     model = model_cls(params=params, console_logging=console_logging)
     stats = model.run()
@@ -148,10 +154,12 @@ def run_model_and_print_summary(
     print(f"Simulated time: {params.sim_time:.1f} s")
     print(f"Pallets created: {stats.created}")
     print(f"Pallets completed: {stats.completed}")
+    if include_in_flight:
+        print(f"Pallets in flight: {stats.created - stats.completed}")
     print(f"Average time in system: {stats.avg_time_in_system:.2f} s")
     storage_level = resolve_model_storage_level(model)
     if storage_level is not None:
-        print(f"Storage level at end: {storage_level}")
+        print(f"{storage_level_label}: {storage_level}")
     if include_forklift_utilization:
         fleet = getattr(model, "fleet", None)
         utilization = getattr(fleet, "utilization", None)

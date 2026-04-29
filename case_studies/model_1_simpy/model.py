@@ -6,12 +6,13 @@ from typing import Optional
 
 import simpy
 
-from .blocks import DelayBlock, RetrieveBlock, ServiceBlock, Sink, Source, StoreBlock
-from mhsim.logger import SimulationLogger
+from case_studies.model_5_simpy.stats import Model5Stats
+from mhsim.blocks import MoveByTransporterBlock, Sink, Source
+from mhsim.cyclic_position_logger import CyclicPositionLogger
+
+from .benchmark_labels import MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 from .params import Model1Params
-from .setup import create_warehouse_with_standard_config
-from .stats import Model1Stats
-from mhsim.storage_slots import StorageSlotManager
+from .setup import create_model1_warehouse
 
 
 @dataclass
@@ -23,22 +24,21 @@ class Model1SimModel:
     def __post_init__(self):
         self.env = simpy.Environment()
         self.rng = Random(self.params.random_seed)
-        self.stats = Model1Stats()
+        self.stats = Model5Stats()
+        self.stats.forklift_movement_benchmark_labels = (
+            MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
+        )
 
-        self.logger: Optional[SimulationLogger] = None
+        self.logger: Optional[CyclicPositionLogger] = None
         if self.enable_logging:
-            self.logger = SimulationLogger(
+            self.logger = CyclicPositionLogger(
                 filename_prefix=getattr(
                     self.params, "log_filename_prefix", "simpy_model1"
                 )
             )
 
-        self.layout, self.router, self.fleet = create_warehouse_with_standard_config(
+        self.layout, self.router, self.fleet = create_model1_warehouse(
             self.env, self.params, stats=self.stats
-        )
-
-        self.storage = simpy.Container(
-            self.env, capacity=self.params.storage_capacity, init=0
         )
 
         if self.fleet.forklifts:
@@ -52,58 +52,18 @@ class Model1SimModel:
         self.fleet.return_home_policy = self.params.forklift_return_home_policy
 
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)
-        self.service2 = ServiceBlock(
+        self.move_by_transporter = MoveByTransporterBlock(
             self.env,
-            service_time_s=self.params.service2_time_s,
+            fleet=self.fleet,
             next_block=self.sink,
-            name="service2",
-            logger=self.logger,
-        )
-
-        self.slot_manager = StorageSlotManager(
-            self.layout.storage,
-            store_policy=self.params.storage_store_policy,
-            retrieve_policy=self.params.storage_retrieve_policy,
-        )
-
-        self.retrieve = RetrieveBlock(
-            self.env,
-            storage=self.storage,
-            fleet=self.fleet,
-            slot_manager=self.slot_manager,
+            name="moveByTransporter",
+            pickup_pos=self.layout.A.get_access_point(),
+            dropoff_pos=self.layout.B.get_access_point(),
+            loading_time_s=self.params.move_loading_time_s,
+            unloading_time_s=self.params.move_unloading_time_s,
+            apply_post_task_policy_if_auto_seized=True,
             stats=self.stats,
-            next_block=self.service2,
-            name="retrieve",
-            outbound_pos=self.layout.outbound_area.get_access_point(),
-            unloading_time_s=self.params.unloading_time_s,
-            request_priority=self.params.forklift_retrieve_priority,
-            logger=self.logger,
-        )
-        self.delay = DelayBlock(
-            self.env,
-            delay_s=self.params.delay_time_s,
-            next_block=self.retrieve,
-            name="delay",
-            logger=self.logger,
-        )
-        self.store = StoreBlock(
-            self.env,
-            storage=self.storage,
-            fleet=self.fleet,
-            slot_manager=self.slot_manager,
-            stats=self.stats,
-            next_block=self.delay,
-            name="store",
-            inbound_pos=self.layout.inbound_area.get_access_point(),
-            loading_time_s=self.params.loading_time_s,
-            request_priority=self.params.forklift_store_priority,
-            logger=self.logger,
-        )
-        self.service1 = ServiceBlock(
-            self.env,
-            service_time_s=self.params.service1_time_s,
-            next_block=self.store,
-            name="service1",
+            benchmark_prefix="move",
             logger=self.logger,
         )
         self.source = Source(
@@ -111,17 +71,23 @@ class Model1SimModel:
             params=self.params,
             stats=self.stats,
             rng=self.rng,
-            first_block=self.service1,
+            first_block=self.move_by_transporter,
             name="source",
         )
 
-    def run(self, until: Optional[float] = None) -> Model1Stats:
+    def run(self, until: Optional[float] = None) -> Model5Stats:
         if self.logger:
             self.logger.open()
         try:
+            if self.logger:
+                self.logger.start(self.env, self.fleet.forklifts)
             self.source.start()
             stop_time = until if until is not None else self.params.sim_time
-            self.env.run(until=stop_time)
+            # AnyLogic's cyclic source event at the final stop time still
+            # injects an entity, leaving it in flight. SimPy's run(until=t)
+            # stops before events scheduled exactly at t, so advance by a
+            # tiny epsilon to process only same-time events at the boundary.
+            self.env.run(until=stop_time + 1e-9)
             if self.console_logging:
                 self._log_summary()
         finally:
@@ -131,10 +97,8 @@ class Model1SimModel:
         return self.stats
 
     def _log_summary(self) -> None:
+        in_flight = self.stats.created - self.stats.completed
         print(
             f"completed={self.stats.completed} avg_Tsys={self.stats.avg_time_in_system:.2f}s "
-            f"created={self.stats.created} storage_level={self.storage.level}"
+            f"created={self.stats.created} in_flight={in_flight}"
         )
-
-    def get_storage_level(self) -> int:
-        return int(self.storage.level)

@@ -2,48 +2,42 @@
 ITERATION #0
 PARAMETERS
     Arrival rate (s): 120.0
+    Displacement (m): 40.0
     Forklift capacity: 1
-    Delay time (s): 180.0
+    Forklift max speed (m/s): 10.0
+    Forklift acceleration (m/s/s): 1.0
 RESULTS
     Created: 151
-    Completed: 147
-    In flight: 4
-    Avg cycle (s): 354.1183349800862
-    Storage level: 2
-    Storage level: 2
-    Throughput (/h): 29.4
-    Forklifts Utilization (%): 0.9178477851355441
-    Seize to Loading time (s)
-      avg = 32.43681667766286
-      min = 28.06846530337043
-      max = 36.92323160263186
-      std dev (pop) = 4.426989586958809
-      std dev (sample) = 4.441820414387121
-    Loading time (s)
+    Completed: 150
+    In flight: 1
+    Avg cycle (s): 23.320219933901843
+    Throughput (/h): 30.0
+    Forklifts Utilization (%): 0.26497953987296247
+    Move: seize -> loading start
+      avg = 8.68521980602641
+      min = 8.685219806025998
+      max = 8.685219806026907
+      std dev (pop) = 4.507054776172284E-13
+      std dev (sample) = 4.52215382944141E-13
+    Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
       max = 1.0
       std dev (pop) = 0.0
       std dev (sample) = 0.0
-    Loading to Release time (s)
-      avg = 26.469874519153546
-      min = 23.10225456635999
-      max = 28.171754470695305
-      std dev (pop) = 2.357933795654357
-      std dev (sample) = 2.3658330934782668
-    Seize to Unloading time (s)
-      avg = 27.613831326570306
-      min = 15.13879652659034
-      max = 40.15643369411919
-      std dev (pop) = 8.520377664503897
-      std dev (sample) = 8.549309420643155
-    Unloading time (s)
+    Move: loading finish -> unloading start
+      avg = 12.63500012787543
+      min = 12.635000126480008
+      max = 12.635000128102547
+      std dev (pop) = 4.580947127338024E-10
+      std dev (sample) = 4.5962937268655915E-10
+    Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
       max = 1.0
       std dev (pop) = 0.0
       std dev (sample) = 0.0
-    Unloading to release time (s)
+    Move: unloading finish -> release
       avg = 0.0
       min = 0.0
       max = 0.0

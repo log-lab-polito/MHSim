@@ -5,7 +5,7 @@ Block-by-block comparison between AnyLogic and SimPy for Model 3.
 
 from __future__ import annotations
 
-from case_studies.model_1_simpy.reporting import compare_blocks_with_anylogic
+from case_studies.model_5_simpy.reporting import compare_blocks_with_anylogic
 
 from .model import Model3SimModel
 from .params import Model3Params

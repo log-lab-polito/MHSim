@@ -15,7 +15,7 @@ from mhsim.blocks import (
     Source,
 )
 from mhsim.conveyor import Conveyor
-from mhsim.logger import SimulationLogger
+from mhsim.cyclic_position_logger import CyclicPositionLogger
 from mhsim.stats import SimulationStats
 
 from .params import Model3Params
@@ -32,9 +32,9 @@ class Model3SimModel:
         self.rng = Random(self.params.random_seed)
         self.stats = SimulationStats()
 
-        self.logger: Optional[SimulationLogger] = None
+        self.logger: Optional[CyclicPositionLogger] = None
         if self.enable_logging:
-            self.logger = SimulationLogger(
+            self.logger = CyclicPositionLogger(
                 filename_prefix=getattr(
                     self.params, "log_filename_prefix", "simpy_model3"
                 )

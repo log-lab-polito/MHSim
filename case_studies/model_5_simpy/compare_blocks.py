@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Block-by-block comparison between AnyLogic and SimPy for Model 1.
+Block-by-block comparison between AnyLogic and SimPy for Model 5.
 """
 
 from __future__ import annotations
 
 from .reporting import DEFAULT_BLOCK_MAPPING, compare_blocks_with_anylogic
-from .model import Model1SimModel
-from .params import Model1Params
+from .model import Model5SimModel
+from .params import Model5Params
 
 ANYLOGIC_BLOCKS = {
     "source": 151,
@@ -21,13 +21,13 @@ ANYLOGIC_BLOCKS = {
 BLOCK_MAPPING = DEFAULT_BLOCK_MAPPING
 
 
-def compare_blocks(params: Model1Params | None = None):
+def compare_blocks(params: Model5Params | None = None):
     """Run the model and compare block finished counts with AnyLogic reference."""
     if params is None:
-        params = Model1Params()
+        params = Model5Params()
 
     return compare_blocks_with_anylogic(
-        model_cls=Model1SimModel,
+        model_cls=Model5SimModel,
         params=params,
         anylogic_blocks=ANYLOGIC_BLOCKS,
         block_mapping=BLOCK_MAPPING,

@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import argparse
 
-from .reporting import (
+from case_studies.model_5_simpy.reporting import (
     run_model_and_print_summary,
     write_forklift_movement_benchmark_csv,
 )
+
 from .model import Model1SimModel
 from .params import Model1Params
 
@@ -36,6 +37,7 @@ def main():
         params=params,
         model_label="Model 1",
         console_logging=False,
+        include_in_flight=True,
         include_forklift_utilization=True,
         include_forklift_benchmarks=True,
     )

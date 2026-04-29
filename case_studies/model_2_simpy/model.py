@@ -6,9 +6,9 @@ from typing import Optional
 
 import simpy
 
-from case_studies.model_1_simpy.stats import Model1Stats
+from case_studies.model_5_simpy.stats import Model5Stats
 from mhsim.blocks import DelayBlock, MoveByTransporterBlock, ServiceBlock, Sink, Source
-from mhsim.logger import SimulationLogger
+from mhsim.cyclic_position_logger import CyclicPositionLogger
 
 from .params import Model2Params
 from .setup import create_model2_warehouse
@@ -23,11 +23,11 @@ class Model2SimModel:
     def __post_init__(self):
         self.env = simpy.Environment()
         self.rng = Random(self.params.random_seed)
-        self.stats = Model1Stats()
+        self.stats = Model5Stats()
 
-        self.logger: Optional[SimulationLogger] = None
+        self.logger: Optional[CyclicPositionLogger] = None
         if self.enable_logging:
-            self.logger = SimulationLogger(
+            self.logger = CyclicPositionLogger(
                 filename_prefix=getattr(
                     self.params, "log_filename_prefix", "simpy_model2"
                 )
@@ -113,10 +113,12 @@ class Model2SimModel:
             name="source",
         )
 
-    def run(self, until: Optional[float] = None) -> Model1Stats:
+    def run(self, until: Optional[float] = None) -> Model5Stats:
         if self.logger:
             self.logger.open()
         try:
+            if self.logger:
+                self.logger.start(self.env, self.fleet.forklifts)
             self.source.start()
             stop_time = until if until is not None else self.params.sim_time
             self.env.run(until=stop_time)

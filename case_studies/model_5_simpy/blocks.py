@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Model 1 block aliases backed by shared MHSim implementations."""
+"""Model 5 block aliases backed by shared MHSim implementations."""
 
 from mhsim.blocks import (
     ConveyorEnterBlock,
