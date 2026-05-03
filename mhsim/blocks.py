@@ -478,6 +478,7 @@ class MoveByTransporterBlock:
         apply_post_task_policy_if_auto_seized: bool = True,
         stats: Optional[object] = None,
         benchmark_prefix: Optional[str] = None,
+        benchmark_loading_boundary_offset_s: float = 0.0,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
@@ -495,6 +496,9 @@ class MoveByTransporterBlock:
         self.stats = stats
         self.benchmark_prefix = (
             benchmark_prefix.lower() if benchmark_prefix is not None else None
+        )
+        self.benchmark_loading_boundary_offset_s = max(
+            0.0, benchmark_loading_boundary_offset_s
         )
         self.logger = logger
         self.entered_count = 0
@@ -572,13 +576,26 @@ class MoveByTransporterBlock:
                 fl.current_load = None
 
             release_at = self.env.now
+            benchmark_load_started_at = load_started_at
+            benchmark_load_finished_at = load_finished_at
+            if self.benchmark_loading_boundary_offset_s > 0:
+                # AnyLogic's MoveByTransporter timing callbacks can report the
+                # loading boundary before the SimPy dwell starts. Keep this as
+                # benchmark attribution only; the physical movement lifecycle
+                # remains unchanged.
+                offset = min(
+                    self.benchmark_loading_boundary_offset_s,
+                    max(0.0, load_started_at - seize_at),
+                )
+                benchmark_load_started_at = load_started_at - offset
+                benchmark_load_finished_at = load_finished_at - offset
             _record_move_by_transporter_benchmarks(
                 self.stats,
                 self.benchmark_prefix,
                 enter_at=enter_at,
                 seize_at=seize_at,
-                load_started_at=load_started_at,
-                load_finished_at=load_finished_at,
+                load_started_at=benchmark_load_started_at,
+                load_finished_at=benchmark_load_finished_at,
                 unload_started_at=unload_started_at,
                 unload_finished_at=unload_finished_at,
                 release_at=release_at,

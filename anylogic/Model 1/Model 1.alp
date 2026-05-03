@@ -2766,7 +2766,7 @@ root.CB.setTarget(root.B);]]></BeforeSimulationRunCode>
 				<InitialDate><![CDATA[1764115200000]]></InitialDate>
 				<InitialTime><![CDATA[0.0]]></InitialTime>
 				<FinalDate><![CDATA[1764133200000]]></FinalDate>
-				<FinalTime><![CDATA[18000.0]]></FinalTime>
+				<FinalTime><![CDATA[3600.0]]></FinalTime>
 			</ModelTimeProperties>
 			<BypassInitialScreen>true</BypassInitialScreen>
 		</SimulationExperiment>
@@ -2885,7 +2885,7 @@ root.CB.setTarget(root.B);]]></BeforeSimulationRunCode>
 				<InitialDate><![CDATA[1764115200000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
 				<FinalDate><![CDATA[1764133200000]]></FinalDate>	
-				<FinalTime><![CDATA[18000.0]]></FinalTime>	
+				<FinalTime><![CDATA[3600.0]]></FinalTime>	
 			</ModelTimeProperties>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>

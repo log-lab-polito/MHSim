@@ -138,14 +138,29 @@ def parse_anylogic_range_output(path: str | Path) -> list[AnyLogicRangeRow]:
     rows: list[AnyLogicRangeRow] = []
     for row in parse_anylogic_benchmark_output(path):
         range_values = range_values_for_iteration(row.iteration)
+        forklift_max_speed = (
+            row.forklift_max_speed
+            if row.forklift_max_speed is not None
+            else range_values.forklift_max_speed
+        )
+        forklift_acceleration = (
+            row.forklift_acceleration
+            if row.forklift_acceleration is not None
+            else range_values.forklift_acceleration
+        )
+        displacement_m = (
+            row.displacement_m
+            if row.displacement_m is not None
+            else range_values.displacement_m
+        )
         rows.append(
             AnyLogicRangeRow(
                 iteration=row.iteration,
                 arrival_rate_s=row.arrival_rate_s,
                 forklift_capacity=row.forklift_capacity,
-                forklift_max_speed=range_values.forklift_max_speed,
-                forklift_acceleration=range_values.forklift_acceleration,
-                displacement_m=range_values.displacement_m,
+                forklift_max_speed=forklift_max_speed,
+                forklift_acceleration=forklift_acceleration,
+                displacement_m=displacement_m,
                 created=row.created,
                 completed=row.completed,
                 in_flight=row.in_flight,

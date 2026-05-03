@@ -75,7 +75,7 @@ python -m case_studies.model_1_simpy.run_parameter_variation
 Compare AnyLogic vs SimPy parameter-variation range outputs:
 
 ```bash
-python case_studies/model_1_simpy/compare_parameter_variation_range.py --view overview
+python -m case_studies.model_1_simpy.compare_parameter_variation_range --view overview
 ```
 
 Run animation:
@@ -83,6 +83,35 @@ Run animation:
 ```bash
 python -m case_studies.model_1_simpy.run_model_animation
 ```
+
+Compare AnyLogic and SimPy cyclic forklift traces:
+
+```bash
+python -m case_studies.model_1_simpy.compare_movement_trace
+```
+
+Animate the current AnyLogic cyclic position log against a SimPy trace:
+
+```bash
+python -m case_studies.model_1_simpy.run_range_trace_animation
+```
+
+For parameter-variation logs, pass the SimPy settings that match the AnyLogic
+run that produced `anylogic/Model 1/log_file.txt`. The script infers the SimPy
+forklift count from the AnyLogic trace column count. By default the script
+applies the Simulation experiment A/B displacement geometry; add
+`--no-apply-displacement-geometry` for parameter-variation logs that use the
+original markup positions.
+
+```bash
+python -m case_studies.model_1_simpy.run_range_trace_animation --arrival-rate-s 60 --forklift-max-speed 20 --forklift-acceleration 1 --displacement-m 100 --no-apply-displacement-geometry
+```
+
+The range trace animation derives AnyLogic speed and acceleration from
+`t=..., x=..., y=...` cyclic position samples. It uses timestamp deltas and
+central differences after converting logged presentation coordinates to model
+meters with `/ 10.0`; these are sample-derived estimates, not AnyLogic internal
+solver state.
 
 Model 1 reports `Move: ...` benchmark labels for its single
 `moveByTransporter` block.
@@ -138,13 +167,13 @@ python -m case_studies.model_2_simpy.run_parameter_variation
 Compare AnyLogic vs SimPy parameter-variation range outputs:
 
 ```bash
-python case_studies/model_2_simpy/compare_parameter_variation_range.py --view overview
+python -m case_studies.model_2_simpy.compare_parameter_variation_range --view overview
 ```
 
 Show the top benchmark-average offenders against the AnyLogic range export:
 
 ```bash
-python3 case_studies/model_2_simpy/compare_parameter_variation_range.py \
+python -m case_studies.model_2_simpy.compare_parameter_variation_range \
   --anylogic logs/anylogic_model_2_parameter_variation_range.txt \
   --view offenders \
   --metric benchmark_avg_only \
@@ -246,7 +275,7 @@ benchmark_retrieve_unloading_finish_to_release_s__std_dev_pop
 Show the full AnyLogic vs SimPy parameter-variation comparison table:
 
 ```bash
-python3 case_studies/model_2_simpy/compare_parameter_variation_range.py \
+python -m case_studies.model_2_simpy.compare_parameter_variation_range \
   --anylogic logs/anylogic_model_2_parameter_variation_range.txt \
   --view full
 ```
@@ -292,7 +321,7 @@ python -m case_studies.model_5_simpy.run_parameter_variation
 Compare AnyLogic vs SimPy parameter-variation range outputs:
 
 ```bash
-python case_studies/model_5_simpy/compare_parameter_variation_range.py --view overview
+python -m case_studies.model_5_simpy.compare_parameter_variation_range --view overview
 ```
 
 Run animation:

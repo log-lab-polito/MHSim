@@ -1,7 +1,7 @@
 metric_key,metric,count,avg_s,min_s,max_s,std_dev_s
-move_enter_to_seize_s,Move: enter -> seize,150,0.0,0.0,0.0,0.0
-move_seize_to_loading_start_s,Move: seize -> loading start,150,9.65425568975918,9.654255689609272,9.654255689783895,4.9294408325924416e-11
-move_loading_duration_s,Move: loading start -> loading finish,150,1.0,1.0,1.0,0.0
-move_loading_finish_to_unloading_start_s,Move: loading finish -> unloading start,150,11.624337339431579,11.624337339249905,11.624337339461817,5.95978060552023e-11
-move_unloading_duration_s,Move: unloading start -> unloading finish,150,1.0,1.0,1.0,0.0
-move_unloading_finish_to_release_s,Move: unloading finish -> release,150,0.0,0.0,0.0,0.0
+move_enter_to_seize_s,Move: enter -> seize,30,0.0,0.0,0.0,0.0
+move_seize_to_loading_start_s,Move: seize -> loading start,30,8.654255689743268,8.65425568974024,8.65425568975121,4.671750718404762e-12
+move_loading_duration_s,Move: loading start -> loading finish,30,1.0,1.0,1.0,0.0
+move_loading_finish_to_unloading_start_s,Move: loading finish -> unloading start,30,12.624337339412426,12.624337339408612,12.62433733942197,5.732887127898455e-12
+move_unloading_duration_s,Move: unloading start -> unloading finish,30,1.0,1.0,1.0,0.0
+move_unloading_finish_to_release_s,Move: unloading finish -> release,30,0.0,0.0,0.0,0.0

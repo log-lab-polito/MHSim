@@ -34,7 +34,11 @@ class Model1SimModel:
             self.logger = CyclicPositionLogger(
                 filename_prefix=getattr(
                     self.params, "log_filename_prefix", "simpy_model1"
-                )
+                ),
+                # Model 1 keeps internal coordinates scaled by /10 from the
+                # AnyLogic presentation, but the reference cyclic log records
+                # the original presentation x/y coordinates.
+                position_scale=10.0,
             )
 
         self.layout, self.router, self.fleet = create_model1_warehouse(
@@ -64,6 +68,9 @@ class Model1SimModel:
             apply_post_task_policy_if_auto_seized=True,
             stats=self.stats,
             benchmark_prefix="move",
+            benchmark_loading_boundary_offset_s=(
+                self.params.move_benchmark_loading_boundary_offset_s
+            ),
             logger=self.logger,
         )
         self.source = Source(
@@ -80,7 +87,11 @@ class Model1SimModel:
             self.logger.open()
         try:
             if self.logger:
-                self.logger.start(self.env, self.fleet.forklifts)
+                self.logger.start(
+                    self.env,
+                    self.fleet.forklifts,
+                    interval_s=self.params.log_interval_s,
+                )
             self.source.start()
             stop_time = until if until is not None else self.params.sim_time
             # AnyLogic's cyclic source event at the final stop time still

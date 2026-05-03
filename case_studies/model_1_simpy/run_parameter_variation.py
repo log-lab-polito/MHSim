@@ -84,7 +84,7 @@ def build_range_validation_experiment(
     return ParameterVariationExperiment(
         experiment_name="model_1_range_validation",
         model_cls=Model1SimModel,
-        base_params=Model1Params(),
+        base_params=Model1Params(apply_displacement_geometry=False),
         variation=RangeVariation(
             parameters=range_variation_parameters(),
         ),

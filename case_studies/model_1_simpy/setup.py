@@ -32,8 +32,16 @@ def create_model1_warehouse(
     ``600 +/- 5 * displacement_m``; after the same scale conversion,
     that is ``60 +/- 0.5 * displacement_m`` in SimPy.
     """
-    a_x = 60.0 - 0.5 * params.displacement_m
-    b_x = 60.0 + 0.5 * params.displacement_m
+    if params.apply_displacement_geometry:
+        a_x = 60.0 - 0.5 * params.displacement_m
+        b_x = 60.0 + 0.5 * params.displacement_m
+    else:
+        # The AnyLogic Parameter Variation experiment prints displacement
+        # values but does not run the Simulation experiment's before-run code
+        # that repositions A and B. Keep the original markup geometry for
+        # range validation instead of applying the displacement parameter.
+        a_x = 50.0
+        b_x = 70.0
 
     home_area = RectangularNode(
         "home_location_forklifts", Position3D(55.0, 30.0, 0), 10.0, 4.0, 0.0
@@ -83,7 +91,11 @@ def create_model1_warehouse(
             max_speed=params.forklift_max_speed,
             acceleration=params.forklift_acceleration,
             # AnyLogic Model 1 binds deceleration to forklift_acceleration_ms2.
-            deceleration=params.forklift_acceleration,
+            deceleration=(
+                params.forklift_deceleration
+                if params.forklift_deceleration is not None
+                else params.forklift_acceleration
+            ),
         ),
         # Model 1 has no separate fork elevation/lowering parameter in the ALP.
         # Targets are ground-level, so this fallback is not part of parity timing.

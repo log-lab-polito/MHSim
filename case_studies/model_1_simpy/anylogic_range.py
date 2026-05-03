@@ -3,18 +3,16 @@
 The current ALP declares the ranged parameters as ``arrival_rate_s``,
 ``forklift_capacity``, ``forklift_max_speed_ms``,
 ``forklift_acceleration_ms2``, and ``displacement_m``. The exported range log
-nests hidden values as arrival, max speed, acceleration, capacity, then
-displacement, so the inferred values below follow that exported behavior.
+nests hidden values as arrival, displacement, acceleration, capacity, then
+max speed, so the values below follow that exported behavior.
 ``mhsim.experiments.RangeVariation`` iterates the last configured parameter
 fastest, so callers should use ``range_variation_parameters()`` when building
 SimPy experiments.
 """
 
 from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Any
-
 from mhsim.experiments import ChoiceParameter
 
 
@@ -39,10 +37,10 @@ class Model1RangeValues:
 
 ANYLOGIC_RANGE_VALUES: dict[str, tuple[Any, ...]] = {
     "arrival_rate_s": (60.0, 120.0),
-    "forklift_max_speed": (10.0, 20.0),
+    "displacement_m": (100.0, 200.0),
     "forklift_acceleration": (1.0, 2.0),
     "n_forklifts": (1, 2, 3, 4),
-    "displacement_m": (100.0, 200.0),
+    "forklift_max_speed": (10.0, 20.0),
 }
 
 

@@ -8,9 +8,15 @@ from typing import Iterable, Optional, TextIO
 class CyclicPositionLogger:
     """Write AnyLogic-style cyclic transporter position rows."""
 
-    def __init__(self, log_dir: str = "logs", filename_prefix: str = "simpy_model1"):
+    def __init__(
+        self,
+        log_dir: str = "logs",
+        filename_prefix: str = "simpy_model1",
+        position_scale: float = 1.0,
+    ):
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
+        self.position_scale = position_scale
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.log_file = self.log_dir / f"{filename_prefix}_{timestamp}.txt"
@@ -52,7 +58,9 @@ class CyclicPositionLogger:
         message = f"t={time:.2f}"
         for forklift in forklifts:
             position = getattr(forklift, "position")
-            message += f", x={position.x:.2f}, y={position.y:.2f}"
+            x = position.x * self.position_scale
+            y = position.y * self.position_scale
+            message += f", x={x:.2f}, y={y:.2f}"
 
         self._file.write(message + "\n")
         self._file.flush()

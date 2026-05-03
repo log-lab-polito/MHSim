@@ -7,18 +7,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 23.320219933901843
+    Avg cycle (s): 23.32021993375223
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.26497953987296247
+    Forklifts Utilization (%): 0.26497953986929546
     Move: seize -> loading start
-      avg = 8.68521980602641
-      min = 8.685219806025998
+      avg = 8.6852198060269
+      min = 8.685219806026879
       max = 8.685219806026907
-      std dev (pop) = 4.507054776172284E-13
-      std dev (sample) = 4.52215382944141E-13
+      std dev (pop) = 9.252983496147993E-15
+      std dev (sample) = 9.411165612515465E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -26,11 +26,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 12.63500012787543
-      min = 12.635000126480008
-      max = 12.635000128102547
-      std dev (pop) = 4.580947127338024E-10
-      std dev (sample) = 4.5962937268655915E-10
+      avg = 12.635000127725327
+      min = 12.635000127696003
+      max = 12.635000127797639
+      std dev (pop) = 4.5013868327197345E-11
+      std dev (sample) = 4.5783391904197896E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0

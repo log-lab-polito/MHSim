@@ -7,18 +7,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.4148156922911064
+    Forklifts Utilization (%): 0.41481569231510795
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -26,11 +26,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -52,18 +52,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.20740784614562188
+    Forklifts Utilization (%): 0.20740784615750854
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -71,11 +71,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -97,18 +97,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.4148156922911064
+    Forklifts Utilization (%): 0.41481569231510795
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -116,11 +116,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -142,18 +142,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.20740784614562188
+    Forklifts Utilization (%): 0.20740784615750854
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -161,11 +161,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -187,18 +187,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.3101318241310801
+    Forklifts Utilization (%): 0.3101318241334469
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -206,11 +206,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -232,18 +232,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.15506591206552012
+    Forklifts Utilization (%): 0.15506591206670414
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -251,11 +251,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -277,18 +277,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.3101318241310801
+    Forklifts Utilization (%): 0.3101318241334469
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -296,11 +296,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -322,18 +322,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.15506591206552012
+    Forklifts Utilization (%): 0.15506591206670414
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -341,11 +341,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -367,18 +367,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.2074078461455532
+    Forklifts Utilization (%): 0.20740784615755398
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -386,11 +386,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -412,18 +412,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.10370392307281094
+    Forklifts Utilization (%): 0.10370392307875426
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -431,11 +431,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -457,18 +457,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.2074078461455532
+    Forklifts Utilization (%): 0.20740784615755398
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -476,11 +476,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -502,18 +502,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.10370392307281094
+    Forklifts Utilization (%): 0.10370392307875426
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -521,11 +521,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -547,18 +547,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.15506591206554005
+    Forklifts Utilization (%): 0.15506591206672346
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -566,11 +566,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -592,18 +592,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.07753295603276006
+    Forklifts Utilization (%): 0.07753295603335204
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -611,11 +611,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -637,18 +637,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.15506591206554005
+    Forklifts Utilization (%): 0.15506591206672346
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -656,11 +656,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -682,18 +682,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.07753295603276006
+    Forklifts Utilization (%): 0.07753295603335204
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -701,11 +701,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -727,18 +727,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1382718974303688
+    Forklifts Utilization (%): 0.13827189743836935
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -746,11 +746,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -772,18 +772,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.0691359487152073
+    Forklifts Utilization (%): 0.0691359487191695
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -791,11 +791,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -817,18 +817,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1382718974303688
+    Forklifts Utilization (%): 0.13827189743836935
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -836,11 +836,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -862,18 +862,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.0691359487152073
+    Forklifts Utilization (%): 0.0691359487191695
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -881,11 +881,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -907,18 +907,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.10337727471036003
+    Forklifts Utilization (%): 0.10337727471114899
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -926,11 +926,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -952,18 +952,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05168863735517337
+    Forklifts Utilization (%): 0.051688637355568036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -971,11 +971,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -997,18 +997,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.10337727471036003
+    Forklifts Utilization (%): 0.10337727471114899
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1016,11 +1016,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1042,18 +1042,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05168863735517337
+    Forklifts Utilization (%): 0.051688637355568036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1061,11 +1061,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1087,18 +1087,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1037039230727766
+    Forklifts Utilization (%): 0.103703923078777
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1106,11 +1106,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1132,18 +1132,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05185196153640547
+    Forklifts Utilization (%): 0.05185196153937713
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1151,11 +1151,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1177,18 +1177,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1037039230727766
+    Forklifts Utilization (%): 0.103703923078777
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1196,11 +1196,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1222,18 +1222,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05185196153640547
+    Forklifts Utilization (%): 0.05185196153937713
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1241,11 +1241,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1267,18 +1267,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.07753295603277002
+    Forklifts Utilization (%): 0.07753295603336174
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1286,11 +1286,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1312,18 +1312,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.03876647801638003
+    Forklifts Utilization (%): 0.038766478016676036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1331,11 +1331,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1357,18 +1357,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.07753295603277002
+    Forklifts Utilization (%): 0.07753295603336174
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1376,11 +1376,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1402,18 +1402,18 @@ PARAMETERS
     Forklift max speed (m/s): 10.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.03876647801638003
+    Forklifts Utilization (%): 0.038766478016676036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1421,11 +1421,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1447,18 +1447,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.4148156922911064
+    Forklifts Utilization (%): 0.41481569231510795
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1466,11 +1466,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1492,18 +1492,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.20740784614562188
+    Forklifts Utilization (%): 0.20740784615750854
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1511,11 +1511,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1537,18 +1537,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.4148156922911064
+    Forklifts Utilization (%): 0.41481569231510795
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1556,11 +1556,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1582,18 +1582,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.20740784614562188
+    Forklifts Utilization (%): 0.20740784615750854
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1601,11 +1601,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1627,18 +1627,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.3101318241310801
+    Forklifts Utilization (%): 0.3101318241334469
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1646,11 +1646,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1672,18 +1672,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.15506591206552012
+    Forklifts Utilization (%): 0.15506591206670414
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1691,11 +1691,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1717,18 +1717,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.3101318241310801
+    Forklifts Utilization (%): 0.3101318241334469
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1736,11 +1736,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1762,18 +1762,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.15506591206552012
+    Forklifts Utilization (%): 0.15506591206670414
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1781,11 +1781,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1807,18 +1807,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.2074078461455532
+    Forklifts Utilization (%): 0.20740784615755398
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1826,11 +1826,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1852,18 +1852,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.10370392307281094
+    Forklifts Utilization (%): 0.10370392307875426
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1871,11 +1871,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1897,18 +1897,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.2074078461455532
+    Forklifts Utilization (%): 0.20740784615755398
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1916,11 +1916,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1942,18 +1942,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.10370392307281094
+    Forklifts Utilization (%): 0.10370392307875426
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -1961,11 +1961,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -1987,18 +1987,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.15506591206554005
+    Forklifts Utilization (%): 0.15506591206672346
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2006,11 +2006,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2032,18 +2032,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.07753295603276006
+    Forklifts Utilization (%): 0.07753295603335204
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2051,11 +2051,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2077,18 +2077,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.15506591206554005
+    Forklifts Utilization (%): 0.15506591206672346
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2096,11 +2096,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2122,18 +2122,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.07753295603276006
+    Forklifts Utilization (%): 0.07753295603335204
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2141,11 +2141,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2167,18 +2167,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1382718974303688
+    Forklifts Utilization (%): 0.13827189743836935
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2186,11 +2186,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2212,18 +2212,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.0691359487152073
+    Forklifts Utilization (%): 0.0691359487191695
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2231,11 +2231,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2257,18 +2257,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1382718974303688
+    Forklifts Utilization (%): 0.13827189743836935
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2276,11 +2276,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2302,18 +2302,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.0691359487152073
+    Forklifts Utilization (%): 0.0691359487191695
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2321,11 +2321,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2347,18 +2347,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.10337727471036003
+    Forklifts Utilization (%): 0.10337727471114899
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2366,11 +2366,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2392,18 +2392,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05168863735517337
+    Forklifts Utilization (%): 0.051688637355568036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2411,11 +2411,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2437,18 +2437,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.10337727471036003
+    Forklifts Utilization (%): 0.10337727471114899
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2456,11 +2456,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2482,18 +2482,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05168863735517337
+    Forklifts Utilization (%): 0.051688637355568036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2501,11 +2501,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2527,18 +2527,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1037039230727766
+    Forklifts Utilization (%): 0.103703923078777
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2546,11 +2546,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2572,18 +2572,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05185196153640547
+    Forklifts Utilization (%): 0.05185196153937713
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2591,11 +2591,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2617,18 +2617,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 17.615394301401107
+    Avg cycle (s): 17.615394301697197
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.1037039230727766
+    Forklifts Utilization (%): 0.103703923078777
     Move: seize -> loading start
-      avg = 6.6852198060264065
-      min = 6.685219806025998
+      avg = 6.685219806026901
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5074128401210297E-13
-      std dev (sample) = 4.514944028063147E-13
+      std dev (pop) = 7.558219183098288E-15
+      std dev (sample) = 7.622002754276035E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2636,11 +2636,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495374697
-      min = 8.930174495115352
+      avg = 8.930174495670288
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.8166491899222584E-10
-      std dev (sample) = 2.821355373972563E-10
+      std dev (pop) = 3.162976741543914E-11
+      std dev (sample) = 3.189669001617421E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2662,18 +2662,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 1.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 17.615394301402805
+    Avg cycle (s): 17.615394301696075
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.05185196153640547
+    Forklifts Utilization (%): 0.05185196153937713
     Move: seize -> loading start
-      avg = 6.6852198060264145
-      min = 6.685219806025998
+      avg = 6.685219806026902
+      min = 6.685219806026879
       max = 6.6852198060269075
-      std dev (pop) = 4.5029161469357693E-13
-      std dev (sample) = 4.518001335411497E-13
+      std dev (pop) = 7.33128385816961E-15
+      std dev (sample) = 7.456614028363766E-15
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2681,11 +2681,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 8.930174495376383
-      min = 8.930174495115352
+      avg = 8.93017449566917
+      min = 8.93017449561873
       max = 8.930174495690153
-      std dev (pop) = 2.816248237974795E-10
-      std dev (sample) = 2.825682931866041E-10
+      std dev (pop) = 3.2091514946810204E-11
+      std dev (sample) = 3.2640127592000594E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2707,18 +2707,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.07753295603277002
+    Forklifts Utilization (%): 0.07753295603336174
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2726,11 +2726,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2752,18 +2752,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.03876647801638003
+    Forklifts Utilization (%): 0.038766478016676036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2771,11 +2771,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2797,18 +2797,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 301
-    Completed: 300
+    Created: 61
+    Completed: 60
     In flight: 1
-    Avg cycle (s): 13.659526889818972
+    Avg cycle (s): 13.659526889960867
     Throughput (/h): 60.0
-    Forklifts Utilization (%): 0.07753295603277002
+    Forklifts Utilization (%): 0.07753295603336174
     Move: seize -> loading start
-      avg = 5.344939946871326
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.586101678112441E-13
-      std dev (sample) = 5.595435187842716E-13
+      avg = 5.344939946871254
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.849507569208964E-14
+      std dev (sample) = 9.93262725016652E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2816,11 +2816,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942947646
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.6142362795972357E-10
-      std dev (sample) = 3.620275108001543E-10
+      avg = 6.314586943089613
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 7.032363176887412E-11
+      std dev (sample) = 7.091709065961893E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
@@ -2842,18 +2842,18 @@ PARAMETERS
     Forklift max speed (m/s): 20.0
     Forklift acceleration (m/s/s): 2.0
 RESULTS
-    Created: 151
-    Completed: 150
+    Created: 31
+    Completed: 30
     In flight: 1
-    Avg cycle (s): 13.659526889816595
+    Avg cycle (s): 13.659526889958544
     Throughput (/h): 30.0
-    Forklifts Utilization (%): 0.03876647801638003
+    Forklifts Utilization (%): 0.038766478016676036
     Move: seize -> loading start
-      avg = 5.344939946871325
-      min = 5.344939946869999
-      max = 5.344939946871818
-      std dev (pop) = 5.51841660748761E-13
-      std dev (sample) = 5.536903817085813E-13
+      avg = 5.344939946871252
+      min = 5.344939946871136
+      max = 5.344939946871364
+      std dev (pop) = 9.78160965177594E-14
+      std dev (sample) = 9.948828767301494E-14
     Move: loading start -> loading finish
       avg = 1.0
       min = 1.0
@@ -2861,11 +2861,11 @@ RESULTS
       std dev (pop) = 0.0
       std dev (sample) = 0.0
     Move: loading finish -> unloading start
-      avg = 6.314586942945269
-      min = 6.314586942598908
-      max = 6.31458694374669
-      std dev (pop) = 3.58494305890911E-10
-      std dev (sample) = 3.5969529520436287E-10
+      avg = 6.31458694308729
+      min = 6.314586943029326
+      max = 6.314586943172799
+      std dev (pop) = 6.983799753684283E-11
+      std dev (sample) = 7.103189594353976E-11
     Move: unloading start -> unloading finish
       avg = 1.0
       min = 1.0
