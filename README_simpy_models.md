@@ -75,8 +75,43 @@ python -m case_studies.model_1_simpy.run_parameter_variation
 Compare AnyLogic vs SimPy parameter-variation range outputs:
 
 ```bash
-python -m case_studies.model_1_simpy.compare_parameter_variation_range --view overview
+python -m case_studies.model_1_simpy.compare_parameter_variation_range
 ```
+
+Write a curated text report:
+
+```bash
+python -m case_studies.model_1_simpy.compare_parameter_variation_range \
+  --view report \
+  --metric benchmark_avg_only \
+  --top 25 \
+  --output logs/model_1_parameter_variation_range_report.txt
+```
+
+Write an interactive HTML report:
+
+```bash
+python -m case_studies.model_1_simpy.compare_parameter_variation_range \
+  --view report \
+  --metric benchmark_avg_only \
+  --top 25 \
+  --output logs/model_1_parameter_variation_range_report.html
+```
+
+HTML report options that usually matter:
+
+```text
+--output ...html       Writes HTML automatically when the path ends in .html or .htm.
+--format html          Forces HTML when the output path does not use an HTML extension.
+--metric               Controls the Top Offenders section; benchmark_avg_only is the
+                       recommended benchmark-focused view.
+--top                  Controls how many Top Offenders rows are included.
+```
+
+Only pass `--anylogic`, `--simpy-runs`, or `--simpy-summary` when comparing
+against non-default input files. `--view` mostly affects text output; HTML
+always includes the interactive report with overview, offenders, and
+per-iteration benchmark details.
 
 Run animation:
 

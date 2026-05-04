@@ -12,8 +12,12 @@ from __future__ import annotations
 
 import argparse
 import csv
+import html
+import io
+import json
 import math
 import sys
+from contextlib import redirect_stdout
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -132,6 +136,65 @@ class ComparisonContext:
     common_keys: list[tuple[float, int, float, float, float]]
     anylogic_only: list[tuple[float, int, float, float, float]]
     simpy_only: list[tuple[float, int, float, float, float]]
+
+
+@dataclass(frozen=True)
+class MetricComparisonRow:
+    metric_name: str
+    label: str
+    anylogic_value: int | float
+    simpy_value: int | float
+    diff: float
+    diff_pct: float | None
+    status: str
+
+
+@dataclass(frozen=True)
+class OverviewRow:
+    metric_name: str
+    label: str
+    match_count: int
+    close_count: int
+    diff_count: int
+    worst_diff: float
+    worst_pct: float | None
+    worst_case: tuple[float, int, float, float, float] | None
+
+
+@dataclass(frozen=True)
+class OffenderRow:
+    rank: int
+    metric_name: str
+    label: str
+    key: tuple[float, int, float, float, float]
+    anylogic_iteration: int
+    simpy_iteration: int
+    anylogic_value: int | float
+    simpy_value: int | float
+    diff: float
+    diff_pct: float | None
+    status: str
+    severity: float
+
+
+@dataclass(frozen=True)
+class IterationReportRow:
+    key: tuple[float, int, float, float, float]
+    anylogic_iteration: int
+    simpy_iteration: int
+    case_label: str
+    benchmark_rows: list[MetricComparisonRow]
+    summary_rows: list[MetricComparisonRow]
+
+
+@dataclass(frozen=True)
+class ReportData:
+    context: ComparisonContext
+    overview_rows: list[OverviewRow]
+    offender_rows: list[OffenderRow]
+    iteration_rows: list[IterationReportRow]
+    exact_match_metrics: list[str]
+    close_or_diff_rows: list[OverviewRow]
 
 
 def parse_anylogic_range_output(path: str | Path) -> list[AnyLogicRangeRow]:
@@ -303,6 +366,8 @@ def print_comparison_report(
         _print_matrix_view(context, metric_name=metric_name)
     elif view == "offenders":
         _print_offenders_view(context, metric_name=metric_name, top=top)
+    elif view == "report":
+        _print_report_view(context, metric_name=metric_name, top=top)
     elif view == "all":
         _print_overview_view(context)
         _print_matrix_view(context, metric_name=metric_name)
@@ -333,6 +398,222 @@ def build_comparison_context(
         common_keys=common_keys,
         anylogic_only=anylogic_only,
         simpy_only=simpy_only,
+    )
+
+
+def render_comparison_report_text(
+    context: ComparisonContext,
+    *,
+    view: str,
+    metric_name: str,
+    top: int,
+) -> str:
+    output = io.StringIO()
+    with redirect_stdout(output):
+        _print_report_header(context)
+        _print_unmatched(context)
+
+        if not context.common_keys:
+            print("\nNo common parameter combinations found.")
+        elif view == "full":
+            _print_full_view(context)
+        elif view == "overview":
+            _print_overview_view(context)
+        elif view == "matrix":
+            _print_matrix_view(context, metric_name=metric_name)
+        elif view == "offenders":
+            _print_offenders_view(context, metric_name=metric_name, top=top)
+        elif view == "report":
+            _print_report_view(context, metric_name=metric_name, top=top)
+        elif view == "all":
+            _print_overview_view(context)
+            _print_matrix_view(context, metric_name=metric_name)
+            _print_offenders_view(context, metric_name=metric_name, top=top)
+            _print_full_view(context)
+        else:
+            raise ValueError(f"Unsupported view: {view}")
+    return output.getvalue()
+
+
+def build_report_data(
+    context: ComparisonContext,
+    *,
+    metric_name: str,
+    top: int,
+) -> ReportData:
+    overview_rows = _build_overview_rows(context)
+    offender_rows = _build_offender_rows(context, metric_name=metric_name, top=top)
+    iteration_rows = _build_iteration_report_rows(context)
+    exact_match_metrics = [
+        row.label
+        for row in overview_rows
+        if row.close_count == 0 and row.diff_count == 0
+    ]
+    close_or_diff_rows = [
+        row
+        for row in overview_rows
+        if row.close_count > 0 or row.diff_count > 0
+    ]
+    return ReportData(
+        context=context,
+        overview_rows=overview_rows,
+        offender_rows=offender_rows,
+        iteration_rows=iteration_rows,
+        exact_match_metrics=exact_match_metrics,
+        close_or_diff_rows=close_or_diff_rows,
+    )
+
+
+def _build_overview_rows(context: ComparisonContext) -> list[OverviewRow]:
+    rows: list[OverviewRow] = []
+    for field_name, label in _comparison_metrics(context):
+        counts = {"MATCH": 0, "CLOSE": 0, "DIFF": 0}
+        worst_diff: tuple[float, float, tuple[float, int, float, float, float]] | None = None
+        worst_pct: tuple[float, float | None, tuple[float, int, float, float, float]] | None = None
+
+        for anylogic, simpy in _matched_rows(context):
+            metric_row = _build_metric_comparison_row(anylogic, simpy, field_name, label)
+            counts[metric_row.status] += 1
+            diff_rank = abs(metric_row.diff)
+            pct_rank = abs(metric_row.diff_pct) if metric_row.diff_pct is not None else -1.0
+
+            if worst_diff is None or diff_rank > worst_diff[0]:
+                worst_diff = (diff_rank, metric_row.diff, anylogic.match_key)
+            if worst_pct is None or pct_rank > worst_pct[0]:
+                worst_pct = (pct_rank, metric_row.diff_pct, anylogic.match_key)
+
+        rows.append(
+            OverviewRow(
+                metric_name=field_name,
+                label=label,
+                match_count=counts["MATCH"],
+                close_count=counts["CLOSE"],
+                diff_count=counts["DIFF"],
+                worst_diff=0.0 if worst_diff is None else worst_diff[1],
+                worst_pct=None if worst_pct is None else worst_pct[1],
+                worst_case=None if worst_pct is None else worst_pct[2],
+            )
+        )
+    return rows
+
+
+def _build_offender_rows(
+    context: ComparisonContext,
+    *,
+    metric_name: str,
+    top: int,
+) -> list[OffenderRow]:
+    offenders: list[OffenderRow] = []
+    for anylogic, simpy in _matched_rows(context):
+        for field_name, label in _selected_metrics(
+            metric_name, _comparison_metrics(context)
+        ):
+            metric_row = _build_metric_comparison_row(anylogic, simpy, field_name, label)
+            severity = (
+                abs(metric_row.diff_pct)
+                if metric_row.diff_pct is not None
+                else abs(metric_row.diff)
+            )
+            offenders.append(
+                OffenderRow(
+                    rank=0,
+                    metric_name=field_name,
+                    label=label,
+                    key=anylogic.match_key,
+                    anylogic_iteration=anylogic.iteration,
+                    simpy_iteration=simpy.iteration,
+                    anylogic_value=metric_row.anylogic_value,
+                    simpy_value=metric_row.simpy_value,
+                    diff=metric_row.diff,
+                    diff_pct=metric_row.diff_pct,
+                    status=metric_row.status,
+                    severity=severity,
+                )
+            )
+
+    offenders.sort(
+        key=lambda item: (
+            item.severity,
+            abs(item.diff),
+            item.key[0],
+            item.key[1],
+            item.key[2],
+            item.key[3],
+            item.key[4],
+            item.label,
+        ),
+        reverse=True,
+    )
+    return [
+        OffenderRow(
+            rank=index,
+            metric_name=row.metric_name,
+            label=row.label,
+            key=row.key,
+            anylogic_iteration=row.anylogic_iteration,
+            simpy_iteration=row.simpy_iteration,
+            anylogic_value=row.anylogic_value,
+            simpy_value=row.simpy_value,
+            diff=row.diff,
+            diff_pct=row.diff_pct,
+            status=row.status,
+            severity=row.severity,
+        )
+        for index, row in enumerate(offenders[:top], start=1)
+    ]
+
+
+def _build_iteration_report_rows(context: ComparisonContext) -> list[IterationReportRow]:
+    metrics = _comparison_metrics(context)
+    benchmark_metrics = [
+        (field_name, label)
+        for field_name, label in metrics
+        if field_name.startswith(BENCHMARK_METRIC_PREFIX)
+    ]
+    summary_metrics = [
+        (field_name, label)
+        for field_name, label in metrics
+        if not field_name.startswith(BENCHMARK_METRIC_PREFIX)
+    ]
+    rows: list[IterationReportRow] = []
+    for anylogic, simpy in _matched_rows(context):
+        rows.append(
+            IterationReportRow(
+                key=anylogic.match_key,
+                anylogic_iteration=anylogic.iteration,
+                simpy_iteration=simpy.iteration,
+                case_label=_format_case(anylogic.match_key),
+                benchmark_rows=[
+                    _build_metric_comparison_row(anylogic, simpy, field_name, label)
+                    for field_name, label in benchmark_metrics
+                ],
+                summary_rows=[
+                    _build_metric_comparison_row(anylogic, simpy, field_name, label)
+                    for field_name, label in summary_metrics
+                ],
+            )
+        )
+    return rows
+
+
+def _build_metric_comparison_row(
+    anylogic: AnyLogicRangeRow,
+    simpy: SimPyRangeSummaryRow,
+    field_name: str,
+    label: str,
+) -> MetricComparisonRow:
+    anylogic_value = _metric_value(anylogic, field_name)
+    simpy_value = _metric_value(simpy, field_name)
+    diff = _numeric_diff(anylogic_value, simpy_value)
+    diff_pct = _percent_diff(anylogic_value, simpy_value)
+    return MetricComparisonRow(
+        metric_name=field_name,
+        label=label,
+        anylogic_value=anylogic_value,
+        simpy_value=simpy_value,
+        diff=diff,
+        diff_pct=diff_pct,
+        status=_status(anylogic_value, simpy_value),
     )
 
 
@@ -676,6 +957,444 @@ def _print_offenders_view(
     _print_table(header, rows, indent="  ")
 
 
+def _print_report_view(
+    context: ComparisonContext,
+    *,
+    metric_name: str,
+    top: int,
+) -> None:
+    report = build_report_data(context, metric_name=metric_name, top=top)
+
+    print("\nReport summary:")
+    if report.close_or_diff_rows:
+        print("  Metrics needing attention:")
+        _print_table(
+            [
+                "Metric",
+                "Match",
+                "Close",
+                "Diff",
+                "Worst Diff",
+                "Worst %",
+                "Worst Case",
+            ],
+            [
+                [
+                    row.label,
+                    str(row.match_count),
+                    str(row.close_count),
+                    str(row.diff_count),
+                    _format_diff(row.worst_diff),
+                    _format_percent(row.worst_pct),
+                    _format_case(row.worst_case),
+                ]
+                for row in report.close_or_diff_rows
+            ],
+            indent="    ",
+        )
+    else:
+        print("  No CLOSE or DIFF metrics found.")
+
+    print("\n  Exact-match metrics:")
+    if report.exact_match_metrics:
+        for label in report.exact_match_metrics:
+            print(f"    - {label}")
+    else:
+        print("    <none>")
+
+    print(f"\nTop offenders (top {top}):")
+    _print_table(
+        [
+            "Rank",
+            "Metric",
+            "Case",
+            "AnyLogic it",
+            "SimPy it",
+            "Diff",
+            "Diff %",
+            "Status",
+        ],
+        [
+            [
+                str(row.rank),
+                row.label,
+                _format_case(row.key),
+                str(row.anylogic_iteration),
+                str(row.simpy_iteration),
+                _format_diff(row.diff),
+                _format_percent(row.diff_pct),
+                row.status,
+            ]
+            for row in report.offender_rows
+        ],
+        indent="  ",
+    )
+    print("\nNotes:")
+    print("  Status thresholds: MATCH = exact, CLOSE = <1% difference, DIFF = >=1% difference")
+    print("  Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval")
+    print("  HTML reports include a dropdown for per-iteration benchmark details.")
+
+
+def render_html_report(
+    context: ComparisonContext,
+    *,
+    metric_name: str,
+    top: int,
+) -> str:
+    report = build_report_data(context, metric_name=metric_name, top=top)
+    iteration_data = [
+        {
+            "label": (
+                f"AnyLogic {row.anylogic_iteration} / SimPy {row.simpy_iteration} - "
+                f"{row.case_label}"
+            ),
+            "anylogicIteration": row.anylogic_iteration,
+            "simpyIteration": row.simpy_iteration,
+            "caseLabel": row.case_label,
+            "benchmarkRows": [
+                _metric_row_json(metric_row)
+                for metric_row in row.benchmark_rows
+            ],
+            "summaryRows": [
+                _metric_row_json(metric_row)
+                for metric_row in row.summary_rows
+            ],
+        }
+        for row in report.iteration_rows
+    ]
+    iteration_json = json.dumps(iteration_data, ensure_ascii=True)
+
+    validation_items = "".join(
+        f"<li>{_html_escape(issue)}</li>"
+        for issue in context.validation_issues
+    )
+    validation_html = (
+        f"<ul>{validation_items}</ul>"
+        if context.validation_issues
+        else "<p class=\"pass-text\">PASS</p>"
+    )
+    attention_rows = "".join(
+        "<tr>"
+        f"<td>{_html_escape(row.label)}</td>"
+        f"<td>{row.match_count}</td>"
+        f"<td>{row.close_count}</td>"
+        f"<td>{row.diff_count}</td>"
+        f"<td>{_html_escape(_format_diff(row.worst_diff))}</td>"
+        f"<td>{_html_escape(_format_percent(row.worst_pct))}</td>"
+        f"<td>{_html_escape(_format_case(row.worst_case))}</td>"
+        "</tr>"
+        for row in report.close_or_diff_rows
+    )
+    if not attention_rows:
+        attention_rows = (
+            "<tr><td colspan=\"7\" class=\"empty\">No CLOSE or DIFF metrics found.</td></tr>"
+        )
+    exact_metrics = "".join(
+        f"<li>{_html_escape(label)}</li>"
+        for label in report.exact_match_metrics
+    ) or "<li>None</li>"
+    offender_rows = "".join(_offender_html_row(row) for row in report.offender_rows)
+    unmatched_html = _unmatched_html(context)
+    option_items = "".join(
+        f"<option value=\"{index}\">{_html_escape(row['label'])}</option>"
+        for index, row in enumerate(iteration_data)
+    )
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model 1 Range Comparison Report</title>
+  <style>
+    :root {{
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --border: #d9dde5;
+      --text: #20242c;
+      --muted: #656d7a;
+      --match: #1d7f45;
+      --close: #9a6a00;
+      --diff: #b42318;
+      --header: #eef1f6;
+    }}
+    * {{ box-sizing: border-box; }}
+    body {{
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }}
+    header {{
+      padding: 24px 28px 16px;
+      background: #242a34;
+      color: white;
+    }}
+    header h1 {{ margin: 0 0 8px; font-size: 24px; font-weight: 650; }}
+    header p {{ margin: 0; color: #d8dde6; }}
+    main {{ padding: 22px 28px 32px; max-width: 1280px; margin: 0 auto; }}
+    section {{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      padding: 18px;
+    }}
+    h2 {{ margin: 0 0 14px; font-size: 18px; }}
+    h3 {{ margin: 18px 0 10px; font-size: 15px; }}
+    .summary-grid {{
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 14px;
+    }}
+    .summary-card {{
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      background: #fbfcfe;
+    }}
+    .summary-card .label {{ color: var(--muted); font-size: 12px; }}
+    .summary-card .value {{ font-size: 22px; font-weight: 650; margin-top: 3px; }}
+    table {{ width: 100%; border-collapse: collapse; }}
+    th, td {{ border-bottom: 1px solid var(--border); padding: 8px 9px; text-align: left; vertical-align: top; }}
+    th {{ background: var(--header); color: #343a46; font-weight: 650; position: sticky; top: 0; }}
+    tbody tr:hover {{ background: #f9fafc; }}
+    .numeric {{ text-align: right; font-variant-numeric: tabular-nums; }}
+    .table-wrap {{ overflow: auto; border: 1px solid var(--border); border-radius: 6px; }}
+    .badge {{ border-radius: 999px; color: white; display: inline-block; font-size: 12px; font-weight: 650; padding: 2px 8px; }}
+    .MATCH {{ background: var(--match); }}
+    .CLOSE {{ background: var(--close); }}
+    .DIFF {{ background: var(--diff); }}
+    .controls {{ display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: end; }}
+    label {{ display: grid; gap: 4px; color: var(--muted); font-size: 12px; }}
+    select, input {{
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      min-height: 34px;
+      padding: 6px 8px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }}
+    #iteration-select {{ min-width: min(760px, 100%); }}
+    details {{ border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }}
+    details + details {{ margin-top: 10px; }}
+    summary {{ cursor: pointer; font-weight: 650; }}
+    .muted {{ color: var(--muted); }}
+    .empty {{ color: var(--muted); text-align: center; }}
+    .pass-text {{ color: var(--match); font-weight: 650; margin: 0; }}
+    th.sortable {{ cursor: pointer; }}
+    th.sortable::after {{ content: " sort"; color: var(--muted); font-size: 11px; font-weight: 400; }}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Model 1 Parameter Variation Range Comparison</h1>
+    <p>AnyLogic vs SimPy benchmark report</p>
+  </header>
+  <main>
+    <section>
+      <h2>Run Summary</h2>
+      <div>{validation_html}</div>
+      <div class="summary-grid">
+        <div class="summary-card"><div class="label">Matched combinations</div><div class="value">{len(context.common_keys)}</div></div>
+        <div class="summary-card"><div class="label">AnyLogic-only</div><div class="value">{len(context.anylogic_only)}</div></div>
+        <div class="summary-card"><div class="label">SimPy-only</div><div class="value">{len(context.simpy_only)}</div></div>
+        <div class="summary-card"><div class="label">Top offender limit</div><div class="value">{top}</div></div>
+      </div>
+      <p class="muted">Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval.</p>
+    </section>
+
+    <section>
+      <h2>Metrics Needing Attention</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th class="numeric">Match</th><th class="numeric">Close</th><th class="numeric">Diff</th><th class="numeric">Worst Diff</th><th class="numeric">Worst %</th><th>Worst Case</th></tr></thead>
+          <tbody>{attention_rows}</tbody>
+        </table>
+      </div>
+      <details>
+        <summary>Exact-match metrics</summary>
+        <ul>{exact_metrics}</ul>
+      </details>
+    </section>
+
+    <section>
+      <h2>Top Offenders</h2>
+      <div class="table-wrap">
+        <table id="offenders-table">
+          <thead><tr><th class="sortable" data-type="number">Rank</th><th class="sortable">Metric</th><th>Case</th><th class="sortable" data-type="number">AnyLogic it</th><th class="sortable" data-type="number">SimPy it</th><th class="sortable" data-type="number">Diff</th><th class="sortable" data-type="number">Diff %</th><th class="sortable">Status</th></tr></thead>
+          <tbody>{offender_rows}</tbody>
+        </table>
+      </div>
+    </section>
+
+    {unmatched_html}
+
+    <section>
+      <h2>Iteration Benchmark Details</h2>
+      <div class="controls">
+        <label>Iteration
+          <select id="iteration-select">{option_items}</select>
+        </label>
+        <label>Metric filter
+          <input id="metric-filter" type="search" placeholder="Filter metric labels">
+        </label>
+        <label>Status
+          <select id="status-filter">
+            <option value="all">All statuses</option>
+            <option value="MATCH">MATCH</option>
+            <option value="CLOSE">CLOSE</option>
+            <option value="DIFF">DIFF</option>
+          </select>
+        </label>
+      </div>
+      <p id="iteration-case" class="muted"></p>
+      <h3>Benchmark phases</h3>
+      <div class="table-wrap"><table><thead><tr><th>Metric</th><th class="numeric">AnyLogic</th><th class="numeric">SimPy</th><th class="numeric">Diff</th><th class="numeric">Diff %</th><th>Status</th></tr></thead><tbody id="benchmark-body"></tbody></table></div>
+      <h3>Summary metrics</h3>
+      <div class="table-wrap"><table><thead><tr><th>Metric</th><th class="numeric">AnyLogic</th><th class="numeric">SimPy</th><th class="numeric">Diff</th><th class="numeric">Diff %</th><th>Status</th></tr></thead><tbody id="summary-body"></tbody></table></div>
+    </section>
+  </main>
+  <script>
+    const iterationData = {iteration_json};
+
+    function escapeHtml(value) {{
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }}
+
+    function renderRows(rows, target) {{
+      const metricFilter = document.getElementById('metric-filter').value.toLowerCase();
+      const statusFilter = document.getElementById('status-filter').value;
+      const visibleRows = rows.filter(row => {{
+        const matchesMetric = row.label.toLowerCase().includes(metricFilter);
+        const matchesStatus = statusFilter === 'all' || row.status === statusFilter;
+        return matchesMetric && matchesStatus;
+      }});
+      if (!visibleRows.length) {{
+        target.innerHTML = '<tr><td colspan="6" class="empty">No matching rows.</td></tr>';
+        return;
+      }}
+      target.innerHTML = visibleRows.map(row => `
+        <tr>
+          <td>${{escapeHtml(row.label)}}</td>
+          <td class="numeric">${{escapeHtml(row.anylogic)}}</td>
+          <td class="numeric">${{escapeHtml(row.simpy)}}</td>
+          <td class="numeric">${{escapeHtml(row.diff)}}</td>
+          <td class="numeric">${{escapeHtml(row.diffPct)}}</td>
+          <td><span class="badge ${{row.status}}">${{escapeHtml(row.status)}}</span></td>
+        </tr>
+      `).join('');
+    }}
+
+    function renderIteration() {{
+      const index = Number(document.getElementById('iteration-select').value || 0);
+      const row = iterationData[index];
+      if (!row) return;
+      document.getElementById('iteration-case').textContent =
+        `AnyLogic iteration ${{row.anylogicIteration}} / SimPy iteration ${{row.simpyIteration}} - ${{row.caseLabel}}`;
+      renderRows(row.benchmarkRows, document.getElementById('benchmark-body'));
+      renderRows(row.summaryRows, document.getElementById('summary-body'));
+    }}
+
+    function makeSortable(table) {{
+      table.querySelectorAll('th.sortable').forEach((header, columnIndex) => {{
+        let ascending = true;
+        header.addEventListener('click', () => {{
+          const type = header.dataset.type || 'text';
+          const rows = Array.from(table.tBodies[0].rows);
+          rows.sort((left, right) => {{
+            const leftCell = left.cells[columnIndex];
+            const rightCell = right.cells[columnIndex];
+            const leftValue = leftCell.dataset.sort || leftCell.textContent.trim();
+            const rightValue = rightCell.dataset.sort || rightCell.textContent.trim();
+            if (type === 'number') {{
+              return (Number(leftValue) || 0) - (Number(rightValue) || 0);
+            }}
+            return leftValue.localeCompare(rightValue);
+          }});
+          if (!ascending) rows.reverse();
+          ascending = !ascending;
+          rows.forEach(row => table.tBodies[0].appendChild(row));
+        }});
+      }});
+    }}
+
+    document.getElementById('iteration-select').addEventListener('change', renderIteration);
+    document.getElementById('metric-filter').addEventListener('input', renderIteration);
+    document.getElementById('status-filter').addEventListener('change', renderIteration);
+    makeSortable(document.getElementById('offenders-table'));
+    renderIteration();
+  </script>
+</body>
+</html>
+"""
+
+
+def _metric_row_json(row: MetricComparisonRow) -> dict[str, str]:
+    return {
+        "label": row.label,
+        "anylogic": _format_value(row.anylogic_value),
+        "simpy": _format_value(row.simpy_value),
+        "diff": _format_diff(row.diff),
+        "diffPct": _format_percent(row.diff_pct),
+        "status": row.status,
+    }
+
+
+def _offender_html_row(row: OffenderRow) -> str:
+    diff_pct_sort = "" if row.diff_pct is None else f"{row.diff_pct:.12g}"
+    return (
+        "<tr>"
+        f"<td class=\"numeric\" data-sort=\"{row.rank}\">{row.rank}</td>"
+        f"<td>{_html_escape(row.label)}</td>"
+        f"<td>{_html_escape(_format_case(row.key))}</td>"
+        f"<td class=\"numeric\" data-sort=\"{row.anylogic_iteration}\">{row.anylogic_iteration}</td>"
+        f"<td class=\"numeric\" data-sort=\"{row.simpy_iteration}\">{row.simpy_iteration}</td>"
+        f"<td class=\"numeric\" data-sort=\"{row.diff:.12g}\">{_html_escape(_format_diff(row.diff))}</td>"
+        f"<td class=\"numeric\" data-sort=\"{diff_pct_sort}\">{_html_escape(_format_percent(row.diff_pct))}</td>"
+        f"<td><span class=\"badge {row.status}\">{_html_escape(row.status)}</span></td>"
+        "</tr>"
+    )
+
+
+def _unmatched_html(context: ComparisonContext) -> str:
+    if not context.anylogic_only and not context.simpy_only:
+        return ""
+    anylogic_rows = "".join(
+        f"<li>{_html_escape(_format_case(key))}</li>"
+        for key in context.anylogic_only
+    ) or "<li>None</li>"
+    simpy_rows = "".join(
+        f"<li>{_html_escape(_format_case(key))}</li>"
+        for key in context.simpy_only
+    ) or "<li>None</li>"
+    return f"""
+    <section>
+      <h2>Unmatched Combinations</h2>
+      <details open>
+        <summary>AnyLogic-only</summary>
+        <ul>{anylogic_rows}</ul>
+      </details>
+      <details open>
+        <summary>SimPy-only</summary>
+        <ul>{simpy_rows}</ul>
+      </details>
+    </section>
+"""
+
+
+def _html_escape(value: object) -> str:
+    return html.escape(str(value), quote=True)
+
+
 def _metric_float_field(record: dict[str, str], metric_name: str) -> float:
     direct = record.get(f"metric_{metric_name}")
     if direct not in (None, ""):
@@ -992,9 +1711,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--view",
-        choices=("full", "overview", "matrix", "offenders", "all"),
-        default="full",
-        help="Console view to print. Default keeps the detailed full report.",
+        choices=("full", "overview", "matrix", "offenders", "report", "all"),
+        default="overview",
+        help="Console view to print. Default prints the overview report.",
     )
     parser.add_argument(
         "--metric",
@@ -1012,19 +1731,78 @@ def main() -> None:
         default=10,
         help="How many rows to print in offenders view.",
     )
+    parser.add_argument(
+        "--output",
+        help="Optional report output path. Prints only a confirmation when set.",
+    )
+    parser.add_argument(
+        "--format",
+        choices=("text", "html"),
+        help=(
+            "Output format when --output is set. Defaults to html for .html/.htm "
+            "paths and text otherwise."
+        ),
+    )
     args = parser.parse_args()
 
     anylogic_rows = parse_anylogic_range_output(args.anylogic)
     simpy_summary_rows = load_simpy_summary_rows(args.simpy_summary)
     simpy_run_rows = load_simpy_run_rows(args.simpy_runs)
-    print_comparison_report(
-        anylogic_rows,
-        simpy_summary_rows,
-        simpy_run_rows,
-        view=args.view,
-        metric_name=args.metric,
-        top=args.top,
-    )
+    context = build_comparison_context(anylogic_rows, simpy_summary_rows, simpy_run_rows)
+
+    if args.output:
+        output_path = Path(args.output)
+        output_format = _infer_output_format(output_path, args.format)
+        if output_format == "html":
+            content = render_html_report(
+                context,
+                metric_name=args.metric,
+                top=args.top,
+            )
+        else:
+            content = render_comparison_report_text(
+                context,
+                view=args.view,
+                metric_name=args.metric,
+                top=args.top,
+            )
+        if output_path.parent != Path(""):
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content)
+        print(f"Wrote report: {output_path}")
+    else:
+        _print_report_header(context)
+        _print_unmatched(context)
+
+        if not context.common_keys:
+            print("\nNo common parameter combinations found.")
+            return
+
+        if args.view == "full":
+            _print_full_view(context)
+        elif args.view == "overview":
+            _print_overview_view(context)
+        elif args.view == "matrix":
+            _print_matrix_view(context, metric_name=args.metric)
+        elif args.view == "offenders":
+            _print_offenders_view(context, metric_name=args.metric, top=args.top)
+        elif args.view == "report":
+            _print_report_view(context, metric_name=args.metric, top=args.top)
+        elif args.view == "all":
+            _print_overview_view(context)
+            _print_matrix_view(context, metric_name=args.metric)
+            _print_offenders_view(context, metric_name=args.metric, top=args.top)
+            _print_full_view(context)
+        else:
+            raise ValueError(f"Unsupported view: {args.view}")
+
+
+def _infer_output_format(output_path: Path, requested_format: str | None) -> str:
+    if requested_format is not None:
+        return requested_format
+    if output_path.suffix.lower() in {".html", ".htm"}:
+        return "html"
+    return "text"
 
 
 if __name__ == "__main__":
