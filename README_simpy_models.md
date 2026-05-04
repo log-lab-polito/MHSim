@@ -321,6 +321,116 @@ Run animation:
 python -m case_studies.model_2_simpy.run_model_animation
 ```
 
+### Model 3
+
+Run conveyor model and print conveyor summary metrics:
+
+```bash
+python -m case_studies.model_3_simpy.run_model
+```
+
+Run with a shorter stop time:
+
+```bash
+python -m case_studies.model_3_simpy.run_model --sim-time 600
+```
+
+Compare AnyLogic vs SimPy block counts:
+
+```bash
+python -m case_studies.model_3_simpy.compare_blocks
+```
+
+Model 3 does not generate runtime logs. It validates the conveyor reference
+through summary metrics, block counts, parameter-variation exports, and
+animation inspection. The checked-in AnyLogic parameter-variation source is
+`anylogic/Model 3/log_file.txt`.
+
+Run ranged parameter-variation validation experiments:
+
+```bash
+python -m case_studies.model_3_simpy.run_parameter_variation
+```
+
+This writes:
+
+```text
+logs/model_3_parameter_variation_range_runs.csv
+logs/model_3_parameter_variation_range_summary.csv
+```
+
+The ranged experiment mirrors AnyLogic's Model 3 sensitivity analysis:
+
+```text
+arrival_rate_s       60, 120, 180, 240
+conveyor_speed_mps   0.5, 1.0, 1.5, 2.0
+conveyor_min_gap_m   0.3, 0.6, 0.9, 1.2
+stop time            3600 s
+```
+
+Compare AnyLogic vs SimPy parameter-variation range outputs:
+
+```bash
+python -m case_studies.model_3_simpy.compare_parameter_variation_range
+```
+
+Show the average-cycle hotspot matrix:
+
+```bash
+python -m case_studies.model_3_simpy.compare_parameter_variation_range \
+  --view matrix \
+  --metric avg_time_in_system_s
+```
+
+Write a curated text report:
+
+```bash
+python -m case_studies.model_3_simpy.compare_parameter_variation_range \
+  --view report \
+  --top 25 \
+  --output logs/model_3_parameter_variation_range_report.txt
+```
+
+Write an HTML report:
+
+```bash
+python -m case_studies.model_3_simpy.compare_parameter_variation_range \
+  --view report \
+  --top 25 \
+  --output logs/model_3_parameter_variation_range_report.html
+```
+
+Only pass `--anylogic`, `--simpy-runs`, or `--simpy-summary` when comparing
+against non-default input files. The default AnyLogic input is
+`anylogic/Model 3/log_file.txt`.
+
+Accepted Model 3 summary `--metric` values:
+
+```text
+created
+completed
+in_flight
+avg_time_in_system_s
+throughput_per_hour
+conveyor_entered
+conveyor_exited
+conveyor_occupancy_end
+```
+
+Run conveyor animation:
+
+```bash
+python -m case_studies.model_3_simpy.run_model_animation
+```
+
+### Model 4
+
+Run conveyor spur model:
+
+```bash
+python -m case_studies.model_4_simpy.run_model
+```
+
 ### Model 5
 
 Run model and print summary plus forklift benchmark rows:
@@ -363,32 +473,4 @@ Run animation:
 
 ```bash
 python -m case_studies.model_5_simpy.run_model_animation
-```
-
-### Model 3
-
-Run conveyor model:
-
-```bash
-python -m case_studies.model_3_simpy.run_model
-```
-
-Compare AnyLogic vs SimPy block counts:
-
-```bash
-python -m case_studies.model_3_simpy.compare_blocks
-```
-
-Run conveyor animation:
-
-```bash
-python -m case_studies.model_3_simpy.run_model_animation
-```
-
-### Model 4
-
-Run conveyor spur model:
-
-```bash
-python -m case_studies.model_4_simpy.run_model
 ```

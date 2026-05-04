@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.6.202509050524" AlpVersion="8.9.6">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
 <Model>
 	<Id>1764169459606</Id>
 	<Name><![CDATA[Model 3]]></Name>
@@ -18,8 +18,19 @@
 		<ActiveObjectClass>
 			<Id>1764169459609</Id>
 			<Name><![CDATA[Main]]></Name>
-			<DestroyCode><![CDATA[double avgCycle_s = timeMeasureEnd.dataset.getYMean();
-log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
+			<StartupCode><![CDATA[log_file.println();
+log_file.println("ITERATION #" + iteration);
+log_file.println("PARAMETERS");
+log_file.println("    Arrival rate (s): " + arrival_rate_s);
+log_file.println("    Conveyor Speed (m/s): " + conveyor_speed_ms);
+log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
+]]></StartupCode>
+			<DestroyCode><![CDATA[log_file.println("RESULTS");
+log_file.println("    Created: " + created_count);
+log_file.println("    Completed: " + completed_count);
+log_file.println("    In flight: " + (created_count - completed_count));
+log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
+log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));]]></DestroyCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1764169459615</Id>
@@ -111,9 +122,69 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 			<CurrentLevel>1764169459616</CurrentLevel>
 			<ConnectionsId>1764169459610</ConnectionsId>
 			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1777433000001</Id>
+					<Name><![CDATA[created_count]]></Name>
+					<X>20</X><Y>370</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000002</Id>
+					<Name><![CDATA[completed_count]]></Name>
+					<X>20</X><Y>390</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000003</Id>
+					<Name><![CDATA[total_cycle_time_s]]></Name>
+					<X>20</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000004</Id>
+					<Name><![CDATA[cycle_time_samples]]></Name>
+					<X>20</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1764170457865</Id>
-					<Name><![CDATA[arrival_rate]]></Name>
+					<Name><![CDATA[arrival_rate_s]]></Name>
 					<X>50</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -123,8 +194,84 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[60
+]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1764170457863</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1777916743555</Id>
+					<Name><![CDATA[iteration]]></Name>
+					<X>50</X><Y>20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1777916743553</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1777916833956</Id>
+					<Name><![CDATA[conveyor_speed_ms]]></Name>
+					<X>50</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.8]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1777916833954</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1777916883352</Id>
+					<Name><![CDATA[conveyor_gap_m]]></Name>
+					<X>50</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.3]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1777916883350</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -137,7 +284,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 				<Connector>
 					<Id>1770055690567</Id>
 					<Name><![CDATA[connector1]]></Name>
-					<X>110</X><Y>250</Y>
+					<X>150</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -145,11 +292,11 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 					<SourceEmbeddedObjectReference>
 						<PackageName><![CDATA[model_3]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[timeMeasureStart]]></ItemName>
+						<ItemName><![CDATA[service1]]></ItemName>
 					</SourceEmbeddedObjectReference>
 					<SourceConnectableItemReference>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[TimeMeasureStart]]></ClassName>
+						<ClassName><![CDATA[Service]]></ClassName>
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
@@ -164,40 +311,9 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-20</X><Y>-80</Y></Point>
-					</Points>
-				</Connector>
-				<Connector>
-					<Id>1770056100781</Id>
-					<Name><![CDATA[connector]]></Name>
-					<X>120</X><Y>250</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[timeMeasureStart]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[TimeMeasureStart]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[service1]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Service]]></ClassName>
-						<ItemName><![CDATA[in]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>30</X><Y>-80</Y></Point>
+						<Point><X>-30</X><Y>0</Y></Point>
+						<Point><X>-40</X><Y>0</Y></Point>
+						<Point><X>-60</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
@@ -221,39 +337,6 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 					<TargetEmbeddedObjectReference>
 						<PackageName><![CDATA[model_3]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[timeMeasureEnd]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[TimeMeasureEnd]]></ClassName>
-						<ItemName><![CDATA[in]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>40</X><Y>80</Y></Point>
-					</Points>
-				</Connector>
-				<Connector>
-					<Id>1770056136624</Id>
-					<Name><![CDATA[connector5]]></Name>
-					<X>810</X><Y>250</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[timeMeasureEnd]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[TimeMeasureEnd]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[sink]]></ItemName>
 					</TargetEmbeddedObjectReference>
 					<TargetConnectableItemReference>
@@ -263,7 +346,9 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>70</X><Y>-80</Y></Point>
+						<Point><X>40</X><Y>0</Y></Point>
+						<Point><X>60</X><Y>0</Y></Point>
+						<Point><X>100</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
@@ -425,7 +510,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</OccurrenceTime>
 						<RecurrenceCode Class="CodeUnitValue">
-							<Code><![CDATA[arrival_rate]]></Code>
+							<Code><![CDATA[arrival_rate_s]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
@@ -448,7 +533,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<PackageName><![CDATA[model_3]]></PackageName>
 						<ClassName><![CDATA[log_file.txt]]></ClassName>
 					</ResourceReference>
-					<FileMode>WRITE</FileMode>
+					<FileMode>WRITE_APPEND</FileMode>
 					<CharsetName>null</CharsetName>
 					<Separators></Separators>
 				</TextFile>
@@ -618,9 +703,6 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[log_file.println("Pallet " + agent.getId() + " entering service1 block at " + time());]]></Code>
-							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -681,7 +763,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 				<EmbeddedObject>
 					<Id>1764172488819</Id>
 					<Name><![CDATA[sink]]></Name>
-					<X>880</X><Y>160</Y>
+					<X>860</X><Y>160</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -701,7 +783,10 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[log_file.println("Pallet " + agent.getId() + " entering sink block at " + time());]]></Code>
+								<Code><![CDATA[Pallet p = (Pallet)agent;
+total_cycle_time_s += time() - p.cycle_start_time;
+cycle_time_samples++;
+completed_count++;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -762,14 +847,14 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[rate]]></Name>
 							<Value Class="CodeUnitValue">
-								<Code><![CDATA[arrival_rate]]></Code>
+								<Code><![CDATA[arrival_rate_s]]></Code>
 								<Unit Class="RateUnits"><![CDATA[PER_MINUTE]]></Unit>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[interarrivalTime]]></Name>
 							<Value Class="CodeUnitValue">
-								<Code><![CDATA[arrival_rate]]></Code>
+								<Code><![CDATA[arrival_rate_s]]></Code>
 								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 							</Value>
 						</Parameter>
@@ -950,6 +1035,11 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[Pallet p = (Pallet)agent;
+p.cycle_start_time = time();
+created_count++;]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onDiscard]]></Name>
@@ -1125,9 +1215,6 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[log_file.println("Pallet " + agent.getId() + " entering service2 block at " + time());]]></Code>
-							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -1186,113 +1273,6 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 					</QuantityColumn>
 				</EmbeddedObject>
 				<EmbeddedObject>
-					<Id>1770055687090</Id>
-					<Name><![CDATA[timeMeasureStart]]></Name>
-					<X>110</X><Y>230</Y>
-					<Label><X>-50</X><Y>-15</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<ActiveObjectClass>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[TimeMeasureStart]]></ClassName>
-					</ActiveObjectClass>
-					<GenericParameterSubstitute>
-						<GenericParameterSubstituteReference>
-							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-							<ClassName><![CDATA[TimeMeasureStart]]></ClassName>
-							<ItemName><![CDATA[1412336243204]]></ItemName>
-						</GenericParameterSubstituteReference>
-					</GenericParameterSubstitute>
-					<Parameters>
-						<Parameter>
-							<Name><![CDATA[onEnter]]></Name>
-						</Parameter>
-					</Parameters>
-					<ReplicationFlag>false</ReplicationFlag>
-					<Replication Class="CodeValue">
-						<Code><![CDATA[100]]></Code>
-					</Replication>
-					<CollectionType>ARRAY_LIST_BASED</CollectionType>
-					<InitialLocationType>XYZ</InitialLocationType>
-					<ColumnCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</ColumnCode>
-					<RowCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</RowCode>
-					<LocationNameCode Class="CodeValue">
-						<Code><![CDATA[""]]></Code>
-					</LocationNameCode>
-					<InitializationType>SPECIFIED_NUMBER</InitializationType>
-					<InitializationDatabaseTableQuery>
-						<Id>1770055687088</Id>
-						<TableReference>
-						</TableReference>
-					</InitializationDatabaseTableQuery>
-					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
-					<QuantityColumn>
-					</QuantityColumn>
-				</EmbeddedObject>
-				<EmbeddedObject>
-					<Id>1770055734110</Id>
-					<Name><![CDATA[timeMeasureEnd]]></Name>
-					<X>780</X><Y>230</Y>
-					<Label><X>-35</X><Y>-15</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<ActiveObjectClass>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[TimeMeasureEnd]]></ClassName>
-					</ActiveObjectClass>
-					<GenericParameterSubstitute>
-						<GenericParameterSubstituteReference>
-							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-							<ClassName><![CDATA[TimeMeasureEnd]]></ClassName>
-							<ItemName><![CDATA[1412336243203]]></ItemName>
-						</GenericParameterSubstituteReference>
-					</GenericParameterSubstitute>
-					<Parameters>
-						<Parameter>
-							<Name><![CDATA[startObjects]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[{ timeMeasureStart }]]></Code>
-							</Value>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[datasetCapacity]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[onEnter]]></Name>
-						</Parameter>
-					</Parameters>
-					<ReplicationFlag>false</ReplicationFlag>
-					<Replication Class="CodeValue">
-						<Code><![CDATA[100]]></Code>
-					</Replication>
-					<CollectionType>ARRAY_LIST_BASED</CollectionType>
-					<InitialLocationType>XYZ</InitialLocationType>
-					<ColumnCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</ColumnCode>
-					<RowCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</RowCode>
-					<LocationNameCode Class="CodeValue">
-						<Code><![CDATA[""]]></Code>
-					</LocationNameCode>
-					<InitializationType>SPECIFIED_NUMBER</InitializationType>
-					<InitializationDatabaseTableQuery>
-						<Id>1770055734108</Id>
-						<TableReference>
-						</TableReference>
-					</InitializationDatabaseTableQuery>
-					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
-					<QuantityColumn>
-					</QuantityColumn>
-				</EmbeddedObject>
-				<EmbeddedObject>
 					<Id>1770056036988</Id>
 					<Name><![CDATA[source1]]></Name>
 					<X>60</X><Y>160</Y>
@@ -1321,14 +1301,14 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Parameter>
 							<Name><![CDATA[rate]]></Name>
 							<Value Class="CodeUnitValue">
-								<Code><![CDATA[arrival_rate]]></Code>
+								<Code><![CDATA[arrival_rate_s]]></Code>
 								<Unit Class="RateUnits"><![CDATA[PER_MINUTE]]></Unit>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[interarrivalTime]]></Name>
 							<Value Class="CodeUnitValue">
-								<Code><![CDATA[arrival_rate]]></Code>
+								<Code><![CDATA[arrival_rate_s]]></Code>
 								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 							</Value>
 						</Parameter>
@@ -1721,18 +1701,12 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[log_file.println("Pallet " + agent.getId() + " entering conveyor block at " + time());]]></Code>
-							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[log_file.println("Pallet " + agent.getId() + " exiting conveyor block at " + time());]]></Code>
-							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -1891,14 +1865,14 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 							<Parameter>
 								<Name><![CDATA[maxSpeed]]></Name>
 								<Value Class="CodeUnitValue">
-									<Code><![CDATA[0.8]]></Code>
+									<Code><![CDATA[conveyor_speed_ms]]></Code>
 									<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[initialSpeed]]></Name>
 								<Value Class="CodeUnitValue">
-									<Code><![CDATA[0.8]]></Code>
+									<Code><![CDATA[conveyor_speed_ms]]></Code>
 									<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 								</Value>
 							</Parameter>
@@ -1914,7 +1888,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 							<Parameter>
 								<Name><![CDATA[gap]]></Name>
 								<Value Class="CodeUnitValue">
-									<Code><![CDATA[0.3
+									<Code><![CDATA[conveyor_gap_m
 ]]></Code>
 									<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
 								</Value>
@@ -1988,9 +1962,9 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 						<Point><X>25</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>270</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>245</X><Y>0</Y><Z>0</Z></Point>
-						<Point><X>245</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>300</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>275</X><Y>0</Y><Z>0</Z></Point>
+						<Point><X>275</X><Y>0</Y><Z>0</Z></Point>
 					</Points>
 
 
@@ -2022,7 +1996,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 				<PointNode>
 					<Id>1765979315951</Id>
 					<Name><![CDATA[B]]></Name>
-					<X>430</X><Y>405</Y>
+					<X>460</X><Y>405</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2139,6 +2113,23 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 			</ScaleRuler>
 			<CurrentLevel>1764171403261</CurrentLevel>
 			<ConnectionsId>1764171403255</ConnectionsId>
+			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1777433000005</Id>
+					<Name><![CDATA[cycle_start_time]]></Name>
+					<X>80</X><Y>70</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0.0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+			</Variables>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1764171403255</Id>
@@ -2244,8 +2235,8 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 			<StopOption><![CDATA[Stop at specified time]]></StopOption>
 			<InitialDate><![CDATA[1764115200000]]></InitialDate>	
 			<InitialTime><![CDATA[0.0]]></InitialTime>	
-			<FinalDate><![CDATA[1766707200000]]></FinalDate>	
-			<FinalTime><![CDATA[100.0]]></FinalTime>	
+			<FinalDate><![CDATA[1764133200000]]></FinalDate>	
+			<FinalTime><![CDATA[18000.0]]></FinalTime>	
 		</ModelTimeProperties>
 		<AnimationProperties>
 			<StopNever>true</StopNever>
@@ -2288,7 +2279,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-12490271</Color>
-					<Text><![CDATA[Model 1]]></Text>
+					<Text><![CDATA[Model 3]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>24</Size>
@@ -2300,16 +2291,34 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 
 			<Parameters>
 				<Parameter>
-					<ParameterName><![CDATA[arrival_rate]]></ParameterName>
+					<ParameterName><![CDATA[arrival_rate_s]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[10]]></Code>
+						<Code><![CDATA[60]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[iteration]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[1]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[conveyor_speed_ms]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[0.8]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[conveyor_gap_m]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[0.3]]></Code>
 					</ParameterValue>
 				</Parameter>
 			</Parameters>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<Title><![CDATA[Model 1 : Simulation]]></Title>
+				<Title><![CDATA[Model 3 : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>true</ShowDeveloperPanelOnStart>
 				<RealTimeScale>10.0</RealTimeScale>
@@ -2318,11 +2327,116 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1764115200000]]></InitialDate>
 				<InitialTime><![CDATA[0.0]]></InitialTime>
-				<FinalDate><![CDATA[1764126000000]]></FinalDate>
-				<FinalTime><![CDATA[10800.0]]></FinalTime>
+				<FinalDate><![CDATA[1764133200000]]></FinalDate>
+				<FinalTime><![CDATA[18000.0]]></FinalTime>
 			</ModelTimeProperties>
 			<BypassInitialScreen>true</BypassInitialScreen>
-		</SimulationExperiment>	
+		</SimulationExperiment>
+		<!--   =========  Parameter Variation Experiment   ========  -->
+		<ParamVariationExperiment ActiveObjectClassId="1764169459609">
+			<Id>1777916697971</Id>
+			<Name><![CDATA[SensitivityAnalysis]]></Name>
+			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<MaximumMemory>512</MaximumMemory>
+			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
+			<SeedValue>1</SeedValue>
+			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
+			<VmArgs><![CDATA[]]></VmArgs>
+			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
+
+
+			<AllowParallelEvaluations>false</AllowParallelEvaluations>
+			<UseFreeformParameters>false</UseFreeformParameters>
+			<NumberOfRuns>10</NumberOfRuns>
+			<FreeformParamValue>	
+				<Id>1764170457865</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1777916743555</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1777916833956</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1777916883352</Id>
+			</FreeformParamValue>
+			<RangeVariationParamValue>	
+				<Id>1764170457865</Id>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[240]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1777916743555</Id>
+				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[getCurrentIteration()]]></Code>
+				</Expression>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1777916833956</Id>
+				<Type>RANGE</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[2]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1777916883352</Id>
+				<Type>RANGE</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.3]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0.3]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[1.2]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0.3]]></Code>
+				</Step>
+			</RangeVariationParamValue>
+			<ModelTimeProperties>
+				<StopOption><![CDATA[Stop at specified time]]></StopOption>
+				<InitialDate><![CDATA[1764115200000]]></InitialDate>	
+				<InitialTime><![CDATA[0.0]]></InitialTime>	
+				<FinalDate><![CDATA[1764118800000]]></FinalDate>	
+				<FinalTime><![CDATA[3600.0]]></FinalTime>	
+			</ModelTimeProperties>
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
+				<Title><![CDATA[Model 3 : SensitivityAnalysis]]></Title>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+			</PresentationProperties>
+			<ReplicationsProperties>
+				<UseReplication>false</UseReplication>
+				<FixedReplicationsNumber>true</FixedReplicationsNumber>
+				<ReplicationPerIteration>10</ReplicationPerIteration>
+				<MinimumReplication>2</MinimumReplication>
+				<MaximumReplication>10</MaximumReplication>
+				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
+				<ErrorPercent>0.5</ErrorPercent>
+				<ExpressionForConfidenceComputation><![CDATA[0]]></ExpressionForConfidenceComputation>
+			</ReplicationsProperties>
+		</ParamVariationExperiment>	
 	</Experiments>
 	<ModelResources>
 		<Resource>
@@ -2368,6 +2482,7 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 	<Uuid>404652e6-561a-404c-aab2-ab7415f40ef5</Uuid>
 	<Uuid>6fd6cd57-6dfe-4fc6-be0b-c74065351957</Uuid>
 	<Uuid>3325dc48-3ad4-41e3-836f-dfd0e98fe1ed</Uuid>
+	<Uuid>bb27038a-0f3a-48bb-b235-4a44066a14aa</Uuid>
 	<Uuid>3f69ef3d-706e-41a6-8af0-11658c5eef68</Uuid>
 	<Uuid>3f6fe405-e047-4304-91d6-6eee206d1106</Uuid>
 	<Uuid>820d2b51-5b4a-48e7-b0b6-e46418e3c0f2</Uuid>
@@ -2422,5 +2537,8 @@ log_file.println("Avg cycle (s): " + avgCycle_s);]]></DestroyCode>
 	<Uuid>2216cdd0-177c-5678-9e88-dd8b95312234</Uuid>
 	<Uuid>1737c8c6-b526-4dd8-589e-ee4e205b06f4</Uuid>
 	<Uuid>6a43bef6-8b70-4253-a828-82c3ab399655</Uuid>
+	<Uuid>0a27038a-0f3a-48bb-b235-4a44066a1402</Uuid>
+	<Uuid>0a9ec2c3-5e18-4c0a-a183-fd86d9d9a08b</Uuid>
+	<Uuid>2216cdd0-177c-5678-9e88-dd8b95313334</Uuid>
 </ConvertersApplied>
 </AnyLogicWorkspace>

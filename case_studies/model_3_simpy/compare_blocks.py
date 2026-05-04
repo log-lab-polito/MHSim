@@ -10,15 +10,16 @@ from case_studies.model_5_simpy.reporting import compare_blocks_with_anylogic
 from .model import Model3SimModel
 from .params import Model3Params
 
-# AnyLogic results transcribed from the provided Model 3 screenshot.
+# AnyLogic results transcribed from the current Model 3 reference output.
+# Model 3 intentionally does not parse event logs or generate SimPy logs.
 ANYLOGIC_BLOCKS = {
-    "source": 1081,
-    "service1": 1080,
-    "conveyorEnter": 1080,
-    "convey": 1076,
-    "conveyorExit": 1076,
-    "service2": 1075,
-    "sink": 1075,
+    "source": 301,
+    "service1": 300,
+    "conveyorEnter": 300,
+    "convey": 300,
+    "conveyorExit": 300,
+    "service2": 300,
+    "sink": 300,
 }
 
 BLOCK_MAPPING = [
