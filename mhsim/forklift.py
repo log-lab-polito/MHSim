@@ -391,6 +391,21 @@ class Forklift:
         height_change = target.z - start_pos.z
         total_distance = route.total_distance
 
+        # The discrete time-step loop below exits as soon as `horizontal_distance`
+        # covers `total_distance`. With triangular kinematic profiles that
+        # leaves residual velocity at the destination — the forklift "snaps" to
+        # the target before fully decelerating, and the simulation time advance
+        # is shorter than the analytical kinematic time. After the loop we top
+        # up by the remaining time so total simulation time matches the closed-
+        # form `HorizontalMovement.travel_time` answer.
+        if total_distance > 1e-9:
+            analytical_horizontal_time = self.movement_profile.horizontal.travel_time(
+                total_distance
+            )
+        else:
+            analytical_horizontal_time = 0.0
+        motion_time_elapsed = 0.0
+
         vertical_speed = 0.0
         if height_change != 0:
             if self.lift_profile:
@@ -521,6 +536,7 @@ class Forklift:
                     if move_time <= 1e-9 and move_distance > 1e-9:
                         move_time = dt
                     yield self.env.timeout(move_time)
+                    motion_time_elapsed += move_time
                     dt = move_time
                     current_speed = next_speed
                     remaining_move = move_distance
@@ -683,11 +699,21 @@ class Forklift:
 
             self.position = Position3D(current_xy.x, current_xy.y, current_z)
 
+        # Snap to target before the kinematic top-up so any cyclic-logger
+        # sample taken during the deceleration tail sees the destination.
+        self.position = Position3D(target.x, target.y, target.z)
+
+        # Discrete loop exits when distance is covered, often before the
+        # forklift fully decelerates to v=0. Top up the simulation time so
+        # the total advance matches the analytical kinematic answer.
+        kinematic_remainder = analytical_horizontal_time - motion_time_elapsed
+        if kinematic_remainder > 1e-9:
+            yield self.env.timeout(kinematic_remainder)
+
         self._finish_traffic_wait()
         if traffic is not None:
             traffic.release_forklift(self.id)
         self._consume_battery(total_distance)
-        self.position = Position3D(target.x, target.y, target.z)
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 

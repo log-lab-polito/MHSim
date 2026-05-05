@@ -56,17 +56,19 @@ ANYLOGIC_MODEL1_TRANSPORTER_SETTINGS: dict[str, object] = {
         ),
     },
     "measured_residuals": {
-        "forklift_utilization": (
-            "With Model 1 task phase timings aligned, SimPy remains about "
-            "0.0116 utilization units higher than the AnyLogic timing export. "
-            "The residual is isolated to post-unload return-home/utilization "
-            "accounting, not MoveByTransporter load/unload task timing."
+        "straight_segment_travel": (
+            "Straight A->B legs match AnyLogic within ~0.014 s in both the "
+            "Simulation and Parameter Variation experiments. SimPy now uses "
+            "the analytical kinematic time from `HorizontalMovement.travel_time` "
+            "via the top-up in `_move_along_route`."
         ),
-        "parameter_variation_range": (
-            "The range export uses original A/B geometry, but acceleration=2 "
-            "movement windows still differ after geometry alignment. Treat the "
-            "range comparison as diagnostic until the routed acceleration "
-            "profile is reverse-engineered for that experiment."
+        "L_shape_seize_to_loading_start": (
+            "home->A (L-shape with 90 deg corner at C) still differs because "
+            "AnyLogic shortens the trip by ~0.66 s (acc=2) or ~1.80 s (acc=1) "
+            "relative to the analytical triangular profile. SimPy now reports "
+            "the analytical answer; the remaining gap is the AnyLogic corner-"
+            "approach shortcut, presumably tied to its turn radius / arc speed "
+            "model. Tracked separately as the next parity step."
         ),
     },
 }

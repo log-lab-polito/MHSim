@@ -18,10 +18,11 @@ class Model1Params(SimulationParams):
     # MoveByTransporter handling times
     move_loading_time_s: float = 1.0
     move_unloading_time_s: float = 1.0
-    # AnyLogic Model 1 reports MoveByTransporter loading callback boundaries
-    # one loading dwell earlier than SimPy's physical dwell start. This only
-    # affects benchmark phase attribution, not pallet or transporter movement.
-    move_benchmark_loading_boundary_offset_s: float = 1.0
+    # The offset previously masked a kinematic discretization bug where the
+    # forklift "snapped" to its destination before fully decelerating. Now
+    # that `_move_along_route` tops up to the analytical kinematic time,
+    # AnyLogic and SimPy report the same physical phase boundaries directly.
+    move_benchmark_loading_boundary_offset_s: float = 0.0
 
     # Fleet
     sim_time: float = 3600.0
