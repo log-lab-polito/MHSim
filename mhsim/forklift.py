@@ -86,6 +86,8 @@ class Forklift:
     traffic_controller: Optional[PathTrafficController] = None
     stats: Optional[object] = None
     turn_radius: float = 0.5
+    routed_motion_mode: str = "analytical"
+    line_guided_update_timestep_s: float = 0.5
     route_calc_delay_s: float = 0.0
     resume_delay_s: float = 0.0
     home_position: Optional[Position3D] = None
@@ -269,6 +271,28 @@ class Forklift:
         """Interpolate a position along a routed motion segment."""
         return segment.position_at(progress_m)
 
+    @staticmethod
+    def _route_has_corner(steps: list[RouteStep]) -> bool:
+        """Whether a route changes horizontal direction between path steps."""
+        for index in range(len(steps) - 1):
+            incoming = steps[index]
+            outgoing = steps[index + 1]
+            in_dx = incoming.end.x - incoming.start.x
+            in_dy = incoming.end.y - incoming.start.y
+            out_dx = outgoing.end.x - outgoing.start.x
+            out_dy = outgoing.end.y - outgoing.start.y
+            in_len = math.hypot(in_dx, in_dy)
+            out_len = math.hypot(out_dx, out_dy)
+            if in_len <= 1e-9 or out_len <= 1e-9:
+                continue
+            in_unit = (in_dx / in_len, in_dy / in_len)
+            out_unit = (out_dx / out_len, out_dy / out_len)
+            cross = in_unit[0] * out_unit[1] - in_unit[1] * out_unit[0]
+            dot = in_unit[0] * out_unit[0] + in_unit[1] * out_unit[1]
+            if abs(cross) > 1e-9 and dot < 1.0 - 1e-9:
+                return True
+        return False
+
     def _has_path_network(self) -> bool:
         """Whether horizontal travel is constrained to designed paths."""
         return bool(self.router and getattr(self.router.layout, "paths", None))
@@ -356,6 +380,136 @@ class Forklift:
 
         return distance, next_speed, elapsed_time
 
+    @staticmethod
+    def _distance_to_speed(
+        current_speed: float,
+        acceleration: float,
+        target_speed: float,
+    ) -> float:
+        """Distance needed to reach target speed under constant acceleration."""
+        if current_speed == target_speed:
+            return 0.0
+        if acceleration == 0.0:
+            return math.inf
+        if math.copysign(1.0, target_speed - current_speed) != math.copysign(
+            1.0,
+            acceleration,
+        ):
+            return math.copysign(math.inf, target_speed - current_speed)
+        return (current_speed + (target_speed - current_speed) / 2.0) * (
+            (target_speed - current_speed) / acceleration
+        )
+
+    @staticmethod
+    def _time_to_cover_distance(
+        current_speed: float,
+        acceleration: float,
+        distance_m: float,
+    ) -> float:
+        """Solve time for distance under constant acceleration."""
+        if distance_m <= 0.0:
+            return 0.0
+        if acceleration == 0.0:
+            return math.inf if current_speed <= 0.0 else distance_m / current_speed
+        discriminant = current_speed * current_speed + 2.0 * acceleration * distance_m
+        if discriminant < 0.0:
+            return math.inf
+        root = math.sqrt(discriminant)
+        candidates = [
+            (root - current_speed) / acceleration,
+            (-root - current_speed) / acceleration,
+        ]
+        nonnegative = [value for value in candidates if value >= -1e-12]
+        return max(0.0, min(nonnegative)) if nonnegative else math.inf
+
+    def _compute_line_guided_horizontal_motion(
+        self,
+        current_speed: float,
+        dt: float,
+        route_remaining_m: float,
+        available_distance_m: float,
+        profile_acceleration: float,
+        profile_speed_limit: float,
+    ) -> tuple[float, float, float]:
+        """Advance one AnyLogic line-guided controller slice.
+
+        AnyLogic stores a speed profile as ``(t0, v0, a, vmax)`` and keeps
+        that profile until the controller updates it. Unlike the analytical
+        route solve, the final slice may reach the target with residual speed.
+        """
+        effective_distance = min(
+            max(0.0, route_remaining_m),
+            max(0.0, available_distance_m),
+        )
+        if effective_distance <= 1e-9 or dt <= 0.0:
+            return 0.0, max(0.0, current_speed), 0.0
+
+        speed_limit = max(0.0, profile_speed_limit)
+        acceleration = profile_acceleration
+        elapsed_time = dt
+
+        if acceleration == 0.0:
+            next_speed = max(0.0, current_speed)
+            distance = next_speed * elapsed_time
+        else:
+            time_to_limit = (speed_limit - current_speed) / acceleration
+            if time_to_limit < 0.0:
+                time_to_limit = 0.0
+            if elapsed_time >= time_to_limit:
+                distance = (
+                    current_speed * time_to_limit
+                    + 0.5 * acceleration * time_to_limit * time_to_limit
+                    + speed_limit * (elapsed_time - time_to_limit)
+                )
+                next_speed = speed_limit
+            else:
+                distance = (
+                    current_speed * elapsed_time
+                    + 0.5 * acceleration * elapsed_time * elapsed_time
+                )
+                next_speed = current_speed + acceleration * elapsed_time
+
+        if distance > effective_distance + 1e-9:
+            if acceleration == 0.0:
+                elapsed_time = self._time_to_cover_distance(
+                    current_speed,
+                    0.0,
+                    effective_distance,
+                )
+                next_speed = current_speed
+            else:
+                time_to_limit = (speed_limit - current_speed) / acceleration
+                if time_to_limit < 0.0:
+                    time_to_limit = 0.0
+                distance_to_limit = (
+                    current_speed * time_to_limit
+                    + 0.5 * acceleration * time_to_limit * time_to_limit
+                )
+                if effective_distance <= distance_to_limit + 1e-9:
+                    elapsed_time = self._time_to_cover_distance(
+                        current_speed,
+                        acceleration,
+                        effective_distance,
+                    )
+                    next_speed = max(0.0, current_speed + acceleration * elapsed_time)
+                else:
+                    elapsed_time = time_to_limit + (
+                        (effective_distance - distance_to_limit) / speed_limit
+                        if speed_limit > 0.0
+                        else 0.0
+                    )
+                    next_speed = speed_limit
+            distance = effective_distance
+
+        return max(0.0, distance), max(0.0, next_speed), max(0.0, elapsed_time)
+
+    @staticmethod
+    def _next_controller_update_time(now: float, update_timestep: float) -> float:
+        """Return the next global controller tick after ``now``."""
+        if update_timestep <= 0.0:
+            return now
+        return (math.floor(now / update_timestep) + 1.0) * update_timestep
+
     def _move_along_route(
         self,
         route: Route,
@@ -391,14 +545,18 @@ class Forklift:
         height_change = target.z - start_pos.z
         total_distance = route.total_distance
 
-        # The discrete time-step loop below exits as soon as `horizontal_distance`
-        # covers `total_distance`. With triangular kinematic profiles that
-        # leaves residual velocity at the destination — the forklift "snaps" to
-        # the target before fully decelerating, and the simulation time advance
-        # is shorter than the analytical kinematic time. After the loop we top
-        # up by the remaining time so total simulation time matches the closed-
-        # form `HorizontalMovement.travel_time` answer.
-        if total_distance > 1e-9:
+        has_corner = self._route_has_corner(route.steps)
+        use_line_guided_controller = (
+            self.routed_motion_mode == "anylogic_line_guided" and has_corner
+        )
+        use_analytical_topup = not use_line_guided_controller
+
+        # AnyLogic's line-guided controller rebuilds motion profiles on a 0.5 s
+        # controller cadence. On cornered paths this delays final deceleration
+        # and can arrive with residual velocity. Straight paths match the
+        # closed-form triangular/trapezoidal profile, so keep the analytical
+        # top-up there and only use the controller cadence for cornered routes.
+        if total_distance > 1e-9 and use_analytical_topup:
             analytical_horizontal_time = self.movement_profile.horizontal.travel_time(
                 total_distance
             )
@@ -427,6 +585,9 @@ class Forklift:
 
         traffic = self.traffic_controller
         current_speed = 0.0
+        line_guided_acceleration = 0.0
+        line_guided_speed_limit = 0.0
+        next_line_guided_update_at = self.env.now
         current_segment_index = 0
         active_segment: Optional[RouteMotionSegment] = None
         segment_progress = 0.0
@@ -440,6 +601,34 @@ class Forklift:
 
         while horizontal_distance < total_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
             dt = max(update_interval, 1e-3)
+            if use_line_guided_controller:
+                update_timestep = max(1e-9, self.line_guided_update_timestep_s)
+                current_controller_time = self.env.now
+                if current_controller_time >= next_line_guided_update_at - 1e-9:
+                    horizontal = self.movement_profile.horizontal
+                    max_speed = max(0.0, horizontal.max_speed)
+                    acceleration = max(0.0, horizontal.acceleration)
+                    deceleration = max(0.0, horizontal.deceleration)
+                    route_remaining = max(0.0, total_distance - horizontal_distance)
+                    stopping_distance = (
+                        self._distance_to_speed(current_speed, -deceleration, 0.0)
+                        if deceleration > 0.0
+                        else math.inf
+                    )
+                    line_guided_speed_limit = (
+                        0.0 if stopping_distance > route_remaining else max_speed
+                    )
+                    if current_speed > line_guided_speed_limit:
+                        line_guided_acceleration = -deceleration
+                    elif current_speed < line_guided_speed_limit:
+                        line_guided_acceleration = acceleration
+                    else:
+                        line_guided_acceleration = 0.0
+                    next_line_guided_update_at = self._next_controller_update_time(
+                        current_controller_time,
+                        update_timestep,
+                    )
+                dt = min(dt, max(1e-9, next_line_guided_update_at - current_controller_time))
 
             if active_segment is None and current_segment_index < len(motion_segments):
                 next_segment = motion_segments[current_segment_index]
@@ -520,12 +709,22 @@ class Forklift:
                     available_distance = allowance.allowed_distance_m
                     wait_reason = allowance.wait_reason
 
-                move_distance, next_speed, move_time = self._compute_horizontal_motion(
-                    current_speed=current_speed,
-                    dt=dt,
-                    route_remaining_m=route_remaining,
-                    available_distance_m=available_distance,
-                )
+                if use_line_guided_controller:
+                    move_distance, next_speed, move_time = self._compute_line_guided_horizontal_motion(
+                        current_speed=current_speed,
+                        dt=dt,
+                        route_remaining_m=route_remaining,
+                        available_distance_m=available_distance,
+                        profile_acceleration=line_guided_acceleration,
+                        profile_speed_limit=line_guided_speed_limit,
+                    )
+                else:
+                    move_distance, next_speed, move_time = self._compute_horizontal_motion(
+                        current_speed=current_speed,
+                        dt=dt,
+                        route_remaining_m=route_remaining,
+                        available_distance_m=available_distance,
+                    )
 
                 if move_distance <= 1e-9 and wait_reason is not None:
                     self._start_traffic_wait(wait_reason)
@@ -699,16 +898,15 @@ class Forklift:
 
             self.position = Position3D(current_xy.x, current_xy.y, current_z)
 
-        # Snap to target before the kinematic top-up so any cyclic-logger
-        # sample taken during the deceleration tail sees the destination.
-        self.position = Position3D(target.x, target.y, target.z)
+        if use_analytical_topup:
+            # Keep position at the last interpolated location during the
+            # top-up; otherwise cyclic traces would show arrival before the
+            # movement event actually finishes.
+            kinematic_remainder = analytical_horizontal_time - motion_time_elapsed
+            if kinematic_remainder > 1e-9:
+                yield self.env.timeout(kinematic_remainder)
 
-        # Discrete loop exits when distance is covered, often before the
-        # forklift fully decelerates to v=0. Top up the simulation time so
-        # the total advance matches the analytical kinematic answer.
-        kinematic_remainder = analytical_horizontal_time - motion_time_elapsed
-        if kinematic_remainder > 1e-9:
-            yield self.env.timeout(kinematic_remainder)
+        self.position = Position3D(target.x, target.y, target.z)
 
         self._finish_traffic_wait()
         if traffic is not None:
@@ -867,7 +1065,9 @@ class ForkliftFleet:
     _available_forklifts: list[Forklift] = field(default_factory=list)
     _active_assignments: dict[str, object] = field(default_factory=dict)
     _busy_since_by_forklift: dict[str, float] = field(default_factory=dict)
+    _returning_home_since_by_forklift: dict[str, float] = field(default_factory=dict)
     _completed_busy_time_s: float = 0.0
+    _completed_return_home_time_s: float = 0.0
     traffic_controller: Optional[PathTrafficController] = None
     stats: Optional[object] = None
 
@@ -890,7 +1090,9 @@ class ForkliftFleet:
         self._available_forklifts = []
         self._active_assignments = {}
         self._busy_since_by_forklift = {}
+        self._returning_home_since_by_forklift = {}
         self._completed_busy_time_s = 0.0
+        self._completed_return_home_time_s = 0.0
         self.name = name
         self._resource = simpy.PriorityResource(
             self.env, capacity=max(1, count))
@@ -1026,7 +1228,15 @@ class ForkliftFleet:
         self,
         forklift: Forklift,
     ) -> Generator:
-        """Apply return-home and charging behavior after a completed task."""
+        """Apply AnyLogic-style transporter wrap-up behavior after a task.
+
+        AnyLogic's ``ReleaseTransporter`` sends the material item downstream as
+        soon as unloading finishes, then drives the transporter home as a
+        ResourcePool wrap-up task. That wrap-up task still has
+        ``USAGE_BUSY`` by default, so MHSim keeps the assignment busy until
+        this generator finishes while exposing return-home time separately for
+        parity diagnostics.
+        """
         return_policy = self.return_home_policy
         home_pos = self.resolve_home_position(forklift)
         if home_pos is not None and return_policy != "stay":
@@ -1034,7 +1244,19 @@ class ForkliftFleet:
             if return_policy == "idle":
                 should_return = self.waiting_requests_count == 0
             if should_return and forklift.position.distance_xy(home_pos) > 0.01:
-                yield from forklift.move_to(home_pos)
+                self._returning_home_since_by_forklift[forklift.id] = self.env.now
+                try:
+                    yield from forklift.move_to(home_pos)
+                finally:
+                    return_started_at = self._returning_home_since_by_forklift.pop(
+                        forklift.id,
+                        None,
+                    )
+                    if return_started_at is not None:
+                        self._completed_return_home_time_s += max(
+                            0.0,
+                            self.env.now - return_started_at,
+                        )
 
         if forklift.needs_charging():
             yield from forklift.charge_if_needed()
@@ -1048,6 +1270,13 @@ class ForkliftFleet:
         total = self._completed_busy_time_s
         for busy_started_at in self._busy_since_by_forklift.values():
             total += max(0.0, self.env.now - busy_started_at)
+        return total
+
+    @property
+    def return_home_time_s(self) -> float:
+        total = self._completed_return_home_time_s
+        for return_started_at in self._returning_home_since_by_forklift.values():
+            total += max(0.0, self.env.now - return_started_at)
         return total
 
     @property
@@ -1073,6 +1302,8 @@ def create_forklift_fleet(
     home_position: Position3D = None,
     charging_station: Optional[ChargingStation] = None,
     turn_radius: float = 0.5,
+    routed_motion_mode: str = "analytical",
+    line_guided_update_timestep_s: float = 0.5,
     route_calc_delay_s: float = 0.0,
     resume_delay_s: float = 0.0,
     discharge_per_meter: float = 0.0,
@@ -1128,6 +1359,8 @@ def create_forklift_fleet(
             traffic_controller=fleet.traffic_controller,
             stats=stats,
             turn_radius=turn_radius,
+            routed_motion_mode=routed_motion_mode,
+            line_guided_update_timestep_s=line_guided_update_timestep_s,
             route_calc_delay_s=route_calc_delay_s,
             resume_delay_s=resume_delay_s,
             home_position=home_position,

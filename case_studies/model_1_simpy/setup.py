@@ -113,6 +113,8 @@ def create_model1_warehouse(
         # network starts from the explicit home-exit connector above.
         home_position=home_area.get_access_point(),
         turn_radius=params.forklift_turn_radius,
+        routed_motion_mode=params.forklift_routed_motion_mode,
+        line_guided_update_timestep_s=params.forklift_line_guided_update_timestep_s,
         route_calc_delay_s=params.forklift_route_calc_delay_s,
         resume_delay_s=params.forklift_resume_delay_s,
         min_distance_to_obstacle_m=params.forklift_min_distance_to_obstacle_m,

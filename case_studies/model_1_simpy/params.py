@@ -33,7 +33,17 @@ class Model1Params(SimulationParams):
     forklift_acceleration: float = 1.0
     forklift_deceleration: float | None = None
 
-    forklift_turn_radius: float = 0.0
+    # AnyLogic's line-guided path smooths the C turn. The cyclic trace enters
+    # the corner near (600,390) and exits near (590,400) in presentation
+    # coordinates, i.e. a 10 px / 1.0 m radius in SimPy's /10 scale.
+    forklift_turn_radius: float = 1.0
+    # AnyLogic's line-guided transporter controller recomputes motion profiles
+    # at its MHLSettings lineGuidedUpdateTimestep. On cornered routes this can
+    # delay deceleration relative to a single closed-form route solve; keep
+    # straight routes analytical, but use the line-guided corner behavior for
+    # parity.
+    forklift_routed_motion_mode: str = "anylogic_line_guided"
+    forklift_line_guided_update_timestep_s: float = 0.5
     forklift_route_calc_delay_s: float = 0.0
     forklift_resume_delay_s: float = 0.0
     forklift_min_distance_to_obstacle_m: float = 1.0

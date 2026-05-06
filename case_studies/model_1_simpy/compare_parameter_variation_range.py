@@ -8,6 +8,7 @@ This comparison focuses on summary metrics and forklift movement benchmarks.
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 from pathlib import Path
 
 from mhsim.range_comparison import (
@@ -40,6 +41,10 @@ METRICS = (
     ("throughput_per_hour", "Throughput (/h)"),
 )
 OPTIONAL_METRICS = (
+    ("forklift_utilization", "Forklifts Utilization (%)"),
+    ("implied_return_home_busy_s", "Implied return-home busy (s)"),
+)
+CSV_OPTIONAL_METRICS = (
     ("forklift_utilization", "Forklifts Utilization (%)"),
 )
 BENCHMARK_METRIC_PREFIX = "benchmark_"
@@ -84,6 +89,73 @@ MODEL1_RANGE_SPEC = RangeComparisonSpec(
     benchmark_avg_only_name=BENCHMARK_AVG_ONLY,
     header_note="Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval",
 )
+_MODEL1_CSV_LOAD_SPEC = replace(
+    MODEL1_RANGE_SPEC,
+    optional_metrics=CSV_OPTIONAL_METRICS,
+)
+
+_MOVE_BUSY_BENCHMARKS = (
+    "move_seize_to_loading_start_s",
+    "move_loading_duration_s",
+    "move_loading_finish_to_unloading_start_s",
+    "move_unloading_duration_s",
+    "move_unloading_finish_to_release_s",
+)
+
+
+def _implied_return_home_busy_s(row: RangeRow) -> float | None:
+    """Infer post-release transporter busy time from utilization.
+
+    AnyLogic's `ReleaseTransporter` sends the item downstream at unload
+    completion, then accounts the transporter return as a busy ResourcePool
+    wrap-up task. The range export does not print that wrap-up duration
+    directly, so derive it from utilization minus the exported move windows.
+    """
+    utilization = row.metrics.get("forklift_utilization")
+    completed = row.metrics.get("completed")
+    throughput_per_hour = row.metrics.get("throughput_per_hour")
+    n_forklifts = row.params.get("n_forklifts")
+    if (
+        utilization is None
+        or completed is None
+        or completed <= 0
+        or throughput_per_hour is None
+        or throughput_per_hour <= 0
+        or n_forklifts is None
+    ):
+        return None
+
+    task_busy_time = 0.0
+    for metric_key in _MOVE_BUSY_BENCHMARKS:
+        benchmark = row.benchmarks.get(metric_key)
+        if benchmark is None or benchmark.average is None:
+            return None
+        task_busy_time += float(benchmark.average)
+
+    sim_time_s = (float(completed) / float(throughput_per_hour)) * 3600.0
+    busy_time_per_completed_move = (
+        float(utilization) * float(n_forklifts) * sim_time_s / float(completed)
+    )
+    return busy_time_per_completed_move - task_busy_time
+
+
+def _with_implied_return_home_busy(rows: list[RangeRow]) -> list[RangeRow]:
+    updated_rows: list[RangeRow] = []
+    for row in rows:
+        updated_rows.append(
+            RangeRow(
+                iteration=row.iteration,
+                params=row.params,
+                metrics={
+                    **row.metrics,
+                    "implied_return_home_busy_s": _implied_return_home_busy_s(row),
+                },
+                benchmarks=row.benchmarks,
+                replications=row.replications,
+                replication=row.replication,
+            )
+        )
+    return updated_rows
 
 
 def parse_anylogic_range_output(path: str | Path) -> list[RangeRow]:
@@ -126,15 +198,19 @@ def parse_anylogic_range_output(path: str | Path) -> list[RangeRow]:
                 benchmarks=row.benchmarks,
             )
         )
-    return rows
+    return _with_implied_return_home_busy(rows)
 
 
 def load_simpy_summary_rows(path: str | Path) -> list[RangeRow]:
-    return _load_simpy_summary_rows(path, MODEL1_RANGE_SPEC)
+    return _with_implied_return_home_busy(
+        _load_simpy_summary_rows(path, _MODEL1_CSV_LOAD_SPEC)
+    )
 
 
 def load_simpy_run_rows(path: str | Path) -> list[RangeRow]:
-    return _load_simpy_run_rows(path, MODEL1_RANGE_SPEC)
+    return _with_implied_return_home_busy(
+        _load_simpy_run_rows(path, _MODEL1_CSV_LOAD_SPEC)
+    )
 
 
 def build_comparison_context(

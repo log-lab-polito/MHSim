@@ -20,9 +20,10 @@ ANYLOGIC_MODEL1_TRANSPORTER_SETTINGS: dict[str, object] = {
         "maximum_speed_parameter": "forklift_max_speed_ms",
         "acceleration_parameter": "forklift_acceleration_ms2",
         "deceleration_parameter": "forklift_acceleration_ms2",
-        "turn_radius": "AnyLogic default",
+        "turn_radius": "1.0 m inferred from cyclic trace around node C",
         "route_calculation_delay_s": 0.0,
         "resume_movement_delay_s": 0.0,
+        "line_guided_update_timestep_s": 0.5,
     },
     "transporter_control": {
         "automatic_navigation": "AnyLogic default",
@@ -57,18 +58,29 @@ ANYLOGIC_MODEL1_TRANSPORTER_SETTINGS: dict[str, object] = {
     },
     "measured_residuals": {
         "straight_segment_travel": (
-            "Straight A->B legs match AnyLogic within ~0.014 s in both the "
-            "Simulation and Parameter Variation experiments. SimPy now uses "
-            "the analytical kinematic time from `HorizontalMovement.travel_time` "
-            "via the top-up in `_move_along_route`."
+            "Straight A->B legs match AnyLogic within ~0.014 s (0.16 %) in all "
+            "64 Parameter Variation cases and within ~0.014 s in the "
+            "Simulation experiment. SimPy uses the analytical kinematic time "
+            "from `HorizontalMovement.travel_time` via the top-up in "
+            "`_move_along_route` (see 2026-05-05 entry in docs/decisions.md)."
         ),
         "L_shape_seize_to_loading_start": (
-            "home->A (L-shape with 90 deg corner at C) still differs because "
-            "AnyLogic shortens the trip by ~0.66 s (acc=2) or ~1.80 s (acc=1) "
-            "relative to the analytical triangular profile. SimPy now reports "
-            "the analytical answer; the remaining gap is the AnyLogic corner-"
-            "approach shortcut, presumably tied to its turn radius / arc speed "
-            "model. Tracked separately as the next parity step."
+            "home->A (L-shape with smoothed 90 deg turn at C) now matches "
+            "AnyLogic's Simulation experiment within ~0.00005 s and all 64 "
+            "Parameter Variation cases within ~0.00008 s. The matching "
+            "behavior uses a 1.0 m turn radius inferred from the cyclic trace "
+            "and AnyLogic's 0.5 s `lineGuidedUpdateTimestep` for cornered "
+            "route speed-profile recomputation. Straight A->B legs remain on "
+            "the analytical profile."
+        ),
+        "forklift_utilization": (
+            "Simulation experiment utilization now differs by about -0.00118 "
+            "units after aligning line-guided profile updates to the global "
+            "controller cadence. Parameter Variation still shows a "
+            "deterministic utilization residual around -0.00709 units, "
+            "isolated to post-unload return-home accounting rather than "
+            "MoveByTransporter task timing. The range comparison derives "
+            "`implied_return_home_busy_s` to expose that residual directly."
         ),
     },
 }
