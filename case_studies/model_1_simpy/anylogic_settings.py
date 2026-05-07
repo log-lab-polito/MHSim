@@ -79,7 +79,8 @@ ANYLOGIC_MODEL1_TRANSPORTER_SETTINGS: dict[str, object] = {
             "controller cadence. Parameter Variation still shows a "
             "deterministic utilization residual around -0.00709 units, "
             "isolated to post-unload return-home accounting rather than "
-            "MoveByTransporter task timing. The range comparison derives "
+            "MoveByTransporter task timing. The range comparison reports "
+            "direct SimPy `return_home_busy_s` and derives "
             "`implied_return_home_busy_s` to expose that residual directly."
         ),
     },

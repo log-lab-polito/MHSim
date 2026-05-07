@@ -42,10 +42,12 @@ METRICS = (
 )
 OPTIONAL_METRICS = (
     ("forklift_utilization", "Forklifts Utilization (%)"),
+    ("return_home_busy_s", "Return-home busy (s)"),
     ("implied_return_home_busy_s", "Implied return-home busy (s)"),
 )
 CSV_OPTIONAL_METRICS = (
     ("forklift_utilization", "Forklifts Utilization (%)"),
+    ("return_home_busy_s", "Return-home busy (s)"),
 )
 BENCHMARK_METRIC_PREFIX = "benchmark_"
 BENCHMARK_STAT_LABELS = {field_name: label for field_name, label in BENCHMARK_STAT_FIELDS}
@@ -139,16 +141,24 @@ def _implied_return_home_busy_s(row: RangeRow) -> float | None:
     return busy_time_per_completed_move - task_busy_time
 
 
-def _with_implied_return_home_busy(rows: list[RangeRow]) -> list[RangeRow]:
+def _with_return_home_busy_metrics(rows: list[RangeRow]) -> list[RangeRow]:
     updated_rows: list[RangeRow] = []
     for row in rows:
+        implied_return_home_busy_s = _implied_return_home_busy_s(row)
+        return_home_busy_s = row.metrics.get("return_home_busy_s")
+        if return_home_busy_s is None:
+            return_home_busy_s = implied_return_home_busy_s
         updated_rows.append(
             RangeRow(
                 iteration=row.iteration,
                 params=row.params,
                 metrics={
                     **row.metrics,
-                    "implied_return_home_busy_s": _implied_return_home_busy_s(row),
+                    # AnyLogic does not export wrap-up duration directly, so
+                    # its value here is utilization-implied. SimPy writes this
+                    # metric from ForkliftFleet.return_home_time_s.
+                    "return_home_busy_s": return_home_busy_s,
+                    "implied_return_home_busy_s": implied_return_home_busy_s,
                 },
                 benchmarks=row.benchmarks,
                 replications=row.replications,
@@ -198,17 +208,17 @@ def parse_anylogic_range_output(path: str | Path) -> list[RangeRow]:
                 benchmarks=row.benchmarks,
             )
         )
-    return _with_implied_return_home_busy(rows)
+    return _with_return_home_busy_metrics(rows)
 
 
 def load_simpy_summary_rows(path: str | Path) -> list[RangeRow]:
-    return _with_implied_return_home_busy(
+    return _with_return_home_busy_metrics(
         _load_simpy_summary_rows(path, _MODEL1_CSV_LOAD_SPEC)
     )
 
 
 def load_simpy_run_rows(path: str | Path) -> list[RangeRow]:
-    return _with_implied_return_home_busy(
+    return _with_return_home_busy_metrics(
         _load_simpy_run_rows(path, _MODEL1_CSV_LOAD_SPEC)
     )
 

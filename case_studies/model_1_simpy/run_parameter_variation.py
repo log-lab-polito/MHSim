@@ -66,6 +66,11 @@ def _metrics():
             (stats.completed / model.env.now) * 3600.0 if model.env.now else 0.0
         ),
         "forklift_utilization": model_attr_metric("fleet.utilization"),
+        "return_home_busy_s": lambda _ctx, model, stats: (
+            model.fleet.return_home_time_s / stats.completed
+            if stats.completed
+            else 0.0
+        ),
     }
     for metric_key in MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
         for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
