@@ -504,6 +504,22 @@ class Forklift:
         return max(0.0, distance), max(0.0, next_speed), max(0.0, elapsed_time)
 
     @staticmethod
+    def _line_guided_route_boundary_distances(route: Route) -> list[float]:
+        """Controller-update distances for AnyLogic route movement boundaries."""
+        if not route.steps or route.total_distance <= 1e-9:
+            return []
+
+        boundaries: list[float] = []
+        cumulative_raw_distance = 0.0
+        boundary_epsilon_m = 1.0e-4
+        for step in route.steps[:-1]:
+            cumulative_raw_distance += step.length
+            boundary_distance = cumulative_raw_distance + boundary_epsilon_m
+            if boundary_epsilon_m < boundary_distance < route.total_distance - 1e-9:
+                boundaries.append(boundary_distance)
+        return boundaries
+
+    @staticmethod
     def _next_controller_update_time(now: float, update_timestep: float) -> float:
         """Return the next global controller tick after ``now``."""
         if update_timestep <= 0.0:
@@ -588,6 +604,12 @@ class Forklift:
         line_guided_acceleration = 0.0
         line_guided_speed_limit = 0.0
         next_line_guided_update_at = self.env.now
+        line_guided_boundary_distances = (
+            self._line_guided_route_boundary_distances(route)
+            if use_line_guided_controller
+            else []
+        )
+        next_line_guided_boundary_index = 0
         current_segment_index = 0
         active_segment: Optional[RouteMotionSegment] = None
         segment_progress = 0.0
@@ -599,31 +621,36 @@ class Forklift:
         current_z = start_pos.z
         current_xy = Position3D(start_pos.x, start_pos.y, 0)
 
+        def recompute_line_guided_profile() -> None:
+            nonlocal line_guided_acceleration, line_guided_speed_limit
+
+            horizontal = self.movement_profile.horizontal
+            max_speed = max(0.0, horizontal.max_speed)
+            acceleration = max(0.0, horizontal.acceleration)
+            deceleration = max(0.0, horizontal.deceleration)
+            route_remaining = max(0.0, total_distance - horizontal_distance)
+            stopping_distance = (
+                self._distance_to_speed(current_speed, -deceleration, 0.0)
+                if deceleration > 0.0
+                else math.inf
+            )
+            line_guided_speed_limit = (
+                0.0 if stopping_distance > route_remaining else max_speed
+            )
+            if current_speed > line_guided_speed_limit:
+                line_guided_acceleration = -deceleration
+            elif current_speed < line_guided_speed_limit:
+                line_guided_acceleration = acceleration
+            else:
+                line_guided_acceleration = 0.0
+
         while horizontal_distance < total_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
             dt = max(update_interval, 1e-3)
             if use_line_guided_controller:
                 update_timestep = max(1e-9, self.line_guided_update_timestep_s)
                 current_controller_time = self.env.now
                 if current_controller_time >= next_line_guided_update_at - 1e-9:
-                    horizontal = self.movement_profile.horizontal
-                    max_speed = max(0.0, horizontal.max_speed)
-                    acceleration = max(0.0, horizontal.acceleration)
-                    deceleration = max(0.0, horizontal.deceleration)
-                    route_remaining = max(0.0, total_distance - horizontal_distance)
-                    stopping_distance = (
-                        self._distance_to_speed(current_speed, -deceleration, 0.0)
-                        if deceleration > 0.0
-                        else math.inf
-                    )
-                    line_guided_speed_limit = (
-                        0.0 if stopping_distance > route_remaining else max_speed
-                    )
-                    if current_speed > line_guided_speed_limit:
-                        line_guided_acceleration = -deceleration
-                    elif current_speed < line_guided_speed_limit:
-                        line_guided_acceleration = acceleration
-                    else:
-                        line_guided_acceleration = 0.0
+                    recompute_line_guided_profile()
                     next_line_guided_update_at = self._next_controller_update_time(
                         current_controller_time,
                         update_timestep,
@@ -710,6 +737,24 @@ class Forklift:
                     wait_reason = allowance.wait_reason
 
                 if use_line_guided_controller:
+                    while (
+                        next_line_guided_boundary_index < len(line_guided_boundary_distances)
+                        and line_guided_boundary_distances[next_line_guided_boundary_index]
+                        <= horizontal_distance + 1e-9
+                    ):
+                        next_line_guided_boundary_index += 1
+                    if next_line_guided_boundary_index < len(line_guided_boundary_distances):
+                        # AnyLogic schedules a route-boundary controller update
+                        # just after the current RouteData movement ends. Keep
+                        # the shared controller clock intact, but stop this
+                        # slice exactly at that boundary so the immediate
+                        # profile rebuild sees the same remaining route.
+                        distance_to_boundary = (
+                            line_guided_boundary_distances[next_line_guided_boundary_index]
+                            - horizontal_distance
+                        )
+                        if distance_to_boundary > 1e-9:
+                            available_distance = min(available_distance, distance_to_boundary)
                     move_distance, next_speed, move_time = self._compute_line_guided_horizontal_motion(
                         current_speed=current_speed,
                         dt=dt,
@@ -887,6 +932,18 @@ class Forklift:
                     if blocked_reason is not None:
                         self._start_traffic_wait(blocked_reason)
                         current_speed = 0.0
+
+                    if use_line_guided_controller:
+                        crossed_route_boundary = False
+                        while (
+                            next_line_guided_boundary_index < len(line_guided_boundary_distances)
+                            and horizontal_distance
+                            >= line_guided_boundary_distances[next_line_guided_boundary_index] - 1e-9
+                        ):
+                            next_line_guided_boundary_index += 1
+                            crossed_route_boundary = True
+                        if crossed_route_boundary:
+                            recompute_line_guided_profile()
 
             if vertical_total_distance > 0:
                 delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
