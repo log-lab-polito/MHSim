@@ -252,6 +252,9 @@ logArrayStats("Move: unloading finish -> release", time_unloading_release);]]></
 						<Type><![CDATA[int]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1773929422683</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>

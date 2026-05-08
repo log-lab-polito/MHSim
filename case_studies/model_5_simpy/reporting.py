@@ -147,8 +147,13 @@ def run_model_and_print_summary(
     include_forklift_utilization: bool = False,
     include_in_flight: bool = False,
     storage_level_label: str = "Storage level at end",
+    **model_kwargs: Any,
 ):
-    model = model_cls(params=params, console_logging=console_logging)
+    model = model_cls(
+        params=params,
+        console_logging=console_logging,
+        **model_kwargs,
+    )
     stats = model.run()
     print(f"--- {model_label} (SimPy) ---")
     print(f"Simulated time: {params.sim_time:.1f} s")

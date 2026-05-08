@@ -296,6 +296,9 @@ logArrayStats("Retrieve: unloading finish -> release", time_unloading_release_re
 						<Type><![CDATA[int]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1773929422683</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -4397,9 +4400,6 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 			<Parameters>
 				<Parameter>
 					<ParameterName><![CDATA[arrival_rate_s]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[120]]></Code>
-					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[delay_time_s]]></ParameterName>
@@ -4409,9 +4409,6 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[forklift_capacity]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[1]]></Code>
-					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[iteration]]></ParameterName>

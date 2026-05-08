@@ -425,11 +425,123 @@ python -m case_studies.model_3_simpy.run_model_animation
 
 ### Model 4
 
-Run conveyor spur model:
+Model 4 is the conveyor spur/merge scenario. Its SimPy process block surface
+matches the current AnyLogic Model 4 topology:
+
+```text
+mainSource -> mainService -> mainConvey -> downstreamService -> sink
+branchSource -> branchService -> branchConvey -> downstreamService -> sink
+```
+
+`conveyorSpur` is a physical conveyor-network element inside `branchConvey`,
+not a separate process block in the SimPy comparison table.
+
+Run conveyor spur model and print summary metrics:
 
 ```bash
 python -m case_studies.model_4_simpy.run_model
 ```
+
+Run with a shorter stop time:
+
+```bash
+python -m case_studies.model_4_simpy.run_model --sim-time 600
+```
+
+Compare AnyLogic vs SimPy block counts for the spur model:
+
+```bash
+python -m case_studies.model_4_simpy.compare_blocks
+```
+
+Model 4 follows the Model 3 approach: AnyLogic values are transcribed into
+`ANYLOGIC_BLOCKS` in `case_studies/model_4_simpy/compare_blocks.py`. Fill that
+dictionary after running the AnyLogic Model 4 reference. Until then, inspect the
+SimPy-only block counts with:
+
+```bash
+python -m case_studies.model_4_simpy.compare_blocks \
+  --simpy-only
+```
+
+Run ranged parameter-variation experiments:
+
+```bash
+python -m case_studies.model_4_simpy.run_parameter_variation
+```
+
+This writes:
+
+```text
+logs/model_4_parameter_variation_range_runs.csv
+logs/model_4_parameter_variation_range_summary.csv
+```
+
+The ranged experiment uses 64 SimPy combinations:
+
+```text
+main_arrival_time_s    15, 30, 45, 60
+branch_arrival_time_s  15, 30, 45, 60
+conveyor_speed_mps     0.5, 1.0
+conveyor_gap_m         0.3, 0.6
+stop time              3600 s
+```
+
+Validate the SimPy run and summary CSVs:
+
+```bash
+python -m case_studies.model_4_simpy.compare_parameter_variation_range
+```
+
+If a Model 4 AnyLogic range export is available, pass it explicitly:
+
+```bash
+python -m case_studies.model_4_simpy.compare_parameter_variation_range \
+  --anylogic "anylogic/Model 4/log_file.txt"
+```
+
+Write a text or HTML comparison report when an AnyLogic export is supplied:
+
+```bash
+python -m case_studies.model_4_simpy.compare_parameter_variation_range \
+  --anylogic "anylogic/Model 4/log_file.txt" \
+  --view report \
+  --top 25 \
+  --output logs/model_4_parameter_variation_range_report.html
+```
+
+Accepted Model 4 summary `--metric` values:
+
+```text
+created
+completed
+in_flight
+avg_time_in_system_s
+throughput_per_hour
+main_created
+branch_created
+main_completed
+branch_completed
+main_conveyor_entered
+main_conveyor_exited
+main_conveyor_occupancy_end
+branch_conveyor_entered
+branch_conveyor_exited
+branch_conveyor_occupancy_end
+spur_transferred
+spur_remaining_main_distance_m
+```
+
+Run conveyor spur animation:
+
+```bash
+python -m case_studies.model_4_simpy.run_model_animation
+```
+
+The animation shows the main conveyor, branch conveyor, and `ConveyorSpur`
+merge point. Branch pallets leave the branch line inside `branchConvey`, enter
+the main line at `spur_merge_offset_m`, and then continue to the shared
+`downstreamService`.
 
 ### Model 5
 

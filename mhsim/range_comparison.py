@@ -69,6 +69,7 @@ def parse_anylogic_summary_log(
     key_map: Mapping[str, str],
     parameter_fields: Sequence[str],
     metric_fields: Sequence[str],
+    optional_metric_fields: Sequence[str] = (),
 ) -> list[RangeRow]:
     iteration_re = re.compile(r"^ITERATION #(\d+)\s*$")
     key_value_re = re.compile(r"^\s*([^:]+):\s*(.+?)\s*$")
@@ -96,7 +97,14 @@ def parse_anylogic_summary_log(
             RangeRow(
                 iteration=current_iteration,
                 params={name: current_values[name] for name in parameter_fields},
-                metrics={name: current_values[name] for name in metric_fields},
+                metrics={
+                    **{name: current_values[name] for name in metric_fields},
+                    **{
+                        name: current_values[name]
+                        for name in optional_metric_fields
+                        if name in current_values
+                    },
+                },
             )
         )
         current_iteration = None
