@@ -18,6 +18,11 @@ PARAMETER_KEY_MAP = {
     "Conveyor Speed (m/s)": "conveyor_speed_mps",
     "Conveyor Gap (m)": "conveyor_gap_m",
 }
+DIAGNOSTIC_EVENT_PREFIXES = ("diag_",)
+
+
+def _is_diagnostic_event(event_name: str) -> bool:
+    return event_name.startswith(DIAGNOSTIC_EVENT_PREFIXES)
 
 
 @dataclass(frozen=True)
@@ -209,16 +214,28 @@ def compare_traces(
 ) -> int:
     anylogic_horizon = max(event.time_s for event in anylogic_events)
     simpy_horizon = max(event.time_s for event in simpy_events)
-    anylogic_counts = Counter(event.event for event in anylogic_events)
-    simpy_counts = Counter(event.event for event in simpy_events)
+    diagnostic_anylogic_events = [
+        event for event in anylogic_events if _is_diagnostic_event(event.event)
+    ]
+    diagnostic_simpy_events = [
+        event for event in simpy_events if _is_diagnostic_event(event.event)
+    ]
+    comparable_anylogic_events = [
+        event for event in anylogic_events if not _is_diagnostic_event(event.event)
+    ]
+    comparable_simpy_events = [
+        event for event in simpy_events if not _is_diagnostic_event(event.event)
+    ]
+    anylogic_counts = Counter(event.event for event in comparable_anylogic_events)
+    simpy_counts = Counter(event.event for event in comparable_simpy_events)
     anylogic_by_key = {
         _event_key(event): event
-        for event in anylogic_events
+        for event in comparable_anylogic_events
         if event.origin_seq is not None
     }
     simpy_by_key = {
         _event_key(event): event
-        for event in simpy_events
+        for event in comparable_simpy_events
         if event.origin_seq is not None and event.event in anylogic_counts
     }
 
@@ -258,6 +275,18 @@ def compare_traces(
         f"Extra shared-event keys in SimPy: {len(extra_in_simpy)}  "
         f"Timestamp differences: {len(diffs)}"
     )
+    if diagnostic_anylogic_events:
+        diagnostic_counts = Counter(event.event for event in diagnostic_anylogic_events)
+        print(
+            f"Ignored AnyLogic diagnostic events: {len(diagnostic_anylogic_events)} "
+            f"across {len(diagnostic_counts)} event types"
+        )
+    if diagnostic_simpy_events:
+        diagnostic_counts = Counter(event.event for event in diagnostic_simpy_events)
+        print(
+            f"Ignored SimPy diagnostic events: {len(diagnostic_simpy_events)} "
+            f"across {len(diagnostic_counts)} event types"
+        )
 
     event_count_diffs = []
     for event_name in sorted(set(anylogic_counts) | set(simpy_counts)):
@@ -272,6 +301,29 @@ def compare_traces(
             )
 
     if diffs:
+        diffs_by_event: defaultdict[str, list[float]] = defaultdict(list)
+        for diff, key, _anylogic_time, _simpy_time in diffs:
+            diffs_by_event[key[2]].append(diff)
+
+        print("\nTimestamp difference summary by event:")
+        print(
+            "  "
+            f"{'Event':<38} {'Count':>6} {'Mean Abs':>10} "
+            f"{'Max Abs':>10} {'Mean':>10}"
+        )
+        for event_name, event_diffs in sorted(
+            diffs_by_event.items(),
+            key=lambda item: (-len(item[1]), item[0]),
+        )[:top]:
+            abs_diffs = [abs(diff) for diff in event_diffs]
+            print(
+                "  "
+                f"{event_name:<38} {len(event_diffs):>6} "
+                f"{sum(abs_diffs) / len(abs_diffs):>10.3f} "
+                f"{max(abs_diffs):>10.3f} "
+                f"{sum(event_diffs) / len(event_diffs):>+10.3f}"
+            )
+
         print("\nFirst timestamp differences:")
         for diff, key, anylogic_time, simpy_time in sorted(
             diffs,

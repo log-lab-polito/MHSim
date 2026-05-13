@@ -15,6 +15,9 @@ from .params import Model4Params
 from .range_config import range_variation_parameters
 
 
+DEFAULT_RANGE_RUN_UNTIL_S = 18000.0
+
+
 def _metrics():
     return {
         "created": stats_attr_metric("created"),
@@ -60,12 +63,12 @@ def _metrics():
 def build_range_validation_experiment(
     *,
     replications: int = 2,
-    run_until: float | None = 3600.0,
+    run_until: float | None = DEFAULT_RANGE_RUN_UNTIL_S,
 ) -> ParameterVariationExperiment:
     return ParameterVariationExperiment(
         experiment_name="model_4_range_validation",
         model_cls=Model4SimModel,
-        base_params=Model4Params(sim_time=3600.0),
+        base_params=Model4Params(sim_time=DEFAULT_RANGE_RUN_UNTIL_S),
         variation=RangeVariation(
             parameters=range_variation_parameters(),
         ),
@@ -128,8 +131,11 @@ def main() -> None:
     parser.add_argument(
         "--run-until",
         type=float,
-        default=3600.0,
-        help="Optional stop time override passed to model.run(until=...).",
+        default=DEFAULT_RANGE_RUN_UNTIL_S,
+        help=(
+            "Optional stop time override passed to model.run(until=...). "
+            "Default matches the AnyLogic Model 4 range experiment."
+        ),
     )
     parser.add_argument(
         "--range-replications",

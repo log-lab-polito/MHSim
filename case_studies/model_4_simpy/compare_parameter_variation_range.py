@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from itertools import product
 from pathlib import Path
 
 from mhsim.range_comparison import (
@@ -19,7 +20,7 @@ from mhsim.range_comparison import (
     validate_simpy_runs,
 )
 
-from .range_config import range_values_for_iteration
+from .range_config import RANGE_VALUES, range_values_for_iteration
 
 
 METRICS = (
@@ -93,7 +94,7 @@ def parse_anylogic_range_output(path: str | Path):
     metric_fields = [name for name, _label in METRICS]
     optional_metric_fields = [name for name, _label in OPTIONAL_METRICS]
     try:
-        return parse_anylogic_summary_log(
+        rows = parse_anylogic_summary_log(
             path,
             key_map=ANYLOGIC_KEY_MAP,
             parameter_fields=(
@@ -105,6 +106,7 @@ def parse_anylogic_range_output(path: str | Path):
             metric_fields=metric_fields,
             optional_metric_fields=optional_metric_fields,
         )
+        return _filter_to_model4_range_grid(rows)
     except ValueError as exc:
         if "branch_arrival_time_s" not in str(exc):
             raise
@@ -137,7 +139,12 @@ def parse_anylogic_range_output(path: str | Path):
                 replication=row.replication,
             )
         )
-    return enriched_rows
+    return _filter_to_model4_range_grid(enriched_rows)
+
+
+def _filter_to_model4_range_grid(rows: list[RangeRow]) -> list[RangeRow]:
+    expected_keys = set(product(*(RANGE_VALUES[name] for name in MODEL4_RANGE_SPEC.parameter_fields)))
+    return [row for row in rows if row.match_key(MODEL4_RANGE_SPEC) in expected_keys]
 
 
 def _infer_output_format(output_path: Path, requested_format: str | None) -> str:

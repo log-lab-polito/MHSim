@@ -7,6 +7,9 @@ from mhsim.params import SimulationParams
 class Model4Params(SimulationParams):
     """Parameters for the conveyor spur merge test model."""
 
+    # Experiment horizon
+    sim_time: float = 18000.0
+
     # Sources
     main_arrival_time_s: float = 15.0
     branch_arrival_time_s: float = 15.0

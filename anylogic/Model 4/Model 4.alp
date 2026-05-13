@@ -26,7 +26,7 @@ log_file.println("    Branch arrival rate (s): " + branch_arrival_time_s);
 log_file.println("    Conveyor Speed (m/s): " + conveyor_speed_ms);
 log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
 if (trace_enabled && iteration == trace_iteration) {
-    log_file.println("TRACE_HEADER\titeration\ttime_s\tevent\tpallet_id\torigin\tcycle_time_s");
+    log_file.println("TRACE_HEADER\titeration\ttime_s\tevent\tpallet_id\torigin\tcycle_time_s\tdetail_1\tdetail_2\tdetail_3\tdetail_4\tdetail_5\tdetail_6\tdetail_7\tdetail_8\tdetail_9\tdetail_10\tdetail_11\tdetail_12");
 }
 ]]></StartupCode>
 			<DestroyCode><![CDATA[log_file.println("RESULTS");
@@ -167,7 +167,7 @@ log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -182,7 +182,7 @@ log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -227,7 +227,7 @@ log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[boolean]]></Type>
+						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[true]]></Code>
 						</InitialValue>
@@ -242,7 +242,7 @@ log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[5]]></Code>
 						</InitialValue>
@@ -1823,8 +1823,10 @@ if (trace_enabled && iteration == trace_iteration) {
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_service_exit_time = time();
 if (trace_enabled && iteration == trace_iteration) {
     log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_service_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_service_exit_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tcycle_age_s=" + (time() - p.cycle_start_time));
 }]]></Code>
 							</Value>
 						</Parameter>
@@ -2213,8 +2215,10 @@ if (trace_enabled && iteration == trace_iteration) {
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_convey_enter_time = time();
 if (trace_enabled && iteration == trace_iteration) {
     log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_convey_enter\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_convey_enter_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tservice_to_convey_s=" + (time() - p.branch_service_exit_time) + "\tcycle_age_s=" + (time() - p.cycle_start_time) + "\tsince_leading_enter_s=" + (time() - p.branch_conveyor_leading_edge_enter_time) + "\tsince_trailing_enter_s=" + (time() - p.branch_conveyor_trailing_edge_enter_time) + "\tsince_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_trailing_exit_s=" + (time() - p.branch_conveyor_trailing_edge_exit_time));
 }]]></Code>
 							</Value>
 						</Parameter>
@@ -2222,8 +2226,10 @@ if (trace_enabled && iteration == trace_iteration) {
 							<Name><![CDATA[onAtExit]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_convey_at_exit_time = time();
 if (trace_enabled && iteration == trace_iteration) {
     log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_convey_at_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_convey_at_exit_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_service_exit_s=" + (time() - p.branch_service_exit_time) + "\tsince_convey_enter_s=" + (time() - p.branch_convey_enter_time) + "\tsince_leading_enter_s=" + (time() - p.branch_conveyor_leading_edge_enter_time) + "\tsince_trailing_enter_s=" + (time() - p.branch_conveyor_trailing_edge_enter_time) + "\tsince_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_trailing_exit_s=" + (time() - p.branch_conveyor_trailing_edge_exit_time));
 }]]></Code>
 							</Value>
 						</Parameter>
@@ -2233,6 +2239,7 @@ if (trace_enabled && iteration == trace_iteration) {
 								<Code><![CDATA[Pallet p = (Pallet)agent;
 if (trace_enabled && iteration == trace_iteration) {
     log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_convey_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_convey_exit_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_at_exit_s=" + (time() - p.branch_convey_at_exit_time) + "\tsince_service_exit_s=" + (time() - p.branch_service_exit_time) + "\tsince_convey_enter_s=" + (time() - p.branch_convey_enter_time) + "\tsince_leading_enter_s=" + (time() - p.branch_conveyor_leading_edge_enter_time) + "\tsince_trailing_enter_s=" + (time() - p.branch_conveyor_trailing_edge_enter_time) + "\tsince_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_trailing_exit_s=" + (time() - p.branch_conveyor_trailing_edge_exit_time));
 }]]></Code>
 							</Value>
 						</Parameter>
@@ -2377,24 +2384,72 @@ if (trace_enabled && iteration == trace_iteration) {
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onLeadingEdgeEnter]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tmain_conveyor_leading_edge_enter\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    if ("branch".equals(p.origin_name)) {
+        log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_main_leading_edge_enter_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_branch_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_branch_trailing_exit_s=" + (time() - p.branch_conveyor_trailing_edge_exit_time));
+    }
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onTrailingEdgeEnter]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tmain_conveyor_trailing_edge_enter\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    if ("branch".equals(p.origin_name)) {
+        log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_main_trailing_edge_enter_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_branch_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_branch_trailing_exit_s=" + (time() - p.branch_conveyor_trailing_edge_exit_time));
+    }
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onLeadingEdgeExit]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tmain_conveyor_leading_edge_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    if ("branch".equals(p.origin_name)) {
+        log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_main_leading_edge_exit_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_branch_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_branch_trailing_exit_s=" + (time() - p.branch_conveyor_trailing_edge_exit_time));
+    }
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onTrailingEdgeExit]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tmain_conveyor_trailing_edge_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onStarted]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_main_conveyor_started_state\t-1\tmain_conveyor\t\tspeed_mps=" + conveyor_speed_ms + "\tgap_m=" + conveyor_gap_m);
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onStopped]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_main_conveyor_stopped_state\t-1\tmain_conveyor\t\tspeed_mps=" + conveyor_speed_ms + "\tgap_m=" + conveyor_gap_m);
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onDirectionChanged]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_main_conveyor_direction_changed_state\t-1\tmain_conveyor\t\tspeed_mps=" + conveyor_speed_ms + "\tgap_m=" + conveyor_gap_m);
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[downtimes]]></Name>
@@ -2540,24 +2595,71 @@ if (trace_enabled && iteration == trace_iteration) {
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onLeadingEdgeEnter]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_conveyor_leading_edge_enter_time = time();
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_conveyor_leading_edge_enter\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_leading_edge_enter_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_convey_enter_s=" + (time() - p.branch_convey_enter_time) + "\tcycle_age_s=" + (time() - p.cycle_start_time));
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onTrailingEdgeEnter]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_conveyor_trailing_edge_enter_time = time();
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_conveyor_trailing_edge_enter\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_trailing_edge_enter_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_leading_enter_s=" + (time() - p.branch_conveyor_leading_edge_enter_time) + "\tsince_convey_enter_s=" + (time() - p.branch_convey_enter_time));
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onLeadingEdgeExit]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_conveyor_leading_edge_exit_time = time();
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_conveyor_leading_edge_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_leading_edge_exit_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_leading_enter_s=" + (time() - p.branch_conveyor_leading_edge_enter_time) + "\tsince_trailing_enter_s=" + (time() - p.branch_conveyor_trailing_edge_enter_time) + "\tsince_convey_enter_s=" + (time() - p.branch_convey_enter_time));
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onTrailingEdgeExit]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[Pallet p = (Pallet)agent;
+p.branch_conveyor_trailing_edge_exit_time = time();
+if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tbranch_conveyor_trailing_edge_exit\t" + p.trace_id + "\t" + p.origin_name + "\t");
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_trailing_edge_exit_state\t" + p.trace_id + "\t" + p.origin_name + "\t\tsince_leading_exit_s=" + (time() - p.branch_conveyor_leading_edge_exit_time) + "\tsince_trailing_enter_s=" + (time() - p.branch_conveyor_trailing_edge_enter_time) + "\tsince_convey_enter_s=" + (time() - p.branch_convey_enter_time));
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onStarted]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_conveyor_started_state\t-1\tbranch_conveyor\t\tspeed_mps=" + conveyor_speed_ms + "\tgap_m=" + conveyor_gap_m);
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onStopped]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_conveyor_stopped_state\t-1\tbranch_conveyor\t\tspeed_mps=" + conveyor_speed_ms + "\tgap_m=" + conveyor_gap_m);
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[onDirectionChanged]]></Name>
+								<Value Class="CodeValue">
+									<Code><![CDATA[if (trace_enabled && iteration == trace_iteration) {
+    log_file.println("TRACE\t" + iteration + "\t" + time() + "\tdiag_branch_conveyor_direction_changed_state\t-1\tbranch_conveyor\t\tspeed_mps=" + conveyor_speed_ms + "\tgap_m=" + conveyor_gap_m);
+}]]></Code>
+								</Value>
 							</Parameter>
 							<Parameter>
 								<Name><![CDATA[downtimes]]></Name>
@@ -2815,6 +2917,111 @@ if (trace_enabled && iteration == trace_iteration) {
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[""]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000101</Id>
+					<Name><![CDATA[branch_service_exit_time]]></Name>
+					<X>80</X><Y>145</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000102</Id>
+					<Name><![CDATA[branch_convey_enter_time]]></Name>
+					<X>80</X><Y>170</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000103</Id>
+					<Name><![CDATA[branch_conveyor_leading_edge_enter_time]]></Name>
+					<X>80</X><Y>195</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000104</Id>
+					<Name><![CDATA[branch_conveyor_trailing_edge_enter_time]]></Name>
+					<X>80</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000105</Id>
+					<Name><![CDATA[branch_conveyor_leading_edge_exit_time]]></Name>
+					<X>80</X><Y>245</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000106</Id>
+					<Name><![CDATA[branch_conveyor_trailing_edge_exit_time]]></Name>
+					<X>80</X><Y>270</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1777433000107</Id>
+					<Name><![CDATA[branch_convey_at_exit_time]]></Name>
+					<X>80</X><Y>295</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[Double.NaN]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -3155,8 +3362,8 @@ if (trace_enabled && iteration == trace_iteration) {
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1764115200000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
-				<FinalDate><![CDATA[1764118800000]]></FinalDate>	
-				<FinalTime><![CDATA[3600.0]]></FinalTime>	
+				<FinalDate><![CDATA[1764133200000]]></FinalDate>	
+				<FinalTime><![CDATA[18000.0]]></FinalTime>	
 			</ModelTimeProperties>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>

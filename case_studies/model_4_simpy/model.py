@@ -21,7 +21,14 @@ from .setup import (
 )
 
 
-TraceCallback = Callable[[str, Pallet], None]
+TraceDetails = dict[str, object]
+TraceCallback = Callable[..., None]
+CONVEYOR_EDGE_TRACE_LENGTH_M = 1.0
+# AnyLogic's path edge callbacks expose a short spur-side backlog that is
+# separate from the higher-level Convey block backlog used for throughput.
+BRANCH_EXIT_TRACE_QUEUE_CAPACITY = 3
+BRANCH_TRAILING_ENTRY_TRACE_QUEUE_CAPACITY = 5
+TRACE_DETAIL_FIELDNAMES = tuple(f"detail_{index}" for index in range(1, 13))
 
 TRACE_FIELDNAMES = (
     "time_s",
@@ -36,7 +43,35 @@ TRACE_FIELDNAMES = (
     "branch_conveyor_entered",
     "branch_conveyor_exited",
     "spur_transferred",
-)
+) + TRACE_DETAIL_FIELDNAMES
+
+
+def _delayed_trace(
+    env: simpy.Environment,
+    delay_s: float,
+    trace_callback: Optional[TraceCallback],
+    event: str,
+    pallet: Pallet,
+    details: TraceDetails | None = None,
+):
+    yield env.timeout(delay_s)
+    if trace_callback:
+        trace_callback(event, pallet, details)
+
+
+def _edge_trace_time_s(conveyor: Conveyor) -> float:
+    return conveyor.travel_time_s(CONVEYOR_EDGE_TRACE_LENGTH_M)
+
+
+def _trace_detail_values(details: TraceDetails | None) -> dict[str, object]:
+    values: dict[str, object] = {
+        field_name: "" for field_name in TRACE_DETAIL_FIELDNAMES
+    }
+    if not details:
+        return values
+    for field_name, (key, value) in zip(TRACE_DETAIL_FIELDNAMES, details.items()):
+        values[field_name] = f"{key}={value}"
+    return values
 
 
 class DeterministicSource:
@@ -206,9 +241,37 @@ class MainConveyBlock:
         self.finished_count = 0
         self.completed_count = 0
 
-    def _trace(self, event: str, pallet: Pallet) -> None:
+    def _trace(
+        self,
+        event: str,
+        pallet: Pallet,
+        details: TraceDetails | None = None,
+    ) -> None:
         if self.trace_callback:
-            self.trace_callback(event, pallet)
+            self.trace_callback(event, pallet, details)
+
+    def _trace_later(
+        self,
+        delay_s: float,
+        event: str,
+        pallet: Pallet,
+        details: TraceDetails | None = None,
+    ) -> None:
+        if self.trace_callback is None:
+            return
+        if delay_s <= 0:
+            self._trace(event, pallet, details)
+            return
+        self.env.process(
+            _delayed_trace(
+                self.env,
+                delay_s,
+                self.trace_callback,
+                event,
+                pallet,
+                details,
+            )
+        )
 
     def handle(self, pallet: Pallet):
         yield from self._handle(pallet, None)
@@ -223,6 +286,12 @@ class MainConveyBlock:
         self.entered_count += 1
         self._trace("main_convey_enter", pallet)
         self._trace("main_convey_on_conveyor", pallet)
+        self._trace("main_conveyor_leading_edge_enter", pallet)
+        self._trace_later(
+            _edge_trace_time_s(self.conveyor),
+            "main_conveyor_trailing_edge_enter",
+            pallet,
+        )
         if self.spur is None:
             yield self.env.timeout(self.conveyor.travel_time_s())
         else:
@@ -238,6 +307,7 @@ class MainConveyBlock:
                 )
             )
         self._trace("main_convey_at_exit", pallet)
+        self._trace("main_conveyor_leading_edge_exit", pallet)
         self.conveyor.leave()
         self.finished_count += 1
         self._trace("main_convey_exit", pallet)
@@ -265,10 +335,147 @@ class BranchConveyBlock:
         self.entered_count = 0
         self.finished_count = 0
         self.completed_count = 0
+        self._exit_edge_trace_queue = simpy.Resource(
+            self.env,
+            capacity=BRANCH_EXIT_TRACE_QUEUE_CAPACITY,
+        )
+        self._trailing_entry_trace_queue = simpy.Resource(
+            self.env,
+            capacity=BRANCH_TRAILING_ENTRY_TRACE_QUEUE_CAPACITY,
+        )
 
-    def _trace(self, event: str, pallet: Pallet) -> None:
+    def _trace(
+        self,
+        event: str,
+        pallet: Pallet,
+        details: TraceDetails | None = None,
+    ) -> None:
         if self.trace_callback:
-            self.trace_callback(event, pallet)
+            self.trace_callback(event, pallet, details)
+
+    def _trace_later(
+        self,
+        delay_s: float,
+        event: str,
+        pallet: Pallet,
+        details: TraceDetails | None = None,
+    ) -> None:
+        if self.trace_callback is None:
+            return
+        if delay_s <= 0:
+            self._trace(event, pallet, details)
+            return
+        self.env.process(
+            _delayed_trace(
+                self.env,
+                delay_s,
+                self.trace_callback,
+                event,
+                pallet,
+                details,
+            )
+        )
+
+    def _source_merge_queue_in_use(self) -> int | str:
+        queue = self.spur._source_merge_queue
+        return "" if queue is None else queue.count
+
+    def _source_merge_queue_waiting(self) -> int | str:
+        queue = self.spur._source_merge_queue
+        return "" if queue is None else len(queue.queue)
+
+    def _next_target_arrival_s(self) -> float | str:
+        if not self.spur._target_merge_arrivals:
+            return ""
+        return self.spur._target_merge_arrivals[0]
+
+    def _spur_trace_details(self, **extra: object) -> TraceDetails:
+        details: TraceDetails = {
+            "branch_occ": self.branch_conveyor.occupancy,
+            "target_occ": self.spur.target_conveyor.occupancy,
+            "exit_queue_in_use": self._exit_edge_trace_queue.count,
+            "exit_queue_waiting": len(self._exit_edge_trace_queue.queue),
+            "source_queue_in_use": self._source_merge_queue_in_use(),
+            "source_queue_waiting": self._source_merge_queue_waiting(),
+            "next_merge_time_s": round(self.spur._next_merge_time, 10),
+            "last_merge_path": self.spur._last_merge_path or "",
+            "target_arrivals": len(self.spur._target_merge_arrivals),
+            "next_target_arrival_s": self._next_target_arrival_s(),
+            "spur_transferred": self.spur.total_transferred,
+        }
+        details.update(extra)
+        return details
+
+    def _leading_exit_travel_time_s(self) -> float:
+        source_exit_distance_m = max(
+            0.0,
+            self.branch_conveyor.length_m - CONVEYOR_EDGE_TRACE_LENGTH_M,
+        )
+        return self.branch_conveyor.travel_time_s(source_exit_distance_m)
+
+    def _blocked_trailing_exit_clear_time_s(self) -> float:
+        edge_time_s = _edge_trace_time_s(self.branch_conveyor)
+        # Saturated branch traces show trailing-edge exit clearance stretching
+        # past the visible edge marker because the branch item is waiting in
+        # the spur-side merge envelope, not only on the branch conveyor path.
+        return max(
+            edge_time_s,
+            self.spur.merge_headway_time_s() + (edge_time_s / 2.0),
+        )
+
+    def _trace_trailing_edge_enter(self, pallet: Pallet, trailing_exit_event):
+        yield self.env.timeout(_edge_trace_time_s(self.branch_conveyor))
+        with self._trailing_entry_trace_queue.request() as req:
+            yield req
+            self._trace("branch_conveyor_trailing_edge_enter", pallet)
+            yield trailing_exit_event
+
+    def _trace_exit_edges(
+        self,
+        pallet: Pallet,
+        target_transfer_event,
+        leading_exit_event,
+        trailing_exit_event,
+    ):
+        yield self.env.timeout(self._leading_exit_travel_time_s())
+        requested_at_s = self.env.now
+        self._trace(
+            "diag_branch_exit_queue_request_state",
+            pallet,
+            self._spur_trace_details(requested_at_s=round(requested_at_s, 10)),
+        )
+        with self._exit_edge_trace_queue.request() as req:
+            yield req
+            blocked_at_exit = self.env.now > requested_at_s + 1e-9
+            self._trace(
+                "diag_branch_exit_queue_acquired_state",
+                pallet,
+                self._spur_trace_details(
+                    request_wait_s=round(self.env.now - requested_at_s, 10),
+                    blocked_at_exit=blocked_at_exit,
+                ),
+            )
+            self._trace("branch_conveyor_leading_edge_exit", pallet)
+            if not leading_exit_event.triggered:
+                leading_exit_event.succeed()
+            clear_time_s = (
+                self._blocked_trailing_exit_clear_time_s()
+                if blocked_at_exit
+                else _edge_trace_time_s(self.branch_conveyor)
+            )
+            if clear_time_s > 0:
+                yield self.env.timeout(clear_time_s)
+            self._trace("branch_conveyor_trailing_edge_exit", pallet)
+            if not trailing_exit_event.triggered:
+                trailing_exit_event.succeed()
+            yield target_transfer_event
+            self._trace(
+                "diag_branch_exit_queue_released_state",
+                pallet,
+                self._spur_trace_details(
+                    held_s=round(self.env.now - requested_at_s, 10),
+                ),
+            )
 
     def handle(self, pallet: Pallet):
         yield from self._handle(pallet, None)
@@ -282,17 +489,59 @@ class BranchConveyBlock:
             trace_service_exit()
         self.entered_count += 1
         self._trace("branch_convey_enter", pallet)
+        self._trace(
+            "diag_branch_conveyor_accept_state",
+            pallet,
+            self._spur_trace_details(
+                next_branch_entry_s=round(self.branch_conveyor._next_entry_time, 10),
+            ),
+        )
         self._trace("branch_convey_on_branch_conveyor", pallet)
+        self._trace("branch_conveyor_leading_edge_enter", pallet)
+        target_transfer_event = self.env.event()
+        leading_exit_event = self.env.event()
+        trailing_exit_event = self.env.event()
+        self.env.process(
+            self._trace_exit_edges(
+                pallet,
+                target_transfer_event,
+                leading_exit_event,
+                trailing_exit_event,
+            )
+        )
+        if self.trace_callback is not None:
+            self.env.process(
+                self._trace_trailing_edge_enter(pallet, trailing_exit_event)
+            )
         yield self.env.timeout(self.branch_conveyor.travel_time_s())
+        # AnyLogic's spur handoff is gated by the branch path exit callback,
+        # so keep this edge process active even when TRACE output is disabled.
+        yield leading_exit_event
         self._trace("branch_convey_merge_request", pallet)
+        merge_request_s = self.env.now
+        self._trace(
+            "diag_branch_merge_request_state",
+            pallet,
+            self._spur_trace_details(merge_request_s=round(merge_request_s, 10)),
+        )
         yield from self.spur.transfer()
+        if not target_transfer_event.triggered:
+            target_transfer_event.succeed()
         self._trace("branch_convey_merge_release", pallet)
+        self._trace(
+            "diag_branch_merge_release_state",
+            pallet,
+            self._spur_trace_details(
+                merge_wait_s=round(self.env.now - merge_request_s, 10),
+            ),
+        )
         yield self.env.timeout(
             self.spur.target_conveyor.travel_time_s(
                 self.spur.remaining_target_distance_m()
             )
         )
         self._trace("branch_convey_at_exit", pallet)
+        self._trace("main_conveyor_leading_edge_exit", pallet)
         self.spur.target_conveyor.leave()
         self.finished_count += 1
         self._trace("branch_convey_exit", pallet)
@@ -321,11 +570,12 @@ class Model4SimModel:
             branch_conveyor=self.branch_conveyor,
             main_conveyor=self.main_conveyor,
         )
+        trace_callback = self._trace if self.trace_enabled else None
 
         self.base_sink = Sink(self.env, self.stats, name="sink")
         self.sink = OriginTrackingSink(
             self.base_sink,
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.downstream_service = TraceableServiceBlock(
             self.env,
@@ -333,7 +583,7 @@ class Model4SimModel:
             next_block=self.sink,
             event_prefix="downstream_service",
             name="downstreamService",
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.service2 = self.downstream_service
         self.main_convey = MainConveyBlock(
@@ -341,7 +591,7 @@ class Model4SimModel:
             conveyor=self.main_conveyor,
             next_block=self.downstream_service,
             spur=self.spur,
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.main_service = TraceableServiceBlock(
             self.env,
@@ -349,7 +599,7 @@ class Model4SimModel:
             next_block=self.main_convey,
             event_prefix="main_service",
             name="mainService",
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.main_service1 = self.main_service
 
@@ -358,7 +608,7 @@ class Model4SimModel:
             branch_conveyor=self.branch_conveyor,
             spur=self.spur,
             next_block=self.downstream_service,
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.branch_service = TraceableServiceBlock(
             self.env,
@@ -366,7 +616,7 @@ class Model4SimModel:
             next_block=self.branch_convey,
             event_prefix="branch_service",
             name="branchService",
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.branch_service1 = self.branch_service
 
@@ -378,7 +628,7 @@ class Model4SimModel:
             pallet_id_supplier=self._next_pallet_id,
             origin="main",
             name="main_source",
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
         self.branch_source = DeterministicSource(
             self.env,
@@ -388,14 +638,19 @@ class Model4SimModel:
             pallet_id_supplier=self._next_pallet_id,
             origin="branch",
             name="branch_source",
-            trace_callback=self._trace,
+            trace_callback=trace_callback,
         )
 
     def _next_pallet_id(self) -> int:
         self._pallet_counter += 1
         return self._pallet_counter
 
-    def _trace(self, event: str, pallet: Pallet) -> None:
+    def _trace(
+        self,
+        event: str,
+        pallet: Pallet,
+        details: TraceDetails | None = None,
+    ) -> None:
         if not self.trace_enabled:
             return
 
@@ -415,6 +670,7 @@ class Model4SimModel:
                 "branch_conveyor_entered": self.branch_conveyor.total_entered,
                 "branch_conveyor_exited": self.branch_conveyor.total_exited,
                 "spur_transferred": self.spur.total_transferred,
+                **_trace_detail_values(details),
             }
         )
 

@@ -7,7 +7,7 @@ from .compare_trace import run_simpy_trace
 from .range_config import range_values_for_iteration
 
 
-DEFAULT_RANGE_TRACE_UNTIL_S = 3600.0
+DEFAULT_RANGE_TRACE_UNTIL_S = 18000.0
 
 
 def _params_for_iteration(iteration: int) -> dict[str, float]:
