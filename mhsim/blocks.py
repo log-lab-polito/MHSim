@@ -11,6 +11,7 @@ from .cyclic_position_logger import CyclicPositionLogger
 from .movement import Position3D
 from .conveyor import Conveyor, ConveyorSpur
 from .storage_slots import StorageSlotManager, StorageSlot
+from .random_variables import DurationValue, sample_duration_s
 
 
 PositionResolver = Optional[Union[Callable[[Pallet], Optional[Position3D]], Position3D]]
@@ -164,7 +165,7 @@ class ServiceBlock:
     def __init__(
         self,
         env: simpy.Environment,
-        service_time_s: float,
+        service_time_s: DurationValue,
         next_block,
         name: str = "service",
         capacity: int = 1,
@@ -182,6 +183,12 @@ class ServiceBlock:
         self.finished_count = 0
         self.completed_count = 0
 
+    def sample_service_time_s(self) -> float:
+        return sample_duration_s(
+            self.service_time_s,
+            name=f"{self.name}.service_time_s",
+        )
+
     def handle(self, pallet: Pallet):
         self.entered_count += 1
         if self.logger:
@@ -193,7 +200,7 @@ class ServiceBlock:
                 yield self.env.timeout(0)
         with self.resource.request() as req:
             yield req
-            yield self.env.timeout(self.service_time_s)
+            yield self.env.timeout(self.sample_service_time_s())
         self.finished_count += 1
         if self.next_block:
             yield from self.next_block.handle(pallet)
@@ -968,6 +975,7 @@ class Source:
         rng: Random,
         first_block,
         name: str = "source",
+        interarrival_time_s: DurationValue | None = None,
     ):
         self.env = env
         self.params = params
@@ -975,6 +983,7 @@ class Source:
         self.rng = rng
         self.first_block = first_block
         self.name = name
+        self.interarrival_time_s = interarrival_time_s
         self._proc: Optional[simpy.Process] = None
         self._counter = 0
 
@@ -983,7 +992,12 @@ class Source:
             self._proc = self.env.process(self._run())
 
     def _next_interarrival(self) -> float:
-        """Return deterministic interarrival time (not stochastic)."""
+        """Return the next interarrival time."""
+        if self.interarrival_time_s is not None:
+            return sample_duration_s(
+                self.interarrival_time_s,
+                name=f"{self.name}.interarrival_time_s",
+            )
         rate_per_s = self.params.arrival_rate_per_second()
         # Deterministic: fixed interarrival time = 1/rate
         return (1.0 / rate_per_s) if rate_per_s > 0 else float("inf")

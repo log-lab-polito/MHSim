@@ -1,768 +1,1615 @@
-
-ITERATION #1
+ITERATION #1, REPLICATION #1
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 0.5
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
     Conveyor Gap (m): 0.3
+    Random arrivals: false
+    Random services: false
 RESULTS
-    Created: 61
-    Completed: 59
+    Created: 4
+    Completed: 3
+    In flight: 1
+    Avg cycle (s): 55.5
+    Throughput (/h): 59.178082191780824
+
+ITERATION #1, REPLICATION #1
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 282
+    Completed: 282
+    In flight: 0
+    Avg cycle (s): 55.30126180372499
+    Throughput (/h): 56.4
+
+ITERATION #1, REPLICATION #2
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 306
+    Completed: 306
+    In flight: 0
+    Avg cycle (s): 55.61140128583662
+    Throughput (/h): 61.2
+
+ITERATION #1, REPLICATION #3
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 317
+    Completed: 313
+    In flight: 4
+    Avg cycle (s): 55.60786323951428
+    Throughput (/h): 62.6
+
+ITERATION #1, REPLICATION #4
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 311
+    Completed: 310
+    In flight: 1
+    Avg cycle (s): 55.66177152865739
+    Throughput (/h): 62.0
+
+ITERATION #1, REPLICATION #5
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 290
+    Completed: 288
     In flight: 2
-    Avg cycle (s): 78.0
+    Avg cycle (s): 55.627208576106774
+    Throughput (/h): 57.6
+
+ITERATION #1, REPLICATION #6
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 303
+    Completed: 302
+    In flight: 1
+    Avg cycle (s): 55.78523921196015
+    Throughput (/h): 60.4
+
+ITERATION #1, REPLICATION #7
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 307
+    Completed: 306
+    In flight: 1
+    Avg cycle (s): 55.72809091760343
+    Throughput (/h): 61.2
+
+ITERATION #1, REPLICATION #8
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 268
+    Completed: 265
+    In flight: 3
+    Avg cycle (s): 55.44984184545092
+    Throughput (/h): 53.0
+
+ITERATION #1, REPLICATION #9
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 316
+    Completed: 314
+    In flight: 2
+    Avg cycle (s): 55.53046987869039
+    Throughput (/h): 62.8
+
+ITERATION #1, REPLICATION #10
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 295
+    Completed: 295
+    In flight: 0
+    Avg cycle (s): 55.456482130912576
     Throughput (/h): 59.0
 
-ITERATION #2
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 30.0
-
-ITERATION #3
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 20.0
-
-ITERATION #4
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 15.0
-
-ITERATION #5
+ITERATION #1, REPLICATION #11
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.6
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 59
+    Created: 293
+    Completed: 292
+    In flight: 1
+    Avg cycle (s): 55.710021261974376
+    Throughput (/h): 58.4
+
+ITERATION #1, REPLICATION #12
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 300
+    Completed: 299
+    In flight: 1
+    Avg cycle (s): 55.5924952317698
+    Throughput (/h): 59.8
+
+ITERATION #1, REPLICATION #13
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 285
+    Completed: 284
+    In flight: 1
+    Avg cycle (s): 55.39737377377487
+    Throughput (/h): 56.8
+
+ITERATION #1, REPLICATION #14
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 290
+    Completed: 288
     In flight: 2
-    Avg cycle (s): 78.0
-    Throughput (/h): 59.0
+    Avg cycle (s): 55.66266108065207
+    Throughput (/h): 57.6
 
-ITERATION #6
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 30.0
-
-ITERATION #7
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 20.0
-
-ITERATION #8
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 15.0
-
-ITERATION #9
+ITERATION #1, REPLICATION #15
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.9
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 59
+    Created: 288
+    Completed: 287
+    In flight: 1
+    Avg cycle (s): 55.462406142539706
+    Throughput (/h): 57.4
+
+ITERATION #1, REPLICATION #16
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 299
+    Completed: 299
+    In flight: 0
+    Avg cycle (s): 55.65440759081015
+    Throughput (/h): 59.8
+
+ITERATION #1, REPLICATION #17
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 293
+    In flight: 1
+    Avg cycle (s): 55.410987956625874
+    Throughput (/h): 58.6
+
+ITERATION #1, REPLICATION #18
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 294
+    In flight: 0
+    Avg cycle (s): 55.660471474017804
+    Throughput (/h): 58.8
+
+ITERATION #1, REPLICATION #19
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 308
+    Completed: 308
+    In flight: 0
+    Avg cycle (s): 55.26212701648563
+    Throughput (/h): 61.6
+
+ITERATION #1, REPLICATION #20
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 301
+    Completed: 298
+    In flight: 3
+    Avg cycle (s): 55.4499137060366
+    Throughput (/h): 59.6
+
+ITERATION #1, REPLICATION #21
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 284
+    Completed: 281
+    In flight: 3
+    Avg cycle (s): 55.61171523566622
+    Throughput (/h): 56.2
+
+ITERATION #1, REPLICATION #22
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 309
+    Completed: 309
+    In flight: 0
+    Avg cycle (s): 55.400661595171925
+    Throughput (/h): 61.8
+
+ITERATION #1, REPLICATION #23
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 310
+    Completed: 310
+    In flight: 0
+    Avg cycle (s): 55.55568691109559
+    Throughput (/h): 62.0
+
+ITERATION #1, REPLICATION #24
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 276
+    Completed: 275
+    In flight: 1
+    Avg cycle (s): 55.485671627801224
+    Throughput (/h): 55.0
+
+ITERATION #1, REPLICATION #25
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 319
+    Completed: 318
+    In flight: 1
+    Avg cycle (s): 55.560870727397486
+    Throughput (/h): 63.6
+
+ITERATION #1, REPLICATION #26
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 307
+    Completed: 306
+    In flight: 1
+    Avg cycle (s): 55.461785502951805
+    Throughput (/h): 61.2
+
+ITERATION #1, REPLICATION #27
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 277
+    Completed: 276
+    In flight: 1
+    Avg cycle (s): 55.80072866122755
+    Throughput (/h): 55.2
+
+ITERATION #1, REPLICATION #28
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 263
+    Completed: 262
+    In flight: 1
+    Avg cycle (s): 55.52142463755153
+    Throughput (/h): 52.4
+
+ITERATION #1, REPLICATION #29
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 322
+    Completed: 322
+    In flight: 0
+    Avg cycle (s): 55.68023547555031
+    Throughput (/h): 64.4
+
+ITERATION #1, REPLICATION #30
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 294
+    In flight: 0
+    Avg cycle (s): 55.536142960361886
+    Throughput (/h): 58.8
+
+ITERATION #1, REPLICATION #31
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 286
+    Completed: 286
+    In flight: 0
+    Avg cycle (s): 55.629945140439794
+    Throughput (/h): 57.2
+
+ITERATION #1, REPLICATION #32
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 279
+    Completed: 279
+    In flight: 0
+    Avg cycle (s): 55.75430819644041
+    Throughput (/h): 55.8
+
+ITERATION #1, REPLICATION #33
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 318
+    Completed: 318
+    In flight: 0
+    Avg cycle (s): 55.67267151735173
+    Throughput (/h): 63.6
+
+ITERATION #1, REPLICATION #34
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 291
+    Completed: 289
     In flight: 2
-    Avg cycle (s): 78.0
-    Throughput (/h): 59.0
+    Avg cycle (s): 55.74456009572231
+    Throughput (/h): 57.8
 
-ITERATION #10
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 30.0
-
-ITERATION #11
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 20.0
-
-ITERATION #12
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 15.0
-
-ITERATION #13
+ITERATION #1, REPLICATION #35
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 1.2
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 59
+    Created: 310
+    Completed: 307
+    In flight: 3
+    Avg cycle (s): 55.65591435656943
+    Throughput (/h): 61.4
+
+ITERATION #1, REPLICATION #36
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 302
+    Completed: 299
+    In flight: 3
+    Avg cycle (s): 55.531694012364355
+    Throughput (/h): 59.8
+
+ITERATION #1, REPLICATION #37
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 289
+    Completed: 287
     In flight: 2
-    Avg cycle (s): 78.0
-    Throughput (/h): 59.0
+    Avg cycle (s): 55.252484020632366
+    Throughput (/h): 57.4
 
-ITERATION #14
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 30.0
-
-ITERATION #15
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 20.0
-
-ITERATION #16
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 0.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 78.0
-    Throughput (/h): 15.0
-
-ITERATION #17
+ITERATION #1, REPLICATION #38
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
     Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 60.0
+    Created: 294
+    Completed: 294
+    In flight: 0
+    Avg cycle (s): 55.6422340166174
+    Throughput (/h): 58.8
 
-ITERATION #18
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 30.0
-
-ITERATION #19
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 20.0
-
-ITERATION #20
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 15.0
-
-ITERATION #21
+ITERATION #1, REPLICATION #39
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 60.0
-
-ITERATION #22
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 30.0
-
-ITERATION #23
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 20.0
-
-ITERATION #24
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 15.0
-
-ITERATION #25
-PARAMETERS
-    Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 60.0
-
-ITERATION #26
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 30.0
-
-ITERATION #27
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 20.0
-
-ITERATION #28
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 15.0
-
-ITERATION #29
-PARAMETERS
-    Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 60.0
-
-ITERATION #30
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 30.0
-
-ITERATION #31
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 20.0
-
-ITERATION #32
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.0
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 48.0
-    Throughput (/h): 15.0
-
-ITERATION #33
-PARAMETERS
-    Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.5
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
     Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 60
+    Created: 302
+    Completed: 301
     In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 60.0
+    Avg cycle (s): 55.365954289990285
+    Throughput (/h): 60.2
 
-ITERATION #34
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 30.0
-
-ITERATION #35
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 20.0
-
-ITERATION #36
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 15.0
-
-ITERATION #37
+ITERATION #1, REPLICATION #40
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 60.0
-
-ITERATION #38
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 30.0
-
-ITERATION #39
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 20.0
-
-ITERATION #40
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 15.0
-
-ITERATION #41
-PARAMETERS
-    Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 60.0
-
-ITERATION #42
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 30.0
-
-ITERATION #43
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 20.0
-
-ITERATION #44
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 15.0
-
-ITERATION #45
-PARAMETERS
-    Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 60.0
-
-ITERATION #46
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 30.0
-
-ITERATION #47
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 20.0
-
-ITERATION #48
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 1.5
-    Conveyor Gap (m): 1.2
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 38.0
-    Throughput (/h): 15.0
-
-ITERATION #49
-PARAMETERS
-    Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 2.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
     Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 60.0
+    Created: 299
+    Completed: 299
+    In flight: 0
+    Avg cycle (s): 55.41929815030071
+    Throughput (/h): 59.8
 
-ITERATION #50
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 30.0
-
-ITERATION #51
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 20.0
-
-ITERATION #52
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.3
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 15.0
-
-ITERATION #53
+ITERATION #1, REPLICATION #41
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.6
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 60.0
+    Created: 304
+    Completed: 304
+    In flight: 0
+    Avg cycle (s): 55.47365108769768
+    Throughput (/h): 60.8
 
-ITERATION #54
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 30.0
-
-ITERATION #55
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 20.0
-
-ITERATION #56
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.6
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 15.0
-
-ITERATION #57
+ITERATION #1, REPLICATION #42
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.9
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 60
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 60.0
+    Created: 289
+    Completed: 289
+    In flight: 0
+    Avg cycle (s): 55.54211651772711
+    Throughput (/h): 57.8
 
-ITERATION #58
-PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 30.0
-
-ITERATION #59
-PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 20.0
-
-ITERATION #60
-PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 0.9
-RESULTS
-    Created: 16
-    Completed: 15
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 15.0
-
-ITERATION #61
+ITERATION #1, REPLICATION #43
 PARAMETERS
     Arrival rate (s): 60.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 1.2
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 61
-    Completed: 60
+    Created: 310
+    Completed: 310
+    In flight: 0
+    Avg cycle (s): 55.48932716598499
+    Throughput (/h): 62.0
+
+ITERATION #1, REPLICATION #44
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 312
+    Completed: 310
+    In flight: 2
+    Avg cycle (s): 55.39403471328268
+    Throughput (/h): 62.0
+
+ITERATION #1, REPLICATION #45
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 326
+    Completed: 325
     In flight: 1
-    Avg cycle (s): 33.0
+    Avg cycle (s): 55.6076907711701
+    Throughput (/h): 65.0
+
+ITERATION #1, REPLICATION #46
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 293
+    In flight: 1
+    Avg cycle (s): 55.552256405711184
+    Throughput (/h): 58.6
+
+ITERATION #1, REPLICATION #47
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 299
+    Completed: 296
+    In flight: 3
+    Avg cycle (s): 55.41508684401643
+    Throughput (/h): 59.2
+
+ITERATION #1, REPLICATION #48
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 313
+    Completed: 312
+    In flight: 1
+    Avg cycle (s): 55.6263208612651
+    Throughput (/h): 62.4
+
+ITERATION #1, REPLICATION #49
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 301
+    Completed: 297
+    In flight: 4
+    Avg cycle (s): 55.49194706836333
+    Throughput (/h): 59.4
+
+ITERATION #1, REPLICATION #50
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 313
+    Completed: 310
+    In flight: 3
+    Avg cycle (s): 55.18581224297045
+    Throughput (/h): 62.0
+
+ITERATION #1, REPLICATION #51
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 293
+    Completed: 292
+    In flight: 1
+    Avg cycle (s): 55.72199303873149
+    Throughput (/h): 58.4
+
+ITERATION #1, REPLICATION #52
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 307
+    Completed: 305
+    In flight: 2
+    Avg cycle (s): 55.327875131498544
+    Throughput (/h): 61.0
+
+ITERATION #1, REPLICATION #53
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 332
+    Completed: 332
+    In flight: 0
+    Avg cycle (s): 55.677576160889956
+    Throughput (/h): 66.4
+
+ITERATION #1, REPLICATION #54
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 324
+    Completed: 323
+    In flight: 1
+    Avg cycle (s): 55.47944843283923
+    Throughput (/h): 64.6
+
+ITERATION #1, REPLICATION #55
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 315
+    Completed: 315
+    In flight: 0
+    Avg cycle (s): 55.502867886770964
+    Throughput (/h): 63.0
+
+ITERATION #1, REPLICATION #56
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 292
+    Completed: 291
+    In flight: 1
+    Avg cycle (s): 55.55573780801517
+    Throughput (/h): 58.2
+
+ITERATION #1, REPLICATION #57
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 293
+    In flight: 1
+    Avg cycle (s): 55.45096943374344
+    Throughput (/h): 58.6
+
+ITERATION #1, REPLICATION #58
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 277
+    Completed: 277
+    In flight: 0
+    Avg cycle (s): 55.229154709721435
+    Throughput (/h): 55.4
+
+ITERATION #1, REPLICATION #59
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 260
+    Completed: 259
+    In flight: 1
+    Avg cycle (s): 55.44904079980753
+    Throughput (/h): 51.8
+
+ITERATION #1, REPLICATION #60
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 313
+    Completed: 312
+    In flight: 1
+    Avg cycle (s): 55.45896593166091
+    Throughput (/h): 62.4
+
+ITERATION #1, REPLICATION #61
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 281
+    Completed: 281
+    In flight: 0
+    Avg cycle (s): 55.716727283713
+    Throughput (/h): 56.2
+
+ITERATION #1, REPLICATION #62
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 318
+    Completed: 317
+    In flight: 1
+    Avg cycle (s): 55.5460055212688
+    Throughput (/h): 63.4
+
+ITERATION #1, REPLICATION #63
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 299
+    Completed: 298
+    In flight: 1
+    Avg cycle (s): 55.47819794757627
+    Throughput (/h): 59.6
+
+ITERATION #1, REPLICATION #64
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 264
+    Completed: 264
+    In flight: 0
+    Avg cycle (s): 55.36505613502831
+    Throughput (/h): 52.8
+
+ITERATION #1, REPLICATION #65
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 301
+    Completed: 300
+    In flight: 1
+    Avg cycle (s): 55.51246266709802
     Throughput (/h): 60.0
 
-ITERATION #62
+ITERATION #1, REPLICATION #66
 PARAMETERS
-    Arrival rate (s): 120.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 1.2
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 31
-    Completed: 30
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 30.0
+    Created: 319
+    Completed: 319
+    In flight: 0
+    Avg cycle (s): 55.5395217748137
+    Throughput (/h): 63.8
 
-ITERATION #63
+ITERATION #1, REPLICATION #67
 PARAMETERS
-    Arrival rate (s): 180.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 1.2
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 21
-    Completed: 20
-    In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 20.0
+    Created: 284
+    Completed: 284
+    In flight: 0
+    Avg cycle (s): 55.45579521872273
+    Throughput (/h): 56.8
 
-ITERATION #64
+ITERATION #1, REPLICATION #68
 PARAMETERS
-    Arrival rate (s): 240.0
-    Conveyor Speed (m/s): 2.0
-    Conveyor Gap (m): 1.2
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
 RESULTS
-    Created: 16
-    Completed: 15
+    Created: 309
+    Completed: 306
+    In flight: 3
+    Avg cycle (s): 55.611603705183086
+    Throughput (/h): 61.2
+
+ITERATION #1, REPLICATION #69
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 300
+    Completed: 299
     In flight: 1
-    Avg cycle (s): 33.0
-    Throughput (/h): 15.0
+    Avg cycle (s): 55.35918561841013
+    Throughput (/h): 59.8
+
+ITERATION #1, REPLICATION #70
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 294
+    In flight: 0
+    Avg cycle (s): 55.69807933273773
+    Throughput (/h): 58.8
+
+ITERATION #1, REPLICATION #71
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 287
+    Completed: 287
+    In flight: 0
+    Avg cycle (s): 55.519143193940614
+    Throughput (/h): 57.4
+
+ITERATION #1, REPLICATION #72
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 278
+    Completed: 275
+    In flight: 3
+    Avg cycle (s): 55.273885382927276
+    Throughput (/h): 55.0
+
+ITERATION #1, REPLICATION #73
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 290
+    Completed: 289
+    In flight: 1
+    Avg cycle (s): 55.6188840738219
+    Throughput (/h): 57.8
+
+ITERATION #1, REPLICATION #74
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 305
+    Completed: 305
+    In flight: 0
+    Avg cycle (s): 55.655255069868836
+    Throughput (/h): 61.0
+
+ITERATION #1, REPLICATION #75
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 299
+    Completed: 299
+    In flight: 0
+    Avg cycle (s): 55.53764341465608
+    Throughput (/h): 59.8
+
+ITERATION #1, REPLICATION #76
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 314
+    Completed: 314
+    In flight: 0
+    Avg cycle (s): 55.62993858828444
+    Throughput (/h): 62.8
+
+ITERATION #1, REPLICATION #77
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 284
+    Completed: 284
+    In flight: 0
+    Avg cycle (s): 55.58695583164156
+    Throughput (/h): 56.8
+
+ITERATION #1, REPLICATION #78
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 332
+    Completed: 331
+    In flight: 1
+    Avg cycle (s): 55.49882454552747
+    Throughput (/h): 66.2
+
+ITERATION #1, REPLICATION #79
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 305
+    Completed: 305
+    In flight: 0
+    Avg cycle (s): 55.40032169738381
+    Throughput (/h): 61.0
+
+ITERATION #1, REPLICATION #80
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 344
+    Completed: 343
+    In flight: 1
+    Avg cycle (s): 55.466746067414405
+    Throughput (/h): 68.6
+
+ITERATION #1, REPLICATION #81
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 273
+    Completed: 272
+    In flight: 1
+    Avg cycle (s): 55.66981196844658
+    Throughput (/h): 54.4
+
+ITERATION #1, REPLICATION #82
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 280
+    Completed: 279
+    In flight: 1
+    Avg cycle (s): 55.569572193541255
+    Throughput (/h): 55.8
+
+ITERATION #1, REPLICATION #83
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 293
+    Completed: 292
+    In flight: 1
+    Avg cycle (s): 55.470447715523875
+    Throughput (/h): 58.4
+
+ITERATION #1, REPLICATION #84
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 308
+    Completed: 308
+    In flight: 0
+    Avg cycle (s): 55.57650134206128
+    Throughput (/h): 61.6
+
+ITERATION #1, REPLICATION #85
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 302
+    Completed: 301
+    In flight: 1
+    Avg cycle (s): 55.5317676843134
+    Throughput (/h): 60.2
+
+ITERATION #1, REPLICATION #86
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 309
+    Completed: 308
+    In flight: 1
+    Avg cycle (s): 55.51477063823711
+    Throughput (/h): 61.6
+
+ITERATION #1, REPLICATION #87
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 269
+    Completed: 267
+    In flight: 2
+    Avg cycle (s): 55.523996561279354
+    Throughput (/h): 53.4
+
+ITERATION #1, REPLICATION #88
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 293
+    Completed: 289
+    In flight: 4
+    Avg cycle (s): 55.55366444847109
+    Throughput (/h): 57.8
+
+ITERATION #1, REPLICATION #89
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 310
+    Completed: 309
+    In flight: 1
+    Avg cycle (s): 55.535441991817606
+    Throughput (/h): 61.8
+
+ITERATION #1, REPLICATION #90
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 269
+    Completed: 268
+    In flight: 1
+    Avg cycle (s): 55.411478424784356
+    Throughput (/h): 53.6
+
+ITERATION #1, REPLICATION #91
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 324
+    Completed: 324
+    In flight: 0
+    Avg cycle (s): 55.534689275123924
+    Throughput (/h): 64.8
+
+ITERATION #1, REPLICATION #92
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 301
+    Completed: 299
+    In flight: 2
+    Avg cycle (s): 55.67236783310092
+    Throughput (/h): 59.8
+
+ITERATION #1, REPLICATION #93
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 312
+    Completed: 312
+    In flight: 0
+    Avg cycle (s): 55.44832387227181
+    Throughput (/h): 62.4
+
+ITERATION #1, REPLICATION #94
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 317
+    Completed: 317
+    In flight: 0
+    Avg cycle (s): 55.382515110654225
+    Throughput (/h): 63.4
+
+ITERATION #1, REPLICATION #95
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 308
+    Completed: 307
+    In flight: 1
+    Avg cycle (s): 55.345639189455724
+    Throughput (/h): 61.4
+
+ITERATION #1, REPLICATION #96
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 294
+    Completed: 294
+    In flight: 0
+    Avg cycle (s): 55.55208921118385
+    Throughput (/h): 58.8
+
+ITERATION #1, REPLICATION #97
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 270
+    Completed: 268
+    In flight: 2
+    Avg cycle (s): 55.46373437952063
+    Throughput (/h): 53.6
+
+ITERATION #1, REPLICATION #98
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 297
+    Completed: 296
+    In flight: 1
+    Avg cycle (s): 55.535489538470685
+    Throughput (/h): 59.2
+
+ITERATION #1, REPLICATION #99
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 292
+    Completed: 291
+    In flight: 1
+    Avg cycle (s): 55.40410207254283
+    Throughput (/h): 58.2
+
+ITERATION #1, REPLICATION #100
+PARAMETERS
+    Arrival rate (s): 60.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 328
+    Completed: 326
+    In flight: 2
+    Avg cycle (s): 55.640492733678286
+    Throughput (/h): 65.2

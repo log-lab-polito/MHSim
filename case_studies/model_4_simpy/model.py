@@ -4,6 +4,7 @@ import csv
 from dataclasses import dataclass, field
 import math
 from pathlib import Path
+from random import Random
 from typing import Callable, Optional
 
 import simpy
@@ -11,6 +12,11 @@ import simpy
 from mhsim.blocks import ServiceBlock, Sink
 from mhsim.conveyor import Conveyor, ConveyorSpur
 from mhsim.pallet import Pallet
+from mhsim.random_variables import (
+    DurationValue,
+    make_duration_sampler,
+    sample_duration_s,
+)
 from mhsim.stats import SimulationStats
 
 from .params import Model4Params
@@ -74,14 +80,14 @@ def _trace_detail_values(details: TraceDetails | None) -> dict[str, object]:
     return values
 
 
-class DeterministicSource:
-    """Minimal deterministic source used for multi-line test models."""
+class TimedSource:
+    """Minimal source used for multi-line test models."""
 
     def __init__(
         self,
         env: simpy.Environment,
         stats: SimulationStats,
-        arrival_interval_s: float,
+        interarrival_time_s: DurationValue,
         first_block,
         pallet_id_supplier: Callable[[], int],
         origin: str,
@@ -90,7 +96,7 @@ class DeterministicSource:
     ):
         self.env = env
         self.stats = stats
-        self.arrival_interval_s = arrival_interval_s
+        self.interarrival_time_s = interarrival_time_s
         self.first_block = first_block
         self.pallet_id_supplier = pallet_id_supplier
         self.origin = origin
@@ -104,9 +110,12 @@ class DeterministicSource:
             self._proc = self.env.process(self._run())
 
     def _next_interarrival(self) -> float:
-        if self.arrival_interval_s <= 0:
+        if not callable(self.interarrival_time_s) and self.interarrival_time_s <= 0:
             return float("inf")
-        return self.arrival_interval_s
+        return sample_duration_s(
+            self.interarrival_time_s,
+            name=f"{self.name}.interarrival_time_s",
+        )
 
     def _emit_one(self) -> None:
         self.stats.record_created(1)
@@ -157,7 +166,7 @@ class TraceableServiceBlock(ServiceBlock):
     def __init__(
         self,
         env: simpy.Environment,
-        service_time_s: float,
+        service_time_s: DurationValue,
         next_block,
         *,
         event_prefix: str,
@@ -194,7 +203,7 @@ class TraceableServiceBlock(ServiceBlock):
         with self.resource.request() as req:
             yield req
             self._trace("delay_enter", pallet)
-            yield self.env.timeout(self.service_time_s)
+            yield self.env.timeout(self.sample_service_time_s())
         self.finished_count += 1
         self._trace("at_exit", pallet)
         if self.next_block:
@@ -559,6 +568,7 @@ class Model4SimModel:
 
     def __post_init__(self):
         self.env = simpy.Environment()
+        self.rng = Random(self.params.random_seed)
         self.stats = SimulationStats()
         self._pallet_counter = 0
 
@@ -579,7 +589,10 @@ class Model4SimModel:
         )
         self.downstream_service = TraceableServiceBlock(
             self.env,
-            service_time_s=self.params.downstream_service_time_s,
+            service_time_s=self._service_time(
+                self.params.downstream_service_time_s,
+                "downstreamService",
+            ),
             next_block=self.sink,
             event_prefix="downstream_service",
             name="downstreamService",
@@ -595,7 +608,10 @@ class Model4SimModel:
         )
         self.main_service = TraceableServiceBlock(
             self.env,
-            service_time_s=self.params.main_service_time_s,
+            service_time_s=self._service_time(
+                self.params.main_service_time_s,
+                "mainService",
+            ),
             next_block=self.main_convey,
             event_prefix="main_service",
             name="mainService",
@@ -612,7 +628,10 @@ class Model4SimModel:
         )
         self.branch_service = TraceableServiceBlock(
             self.env,
-            service_time_s=self.params.branch_service_time_s,
+            service_time_s=self._service_time(
+                self.params.branch_service_time_s,
+                "branchService",
+            ),
             next_block=self.branch_convey,
             event_prefix="branch_service",
             name="branchService",
@@ -620,25 +639,52 @@ class Model4SimModel:
         )
         self.branch_service1 = self.branch_service
 
-        self.main_source = DeterministicSource(
+        self.main_source = TimedSource(
             self.env,
             stats=self.stats,
-            arrival_interval_s=self.params.main_arrival_time_s,
+            interarrival_time_s=self._arrival_time(
+                self.params.main_arrival_time_s,
+                "main_source",
+            ),
             first_block=self.main_service,
             pallet_id_supplier=self._next_pallet_id,
             origin="main",
             name="main_source",
             trace_callback=trace_callback,
         )
-        self.branch_source = DeterministicSource(
+        self.branch_source = TimedSource(
             self.env,
             stats=self.stats,
-            arrival_interval_s=self.params.branch_arrival_time_s,
+            interarrival_time_s=self._arrival_time(
+                self.params.branch_arrival_time_s,
+                "branch_source",
+            ),
             first_block=self.branch_service,
             pallet_id_supplier=self._next_pallet_id,
             origin="branch",
             name="branch_source",
             trace_callback=trace_callback,
+        )
+
+    def _service_time(self, mean_s: float, name: str) -> DurationValue:
+        if not self.params.random_service_times:
+            return mean_s
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.service_time_distribution,
+            triangular_spread=self.params.service_time_triangular_spread,
+            name=f"{name}.service_time_s",
+        )
+
+    def _arrival_time(self, mean_s: float, name: str) -> DurationValue:
+        if not self.params.random_arrival_times:
+            return mean_s
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.arrival_time_distribution,
+            name=f"{name}.interarrival_time_s",
         )
 
     def _next_pallet_id(self) -> int:

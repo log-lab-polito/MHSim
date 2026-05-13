@@ -14,6 +14,7 @@ from mhsim.blocks import (
     Sink,
     Source,
 )
+from mhsim.random_variables import DurationValue, make_duration_sampler
 from mhsim.stats import SimulationStats
 
 from .params import Model3Params
@@ -35,7 +36,7 @@ class Model3SimModel:
         self.sink = Sink(self.env, self.stats, name="sink")
         self.service2 = ServiceBlock(
             self.env,
-            service_time_s=self.params.service2_time_s,
+            service_time_s=self._service_time(self.params.service2_time_s, "service2"),
             next_block=self.sink,
             name="service2",
         )
@@ -59,7 +60,7 @@ class Model3SimModel:
         )
         self.service1 = ServiceBlock(
             self.env,
-            service_time_s=self.params.service1_time_s,
+            service_time_s=self._service_time(self.params.service1_time_s, "service1"),
             next_block=self.conveyor_enter,
             name="service1",
         )
@@ -70,6 +71,28 @@ class Model3SimModel:
             rng=self.rng,
             first_block=self.service1,
             name="source",
+            interarrival_time_s=self._interarrival_time(),
+        )
+
+    def _service_time(self, mean_s: float, name: str) -> DurationValue:
+        if not self.params.random_service_times:
+            return mean_s
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.service_time_distribution,
+            triangular_spread=self.params.service_time_triangular_spread,
+            name=f"{name}.service_time_s",
+        )
+
+    def _interarrival_time(self) -> DurationValue | None:
+        if not self.params.random_arrival_times:
+            return None
+        return make_duration_sampler(
+            self.params.arrival_rate_s,
+            rng=self.rng,
+            distribution=self.params.arrival_time_distribution,
+            name="source.interarrival_time_s",
         )
 
     def run(self, until: Optional[float] = None) -> SimulationStats:

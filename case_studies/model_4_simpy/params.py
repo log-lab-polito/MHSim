@@ -19,6 +19,14 @@ class Model4Params(SimulationParams):
     branch_service_time_s: float = 4.0
     downstream_service_time_s: float = 5.0
 
+    # Stochastic timing. Deterministic mode remains the default because Model 4
+    # still has deterministic trace/parity tooling that should remain stable.
+    random_arrival_times: bool = False
+    random_service_times: bool = False
+    arrival_time_distribution: str = "exponential"
+    service_time_distribution: str = "triangular"
+    service_time_triangular_spread: float = 0.5
+
     # Shared conveyor settings from AnyLogic Model 4
     conveyor_speed_mps: float = 0.8
     conveyor_gap_m: float = 0.3

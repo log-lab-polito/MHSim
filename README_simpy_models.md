@@ -368,6 +368,31 @@ conveyor_min_gap_m   0.3, 0.6, 0.9, 1.2
 stop time            3600 s
 ```
 
+Run stochastic replications with exponential interarrival times and triangular
+service times:
+
+```bash
+python -m case_studies.model_3_simpy.run_stochastic_replications \
+  --replications 100 \
+  --run-until 18000
+```
+
+This writes:
+
+```text
+logs/model_3_stochastic_replications_runs.csv
+logs/model_3_stochastic_replications_summary.csv
+```
+
+Compare stochastic AnyLogic and SimPy replication samples:
+
+```bash
+python -m case_studies.model_3_simpy.compare_stochastic_replications \
+  --anylogic "anylogic/Model 3/log_file.txt" \
+  --simpy-runs logs/model_3_stochastic_replications_runs.csv \
+  --output-csv logs/model_3_stochastic_comparison.csv
+```
+
 Compare AnyLogic vs SimPy parameter-variation range outputs:
 
 ```bash
@@ -485,6 +510,31 @@ branch_arrival_time_s  15, 30, 45, 60
 conveyor_speed_mps     0.5, 1.0
 conveyor_gap_m         0.3, 0.6
 stop time              3600 s
+```
+
+Run stochastic replications with exponential interarrival times and triangular
+service times:
+
+```bash
+python -m case_studies.model_4_simpy.run_stochastic_replications \
+  --replications 100 \
+  --run-until 18000
+```
+
+This writes:
+
+```text
+logs/model_4_stochastic_replications_runs.csv
+logs/model_4_stochastic_replications_summary.csv
+```
+
+Compare stochastic AnyLogic and SimPy replication samples:
+
+```bash
+python -m case_studies.model_4_simpy.compare_stochastic_replications \
+  --anylogic "anylogic/Model 4/log_file.txt" \
+  --simpy-runs logs/model_4_stochastic_replications_runs.csv \
+  --output-csv logs/model_4_stochastic_comparison.csv
 ```
 
 Validate the SimPy run and summary CSVs:
