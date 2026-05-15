@@ -29,7 +29,7 @@ class Model4RangeValues:
 RANGE_VALUES: dict[str, tuple[Any, ...]] = {
     "main_arrival_time_s": (15.0, 30.0, 45.0, 60.0),
     "conveyor_speed_mps": (0.5, 1.0),
-    "conveyor_gap_m": (0.3, 0.6),
+    "conveyor_gap_m": (0.6, 1.2),
     "branch_arrival_time_s": (15.0, 30.0, 45.0, 60.0),
 }
 

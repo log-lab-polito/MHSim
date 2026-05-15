@@ -62,7 +62,9 @@ def parse_anylogic_trace(
             stripped = line.strip()
 
             if stripped.startswith("ITERATION #"):
-                current_iteration = int(stripped.removeprefix("ITERATION #"))
+                # Handle both "ITERATION #N" and "ITERATION #N, REPLICATION #M"
+                iteration_token = stripped.removeprefix("ITERATION #").split(",")[0]
+                current_iteration = int(iteration_token)
                 current_params = {}
                 continue
 

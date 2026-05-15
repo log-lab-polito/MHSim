@@ -336,7 +336,7 @@ log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.3]]></Code>
+							<Code><![CDATA[0.6]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1777916883350</Id>
@@ -3339,7 +3339,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Parameter>
 					<ParameterName><![CDATA[conveyor_gap_m]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[0.3]]></Code>
+						<Code><![CDATA[0.6]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -3473,20 +3473,20 @@ if (trace_enabled && iteration == trace_iteration) {
 					<Code><![CDATA[0.5]]></Code>
 				</Step>
 			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
+			<RangeVariationParamValue>
 				<Id>1777916883352</Id>
 				<Type>RANGE</Type>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[0.3]]></Code>
+					<Code><![CDATA[0.6]]></Code>
 				</Expression>
 				<From Class="CodeValue">
-					<Code><![CDATA[0.3]]></Code>
+					<Code><![CDATA[0.6]]></Code>
 				</From>
 				<To Class="CodeValue">
-					<Code><![CDATA[.6]]></Code>
+					<Code><![CDATA[1.2]]></Code>
 				</To>
 				<Step Class="CodeValue">
-					<Code><![CDATA[0.3]]></Code>
+					<Code><![CDATA[0.6]]></Code>
 				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	

@@ -71,7 +71,7 @@ def parse_anylogic_summary_log(
     metric_fields: Sequence[str],
     optional_metric_fields: Sequence[str] = (),
 ) -> list[RangeRow]:
-    iteration_re = re.compile(r"^ITERATION #(\d+)\s*$")
+    iteration_re = re.compile(r"^ITERATION #(\d+)(?:,\s*REPLICATION #\d+)?\s*$")
     key_value_re = re.compile(r"^\s*([^:]+):\s*(.+?)\s*$")
     rows: list[RangeRow] = []
     current_iteration: int | None = None

@@ -29,7 +29,7 @@ class Model4Params(SimulationParams):
 
     # Shared conveyor settings from AnyLogic Model 4
     conveyor_speed_mps: float = 0.8
-    conveyor_gap_m: float = 0.3
+    conveyor_gap_m: float = 0.6
     conveyor_item_length_m: float = 1.2
 
     # Main conveyor
