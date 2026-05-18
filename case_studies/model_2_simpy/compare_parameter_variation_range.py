@@ -2,46 +2,49 @@
 """
 Compare AnyLogic and SimPy outputs for Model 2 parameter-variation range runs.
 
-This comparison focuses on the summary metrics, like the Model 2 range audit.
-For per-phase forklift timing details on one or more matching iterations, use
-`case_studies.model_2_simpy.compare_benchmark_results` against the same
-AnyLogic text export.
+This comparison focuses on summary metrics and phase-level forklift movement
+benchmarks. Model 2 now uses the shared range comparison/report renderer also
+used by Model 1, including report and HTML output support.
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
-import math
-import sys
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
-if __package__ in {None, ""}:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from mhsim.range_comparison import (
+    RangeComparisonSpec,
+    RangeRow,
+    build_comparison_context as _build_comparison_context,
+    load_simpy_run_rows as _load_simpy_run_rows,
+    load_simpy_summary_rows as _load_simpy_summary_rows,
+    print_comparison_report,
+    render_comparison_report_text as _render_comparison_report_text,
+    render_html_report,
+)
 
 from case_studies.model_2_simpy.compare_benchmark_results import (
     BENCHMARK_STAT_FIELDS,
-    BenchmarkStats,
     MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
     parse_anylogic_benchmark_output,
 )
 
 
-METRICS = [
+METRICS = (
     ("created", "Created"),
     ("completed", "Completed"),
     ("in_flight", "In flight"),
     ("avg_time_in_system_s", "Avg cycle (s)"),
     ("storage_level", "Storage level"),
     ("throughput_per_hour", "Throughput (/h)"),
-]
-OPTIONAL_METRICS = [
+)
+OPTIONAL_METRICS = (
     ("forklift_utilization", "Forklifts Utilization (%)"),
-]
-BENCHMARK_METRIC_PREFIX = "benchmark_"
-BENCHMARK_STAT_LABELS = {field_name: label for field_name, label in BENCHMARK_STAT_FIELDS}
+    # AnyLogic's Model 2 range export does not include enough per-phase counts
+    # to derive this safely. SimPy still writes it so run CSVs expose the same
+    # return-home diagnostic that Model 1 uses.
+    ("return_home_busy_s", "Return-home busy (s)"),
+)
 BENCHMARK_STAT_DISPLAY_LABELS = {
     "average": "avg",
     "minimum": "min",
@@ -51,870 +54,101 @@ BENCHMARK_STAT_DISPLAY_LABELS = {
 BENCHMARK_AVG_ONLY = "benchmark_avg_only"
 
 
-@dataclass(frozen=True)
-class AnyLogicRangeRow:
-    iteration: int
-    arrival_rate_s: float
-    forklift_capacity: int
-    delay_time_s: float
-    created: int
-    completed: int
-    in_flight: int
-    avg_time_in_system_s: float
-    storage_level: int
-    throughput_per_hour: float
-    forklift_utilization: float | None
-    benchmarks: dict[str, BenchmarkStats]
-
-    @property
-    def match_key(self) -> tuple[float, int, float]:
-        return (self.arrival_rate_s, self.forklift_capacity, self.delay_time_s)
-
-
-@dataclass(frozen=True)
-class SimPyRangeSummaryRow:
-    iteration: int
-    replications: int
-    arrival_rate_per_min: float
-    arrival_rate_s: float
-    forklift_capacity: int
-    delay_time_s: float
-    created: int
-    completed: int
-    in_flight: int
-    avg_time_in_system_s: float
-    storage_level: int
-    throughput_per_hour: float
-    forklift_utilization: float | None
-    benchmarks: dict[str, BenchmarkStats]
-
-    @property
-    def match_key(self) -> tuple[float, int, float]:
-        return (self.arrival_rate_s, self.forklift_capacity, self.delay_time_s)
+MODEL2_RANGE_SPEC = RangeComparisonSpec(
+    model_label="Model 2",
+    parameter_fields=(
+        "arrival_rate_s",
+        "n_forklifts",
+        "delay_time_s",
+    ),
+    parameter_labels={
+        "arrival_rate_s": "Arrival rate (s)",
+        "n_forklifts": "Forklift capacity",
+        "delay_time_s": "Delay time (s)",
+    },
+    parameter_short_labels={
+        "arrival_rate_s": "a",
+        "n_forklifts": "f",
+        "delay_time_s": "d",
+    },
+    metrics=METRICS,
+    optional_metrics=OPTIONAL_METRICS,
+    benchmark_metric_labels=MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    benchmark_stat_fields=tuple(BENCHMARK_STAT_FIELDS),
+    benchmark_stat_display_labels=BENCHMARK_STAT_DISPLAY_LABELS,
+    benchmark_avg_only_name=BENCHMARK_AVG_ONLY,
+    header_note="Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval",
+)
 
 
-@dataclass(frozen=True)
-class SimPyRangeRunRow:
-    iteration: int
-    replication: int
-    arrival_rate_per_min: float
-    arrival_rate_s: float
-    forklift_capacity: int
-    delay_time_s: float
-    created: int
-    completed: int
-    in_flight: int
-    avg_time_in_system_s: float
-    storage_level: int
-    throughput_per_hour: float
-    forklift_utilization: float | None
-    benchmarks: dict[str, BenchmarkStats]
-
-
-@dataclass(frozen=True)
-class ComparisonContext:
-    validation_issues: list[str]
-    anylogic_by_key: dict[tuple[float, int, float], AnyLogicRangeRow]
-    simpy_by_key: dict[tuple[float, int, float], SimPyRangeSummaryRow]
-    common_keys: list[tuple[float, int, float]]
-    anylogic_only: list[tuple[float, int, float]]
-    simpy_only: list[tuple[float, int, float]]
-
-
-def parse_anylogic_range_output(path: str | Path) -> list[AnyLogicRangeRow]:
-    return [
-        AnyLogicRangeRow(
-            iteration=row.iteration,
-            arrival_rate_s=row.arrival_rate_s,
-            forklift_capacity=row.forklift_capacity,
-            delay_time_s=row.delay_time_s,
-            created=row.created,
-            completed=row.completed,
-            in_flight=row.in_flight,
-            avg_time_in_system_s=row.avg_time_in_system_s,
-            storage_level=row.storage_level,
-            throughput_per_hour=row.throughput_per_hour,
-            forklift_utilization=row.forklift_utilization,
-            benchmarks=row.benchmarks,
+def parse_anylogic_range_output(path: str | Path) -> list[RangeRow]:
+    rows: list[RangeRow] = []
+    for row in parse_anylogic_benchmark_output(path):
+        rows.append(
+            RangeRow(
+                iteration=row.iteration,
+                params={
+                    "arrival_rate_s": row.arrival_rate_s,
+                    "n_forklifts": row.forklift_capacity,
+                    "delay_time_s": row.delay_time_s,
+                },
+                metrics={
+                    "created": row.created,
+                    "completed": row.completed,
+                    "in_flight": row.in_flight,
+                    "avg_time_in_system_s": row.avg_time_in_system_s,
+                    "storage_level": row.storage_level,
+                    "throughput_per_hour": row.throughput_per_hour,
+                    "forklift_utilization": row.forklift_utilization,
+                },
+                benchmarks=row.benchmarks,
+            )
         )
-        for row in parse_anylogic_benchmark_output(path)
-    ]
-
-
-def load_simpy_summary_rows(path: str | Path) -> list[SimPyRangeSummaryRow]:
-    rows: list[SimPyRangeSummaryRow] = []
-    with Path(path).open(newline="") as handle:
-        reader = csv.DictReader(handle)
-        for record in reader:
-            arrival_rate_per_min = _float_field(record, "param_arrival_rate_per_min")
-            rows.append(
-                SimPyRangeSummaryRow(
-                    iteration=_int_field(record, "iteration"),
-                    replications=_int_field(record, "replications"),
-                    arrival_rate_per_min=arrival_rate_per_min,
-                    arrival_rate_s=60.0 / arrival_rate_per_min,
-                    forklift_capacity=_int_field(record, "param_n_forklifts"),
-                    delay_time_s=_float_field(record, "param_delay_time_s"),
-                    created=_metric_int_field(record, "created"),
-                    completed=_metric_int_field(record, "completed"),
-                    in_flight=_metric_int_field(record, "in_flight"),
-                    avg_time_in_system_s=_metric_float_field(
-                        record, "avg_time_in_system_s"
-                    ),
-                    storage_level=_metric_int_field(record, "storage_level"),
-                    throughput_per_hour=_metric_float_field(
-                        record, "throughput_per_hour"
-                    ),
-                    forklift_utilization=_optional_metric_float_field(
-                        record, "forklift_utilization"
-                    ),
-                    benchmarks=_load_summary_benchmarks(record),
-                )
-            )
     return rows
 
 
-def load_simpy_run_rows(path: str | Path) -> list[SimPyRangeRunRow]:
-    rows: list[SimPyRangeRunRow] = []
-    with Path(path).open(newline="") as handle:
-        reader = csv.DictReader(handle)
-        for record in reader:
-            arrival_rate_per_min = _float_field(record, "param_arrival_rate_per_min")
-            rows.append(
-                SimPyRangeRunRow(
-                    iteration=_int_field(record, "iteration"),
-                    replication=_int_field(record, "replication"),
-                    arrival_rate_per_min=arrival_rate_per_min,
-                    arrival_rate_s=60.0 / arrival_rate_per_min,
-                    forklift_capacity=_int_field(record, "param_n_forklifts"),
-                    delay_time_s=_float_field(record, "param_delay_time_s"),
-                    created=_int_field(record, "metric_created"),
-                    completed=_int_field(record, "metric_completed"),
-                    in_flight=_int_field(record, "metric_in_flight"),
-                    avg_time_in_system_s=_float_field(
-                        record, "metric_avg_time_in_system_s"
-                    ),
-                    storage_level=_int_field(record, "metric_storage_level"),
-                    throughput_per_hour=_float_field(
-                        record, "metric_throughput_per_hour"
-                    ),
-                    forklift_utilization=_optional_float_field(
-                        record, "metric_forklift_utilization"
-                    ),
-                    benchmarks=_load_run_benchmarks(record),
-                )
-            )
-    return rows
+def load_simpy_summary_rows(path: str | Path) -> list[RangeRow]:
+    return _load_simpy_summary_rows(path, MODEL2_RANGE_SPEC)
 
 
-def validate_simpy_runs(
-    summary_rows: list[SimPyRangeSummaryRow],
-    run_rows: list[SimPyRangeRunRow],
-) -> list[str]:
-    issues: list[str] = []
-    metrics = _available_simpy_metrics(summary_rows, run_rows)
-    summary_by_iteration = {row.iteration: row for row in summary_rows}
-    runs_by_iteration: dict[int, list[SimPyRangeRunRow]] = {}
-    for row in run_rows:
-        runs_by_iteration.setdefault(row.iteration, []).append(row)
-
-    for iteration, rows in sorted(runs_by_iteration.items()):
-        first = rows[0]
-        for other in rows[1:]:
-            for field_name, _ in metrics:
-                if not _values_match(
-                    _metric_value(first, field_name),
-                    _metric_value(other, field_name),
-                ):
-                    issues.append(
-                        f"SimPy iteration {iteration} differs across replications "
-                        f"for '{field_name}': replication {first.replication}="
-                        f"{_metric_value(first, field_name)} vs replication {other.replication}="
-                        f"{_metric_value(other, field_name)}"
-                    )
-        summary = summary_by_iteration.get(iteration)
-        if summary is None:
-            issues.append(f"SimPy summary is missing iteration {iteration}")
-            continue
-        for field_name, _ in metrics:
-            if not _values_match(
-                _metric_value(first, field_name),
-                _metric_value(summary, field_name),
-            ):
-                issues.append(
-                    f"SimPy summary mismatch for iteration {iteration} field '{field_name}': "
-                    f"summary={_metric_value(summary, field_name)} runs={_metric_value(first, field_name)}"
-                )
-    return issues
+def load_simpy_run_rows(path: str | Path) -> list[RangeRow]:
+    return _load_simpy_run_rows(path, MODEL2_RANGE_SPEC)
 
 
-def print_comparison_report(
-    anylogic_rows: list[AnyLogicRangeRow],
-    simpy_summary_rows: list[SimPyRangeSummaryRow],
-    simpy_run_rows: list[SimPyRangeRunRow],
+def build_comparison_context(
+    anylogic_rows: list[RangeRow],
+    simpy_summary_rows: list[RangeRow],
+    simpy_run_rows: list[RangeRow],
+):
+    return _build_comparison_context(
+        anylogic_rows,
+        simpy_summary_rows,
+        simpy_run_rows,
+        spec=MODEL2_RANGE_SPEC,
+    )
+
+
+def render_comparison_report_text(
+    context,
     *,
     view: str,
     metric_name: str,
     top: int,
-) -> None:
-    context = build_comparison_context(anylogic_rows, simpy_summary_rows, simpy_run_rows)
-    _print_report_header(context)
-    _print_unmatched(context)
-
-    if not context.common_keys:
-        print("\nNo common parameter combinations found.")
-        return
-
-    if view == "full":
-        _print_full_view(context)
-    elif view == "overview":
-        _print_overview_view(context)
-    elif view == "matrix":
-        _print_matrix_view(context, metric_name=metric_name)
-    elif view == "offenders":
-        _print_offenders_view(context, metric_name=metric_name, top=top)
-    elif view == "all":
-        _print_overview_view(context)
-        _print_matrix_view(context, metric_name=metric_name)
-        _print_offenders_view(context, metric_name=metric_name, top=top)
-        _print_full_view(context)
-    else:
-        raise ValueError(f"Unsupported view: {view}")
-
-
-def build_comparison_context(
-    anylogic_rows: list[AnyLogicRangeRow],
-    simpy_summary_rows: list[SimPyRangeSummaryRow],
-    simpy_run_rows: list[SimPyRangeRunRow],
-) -> ComparisonContext:
-    validation_issues = validate_simpy_runs(simpy_summary_rows, simpy_run_rows)
-    anylogic_by_key = {row.match_key: row for row in anylogic_rows}
-    simpy_by_key = {row.match_key: row for row in simpy_summary_rows}
-
-    anylogic_keys = set(anylogic_by_key)
-    simpy_keys = set(simpy_by_key)
-    common_keys = sorted(anylogic_keys & simpy_keys)
-    anylogic_only = sorted(anylogic_keys - simpy_keys)
-    simpy_only = sorted(simpy_keys - anylogic_keys)
-    return ComparisonContext(
-        validation_issues=validation_issues,
-        anylogic_by_key=anylogic_by_key,
-        simpy_by_key=simpy_by_key,
-        common_keys=common_keys,
-        anylogic_only=anylogic_only,
-        simpy_only=simpy_only,
+) -> str:
+    return _render_comparison_report_text(
+        context,
+        view=view,
+        metric_name=metric_name,
+        top=top,
     )
 
 
-def _print_report_header(context: ComparisonContext) -> None:
-    print("=" * 92)
-    print("PARAMETER VARIATION RANGE COMPARISON: ANYLOGIC vs SIMPY")
-    print("=" * 92)
-
-    if context.validation_issues:
-        print("SimPy consistency check: FAIL")
-        for issue in context.validation_issues:
-            print(f"  - {issue}")
-    else:
-        print("SimPy consistency check: PASS")
-
-    print(
-        f"Matched parameter combinations: {len(context.common_keys)}  "
-        f"AnyLogic-only: {len(context.anylogic_only)}  SimPy-only: {len(context.simpy_only)}"
-    )
-    print("Arrival conversion used for SimPy: arrival_rate_s = 60 / param_arrival_rate_per_min")
-
-
-def _print_unmatched(context: ComparisonContext) -> None:
-    if context.anylogic_only:
-        print("\nAnyLogic combinations without a matching SimPy summary row:")
-        for arrival_rate_s, forklift_capacity, delay_time_s in context.anylogic_only:
-            print(
-                f"  arrival_s={arrival_rate_s:g}  forklifts={forklift_capacity}  "
-                f"delay_s={delay_time_s:g}"
-            )
-
-    if context.simpy_only:
-        print("\nSimPy combinations without a matching AnyLogic row:")
-        for arrival_rate_s, forklift_capacity, delay_time_s in context.simpy_only:
-            print(
-                f"  arrival_s={arrival_rate_s:g}  forklifts={forklift_capacity}  "
-                f"delay_s={delay_time_s:g}"
-            )
-
-
-def _matched_rows(
-    context: ComparisonContext,
-) -> list[tuple[AnyLogicRangeRow, SimPyRangeSummaryRow]]:
-    return [
-        (
-            context.anylogic_by_key[key],
-            context.simpy_by_key[key],
-        )
-        for key in context.common_keys
-    ]
-
-
-def _available_simpy_metrics(
-    summary_rows: list[SimPyRangeSummaryRow],
-    run_rows: list[SimPyRangeRunRow],
-) -> list[tuple[str, str]]:
-    metrics = list(METRICS)
-    for field_name, label in OPTIONAL_METRICS:
-        if any(getattr(row, field_name) is not None for row in summary_rows) and any(
-            getattr(row, field_name) is not None for row in run_rows
-        ):
-            metrics.append((field_name, label))
-    metrics.extend(_available_benchmark_metrics(summary_rows, run_rows))
-    return metrics
-
-
-def _comparison_metrics(
-    context: ComparisonContext,
-) -> list[tuple[str, str]]:
-    metrics = list(METRICS)
-    matched = _matched_rows(context)
-    for field_name, label in OPTIONAL_METRICS:
-        if matched and all(
-            getattr(anylogic, field_name) is not None
-            and getattr(simpy, field_name) is not None
-            for anylogic, simpy in matched
-        ):
-            metrics.append((field_name, label))
-    metrics.extend(_comparison_benchmark_metrics(matched))
-    return metrics
-
-
-def _selected_metrics(
-    metric_name: str,
-    available_metrics: list[tuple[str, str]],
-) -> list[tuple[str, str]]:
-    metric_name = _normalize_selected_metric_name(metric_name)
-    if metric_name == "all":
-        return available_metrics
-    if metric_name == BENCHMARK_AVG_ONLY:
-        return [
-            (field_name, label)
-            for field_name, label in available_metrics
-            if field_name.startswith(BENCHMARK_METRIC_PREFIX)
-            and field_name.endswith("__average")
-        ]
-    for field_name, label in available_metrics:
-        if field_name == metric_name:
-            return [(field_name, label)]
-    raise ValueError(f"Unsupported metric: {metric_name}")
-
-
-def _normalize_selected_metric_name(metric_name: str) -> str:
-    if metric_name in {"all", BENCHMARK_AVG_ONLY}:
-        return metric_name
-
-    benchmark_name = metric_name
-    if benchmark_name.startswith(BENCHMARK_METRIC_PREFIX):
-        benchmark_name = benchmark_name[len(BENCHMARK_METRIC_PREFIX) :]
-
-    if "__" in benchmark_name:
-        metric_key, stat_field = benchmark_name.rsplit("__", 1)
-        if metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
-            return _benchmark_metric_name(metric_key, stat_field)
-        return metric_name
-
-    if benchmark_name in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
-        return _benchmark_metric_name(benchmark_name, "average")
-    return metric_name
-
-
-def _print_full_view(context: ComparisonContext) -> None:
-    metrics = _comparison_metrics(context)
-    print("\nMatched comparisons:")
-    for anylogic, simpy in _matched_rows(context):
-        print(
-            f"\narrival_s={anylogic.arrival_rate_s:g}  "
-            f"forklifts={anylogic.forklift_capacity}  "
-            f"delay_s={anylogic.delay_time_s:g}  "
-            f"AnyLogic iteration={anylogic.iteration}  SimPy iteration={simpy.iteration}"
-        )
-        print(
-            f"  {'Metric':<40} {'AnyLogic':>14} {'SimPy':>14} "
-            f"{'Diff':>14} {'Diff %':>10} {'Status':>8}"
-        )
-        print(f"  {'-' * 102}")
-        for field_name, label in metrics:
-            anylogic_value = _metric_value(anylogic, field_name)
-            simpy_value = _metric_value(simpy, field_name)
-            diff = _numeric_diff(anylogic_value, simpy_value)
-            diff_pct = _percent_diff(anylogic_value, simpy_value)
-            print(
-                f"  {_truncate(label, 40):<40} "
-                f"{_format_value(anylogic_value):>14} "
-                f"{_format_value(simpy_value):>14} "
-                f"{_format_diff(diff):>14} "
-                f"{_format_percent(diff_pct):>10} "
-                f"{_status(anylogic_value, simpy_value):>8}"
-            )
-
-
-def _print_overview_view(context: ComparisonContext) -> None:
-    metrics = _comparison_metrics(context)
-    print("\nOverview:")
-    print(
-        f"  {'Metric':<40} {'Match':>7} {'Close':>7} {'Diff':>7} "
-        f"{'Worst Diff':>14} {'Worst %':>10} {'Worst Case':>22}"
-    )
-    print(f"  {'-' * 114}")
-
-    for field_name, label in metrics:
-        counts = {"MATCH": 0, "CLOSE": 0, "DIFF": 0}
-        worst_diff: tuple[float, float, tuple[float, int, float]] | None = None
-        worst_pct: tuple[float, float | None, tuple[float, int, float]] | None = None
-
-        for anylogic, simpy in _matched_rows(context):
-            anylogic_value = _metric_value(anylogic, field_name)
-            simpy_value = _metric_value(simpy, field_name)
-            diff = _numeric_diff(anylogic_value, simpy_value)
-            diff_pct = _percent_diff(anylogic_value, simpy_value)
-            status = _status(anylogic_value, simpy_value)
-            counts[status] += 1
-
-            diff_rank = abs(diff)
-            pct_rank = abs(diff_pct) if diff_pct is not None else -1.0
-            key = anylogic.match_key
-
-            if worst_diff is None or diff_rank > worst_diff[0]:
-                worst_diff = (diff_rank, diff, key)
-            if worst_pct is None or pct_rank > worst_pct[0]:
-                worst_pct = (pct_rank, diff_pct, key)
-
-        worst_diff_value = 0.0 if worst_diff is None else worst_diff[1]
-        worst_pct_value = None if worst_pct is None else worst_pct[1]
-        worst_case_key = None if worst_pct is None else worst_pct[2]
-        print(
-            f"  {_truncate(label, 40):<40} "
-            f"{counts['MATCH']:>7} {counts['CLOSE']:>7} {counts['DIFF']:>7} "
-            f"{_format_diff(worst_diff_value):>14} "
-            f"{_format_percent(worst_pct_value):>10} "
-            f"{_format_case(worst_case_key):>22}"
-        )
-
-    print("\nStatus thresholds: MATCH = exact, CLOSE = <1% difference, DIFF = >=1% difference")
-
-
-def _print_matrix_view(context: ComparisonContext, *, metric_name: str) -> None:
-    matched = _matched_rows(context)
-    arrivals = sorted({row.arrival_rate_s for row, _ in matched})
-    delays = sorted({row.delay_time_s for row, _ in matched})
-    forklifts = sorted({row.forklift_capacity for row, _ in matched})
-    metric_items = _selected_metrics(metric_name, _comparison_metrics(context))
-
-    print("\nHotspot matrices:")
-    print("Cells show status and percent difference relative to AnyLogic.")
-    print("Legend: MATCH = exact, C = close (<1%), D = diff (>=1%)")
-
-    for field_name, label in metric_items:
-        for forklift_capacity in forklifts:
-            print(f"\n{label} | forklifts={forklift_capacity}")
-            header = ["arrival\\delay"] + [f"d={delay:g}" for delay in delays]
-            rows: list[list[str]] = []
-            for arrival_rate_s in arrivals:
-                row_cells = [f"a={arrival_rate_s:g}"]
-                for delay_time_s in delays:
-                    key = (arrival_rate_s, forklift_capacity, delay_time_s)
-                    anylogic = context.anylogic_by_key.get(key)
-                    simpy = context.simpy_by_key.get(key)
-                    if anylogic is None or simpy is None:
-                        row_cells.append("---")
-                        continue
-                    row_cells.append(
-                        _matrix_cell(
-                            _metric_value(anylogic, field_name),
-                            _metric_value(simpy, field_name),
-                        )
-                    )
-                rows.append(row_cells)
-            _print_table(header, rows, indent="  ")
-
-
-def _print_offenders_view(
-    context: ComparisonContext,
-    *,
-    metric_name: str,
-    top: int,
-) -> None:
-    offenders: list[
-        tuple[
-            float,
-            str,
-            tuple[float, int, float],
-            int,
-            int,
-            int | float,
-            int | float,
-            float,
-            float | None,
-            str,
-        ]
-    ] = []
-    for anylogic, simpy in _matched_rows(context):
-        for field_name, label in _selected_metrics(
-            metric_name, _comparison_metrics(context)
-        ):
-            anylogic_value = _metric_value(anylogic, field_name)
-            simpy_value = _metric_value(simpy, field_name)
-            diff = _numeric_diff(anylogic_value, simpy_value)
-            diff_pct = _percent_diff(anylogic_value, simpy_value)
-            severity = abs(diff_pct) if diff_pct is not None else abs(diff)
-            offenders.append(
-                (
-                    severity,
-                    label,
-                    anylogic.match_key,
-                    anylogic.iteration,
-                    simpy.iteration,
-                    anylogic_value,
-                    simpy_value,
-                    diff,
-                    diff_pct,
-                    _status(anylogic_value, simpy_value),
-                )
-            )
-
-    offenders.sort(
-        key=lambda item: (
-            item[0],
-            abs(item[7]),
-            item[2][0],
-            item[2][1],
-            item[2][2],
-            item[1],
-        ),
-        reverse=True,
-    )
-
-    print(f"\nTop offenders (top {top}):")
-    header = [
-        "Rank",
-        "Metric",
-        "Case",
-        "AnyLogic it",
-        "SimPy it",
-        "Diff",
-        "Diff %",
-        "Status",
-    ]
-    rows: list[list[str]] = []
-    for index, offender in enumerate(offenders[:top], start=1):
-        (
-            _severity,
-            label,
-            key,
-            anylogic_iteration,
-            simpy_iteration,
-            _anylogic_value,
-            _simpy_value,
-            diff,
-            diff_pct,
-            status,
-        ) = offender
-        rows.append(
-            [
-                str(index),
-                label,
-                _format_case(key),
-                str(anylogic_iteration),
-                str(simpy_iteration),
-                _format_diff(diff),
-                _format_percent(diff_pct),
-                status,
-            ]
-        )
-    _print_table(header, rows, indent="  ")
-
-
-def _metric_float_field(record: dict[str, str], metric_name: str) -> float:
-    direct = record.get(f"metric_{metric_name}")
-    if direct not in (None, ""):
-        return float(direct)
-    mean = record.get(f"metric_{metric_name}_mean")
-    if mean not in (None, ""):
-        return float(mean)
-    raise KeyError(f"CSV row is missing metric field '{metric_name}'")
-
-
-def _optional_metric_float_field(record: dict[str, str], metric_name: str) -> float | None:
-    direct = record.get(f"metric_{metric_name}")
-    if direct not in (None, ""):
-        return float(direct)
-    mean = record.get(f"metric_{metric_name}_mean")
-    if mean not in (None, ""):
-        return float(mean)
-    return None
-
-
-def _metric_int_field(record: dict[str, str], metric_name: str) -> int:
-    return int(round(_metric_float_field(record, metric_name)))
-
-
-def _int_field(record: dict[str, str], field_name: str) -> int:
-    value = record.get(field_name)
-    if value in (None, ""):
-        raise KeyError(f"CSV row is missing field '{field_name}'")
-    return int(value)
-
-
-def _float_field(record: dict[str, str], field_name: str) -> float:
-    value = record.get(field_name)
-    if value in (None, ""):
-        raise KeyError(f"CSV row is missing field '{field_name}'")
-    return float(value)
-
-
-def _optional_float_field(record: dict[str, str], field_name: str) -> float | None:
-    value = record.get(field_name)
-    if value in (None, ""):
-        return None
-    return float(value)
-
-
-def _benchmark_metric_name(metric_key: str, stat_field: str) -> str:
-    return f"{BENCHMARK_METRIC_PREFIX}{metric_key}__{stat_field}"
-
-
-def _decode_benchmark_metric_name(metric_name: str) -> tuple[str, str] | None:
-    if not metric_name.startswith(BENCHMARK_METRIC_PREFIX):
-        return None
-    payload = metric_name[len(BENCHMARK_METRIC_PREFIX) :]
-    if "__" not in payload:
-        return None
-    metric_key, stat_field = payload.rsplit("__", 1)
-    return metric_key, stat_field
-
-
-def _benchmark_metric_label(metric_name: str) -> str:
-    decoded = _decode_benchmark_metric_name(metric_name)
-    if decoded is None:
-        return metric_name
-    metric_key, stat_field = decoded
-    metric_label = MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS.get(metric_key, metric_key)
-    stat_label = BENCHMARK_STAT_DISPLAY_LABELS.get(
-        stat_field,
-        BENCHMARK_STAT_LABELS.get(stat_field, stat_field),
-    )
-    return f"{metric_label} [{stat_label}]"
-
-
-def _metric_value(row: AnyLogicRangeRow | SimPyRangeSummaryRow | SimPyRangeRunRow, metric_name: str) -> int | float:
-    decoded = _decode_benchmark_metric_name(metric_name)
-    if decoded is None:
-        value = getattr(row, metric_name)
-        assert value is not None
-        return value
-    benchmark_key, stat_field = decoded
-    benchmark = row.benchmarks[benchmark_key]
-    return getattr(benchmark, stat_field)
-
-
-def _load_summary_benchmarks(record: dict[str, str]) -> dict[str, BenchmarkStats]:
-    benchmarks: dict[str, BenchmarkStats] = {}
-    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
-        values: dict[str, float] = {}
-        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
-            value = _optional_metric_float_field(
-                record,
-                _benchmark_metric_name(metric_key, stat_field),
-            )
-            if value is not None:
-                values[stat_field] = value
-        if len(values) == len(BENCHMARK_STAT_FIELDS):
-            benchmarks[metric_key] = BenchmarkStats(
-                average=values["average"],
-                minimum=values["minimum"],
-                maximum=values["maximum"],
-                std_dev_pop=values["std_dev_pop"],
-            )
-    return benchmarks
-
-
-def _load_run_benchmarks(record: dict[str, str]) -> dict[str, BenchmarkStats]:
-    benchmarks: dict[str, BenchmarkStats] = {}
-    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
-        values: dict[str, float] = {}
-        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
-            value = _optional_float_field(
-                record,
-                f"metric_{_benchmark_metric_name(metric_key, stat_field)}",
-            )
-            if value is not None:
-                values[stat_field] = value
-        if len(values) == len(BENCHMARK_STAT_FIELDS):
-            benchmarks[metric_key] = BenchmarkStats(
-                average=values["average"],
-                minimum=values["minimum"],
-                maximum=values["maximum"],
-                std_dev_pop=values["std_dev_pop"],
-            )
-    return benchmarks
-
-
-def _available_benchmark_metrics(
-    summary_rows: list[SimPyRangeSummaryRow],
-    run_rows: list[SimPyRangeRunRow],
-) -> list[tuple[str, str]]:
-    metrics: list[tuple[str, str]] = []
-    common_benchmark_keys = set.intersection(
-        *[
-            {key for row in rows for key in row.benchmarks}
-            for rows in (summary_rows, run_rows)
-        ]
-    ) if summary_rows and run_rows else set()
-    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
-        if metric_key not in common_benchmark_keys:
-            continue
-        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
-            metric_name = _benchmark_metric_name(metric_key, stat_field)
-            metrics.append((metric_name, _benchmark_metric_label(metric_name)))
-    return metrics
-
-
-def _comparison_benchmark_metrics(
-    matched: list[tuple[AnyLogicRangeRow, SimPyRangeSummaryRow]],
-) -> list[tuple[str, str]]:
-    if not matched:
-        return []
-    common_benchmark_keys = set.intersection(
-        *[
-            set(anylogic.benchmarks) & set(simpy.benchmarks)
-            for anylogic, simpy in matched
-        ]
-    )
-    metrics: list[tuple[str, str]] = []
-    for metric_key in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS:
-        if metric_key not in common_benchmark_keys:
-            continue
-        for stat_field, _stat_label in BENCHMARK_STAT_FIELDS:
-            metric_name = _benchmark_metric_name(metric_key, stat_field)
-            metrics.append((metric_name, _benchmark_metric_label(metric_name)))
-    return metrics
-
-
-def _values_match(left: Any, right: Any) -> bool:
-    if isinstance(left, float) or isinstance(right, float):
-        return math.isclose(float(left), float(right), rel_tol=1e-9, abs_tol=1e-9)
-    return left == right
-
-
-def _numeric_diff(left: int | float, right: int | float) -> float:
-    return float(right) - float(left)
-
-
-def _format_value(value: int | float) -> str:
-    if isinstance(value, int):
-        return str(value)
-    text = f"{value:.6f}"
-    if "." in text:
-        text = text.rstrip("0").rstrip(".")
-    return text
-
-
-def _format_diff(value: float) -> str:
-    text = f"{value:+.6f}"
-    if "." in text:
-        text = text.rstrip("0").rstrip(".")
-    return text
-
-
-def _percent_diff(anylogic_value: int | float, simpy_value: int | float) -> float | None:
-    baseline = abs(float(anylogic_value))
-    if baseline < 1e-12:
-        return None
-    return ((float(simpy_value) - float(anylogic_value)) / baseline) * 100.0
-
-
-def _format_percent(value: float | None) -> str:
-    if value is None:
-        return "n/a"
-    text = f"{value:+.2f}%"
-    if "." in text:
-        text = text.replace(".00%", "%")
-    return text
-
-
-def _status(anylogic_value: int | float, simpy_value: int | float) -> str:
-    if _values_match(anylogic_value, simpy_value):
-        return "MATCH"
-
-    baseline = abs(float(anylogic_value))
-    if baseline < 1e-12:
-        return "DIFF"
-    pct = abs(float(simpy_value) - float(anylogic_value)) / baseline * 100.0
-    if pct < 1.0:
-        return "CLOSE"
-    return "DIFF"
-
-
-def _format_case(key: tuple[float, int, float] | None) -> str:
-    if key is None:
-        return "n/a"
-    arrival_rate_s, forklift_capacity, delay_time_s = key
-    return (
-        f"a={_format_value(arrival_rate_s)} "
-        f"f={forklift_capacity} "
-        f"d={_format_value(delay_time_s)}"
-    )
-
-
-def _truncate(text: str, max_width: int) -> str:
-    if max_width < 4 or len(text) <= max_width:
-        return text
-    return text[: max_width - 3] + "..."
-
-
-def _matrix_cell(anylogic_value: int | float, simpy_value: int | float) -> str:
-    status = _status(anylogic_value, simpy_value)
-    if status == "MATCH":
-        return "MATCH"
-    prefix = "C" if status == "CLOSE" else "D"
-    return f"{prefix} {_format_percent(_percent_diff(anylogic_value, simpy_value))}"
-
-
-def _print_table(header: list[str], rows: list[list[str]], *, indent: str = "") -> None:
-    if not rows:
-        print(f"{indent}<no rows>")
-        return
-
-    max_width_by_header = {
-        "Metric": 52,
-        "Case": 18,
-    }
-    widths = [
-        min(len(column), max_width_by_header.get(column, len(column)))
-        for column in header
-    ]
-    display_rows: list[list[str]] = []
-    for row in rows:
-        display_row: list[str] = []
-        for index, value in enumerate(row):
-            max_width = max_width_by_header.get(header[index], len(value))
-            display_value = _truncate(value, max_width)
-            widths[index] = max(widths[index], len(display_value))
-            display_row.append(display_value)
-        display_rows.append(display_row)
-
-    display_header = [
-        _truncate(column, max_width_by_header.get(column, len(column)))
-        for column in header
-    ]
-
-    header_line = indent + "  ".join(
-        value.ljust(widths[index]) for index, value in enumerate(display_header)
-    )
-    divider = indent + "  ".join("-" * width for width in widths)
-    print(header_line)
-    print(divider)
-    for row in display_rows:
-        print(
-            indent
-            + "  ".join(value.ljust(widths[index]) for index, value in enumerate(row))
-        )
+def _infer_output_format(output_path: Path, requested_format: str | None) -> str:
+    if requested_format is not None:
+        return requested_format
+    if output_path.suffix.lower() in {".html", ".htm"}:
+        return "html"
+    return "text"
 
 
 def main() -> None:
@@ -938,9 +172,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--view",
-        choices=("full", "overview", "matrix", "offenders", "all"),
-        default="full",
-        help="Console view to print. Default keeps the detailed full report.",
+        choices=("full", "overview", "matrix", "offenders", "report", "all"),
+        default="overview",
+        help="Console view to print. Default prints the overview report.",
     )
     parser.add_argument(
         "--metric",
@@ -958,19 +192,51 @@ def main() -> None:
         default=10,
         help="How many rows to print in offenders view.",
     )
+    parser.add_argument(
+        "--output",
+        help="Optional report output path. Prints only a confirmation when set.",
+    )
+    parser.add_argument(
+        "--format",
+        choices=("text", "html"),
+        help=(
+            "Output format when --output is set. Defaults to html for .html/.htm "
+            "paths and text otherwise."
+        ),
+    )
     args = parser.parse_args()
 
     anylogic_rows = parse_anylogic_range_output(args.anylogic)
     simpy_summary_rows = load_simpy_summary_rows(args.simpy_summary)
     simpy_run_rows = load_simpy_run_rows(args.simpy_runs)
-    print_comparison_report(
-        anylogic_rows,
-        simpy_summary_rows,
-        simpy_run_rows,
-        view=args.view,
-        metric_name=args.metric,
-        top=args.top,
-    )
+    context = build_comparison_context(anylogic_rows, simpy_summary_rows, simpy_run_rows)
+
+    if args.output:
+        output_path = Path(args.output)
+        output_format = _infer_output_format(output_path, args.format)
+        if output_format == "html":
+            content = render_html_report(
+                context,
+                metric_name=args.metric,
+                top=args.top,
+            )
+        else:
+            content = render_comparison_report_text(
+                context,
+                view=args.view,
+                metric_name=args.metric,
+                top=args.top,
+            )
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content)
+        print(f"Wrote report: {output_path}")
+    else:
+        print_comparison_report(
+            context,
+            view=args.view,
+            metric_name=args.metric,
+            top=args.top,
+        )
 
 
 if __name__ == "__main__":

@@ -1,23 +1,23 @@
 iteration,arrival_rate_s,forklift_capacity,delay_time_s,section,metric_key,metric,stat,anylogic_value,simpy_value,simpy_count,diff,diff_pct,status
-0,120.0,1,180.0,summary,created,Created,value,151,150,,-1.0,0.6622516556291391,MATCH
+0,120.0,1,180.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
 0,120.0,1,180.0,summary,completed,Completed,value,147,147,,0.0,0.0,MATCH
-0,120.0,1,180.0,summary,in_flight,In flight,value,4,3,,-1.0,25.0,DIFF
-0,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,378.4708742392355,378.56515316283384,,0.09427892359832413,0.02491048321428544,MATCH
+0,120.0,1,180.0,summary,in_flight,In flight,value,4,4,,0.0,0.0,MATCH
+0,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,378.4708742392355,378.8162988841127,,0.34542464487719826,0.09126848811590496,MATCH
 0,120.0,1,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
 0,120.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.4,,0.0,0.0,MATCH
-0,120.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.8689502358531785,0.8733993786169324,,0.004449142763753855,0.5120135285291069,MATCH
-0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,avg,25.153469024299206,25.513015474592127,150,0.3595464502929211,1.429410988780854,CLOSE
-0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,min,25.15346902429883,25.513015474192798,150,0.3595464498939691,1.429410987194804,CLOSE
-0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,max,25.15346902429974,25.51301547465755,150,0.3595464503578114,1.4294109890388014,CLOSE
-0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,std dev (pop),4.2232198026756363e-13,1.3103921530927535e-10,150,1.3061689332900777e-10,30928.27260524185,DIFF
+0,120.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.8689502358531785,0.8708275290270593,,0.0018772931738807452,0.21604150576442685,MATCH
+0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,avg,25.153469024299206,25.46370623084369,150,0.3102372065444854,1.2333774170265919,CLOSE
+0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,min,25.15346902429883,25.463706218929524,150,0.31023719463069455,1.2333773696622057,CLOSE
+0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,max,25.15346902429974,25.46370626461001,150,0.310237240310272,1.2333775512656504,CLOSE
+0,120.0,1,180.0,benchmark,store_seize_to_loading_start_s,Store: seize -> loading start,std dev (pop),4.2232198026756363e-13,1.9884550766163212e-08,150,1.9884128444182945e-08,4708286.419661435,DIFF
 0,120.0,1,180.0,benchmark,store_loading_duration_s,Store: loading start -> loading finish,avg,1.0,1.0,150,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,store_loading_duration_s,Store: loading start -> loading finish,min,1.0,1.0,150,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,store_loading_duration_s,Store: loading start -> loading finish,max,1.0,1.0,150,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,store_loading_duration_s,Store: loading start -> loading finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
-0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,avg,34.706443939653084,34.39935080297251,150,-0.3070931366805709,0.8848303133981076,MATCH
-0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,min,34.70644393965267,34.399350802439585,150,-0.3070931372130872,0.8848303149324622,MATCH
-0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,max,34.70644393965358,34.3993508030635,150,-0.3070931365900833,0.8848303131373721,MATCH
-0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,std dev (pop),4.04888840052053e-13,1.7898480286702712e-10,150,1.7857991402697507e-10,44105.911638368845,DIFF
+0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,avg,34.706443939653084,34.74159265362377,150,0.03514871397068475,0.10127431675743179,MATCH
+0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,min,34.70644393965267,34.741592653092084,150,0.03514871343941195,0.10127431522667173,MATCH
+0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,max,34.70644393965358,34.74159265371418,150,0.03514871406059683,0.10127431701649485,MATCH
+0,120.0,1,180.0,benchmark,store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,std dev (pop),4.04888840052053e-13,1.78506853773891e-10,150,1.7810196493383894e-10,43987.867117044254,DIFF
 0,120.0,1,180.0,benchmark,store_unloading_duration_s,Store: unloading start -> unloading finish,avg,1.0,1.0,150,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,store_unloading_duration_s,Store: unloading start -> unloading finish,min,1.0,1.0,150,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,store_unloading_duration_s,Store: unloading start -> unloading finish,max,1.0,1.0,150,0.0,0.0,MATCH
@@ -34,10 +34,10 @@ iteration,arrival_rate_s,forklift_capacity,delay_time_s,section,metric_key,metri
 0,120.0,1,180.0,benchmark,retrieve_loading_duration_s,Retrieve: loading start -> loading finish,min,1.0,1.0,148,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,retrieve_loading_duration_s,Retrieve: loading start -> loading finish,max,1.0,1.0,148,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,retrieve_loading_duration_s,Retrieve: loading start -> loading finish,std dev (pop),0.0,0.0,148,0.0,,MATCH
-0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,avg,14.61096127528357,14.652786885260433,148,0.04182560997686302,0.2862618631918266,MATCH
-0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,min,14.610961275282534,14.652786885035312,148,0.04182560975277738,0.28626186165816525,MATCH
-0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,max,14.610961275284808,14.652786885299065,148,0.04182561001425711,0.28626186344773413,MATCH
-0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,std dev (pop),9.66033180389942e-13,7.722067141310536e-11,148,7.625463823271541e-11,7893.583758886522,DIFF
+0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,avg,14.61096127528357,14.611000000013973,148,3.872473040367197e-05,0.00026503889562133143,MATCH
+0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,min,14.610961275282534,14.610999999793421,148,3.872451088682283e-05,0.0002650373932092569,MATCH
+0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,max,14.610961275284808,14.611000000051718,148,3.8724766909581376e-05,0.00026503914547420165,MATCH
+0,120.0,1,180.0,benchmark,retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,std dev (pop),9.66033180389942e-13,7.559355453518075e-11,148,7.462752135479081e-11,7725.1509440563095,DIFF
 0,120.0,1,180.0,benchmark,retrieve_unloading_duration_s,Retrieve: unloading start -> unloading finish,avg,1.0,1.0,148,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,retrieve_unloading_duration_s,Retrieve: unloading start -> unloading finish,min,1.0,1.0,148,0.0,0.0,MATCH
 0,120.0,1,180.0,benchmark,retrieve_unloading_duration_s,Retrieve: unloading start -> unloading finish,max,1.0,1.0,148,0.0,0.0,MATCH

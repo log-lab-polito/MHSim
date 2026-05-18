@@ -7,7 +7,7 @@ import argparse
 import csv
 import math
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 from case_studies.model_5_simpy.reporting import build_forklift_movement_benchmark_rows
@@ -261,11 +261,14 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
 
 
 def run_simpy_benchmark(
-    anylogic_row: AnyLogicBenchmarkRow, *, sim_time: float
+    anylogic_row: AnyLogicBenchmarkRow,
+    *,
+    sim_time: float,
+    base_params: Model2Params | None = None,
 ) -> SimPyBenchmarkRow:
-    params = Model2Params()
+    params = replace(base_params) if base_params is not None else Model2Params()
     params.sim_time = sim_time
-    params.arrival_rate_per_min = 60.0 / anylogic_row.arrival_rate_s
+    params.arrival_rate_s = anylogic_row.arrival_rate_s
     params.n_forklifts = anylogic_row.forklift_capacity
     params.delay_time_s = anylogic_row.delay_time_s
 
@@ -491,7 +494,7 @@ def print_report(
     print("=" * 112)
     print("MODEL 2 BENCHMARK COMPARISON: ANYLOGIC vs SIMPY")
     print("=" * 112)
-    print("Arrival conversion used for SimPy: arrival_rate_per_min = 60 / arrival_rate_s")
+    print("Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval")
 
     benchmark_metrics = _ordered_benchmark_metrics(anylogic_rows)
     for anylogic_row, simpy_row in zip(anylogic_rows, simpy_rows):
@@ -590,10 +593,45 @@ def main() -> None:
         default=None,
         help="Optional CSV export path for the comparison table.",
     )
+    parser.add_argument(
+        "--move-to-storage-post-task-policy",
+        choices=("return", "stay"),
+        default=None,
+        help="Override moveToStorage post-task policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--move-to-outbound-post-task-policy",
+        choices=("return", "stay"),
+        default=None,
+        help="Override moveToOutbound post-task policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--move-to-storage-dropoff-motion-mode",
+        choices=("default", "analytical", "anylogic_line_guided"),
+        default=None,
+        help="Override moveToStorage loaded/dropoff movement mode for diagnostics.",
+    )
     args = parser.parse_args()
 
+    base_params = Model2Params()
+    if args.move_to_storage_post_task_policy == "return":
+        base_params.move_to_storage_apply_post_task_policy = True
+    elif args.move_to_storage_post_task_policy == "stay":
+        base_params.move_to_storage_apply_post_task_policy = False
+    if args.move_to_outbound_post_task_policy == "return":
+        base_params.move_to_outbound_apply_post_task_policy = True
+    elif args.move_to_outbound_post_task_policy == "stay":
+        base_params.move_to_outbound_apply_post_task_policy = False
+    if args.move_to_storage_dropoff_motion_mode not in (None, "default"):
+        base_params.move_to_storage_dropoff_routed_motion_mode = (
+            args.move_to_storage_dropoff_motion_mode
+        )
+
     anylogic_rows = parse_anylogic_benchmark_output(args.anylogic)
-    simpy_rows = [run_simpy_benchmark(row, sim_time=args.sim_time) for row in anylogic_rows]
+    simpy_rows = [
+        run_simpy_benchmark(row, sim_time=args.sim_time, base_params=base_params)
+        for row in anylogic_rows
+    ]
     print_report(anylogic_rows, simpy_rows)
     if args.csv:
         output_path = write_comparison_csv(anylogic_rows, simpy_rows, args.csv)

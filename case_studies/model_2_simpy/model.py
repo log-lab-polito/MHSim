@@ -9,6 +9,8 @@ import simpy
 from case_studies.model_5_simpy.stats import Model5Stats
 from mhsim.blocks import DelayBlock, MoveByTransporterBlock, ServiceBlock, Sink, Source
 from mhsim.cyclic_position_logger import CyclicPositionLogger
+from mhsim.forklift import ForkliftMovementOverrides
+from mhsim.movement import Position3D
 
 from .params import Model2Params
 from .setup import create_model2_warehouse
@@ -61,15 +63,27 @@ class Model2SimModel:
             next_block=self.service2,
             name="moveToOutbound",
             pickup_pos=self.layout.storage_rack.get_access_point(),
-            dropoff_pos=self.layout.outbound_area.get_access_point(),
+            dropoff_pos=Position3D(
+                self.params.retrieve_dropoff_x,
+                self.params.retrieve_dropoff_y,
+                self.params.retrieve_dropoff_z,
+            ),
             loading_time_s=self.params.retrieve_loading_time_s,
             unloading_time_s=self.params.retrieve_unloading_time_s,
-            # Match AnyLogic Model 2 release behavior: after the outbound move,
-            # the transporter returns to its home location only when no other
-            # tasks are queued.
-            apply_post_task_policy_if_auto_seized=True,
+            # Keep the outbound release/return policy explicit so parity runs
+            # can test whether AnyLogic releases-and-returns or leaves the
+            # forklift parked after this specific block.
+            apply_post_task_policy_if_auto_seized=(
+                self.params.move_to_outbound_apply_post_task_policy
+            ),
             stats=self.stats,
             benchmark_prefix="retrieve",
+            pickup_movement_overrides=self._movement_overrides(
+                self.params.move_to_outbound_pickup_routed_motion_mode
+            ),
+            dropoff_movement_overrides=self._movement_overrides(
+                self.params.move_to_outbound_dropoff_routed_motion_mode
+            ),
             logger=self.logger,
         )
         self.delay = DelayBlock(
@@ -88,13 +102,19 @@ class Model2SimModel:
             dropoff_pos=self.layout.storage_rack.get_access_point(),
             loading_time_s=self.params.store_loading_time_s,
             unloading_time_s=self.params.store_unloading_time_s,
-            # Match AnyLogic's release behavior: return to the current home
-            # location only when the fleet has no queued work. When a retrieve
-            # is already waiting, the transporter remains at storage and the
-            # retrieve leg still starts loading immediately.
-            apply_post_task_policy_if_auto_seized=True,
+            # Keep the storage release/return policy independent from outbound;
+            # AnyLogic's visible timing suggests the two blocks can differ.
+            apply_post_task_policy_if_auto_seized=(
+                self.params.move_to_storage_apply_post_task_policy
+            ),
             stats=self.stats,
             benchmark_prefix="store",
+            pickup_movement_overrides=self._movement_overrides(
+                self.params.move_to_storage_pickup_routed_motion_mode
+            ),
+            dropoff_movement_overrides=self._movement_overrides(
+                self.params.move_to_storage_dropoff_routed_motion_mode
+            ),
             logger=self.logger,
         )
         self.service1 = ServiceBlock(
@@ -113,6 +133,14 @@ class Model2SimModel:
             name="source",
         )
 
+    @staticmethod
+    def _movement_overrides(
+        routed_motion_mode: str | None,
+    ) -> ForkliftMovementOverrides | None:
+        if routed_motion_mode is None:
+            return None
+        return ForkliftMovementOverrides(routed_motion_mode=routed_motion_mode)
+
     def run(self, until: Optional[float] = None) -> Model5Stats:
         if self.logger:
             self.logger.open()
@@ -121,7 +149,10 @@ class Model2SimModel:
                 self.logger.start(self.env, self.fleet.forklifts)
             self.source.start()
             stop_time = until if until is not None else self.params.sim_time
-            self.env.run(until=stop_time)
+            # SimPy does not process events exactly at ``until``. AnyLogic and
+            # Model 1 include source events on the stop boundary, so advance by
+            # a tiny epsilon to keep the final cyclic arrival visible.
+            self.env.run(until=stop_time + 1e-9)
             if self.console_logging:
                 self._log_summary()
         finally:

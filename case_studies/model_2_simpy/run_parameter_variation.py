@@ -67,6 +67,11 @@ def _metrics():
             (stats.completed / model.env.now) * 3600.0 if model.env.now else 0.0
         ),
         "forklift_utilization": model_attr_metric("fleet.utilization"),
+        "return_home_busy_s": lambda _ctx, model, stats: (
+            model.fleet.return_home_time_s / stats.completed
+            if stats.completed
+            else 0.0
+        ),
     }
     benchmark_metric_keys = tuple(dict.fromkeys(ANYLOGIC_BENCHMARK_KEY_MAP.values()))
     for metric_key in benchmark_metric_keys:
@@ -82,24 +87,17 @@ def build_range_validation_experiment(
     *,
     replications: int = 2,
     run_until: float | None = None,
+    base_params: Model2Params | None = None,
 ) -> ParameterVariationExperiment:
     return ParameterVariationExperiment(
         experiment_name="model_2_range_validation",
         model_cls=Model2SimModel,
-        base_params=Model2Params(),
+        base_params=Model2Params() if base_params is None else base_params,
         variation=RangeVariation(
             parameters=[
                 ChoiceParameter("n_forklifts", [1, 2, 3, 4]),
                 ChoiceParameter("delay_time_s", [180.0, 300.0, 420.0]),
-                # AnyLogic Model 2 varies the interarrival time in seconds.
-                ChoiceParameter(
-                    "arrival_rate_per_min",
-                    [
-                        60.0 / 48.0,
-                        60.0 / 60.0,
-                        60.0 / 72.0,
-                    ],
-                ),
+                ChoiceParameter("arrival_rate_s", [48.0, 60.0, 72.0]),
             ],
         ),
         metrics=_metrics(),
@@ -131,12 +129,28 @@ def _format_number(value: float) -> str:
     return formatted
 
 
+def _policy_choice(value: str | None) -> bool | None:
+    if value is None:
+        return None
+    if value == "return":
+        return True
+    if value == "stay":
+        return False
+    raise ValueError(f"Unsupported release policy choice: {value}")
+
+
+def _motion_mode_choice(value: str | None) -> str | None:
+    if value in (None, "default"):
+        return None
+    return value
+
+
 def _print_summary(title: str, result: ParameterVariationResult) -> None:
     rows = result.iteration_rows()
     print(f"\n--- {title} ---")
     print(f"Iterations: {result.total_iterations}  Total runs: {result.total_runs}")
     for row in rows:
-        arrival = row.get("param_arrival_rate_per_min", "")
+        arrival = row.get("param_arrival_rate_s", "")
         forklifts = row.get("param_n_forklifts", "")
         delay = row.get("param_delay_time_s", "")
         throughput = row.get(
@@ -153,8 +167,7 @@ def _print_summary(title: str, result: ParameterVariationResult) -> None:
         )
         parts = [f"iter={row['iteration']}"]
         if arrival != "":
-            parts.append(f"arrival_per_min={arrival}")
-            parts.append(f"arrival_s={_format_number(60.0 / float(arrival))}")
+            parts.append(f"arrival_s={_format_number(float(arrival))}")
         if forklifts != "":
             parts.append(f"forklifts={forklifts}")
         if delay != "":
@@ -189,13 +202,43 @@ def main() -> None:
         default=2,
         help="Replications per ranged iteration.",
     )
+    parser.add_argument(
+        "--move-to-storage-post-task-policy",
+        choices=("return", "stay"),
+        default=None,
+        help="Override moveToStorage post-task policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--move-to-outbound-post-task-policy",
+        choices=("return", "stay"),
+        default=None,
+        help="Override moveToOutbound post-task policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--move-to-storage-dropoff-motion-mode",
+        choices=("default", "analytical", "anylogic_line_guided"),
+        default=None,
+        help="Override moveToStorage loaded/dropoff movement mode for diagnostics.",
+    )
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
+    base_params = Model2Params()
+    storage_policy = _policy_choice(args.move_to_storage_post_task_policy)
+    outbound_policy = _policy_choice(args.move_to_outbound_post_task_policy)
+    if storage_policy is not None:
+        base_params.move_to_storage_apply_post_task_policy = storage_policy
+    if outbound_policy is not None:
+        base_params.move_to_outbound_apply_post_task_policy = outbound_policy
+    if args.move_to_storage_dropoff_motion_mode is not None:
+        base_params.move_to_storage_dropoff_routed_motion_mode = _motion_mode_choice(
+            args.move_to_storage_dropoff_motion_mode
+        )
 
     range_result = build_range_validation_experiment(
         replications=args.range_replications,
         run_until=args.run_until,
+        base_params=base_params,
     ).run()
     run_csv, summary_csv = _write_outputs(
         range_result,

@@ -5,7 +5,12 @@ from random import Random
 from typing import Any, Optional, Callable, Generator, Union
 
 from .pallet import Pallet
-from .forklift import ForkliftFleet, ForklifStatus, ForkliftAssignment
+from .forklift import (
+    ForkliftFleet,
+    ForklifStatus,
+    ForkliftAssignment,
+    ForkliftMovementOverrides,
+)
 from .stats import SimulationStats
 from .cyclic_position_logger import CyclicPositionLogger
 from .movement import Position3D
@@ -486,6 +491,8 @@ class MoveByTransporterBlock:
         stats: Optional[object] = None,
         benchmark_prefix: Optional[str] = None,
         benchmark_loading_boundary_offset_s: float = 0.0,
+        pickup_movement_overrides: Optional[ForkliftMovementOverrides] = None,
+        dropoff_movement_overrides: Optional[ForkliftMovementOverrides] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         self.env = env
@@ -507,6 +514,8 @@ class MoveByTransporterBlock:
         self.benchmark_loading_boundary_offset_s = max(
             0.0, benchmark_loading_boundary_offset_s
         )
+        self.pickup_movement_overrides = pickup_movement_overrides
+        self.dropoff_movement_overrides = dropoff_movement_overrides
         self.logger = logger
         self.entered_count = 0
         self.finished_count = 0
@@ -567,6 +576,7 @@ class MoveByTransporterBlock:
                     dwell_status=ForklifStatus.LOADING,
                     on_dwell_start=mark_load_start,
                     on_dwell_end=mark_load_end,
+                    movement_overrides=self.pickup_movement_overrides,
                 )
                 fl.current_load = pallet
 
@@ -579,6 +589,7 @@ class MoveByTransporterBlock:
                     dwell_status=ForklifStatus.UNLOADING,
                     on_dwell_start=mark_unload_start,
                     on_dwell_end=mark_unload_end,
+                    movement_overrides=self.dropoff_movement_overrides,
                 )
                 fl.current_load = None
 

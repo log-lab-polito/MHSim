@@ -53,6 +53,15 @@ class LiftProfile:
 
 
 @dataclass(frozen=True)
+class ForkliftMovementOverrides:
+    """Per-move routing settings that override a forklift's defaults."""
+
+    routed_motion_mode: Optional[str] = None
+    turn_radius: Optional[float] = None
+    line_guided_update_timestep_s: Optional[float] = None
+
+
+@dataclass(frozen=True)
 class ChargingStation:
     """Simple charger location for transporter battery operations."""
     id: str
@@ -530,6 +539,7 @@ class Forklift:
         self,
         route: Route,
         update_interval: float = 0.05,
+        movement_overrides: Optional[ForkliftMovementOverrides] = None,
     ) -> Generator:
         """Move along routed path steps with shared traffic control."""
         if len(route.waypoints) < 2:
@@ -560,10 +570,22 @@ class Forklift:
         target = route.waypoints[-1]
         height_change = target.z - start_pos.z
         total_distance = route.total_distance
+        routed_motion_mode = (
+            self.routed_motion_mode
+            if movement_overrides is None
+            or movement_overrides.routed_motion_mode is None
+            else movement_overrides.routed_motion_mode
+        )
+        line_guided_update_timestep_s = (
+            self.line_guided_update_timestep_s
+            if movement_overrides is None
+            or movement_overrides.line_guided_update_timestep_s is None
+            else movement_overrides.line_guided_update_timestep_s
+        )
 
         has_corner = self._route_has_corner(route.steps)
         use_line_guided_controller = (
-            self.routed_motion_mode == "anylogic_line_guided" and has_corner
+            routed_motion_mode == "anylogic_line_guided" and has_corner
         )
         use_analytical_topup = not use_line_guided_controller
 
@@ -647,7 +669,7 @@ class Forklift:
         while horizontal_distance < total_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
             dt = max(update_interval, 1e-3)
             if use_line_guided_controller:
-                update_timestep = max(1e-9, self.line_guided_update_timestep_s)
+                update_timestep = max(1e-9, line_guided_update_timestep_s)
                 current_controller_time = self.env.now
                 if current_controller_time >= next_line_guided_update_at - 1e-9:
                     recompute_line_guided_profile()
@@ -972,7 +994,13 @@ class Forklift:
         if self.status == ForklifStatus.MOVING:
             self.status = ForklifStatus.IDLE
 
-    def move_to(self, target: Position3D, preferred_path_id: Optional[str] = None, update_interval: float = 0.05) -> Generator:
+    def move_to(
+        self,
+        target: Position3D,
+        preferred_path_id: Optional[str] = None,
+        update_interval: float = 0.05,
+        movement_overrides: Optional[ForkliftMovementOverrides] = None,
+    ) -> Generator:
         """Move to a target while keeping horizontal travel on designed paths.
 
         When a path network is available, all horizontal movement is routed
@@ -992,17 +1020,27 @@ class Forklift:
                 yield self.env.timeout(self.route_calc_delay_s)
             path_id = preferred_path_id or self.router.nearest_path_id(
                 self.position) or self.router.nearest_path_id(target)
+            turn_radius = (
+                self.turn_radius
+                if movement_overrides is None
+                or movement_overrides.turn_radius is None
+                else movement_overrides.turn_radius
+            )
             route = self.router.route_between_nodes(
                 self.position,
                 target,
                 path_id,
-                turn_radius=self.turn_radius,
+                turn_radius=turn_radius,
             )
             if not route.steps and route.total_distance > 1e-9:
                 raise RuntimeError(
                     "Horizontal forklift movement must follow designed paths, but no routed path was found."
                 )
-            yield from self._move_along_route(route, update_interval)
+            yield from self._move_along_route(
+                route,
+                update_interval,
+                movement_overrides=movement_overrides,
+            )
             return
 
         # Fallback is only for pure vertical movement or cases without a path network.
@@ -1052,6 +1090,7 @@ class Forklift:
         dwell_status: Optional[ForklifStatus] = None,
         on_dwell_start: Optional[Callable[[float], None]] = None,
         on_dwell_end: Optional[Callable[[float], None]] = None,
+        movement_overrides: Optional[ForkliftMovementOverrides] = None,
     ) -> Generator:
         """Move to position, lift to shelf level, dwell, then return to ground."""
         if target_pos is None:
@@ -1070,12 +1109,20 @@ class Forklift:
             return
 
         if self.position != target_pos:
-            yield from self.move_to(target_pos, update_interval=update_interval)
+            yield from self.move_to(
+                target_pos,
+                update_interval=update_interval,
+                movement_overrides=movement_overrides,
+            )
 
         if self.lift_profile and shelf_level > 0:
             shelf_height_m = self.lift_profile.height_for_level(shelf_level)
             elevated_pos = target_pos._replace(z=shelf_height_m)
-            yield from self.move_to(elevated_pos, update_interval=update_interval)
+            yield from self.move_to(
+                elevated_pos,
+                update_interval=update_interval,
+                movement_overrides=movement_overrides,
+            )
 
         should_notify_dwell = on_dwell_start is not None or on_dwell_end is not None
         if dwell_time_s > 0 or should_notify_dwell:
@@ -1092,7 +1139,11 @@ class Forklift:
 
         if self.lift_profile and shelf_level > 0:
             ground_pos = target_pos._replace(z=0)
-            yield from self.move_to(ground_pos, update_interval=update_interval)
+            yield from self.move_to(
+                ground_pos,
+                update_interval=update_interval,
+                movement_overrides=movement_overrides,
+            )
 
     def elevate(self, height_change: float) -> Generator:
         """Move load up/down by height_change meters."""
