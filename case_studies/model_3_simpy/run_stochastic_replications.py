@@ -3,7 +3,11 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from mhsim.experiments import ParameterVariationExperiment, ParameterVariationResult
+from mhsim.experiments import (
+    ParameterVariationExperiment,
+    ParameterVariationResult,
+    RangeVariation,
+)
 from mhsim.stochastic_replications import (
     StochasticReplicationOptions,
     StochasticReplicationSpec,
@@ -11,13 +15,14 @@ from mhsim.stochastic_replications import (
     write_stochastic_replication_outputs,
 )
 
+from .anylogic_range import range_variation_parameters
 from .model import Model3SimModel
 from .params import Model3Params
 from .run_parameter_variation import _metrics
 
 
 DEFAULT_RUN_UNTIL_S = 18000.0
-DEFAULT_REPLICATIONS = 100
+DEFAULT_REPLICATIONS = 50
 
 
 def _params(options: StochasticReplicationOptions) -> Model3Params:
@@ -35,6 +40,10 @@ def _params(options: StochasticReplicationOptions) -> Model3Params:
     )
 
 
+def _variation() -> RangeVariation:
+    return RangeVariation(parameters=range_variation_parameters())
+
+
 STOCHASTIC_REPLICATION_SPEC = StochasticReplicationSpec(
     model_name="Model 3",
     experiment_name="model_3_stochastic_replications",
@@ -45,6 +54,7 @@ STOCHASTIC_REPLICATION_SPEC = StochasticReplicationSpec(
     default_replications=DEFAULT_REPLICATIONS,
     runs_filename="model_3_stochastic_replications_runs.csv",
     summary_filename="model_3_stochastic_replications_summary.csv",
+    variation_factory=_variation,
 )
 
 
@@ -92,7 +102,11 @@ def _metric(row: dict[str, object], name: str) -> float:
 
 def _print_summary(result: ParameterVariationResult) -> None:
     print("\n--- Model 3 Stochastic Replications ---")
-    print(f"Replications: {result.total_runs}")
+    print(
+        f"Iterations: {result.total_iterations}  "
+        f"Replications/iteration: {len(result.runs) // result.total_iterations}  "
+        f"Total runs: {result.total_runs}"
+    )
     completed = [_metric(row, "completed") for row in result.run_rows()]
     avg_cycle = [_metric(row, "avg_time_in_system_s") for row in result.run_rows()]
     throughput = [_metric(row, "throughput_per_hour") for row in result.run_rows()]

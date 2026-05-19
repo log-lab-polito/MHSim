@@ -3,7 +3,11 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from mhsim.experiments import ParameterVariationExperiment, ParameterVariationResult
+from mhsim.experiments import (
+    ParameterVariationExperiment,
+    ParameterVariationResult,
+    RangeVariation,
+)
 from mhsim.stochastic_replications import (
     StochasticReplicationOptions,
     StochasticReplicationSpec,
@@ -13,10 +17,11 @@ from mhsim.stochastic_replications import (
 
 from .model import Model4SimModel
 from .params import Model4Params
+from .range_config import range_variation_parameters
 from .run_parameter_variation import DEFAULT_RANGE_RUN_UNTIL_S, _metrics
 
 
-DEFAULT_REPLICATIONS = 100
+DEFAULT_REPLICATIONS = 50
 
 
 def _params(options: StochasticReplicationOptions) -> Model4Params:
@@ -34,6 +39,10 @@ def _params(options: StochasticReplicationOptions) -> Model4Params:
     )
 
 
+def _variation() -> RangeVariation:
+    return RangeVariation(parameters=range_variation_parameters())
+
+
 STOCHASTIC_REPLICATION_SPEC = StochasticReplicationSpec(
     model_name="Model 4",
     experiment_name="model_4_stochastic_replications",
@@ -44,6 +53,7 @@ STOCHASTIC_REPLICATION_SPEC = StochasticReplicationSpec(
     default_replications=DEFAULT_REPLICATIONS,
     runs_filename="model_4_stochastic_replications_runs.csv",
     summary_filename="model_4_stochastic_replications_summary.csv",
+    variation_factory=_variation,
 )
 
 
@@ -91,7 +101,11 @@ def _metric(row: dict[str, object], name: str) -> float:
 
 def _print_summary(result: ParameterVariationResult) -> None:
     print("\n--- Model 4 Stochastic Replications ---")
-    print(f"Replications: {result.total_runs}")
+    print(
+        f"Iterations: {result.total_iterations}  "
+        f"Replications/iteration: {len(result.runs) // result.total_iterations}  "
+        f"Total runs: {result.total_runs}"
+    )
     completed = [_metric(row, "completed") for row in result.run_rows()]
     main_completed = [_metric(row, "main_completed") for row in result.run_rows()]
     branch_completed = [_metric(row, "branch_completed") for row in result.run_rows()]

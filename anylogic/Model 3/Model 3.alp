@@ -2731,7 +2731,16 @@ created_count++;]]></Code>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1764170457865</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[240]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777916743555</Id>
@@ -2742,11 +2751,32 @@ created_count++;]]></Code>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777916833956</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</Expression>
+				<From Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[2]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777916883352</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[0.3]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[1.2]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0.3]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1903000000001</Id>
@@ -2797,7 +2827,7 @@ created_count++;]]></Code>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>100</ReplicationPerIteration>
+				<ReplicationPerIteration>50</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>100</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>

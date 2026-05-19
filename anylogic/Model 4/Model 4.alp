@@ -3473,7 +3473,7 @@ if (trace_enabled && iteration == trace_iteration) {
 					<Code><![CDATA[0.5]]></Code>
 				</Step>
 			</RangeVariationParamValue>
-			<RangeVariationParamValue>
+			<RangeVariationParamValue>	
 				<Id>1777916883352</Id>
 				<Type>RANGE</Type>
 				<Expression Class="CodeValue">
@@ -3612,7 +3612,16 @@ if (trace_enabled && iteration == trace_iteration) {
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1764170457865</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777916743555</Id>
@@ -3623,11 +3632,29 @@ if (trace_enabled && iteration == trace_iteration) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777916833956</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0.5]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777916883352</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[0.6]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[1.2]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[0.6]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777935801570</Id>
@@ -3643,7 +3670,16 @@ if (trace_enabled && iteration == trace_iteration) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1777936161381</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[15]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1904000000001</Id>

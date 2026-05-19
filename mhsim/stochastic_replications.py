@@ -35,6 +35,7 @@ class StochasticReplicationSpec:
     default_replications: int
     runs_filename: str
     summary_filename: str
+    variation_factory: Callable[[], RangeVariation] = RangeVariation
 
 
 def build_stochastic_replication_experiment(
@@ -45,7 +46,7 @@ def build_stochastic_replication_experiment(
         experiment_name=spec.experiment_name,
         model_cls=spec.model_cls,
         base_params=spec.params_factory(options),
-        variation=RangeVariation(),
+        variation=spec.variation_factory(),
         metrics=spec.metrics_factory(),
         replications=options.replications,
         random_seed_mode="fixed",

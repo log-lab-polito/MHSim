@@ -9,6 +9,7 @@ from mhsim.stochastic_comparison import (
     MetricComparison,
     MetricSpec,
     ReplicationRow,
+    StochasticComparisonGroup,
     StochasticComparisonSpec,
     compare_metric,
     load_simpy_replication_csv as _load_simpy_replication_csv,
@@ -21,10 +22,12 @@ from mhsim.stochastic_comparison import (
 
 __all__ = [
     "ANYLOGIC_KEY_MAP",
+    "ANYLOGIC_PARAMETER_KEY_MAP",
     "COMPARISON_SPEC",
     "METRICS",
     "MetricComparison",
     "ReplicationRow",
+    "StochasticComparisonGroup",
     "_values_for",
     "_write_csv",
     "compare_metric",
@@ -54,6 +57,15 @@ ANYLOGIC_KEY_MAP = {
     "Throughput (/h)": "throughput_per_hour",
 }
 
+ANYLOGIC_PARAMETER_KEY_MAP = {
+    "Arrival rate (s)": "main_arrival_time_s",
+    "Branch arrival rate (s)": "branch_arrival_time_s",
+    "Conveyor Speed (m/s)": "conveyor_speed_mps",
+    "Conveyor Gap (m)": "conveyor_gap_m",
+    "Random arrivals": "random_arrival_times",
+    "Random services": "random_service_times",
+}
+
 COMPARISON_SPEC = StochasticComparisonSpec(
     title="MODEL 4 STOCHASTIC REPLICATION COMPARISON",
     description="Compare Model 4 stochastic AnyLogic and SimPy replication outputs.",
@@ -61,6 +73,9 @@ COMPARISON_SPEC = StochasticComparisonSpec(
     anylogic_key_map=ANYLOGIC_KEY_MAP,
     default_anylogic_path="anylogic/Model 4/log_file.txt",
     default_simpy_runs_path="logs/model_4_stochastic_replications_runs.csv",
+    anylogic_parameter_key_map=ANYLOGIC_PARAMETER_KEY_MAP,
+    default_replications_per_iteration=50,
+    default_expected_iterations=64,
 )
 
 
@@ -69,6 +84,7 @@ def parse_anylogic_replication_log(path: str | Path) -> list[ReplicationRow]:
         path,
         metrics=METRICS,
         anylogic_key_map=ANYLOGIC_KEY_MAP,
+        anylogic_parameter_key_map=ANYLOGIC_PARAMETER_KEY_MAP,
     )
 
 
