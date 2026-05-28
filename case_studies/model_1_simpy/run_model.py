@@ -37,7 +37,7 @@ def main():
         params=params,
         model_label="Model 1",
         console_logging=False,
-        include_in_flight=True,
+        include_avg_wip=True,
         include_forklift_utilization=True,
         include_forklift_benchmarks=True,
     )

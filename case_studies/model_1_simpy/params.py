@@ -18,6 +18,15 @@ class Model1Params(SimulationParams):
     # MoveByTransporter handling times
     move_loading_time_s: float = 1.0
     move_unloading_time_s: float = 1.0
+
+    # Stochastic timing. Deterministic mode remains the default so existing
+    # AnyLogic parity checks keep their current semantics.
+    random_arrival_times: bool = False
+    random_service_times: bool = False
+    arrival_time_distribution: str = "exponential"
+    service_time_distribution: str = "triangular"
+    service_time_triangular_spread: float = 0.5
+
     # The offset previously masked a kinematic discretization bug where the
     # forklift "snapped" to its destination before fully decelerating. Now
     # that `_move_along_route` tops up to the analytical kinematic time,

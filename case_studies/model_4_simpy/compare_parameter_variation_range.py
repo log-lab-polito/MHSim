@@ -26,7 +26,7 @@ from .range_config import RANGE_VALUES, range_values_for_iteration
 METRICS = (
     ("created", "Created"),
     ("completed", "Completed"),
-    ("in_flight", "In flight"),
+    ("avg_wip", "Avg WIP"),
     ("avg_time_in_system_s", "Avg cycle (s)"),
     ("throughput_per_hour", "Throughput (/h)"),
 )
@@ -84,7 +84,7 @@ ANYLOGIC_KEY_MAP = {
     "Completed": "completed",
     "Main completed": "main_completed",
     "Branch completed": "branch_completed",
-    "In flight": "in_flight",
+    "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Throughput (/h)": "throughput_per_hour",
 }

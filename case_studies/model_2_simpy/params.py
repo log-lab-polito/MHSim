@@ -22,6 +22,14 @@ class Model2Params(SimulationParams):
     retrieve_loading_time_s: float = 1.0
     retrieve_unloading_time_s: float = 1.0
 
+    # Stochastic timing. Deterministic mode remains the default so existing
+    # AnyLogic parity checks keep their current semantics.
+    random_arrival_times: bool = False
+    random_service_times: bool = False
+    arrival_time_distribution: str = "exponential"
+    service_time_distribution: str = "triangular"
+    service_time_triangular_spread: float = 0.5
+
     # Fleet
     sim_time: float = 18000.0
     n_forklifts: int = 1

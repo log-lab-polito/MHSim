@@ -482,8 +482,8 @@ class MoveByTransporterBlock:
         name: str = "move_by_transporter",
         pickup_pos: PositionResolver = None,
         dropoff_pos: PositionResolver = None,
-        loading_time_s: float = 0.0,
-        unloading_time_s: float = 0.0,
+        loading_time_s: DurationValue = 0.0,
+        unloading_time_s: DurationValue = 0.0,
         request_priority: int = 1,
         assignment_key: str = DEFAULT_TRANSPORTER_ASSIGNMENT_KEY,
         auto_seize_if_missing: bool = True,
@@ -520,6 +520,27 @@ class MoveByTransporterBlock:
         self.entered_count = 0
         self.finished_count = 0
         self.completed_count = 0
+
+    @staticmethod
+    def _sample_dwell_time_s(value: DurationValue, *, name: str) -> float:
+        if callable(value):
+            return sample_duration_s(value, name=name)
+        duration_s = float(value)
+        if duration_s < 0:
+            raise ValueError(f"{name} must be non-negative, got {duration_s}")
+        return duration_s
+
+    def sample_loading_time_s(self) -> float:
+        return self._sample_dwell_time_s(
+            self.loading_time_s,
+            name=f"{self.name}.loading_time_s",
+        )
+
+    def sample_unloading_time_s(self) -> float:
+        return self._sample_dwell_time_s(
+            self.unloading_time_s,
+            name=f"{self.name}.unloading_time_s",
+        )
 
     def handle(self, pallet: Pallet):
         self.entered_count += 1
@@ -569,10 +590,11 @@ class MoveByTransporterBlock:
                 unload_finished_at = timestamp
 
             if pickup is not None:
+                loading_time_s = self.sample_loading_time_s()
                 yield from fl.perform_lift(
                     pickup,
                     0,
-                    dwell_time_s=self.loading_time_s,
+                    dwell_time_s=loading_time_s,
                     dwell_status=ForklifStatus.LOADING,
                     on_dwell_start=mark_load_start,
                     on_dwell_end=mark_load_end,
@@ -582,10 +604,11 @@ class MoveByTransporterBlock:
 
             dropoff = _resolve_position(self.dropoff_pos, pallet)
             if dropoff is not None:
+                unloading_time_s = self.sample_unloading_time_s()
                 yield from fl.perform_lift(
                     dropoff,
                     0,
-                    dwell_time_s=self.unloading_time_s,
+                    dwell_time_s=unloading_time_s,
                     dwell_status=ForklifStatus.UNLOADING,
                     on_dwell_start=mark_unload_start,
                     on_dwell_end=mark_unload_end,

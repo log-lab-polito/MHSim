@@ -9,6 +9,7 @@ import simpy
 from case_studies.model_5_simpy.stats import Model5Stats
 from mhsim.blocks import MoveByTransporterBlock, Sink, Source
 from mhsim.cyclic_position_logger import CyclicPositionLogger
+from mhsim.random_variables import DurationValue, make_duration_sampler
 
 from .benchmark_labels import MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 from .params import Model1Params
@@ -63,8 +64,14 @@ class Model1SimModel:
             name="moveByTransporter",
             pickup_pos=self.layout.A.get_access_point(),
             dropoff_pos=self.layout.B.get_access_point(),
-            loading_time_s=self.params.move_loading_time_s,
-            unloading_time_s=self.params.move_unloading_time_s,
+            loading_time_s=self._service_time(
+                self.params.move_loading_time_s,
+                "moveByTransporter.loading",
+            ),
+            unloading_time_s=self._service_time(
+                self.params.move_unloading_time_s,
+                "moveByTransporter.unloading",
+            ),
             apply_post_task_policy_if_auto_seized=True,
             stats=self.stats,
             benchmark_prefix="move",
@@ -80,6 +87,28 @@ class Model1SimModel:
             rng=self.rng,
             first_block=self.move_by_transporter,
             name="source",
+            interarrival_time_s=self._interarrival_time(),
+        )
+
+    def _service_time(self, mean_s: float, name: str) -> DurationValue:
+        if not self.params.random_service_times:
+            return mean_s
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.service_time_distribution,
+            triangular_spread=self.params.service_time_triangular_spread,
+            name=f"{name}.service_time_s",
+        )
+
+    def _interarrival_time(self) -> DurationValue | None:
+        if not self.params.random_arrival_times:
+            return None
+        return make_duration_sampler(
+            self.params.arrival_rate_s,
+            rng=self.rng,
+            distribution=self.params.arrival_time_distribution,
+            name="source.interarrival_time_s",
         )
 
     def run(self, until: Optional[float] = None) -> Model5Stats:
@@ -108,8 +137,11 @@ class Model1SimModel:
         return self.stats
 
     def _log_summary(self) -> None:
-        in_flight = self.stats.created - self.stats.completed
+        avg_wip = (
+            self.stats.avg_time_in_system * (self.stats.completed / self.env.now)
+            if self.env.now else 0.0
+        )
         print(
             f"completed={self.stats.completed} avg_Tsys={self.stats.avg_time_in_system:.2f}s "
-            f"created={self.stats.created} in_flight={in_flight}"
+            f"created={self.stats.created} avg_wip={avg_wip:.2f}"
         )

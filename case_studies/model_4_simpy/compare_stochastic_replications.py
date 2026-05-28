@@ -42,7 +42,7 @@ METRICS = (
     MetricSpec("completed", "Completed"),
     MetricSpec("main_completed", "Main completed"),
     MetricSpec("branch_completed", "Branch completed"),
-    MetricSpec("in_flight", "In flight"),
+    MetricSpec("avg_wip", "Avg WIP"),
     MetricSpec("avg_time_in_system_s", "Avg cycle (s)"),
     MetricSpec("throughput_per_hour", "Throughput (/h)"),
 )
@@ -52,7 +52,7 @@ ANYLOGIC_KEY_MAP = {
     "Completed": "completed",
     "Main completed": "main_completed",
     "Branch completed": "branch_completed",
-    "In flight": "in_flight",
+    "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Throughput (/h)": "throughput_per_hour",
 }

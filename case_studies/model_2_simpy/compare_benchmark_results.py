@@ -23,7 +23,7 @@ ANYLOGIC_SUMMARY_KEY_MAP = {
     "Delay time (s)": "delay_time_s",
     "Created": "created",
     "Completed": "completed",
-    "In flight": "in_flight",
+    "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Storage level": "storage_level",
     "Throughput (/h)": "throughput_per_hour",
@@ -50,7 +50,7 @@ ANYLOGIC_BENCHMARK_KEY_MAP = {
 SUMMARY_METRICS = [
     ("created", "Created"),
     ("completed", "Completed"),
-    ("in_flight", "In flight"),
+    ("avg_wip", "Avg WIP"),
     ("avg_time_in_system_s", "Avg cycle (s)"),
     ("storage_level", "Storage level"),
     ("throughput_per_hour", "Throughput (/h)"),
@@ -94,7 +94,7 @@ class AnyLogicBenchmarkRow:
     delay_time_s: float
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     storage_level: int
     throughput_per_hour: float
@@ -110,7 +110,7 @@ class SimPyBenchmarkRow:
     delay_time_s: float
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     storage_level: int
     throughput_per_hour: float
@@ -147,7 +147,7 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
             "delay_time_s",
             "created",
             "completed",
-            "in_flight",
+            "avg_wip",
             "avg_time_in_system_s",
             "storage_level",
             "throughput_per_hour",
@@ -192,7 +192,7 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
                 delay_time_s=float(current_values["delay_time_s"]),
                 created=int(current_values["created"]),
                 completed=int(current_values["completed"]),
-                in_flight=int(current_values["in_flight"]),
+                avg_wip=float(current_values["avg_wip"]),
                 avg_time_in_system_s=float(current_values["avg_time_in_system_s"]),
                 storage_level=int(current_values["storage_level"]),
                 throughput_per_hour=float(current_values["throughput_per_hour"]),
@@ -292,7 +292,7 @@ def run_simpy_benchmark(
         delay_time_s=anylogic_row.delay_time_s,
         created=stats.created,
         completed=stats.completed,
-        in_flight=stats.created - stats.completed,
+        avg_wip=(stats.avg_time_in_system * (stats.completed / sim_time) if sim_time else 0.0),
         avg_time_in_system_s=stats.avg_time_in_system,
         storage_level=int(model.get_storage_level()),
         throughput_per_hour=((stats.completed / sim_time) * 3600.0 if sim_time else 0.0),

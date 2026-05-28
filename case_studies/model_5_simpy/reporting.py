@@ -146,6 +146,7 @@ def run_model_and_print_summary(
     include_forklift_benchmarks: bool = False,
     include_forklift_utilization: bool = False,
     include_in_flight: bool = False,
+    include_avg_wip: bool = False,
     storage_level_label: str = "Storage level at end",
     **model_kwargs: Any,
 ):
@@ -161,6 +162,12 @@ def run_model_and_print_summary(
     print(f"Pallets completed: {stats.completed}")
     if include_in_flight:
         print(f"Pallets in flight: {stats.created - stats.completed}")
+    if include_avg_wip:
+        avg_wip = (
+            stats.avg_time_in_system * (stats.completed / model.env.now)
+            if model.env.now else 0.0
+        )
+        print(f"Avg WIP: {avg_wip:.2f}")
     print(f"Average time in system: {stats.avg_time_in_system:.2f} s")
     storage_level = resolve_model_storage_level(model)
     if storage_level is not None:

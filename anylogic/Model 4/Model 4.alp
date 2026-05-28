@@ -36,7 +36,7 @@ log_file.println("    Created: " + created_count);
 log_file.println("    Completed: " + completed_count);
 log_file.println("    Main completed: " + main_completed_count);
 log_file.println("    Branch completed: " + branch_completed_count);
-log_file.println("    In flight: " + (created_count - completed_count));
+log_file.println("    Avg WIP: " + (completed_count > 0 && cycle_time_samples > 0 ? (completed_count / time()) * (total_cycle_time_s / cycle_time_samples) : 0.0));
 log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
 log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));]]></DestroyCode>
 			<Generic>false</Generic>

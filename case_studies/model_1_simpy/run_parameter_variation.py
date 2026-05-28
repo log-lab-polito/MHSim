@@ -61,7 +61,10 @@ def _metrics():
         "created": stats_attr_metric("created"),
         "completed": stats_attr_metric("completed"),
         "avg_time_in_system_s": stats_attr_metric("avg_time_in_system"),
-        "in_flight": lambda _ctx, _model, stats: stats.created - stats.completed,
+        "avg_wip": lambda _ctx, model, stats: (
+            stats.avg_time_in_system * (stats.completed / model.env.now)
+            if model.env.now else 0.0
+        ),
         "throughput_per_hour": lambda _ctx, model, stats: (
             (stats.completed / model.env.now) * 3600.0 if model.env.now else 0.0
         ),

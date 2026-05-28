@@ -29,7 +29,7 @@ def main():
         params=params,
         model_label="Model 3",
         console_logging=False,
-        include_in_flight=True,
+        include_avg_wip=True,
     )
     print(
         "Conveyor: "

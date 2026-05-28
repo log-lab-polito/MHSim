@@ -27,7 +27,7 @@ ANYLOGIC_SUMMARY_KEY_MAP = {
     "Forklift acceleration (m/s/s)": "forklift_acceleration",
     "Created": "created",
     "Completed": "completed",
-    "In flight": "in_flight",
+    "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Throughput (/h)": "throughput_per_hour",
     "Forklifts Utilization (%)": "forklift_utilization",
@@ -36,7 +36,7 @@ ANYLOGIC_SUMMARY_KEY_MAP = {
 SUMMARY_METRICS = [
     ("created", "Created"),
     ("completed", "Completed"),
-    ("in_flight", "In flight"),
+    ("avg_wip", "Avg WIP"),
     ("avg_time_in_system_s", "Avg cycle (s)"),
     ("throughput_per_hour", "Throughput (/h)"),
 ]
@@ -81,7 +81,7 @@ class AnyLogicBenchmarkRow:
     displacement_m: float | None
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     throughput_per_hour: float
     forklift_utilization: float | None
@@ -95,7 +95,7 @@ class SimPyBenchmarkRow:
     forklift_capacity: int
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     throughput_per_hour: float
     forklift_utilization: float
@@ -130,7 +130,7 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
             "forklift_capacity",
             "created",
             "completed",
-            "in_flight",
+            "avg_wip",
             "avg_time_in_system_s",
             "throughput_per_hour",
         ]
@@ -188,7 +188,7 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
                 ),
                 created=int(current_values["created"]),
                 completed=int(current_values["completed"]),
-                in_flight=int(current_values["in_flight"]),
+                avg_wip=float(current_values["avg_wip"]),
                 avg_time_in_system_s=float(current_values["avg_time_in_system_s"]),
                 throughput_per_hour=float(current_values["throughput_per_hour"]),
                 forklift_utilization=(
@@ -304,7 +304,7 @@ def run_simpy_benchmark(
         forklift_capacity=anylogic_row.forklift_capacity,
         created=stats.created,
         completed=stats.completed,
-        in_flight=stats.created - stats.completed,
+        avg_wip=(stats.avg_time_in_system * (stats.completed / sim_time) if sim_time else 0.0),
         avg_time_in_system_s=stats.avg_time_in_system,
         throughput_per_hour=((stats.completed / sim_time) * 3600.0 if sim_time else 0.0),
         forklift_utilization=model.fleet.utilization,

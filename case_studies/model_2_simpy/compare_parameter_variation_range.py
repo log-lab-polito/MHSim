@@ -33,7 +33,7 @@ from case_studies.model_2_simpy.compare_benchmark_results import (
 METRICS = (
     ("created", "Created"),
     ("completed", "Completed"),
-    ("in_flight", "In flight"),
+    ("avg_wip", "Avg WIP"),
     ("avg_time_in_system_s", "Avg cycle (s)"),
     ("storage_level", "Storage level"),
     ("throughput_per_hour", "Throughput (/h)"),
@@ -95,7 +95,7 @@ def parse_anylogic_range_output(path: str | Path) -> list[RangeRow]:
                 metrics={
                     "created": row.created,
                     "completed": row.completed,
-                    "in_flight": row.in_flight,
+                    "avg_wip": row.avg_wip,
                     "avg_time_in_system_s": row.avg_time_in_system_s,
                     "storage_level": row.storage_level,
                     "throughput_per_hour": row.throughput_per_hour,

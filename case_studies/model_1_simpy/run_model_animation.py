@@ -49,7 +49,7 @@ def main():
             "moveByTransporter",
             "sink",
         ],
-        storage_metric_label="In flight",
+        storage_metric_label="Avg WIP",
     )
 
 

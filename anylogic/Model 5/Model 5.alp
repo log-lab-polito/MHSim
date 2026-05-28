@@ -18,23 +18,23 @@
 		<ActiveObjectClass>
 			<Id>1764169459609</Id>
 			<Name><![CDATA[Main]]></Name>
-			<StartupCode><![CDATA[traceln();
-traceln("ITERATION #" + iteration);
-traceln("PARAMETERS");
-traceln("    Arrival rate (s): " + arrival_rate_s);
-traceln("    Forklift capacity: " + forklift_capacity);
-traceln("    Delay time (s): " + delay_time_s);
+			<StartupCode><![CDATA[log_file.println();
+log_file.println("ITERATION #" + iteration);
+log_file.println("PARAMETERS");
+log_file.println("    Arrival rate (s): " + arrival_rate_s);
+log_file.println("    Forklift capacity: " + forklift_capacity);
+log_file.println("    Delay time (s): " + delay_time_s);
 forklifts_fleet.resetStats();
 ]]></StartupCode>
-			<DestroyCode><![CDATA[traceln("RESULTS");
-traceln("    Created: " + created_count);
-traceln("    Completed: " + completed_count);
-traceln("    In flight: " + (created_count - completed_count));
-traceln("    Avg cycle (s): " + timeMeasureEnd.dataset.getYMean());
-traceln("    Storage level: " + storage_level);
-traceln("    Storage level: " + delay.size());
-traceln("    Throughput (/h): " + (completed_count * 3600.0 / time()));
-traceln("    Forklifts Utilization (%): " + forklifts_fleet.utilization());
+			<DestroyCode><![CDATA[log_file.println("RESULTS");
+log_file.println("    Created: " + created_count);
+log_file.println("    Completed: " + completed_count);
+log_file.println("    In flight: " + (created_count - completed_count));
+log_file.println("    Avg cycle (s): " + timeMeasureEnd.dataset.getYMean());
+log_file.println("    Storage level: " + storage_level);
+log_file.println("    Storage level: " + delay.size());
+log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
+log_file.println("    Forklifts Utilization (%): " + forklifts_fleet.utilization());
 
 logArrayStats("Seize to Loading time (s)", time_seize_loading);
 logArrayStats("Loading time (s)", time_loading);
@@ -691,8 +691,8 @@ logArrayStats("Unloading to release time (s)", time_unloading_release);]]></Dest
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
-					<Action><![CDATA[for (Agent transporter : forklifts_fleet)
-	log_file.println("[" + time() + "s] Forklift position: " + transporter.getPosition());]]></Action>
+					<Action><![CDATA[//for (Agent transporter : forklifts_fleet)
+//	log_file.println("[" + time() + "s] Forklift position: " + transporter.getPosition());]]></Action>
 				</Event>
 			</Events>
 			<Functions>
@@ -807,13 +807,13 @@ return new double[] { mean, min, max, stdPop, stdSample };
 						<Name><![CDATA[values]]></Name>
 						<Type><![CDATA[ArrayList<Double>]]></Type>
 					</Parameter>
-					<Body><![CDATA[traceln("    " + title);
+					<Body><![CDATA[log_file.println("    " + title);
 double[] s = arrayStats(values);
-traceln("      avg = " + s[0]);
-traceln("      min = " + s[1]);
-traceln("      max = " + s[2]);
-traceln("      std dev (pop) = " + s[3]);
-traceln("      std dev (sample) = " + s[4]);]]></Body>
+log_file.println("      avg = " + s[0]);
+log_file.println("      min = " + s[1]);
+log_file.println("      max = " + s[2]);
+log_file.println("      std dev (pop) = " + s[3]);
+log_file.println("      std dev (sample) = " + s[4]);]]></Body>
 				</Function>
 			</Functions>
 			<Connectivity>
@@ -831,7 +831,25 @@ traceln("      std dev (sample) = " + s[4]);]]></Body>
 						<PackageName><![CDATA[model_5]]></PackageName>
 						<ClassName><![CDATA[log_file.txt]]></ClassName>
 					</ResourceReference>
-					<FileMode>WRITE</FileMode>
+					<FileMode>WRITE_APPEND</FileMode>
+					<CharsetName>null</CharsetName>
+					<Separators></Separators>
+				</TextFile>
+				<TextFile>
+					<Id>1779999513068</Id>
+					<Name><![CDATA[stochastic_log_file]]></Name>
+					<X>60</X><Y>340</Y>
+					<Label><X>8</X><Y>-1</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<FileType>FILE</FileType>
+					<Url><![CDATA[]]></Url>
+					<ResourceReference>
+						<PackageName><![CDATA[model_5]]></PackageName>
+						<ClassName><![CDATA[log_file_stochastic.txt]]></ClassName>
+					</ResourceReference>
+					<FileMode>WRITE_APPEND</FileMode>
 					<CharsetName>null</CharsetName>
 					<Separators></Separators>
 				</TextFile>
@@ -2567,122 +2585,6 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 					<InitializationType>SPECIFIED_NUMBER</InitializationType>
 					<InitializationDatabaseTableQuery>
 						<Id>1764169439974</Id>
-						<TableReference>
-						</TableReference>
-					</InitializationDatabaseTableQuery>
-					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
-					<QuantityColumn>
-					</QuantityColumn>
-				</EmbeddedObject>
-				<EmbeddedObject>
-					<Id>1768396923327</Id>
-					<Name><![CDATA[restrictedAreaStart]]></Name>
-					<X>280</X><Y>80</Y>
-					<Label><X>-55</X><Y>-15</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<ActiveObjectClass>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[RestrictedAreaStart]]></ClassName>
-					</ActiveObjectClass>
-					<GenericParameterSubstitute>
-						<GenericParameterSubstituteReference>
-							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-							<ClassName><![CDATA[RestrictedAreaStart]]></ClassName>
-							<ItemName><![CDATA[1412336243130]]></ItemName>
-						</GenericParameterSubstituteReference>
-					</GenericParameterSubstitute>
-					<Parameters>
-						<Parameter>
-							<Name><![CDATA[capacity]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[capacityCalculation()]]></Code>
-							</Value>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[onEnter]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[traceln("Pallet " + agent.getId() + " entered restrictedAreaStart. Total in restrictedArea: " + restrictedAreaStart.entitiesInside());]]></Code>
-							</Value>
-						</Parameter>
-					</Parameters>
-					<ReplicationFlag>false</ReplicationFlag>
-					<Replication Class="CodeValue">
-						<Code><![CDATA[100]]></Code>
-					</Replication>
-					<CollectionType>ARRAY_LIST_BASED</CollectionType>
-					<InitialLocationType>XYZ</InitialLocationType>
-					<ColumnCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</ColumnCode>
-					<RowCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</RowCode>
-					<LocationNameCode Class="CodeValue">
-						<Code><![CDATA[""]]></Code>
-					</LocationNameCode>
-					<InitializationType>SPECIFIED_NUMBER</InitializationType>
-					<InitializationDatabaseTableQuery>
-						<Id>1768396923325</Id>
-						<TableReference>
-						</TableReference>
-					</InitializationDatabaseTableQuery>
-					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
-					<QuantityColumn>
-					</QuantityColumn>
-				</EmbeddedObject>
-				<EmbeddedObject>
-					<Id>1768396930981</Id>
-					<Name><![CDATA[restrictedAreaEnd]]></Name>
-					<X>640</X><Y>70</Y>
-					<Label><X>-50</X><Y>-15</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<ActiveObjectClass>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[RestrictedAreaEnd]]></ClassName>
-					</ActiveObjectClass>
-					<GenericParameterSubstitute>
-						<GenericParameterSubstituteReference>
-							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-							<ClassName><![CDATA[RestrictedAreaEnd]]></ClassName>
-							<ItemName><![CDATA[1412336243129]]></ItemName>
-						</GenericParameterSubstituteReference>
-					</GenericParameterSubstitute>
-					<Parameters>
-						<Parameter>
-							<Name><![CDATA[restrictedAreaStart]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[restrictedAreaStart]]></Code>
-							</Value>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[onEnter]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[traceln("Pallet " + agent.getId() + " entered restrictedAreaEnd. Total in restrictedArea: " + restrictedAreaStart.entitiesInside());]]></Code>
-							</Value>
-						</Parameter>
-					</Parameters>
-					<ReplicationFlag>false</ReplicationFlag>
-					<Replication Class="CodeValue">
-						<Code><![CDATA[100]]></Code>
-					</Replication>
-					<CollectionType>ARRAY_LIST_BASED</CollectionType>
-					<InitialLocationType>XYZ</InitialLocationType>
-					<ColumnCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</ColumnCode>
-					<RowCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</RowCode>
-					<LocationNameCode Class="CodeValue">
-						<Code><![CDATA[""]]></Code>
-					</LocationNameCode>
-					<InitializationType>SPECIFIED_NUMBER</InitializationType>
-					<InitializationDatabaseTableQuery>
-						<Id>1768396930979</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -4513,6 +4415,12 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 		<Resource>
 			<Id>1769443573115</Id>
 			<Path><![CDATA[log_file.txt]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1779999583904</Id>
+			<Path><![CDATA[log_file_stochastic.txt]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>

@@ -70,7 +70,7 @@ def main():
         params=params,
         model_label="Model 4",
         console_logging=False,
-        include_in_flight=True,
+        include_avg_wip=True,
         trace_enabled=trace_path is not None,
     )
     print(

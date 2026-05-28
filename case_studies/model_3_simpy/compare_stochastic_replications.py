@@ -40,7 +40,7 @@ __all__ = [
 METRICS = (
     MetricSpec("created", "Created"),
     MetricSpec("completed", "Completed"),
-    MetricSpec("in_flight", "In flight"),
+    MetricSpec("avg_wip", "Avg WIP"),
     MetricSpec("avg_time_in_system_s", "Avg cycle (s)"),
     MetricSpec("throughput_per_hour", "Throughput (/h)"),
 )
@@ -48,7 +48,7 @@ METRICS = (
 ANYLOGIC_KEY_MAP = {
     "Created": "created",
     "Completed": "completed",
-    "In flight": "in_flight",
+    "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Throughput (/h)": "throughput_per_hour",
 }

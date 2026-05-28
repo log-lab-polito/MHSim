@@ -11,6 +11,7 @@ from mhsim.blocks import DelayBlock, MoveByTransporterBlock, ServiceBlock, Sink,
 from mhsim.cyclic_position_logger import CyclicPositionLogger
 from mhsim.forklift import ForkliftMovementOverrides
 from mhsim.movement import Position3D
+from mhsim.random_variables import DurationValue, make_duration_sampler
 
 from .params import Model2Params
 from .setup import create_model2_warehouse
@@ -52,7 +53,7 @@ class Model2SimModel:
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)
         self.service2 = ServiceBlock(
             self.env,
-            service_time_s=self.params.service2_time_s,
+            service_time_s=self._service_time(self.params.service2_time_s, "service2"),
             next_block=self.sink,
             name="service2",
             logger=self.logger,
@@ -68,8 +69,14 @@ class Model2SimModel:
                 self.params.retrieve_dropoff_y,
                 self.params.retrieve_dropoff_z,
             ),
-            loading_time_s=self.params.retrieve_loading_time_s,
-            unloading_time_s=self.params.retrieve_unloading_time_s,
+            loading_time_s=self._service_time(
+                self.params.retrieve_loading_time_s,
+                "moveToOutbound.loading",
+            ),
+            unloading_time_s=self._service_time(
+                self.params.retrieve_unloading_time_s,
+                "moveToOutbound.unloading",
+            ),
             # Keep the outbound release/return policy explicit so parity runs
             # can test whether AnyLogic releases-and-returns or leaves the
             # forklift parked after this specific block.
@@ -100,8 +107,14 @@ class Model2SimModel:
             name="moveToStorage",
             pickup_pos=self.layout.receiving_area.get_access_point(),
             dropoff_pos=self.layout.storage_rack.get_access_point(),
-            loading_time_s=self.params.store_loading_time_s,
-            unloading_time_s=self.params.store_unloading_time_s,
+            loading_time_s=self._service_time(
+                self.params.store_loading_time_s,
+                "moveToStorage.loading",
+            ),
+            unloading_time_s=self._service_time(
+                self.params.store_unloading_time_s,
+                "moveToStorage.unloading",
+            ),
             # Keep the storage release/return policy independent from outbound;
             # AnyLogic's visible timing suggests the two blocks can differ.
             apply_post_task_policy_if_auto_seized=(
@@ -119,7 +132,7 @@ class Model2SimModel:
         )
         self.service1 = ServiceBlock(
             self.env,
-            service_time_s=self.params.service1_time_s,
+            service_time_s=self._service_time(self.params.service1_time_s, "service1"),
             next_block=self.move_to_storage,
             name="service1",
             logger=self.logger,
@@ -131,6 +144,28 @@ class Model2SimModel:
             rng=self.rng,
             first_block=self.service1,
             name="source",
+            interarrival_time_s=self._interarrival_time(),
+        )
+
+    def _service_time(self, mean_s: float, name: str) -> DurationValue:
+        if not self.params.random_service_times:
+            return mean_s
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.service_time_distribution,
+            triangular_spread=self.params.service_time_triangular_spread,
+            name=f"{name}.service_time_s",
+        )
+
+    def _interarrival_time(self) -> DurationValue | None:
+        if not self.params.random_arrival_times:
+            return None
+        return make_duration_sampler(
+            self.params.arrival_rate_s,
+            rng=self.rng,
+            distribution=self.params.arrival_time_distribution,
+            name="source.interarrival_time_s",
         )
 
     @staticmethod

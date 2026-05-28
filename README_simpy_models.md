@@ -78,6 +78,31 @@ Compare AnyLogic vs SimPy parameter-variation range outputs:
 python -m case_studies.model_1_simpy.compare_parameter_variation_range
 ```
 
+Run stochastic ranged replications with exponential interarrival times and
+triangular transporter loading/unloading times. The default stochastic run
+matches the AnyLogic `StochasticAnalysis` experiment: 64 parameter combinations,
+50 replications per iteration:
+
+```bash
+python -m case_studies.model_1_simpy.run_stochastic_replications
+```
+
+Outputs:
+
+```text
+logs/model_1_stochastic_replications_runs.csv
+logs/model_1_stochastic_replications_summary.csv
+```
+
+Compare stochastic AnyLogic and SimPy replication samples:
+
+```bash
+python -m case_studies.model_1_simpy.compare_stochastic_replications \
+  --anylogic logs/anylogic_model_1_stochastic_replications.txt \
+  --simpy-runs logs/model_1_stochastic_replications_runs.csv \
+  --output-csv logs/model_1_stochastic_comparison.csv
+```
+
 Write a curated text report:
 
 ```bash
@@ -156,7 +181,7 @@ Accepted Model 1 summary `--metric` values:
 ```text
 created
 completed
-in_flight
+avg_wip
 avg_time_in_system_s
 throughput_per_hour
 forklift_utilization
@@ -205,6 +230,32 @@ Compare AnyLogic vs SimPy parameter-variation range outputs:
 python -m case_studies.model_2_simpy.compare_parameter_variation_range --view overview
 ```
 
+Run stochastic ranged replications with exponential interarrival times and
+triangular service/loading/unloading times. `delay_time_s` remains
+deterministic. The default stochastic run matches the AnyLogic
+`StochasticAnalysis` experiment: 36 parameter combinations, 50 replications per
+iteration:
+
+```bash
+python -m case_studies.model_2_simpy.run_stochastic_replications
+```
+
+Outputs:
+
+```text
+logs/model_2_stochastic_replications_runs.csv
+logs/model_2_stochastic_replications_summary.csv
+```
+
+Compare stochastic AnyLogic and SimPy replication samples:
+
+```bash
+python -m case_studies.model_2_simpy.compare_stochastic_replications \
+  --anylogic logs/anylogic_model_2_stochastic_replications.txt \
+  --simpy-runs logs/model_2_stochastic_replications_runs.csv \
+  --output-csv logs/model_2_stochastic_comparison.csv
+```
+
 Show the top benchmark-average offenders against the AnyLogic range export:
 
 ```bash
@@ -230,7 +281,7 @@ Accepted summary `--metric` values for offenders:
 ```text
 created
 completed
-in_flight
+avg_wip
 avg_time_in_system_s
 storage_level
 throughput_per_hour
@@ -434,7 +485,7 @@ Accepted Model 3 summary `--metric` values:
 ```text
 created
 completed
-in_flight
+avg_wip
 avg_time_in_system_s
 throughput_per_hour
 conveyor_entered
@@ -565,7 +616,7 @@ Accepted Model 4 summary `--metric` values:
 ```text
 created
 completed
-in_flight
+avg_wip
 avg_time_in_system_s
 throughput_per_hour
 main_created
