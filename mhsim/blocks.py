@@ -675,7 +675,7 @@ class StoreBlock:
         next_block,
         name: str = "store",
         inbound_pos=None,
-        loading_time_s: float = 0.0,
+        loading_time_s: DurationValue = 0.0,
         request_priority: int = 1,
         logger: Optional[CyclicPositionLogger] = None,
     ):
@@ -750,7 +750,7 @@ class StoreBlock:
             yield from fl.perform_lift(
                 self.inbound_pos,
                 0,
-                dwell_time_s=self.loading_time_s,
+                dwell_time_s=sample_duration_s(self.loading_time_s, name=f"{self.name}.loading_time_s") if self.loading_time_s else 0.0,
                 dwell_status=ForklifStatus.LOADING,
                 on_dwell_start=mark_load_start,
                 on_dwell_end=mark_load_end,
@@ -845,7 +845,7 @@ class RetrieveBlock:
         next_block,
         name: str = "retrieve",
         outbound_pos=None,
-        unloading_time_s: float = 0.0,
+        unloading_time_s: DurationValue = 0.0,
         request_priority: int = 1,
         logger: Optional[CyclicPositionLogger] = None,
     ):
@@ -928,7 +928,7 @@ class RetrieveBlock:
             yield from fl.perform_lift(
                 self.outbound_pos,
                 0,
-                dwell_time_s=self.unloading_time_s,
+                dwell_time_s=sample_duration_s(self.unloading_time_s, name=f"{self.name}.unloading_time_s") if self.unloading_time_s else 0.0,
                 dwell_status=ForklifStatus.UNLOADING,
                 on_dwell_start=mark_unload_start,
                 on_dwell_end=mark_unload_end,

@@ -25,7 +25,7 @@ ANYLOGIC_KEY_MAP = {
     "Delay time (s)": "delay_time_s",
     "Created": "created",
     "Completed": "completed",
-    "In flight": "in_flight",
+    "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Storage level": "storage_level",
     "Throughput (/h)": "throughput_per_hour",
@@ -35,7 +35,7 @@ ANYLOGIC_KEY_MAP = {
 METRICS = [
     ("created", "Created"),
     ("completed", "Completed"),
-    ("in_flight", "In flight"),
+    ("avg_wip", "Avg WIP"),
     ("avg_time_in_system_s", "Avg cycle (s)"),
     ("storage_level", "Storage level"),
     ("throughput_per_hour", "Throughput (/h)"),
@@ -53,7 +53,7 @@ class AnyLogicRangeRow:
     delay_time_s: float
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     storage_level: int
     throughput_per_hour: float
@@ -74,7 +74,7 @@ class SimPyRangeSummaryRow:
     delay_time_s: float | None
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     storage_level: int
     throughput_per_hour: float
@@ -95,7 +95,7 @@ class SimPyRangeRunRow:
     delay_time_s: float | None
     created: int
     completed: int
-    in_flight: int
+    avg_wip: float
     avg_time_in_system_s: float
     storage_level: int
     throughput_per_hour: float
@@ -130,7 +130,7 @@ def parse_anylogic_range_output(path: str | Path) -> list[AnyLogicRangeRow]:
             "delay_time_s",
             "created",
             "completed",
-            "in_flight",
+            "avg_wip",
             "avg_time_in_system_s",
             "storage_level",
             "throughput_per_hour",
@@ -148,7 +148,7 @@ def parse_anylogic_range_output(path: str | Path) -> list[AnyLogicRangeRow]:
                 delay_time_s=float(values["delay_time_s"]),
                 created=int(values["created"]),
                 completed=int(values["completed"]),
-                in_flight=int(values["in_flight"]),
+                avg_wip=float(values["avg_wip"]),
                 avg_time_in_system_s=float(values["avg_time_in_system_s"]),
                 storage_level=int(values["storage_level"]),
                 throughput_per_hour=float(values["throughput_per_hour"]),
@@ -211,7 +211,7 @@ def load_simpy_summary_rows(path: str | Path) -> list[SimPyRangeSummaryRow]:
                     delay_time_s=_optional_float_field(record, "param_delay_time_s"),
                     created=_metric_int_field(record, "created"),
                     completed=_metric_int_field(record, "completed"),
-                    in_flight=_metric_int_field(record, "in_flight"),
+                    avg_wip=_metric_float_field(record, "avg_wip"),
                     avg_time_in_system_s=_metric_float_field(
                         record, "avg_time_in_system_s"
                     ),
@@ -243,7 +243,7 @@ def load_simpy_run_rows(path: str | Path) -> list[SimPyRangeRunRow]:
                     delay_time_s=_optional_float_field(record, "param_delay_time_s"),
                     created=_int_field(record, "metric_created"),
                     completed=_int_field(record, "metric_completed"),
-                    in_flight=_int_field(record, "metric_in_flight"),
+                    avg_wip=_float_field(record, "metric_avg_wip"),
                     avg_time_in_system_s=_float_field(
                         record, "metric_avg_time_in_system_s"
                     ),

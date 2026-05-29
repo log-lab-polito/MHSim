@@ -9,6 +9,7 @@ import simpy
 from .blocks import DelayBlock, RetrieveBlock, ServiceBlock, Sink, Source, StoreBlock
 from mhsim.cyclic_position_logger import CyclicPositionLogger
 from .params import Model5Params
+from mhsim.random_variables import DurationValue, make_duration_sampler
 from .setup import create_warehouse_with_standard_config
 from .stats import Model5Stats
 from mhsim.storage_slots import StorageSlotManager
@@ -54,7 +55,7 @@ class Model5SimModel:
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)
         self.service2 = ServiceBlock(
             self.env,
-            service_time_s=self.params.service2_time_s,
+            service_time_s=self._service_time(self.params.service2_time_s, "service2"),
             next_block=self.sink,
             name="service2",
             logger=self.logger,
@@ -75,7 +76,7 @@ class Model5SimModel:
             next_block=self.service2,
             name="retrieve",
             outbound_pos=self.layout.outbound_area.get_access_point(),
-            unloading_time_s=self.params.unloading_time_s,
+            unloading_time_s=self._service_time(self.params.unloading_time_s, "retrieve.unloading"),
             request_priority=self.params.forklift_retrieve_priority,
             logger=self.logger,
         )
@@ -95,13 +96,13 @@ class Model5SimModel:
             next_block=self.delay,
             name="store",
             inbound_pos=self.layout.inbound_area.get_access_point(),
-            loading_time_s=self.params.loading_time_s,
+            loading_time_s=self._service_time(self.params.loading_time_s, "store.loading"),
             request_priority=self.params.forklift_store_priority,
             logger=self.logger,
         )
         self.service1 = ServiceBlock(
             self.env,
-            service_time_s=self.params.service1_time_s,
+            service_time_s=self._service_time(self.params.service1_time_s, "service1"),
             next_block=self.store,
             name="service1",
             logger=self.logger,
@@ -113,6 +114,29 @@ class Model5SimModel:
             rng=self.rng,
             first_block=self.service1,
             name="source",
+            interarrival_time_s=self._interarrival_time(),
+        )
+
+    def _service_time(self, mean_s: float, name: str) -> DurationValue:
+        if not self.params.random_service_times:
+            return mean_s
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.service_time_distribution,
+            triangular_spread=self.params.service_time_triangular_spread,
+            name=f"{name}.service_time_s",
+        )
+
+    def _interarrival_time(self) -> DurationValue | None:
+        if not self.params.random_arrival_times:
+            return None
+        mean_s = 1.0 / self.params.arrival_rate_per_second()
+        return make_duration_sampler(
+            mean_s,
+            rng=self.rng,
+            distribution=self.params.arrival_time_distribution,
+            name="source.interarrival_time_s",
         )
 
     def run(self, until: Optional[float] = None) -> Model5Stats:
@@ -123,7 +147,10 @@ class Model5SimModel:
                 self.logger.start(self.env, self.fleet.forklifts)
             self.source.start()
             stop_time = until if until is not None else self.params.sim_time
-            self.env.run(until=stop_time)
+            # SimPy does not process events exactly at ``until``. AnyLogic
+            # includes source events on the stop boundary, so advance by a
+            # tiny epsilon to keep the final cyclic arrival visible.
+            self.env.run(until=stop_time + 1e-9)
             if self.console_logging:
                 self._log_summary()
         finally:

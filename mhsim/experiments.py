@@ -5,6 +5,8 @@ import csv
 import inspect
 import math
 import statistics
+import sys
+import time
 from dataclasses import dataclass, field, is_dataclass, replace
 from itertools import product
 from numbers import Number
@@ -287,12 +289,15 @@ class ParameterVariationExperiment:
         if self.random_seed_mode not in {"fixed", "random"}:
             raise ValueError("random_seed_mode must be 'fixed' or 'random'")
 
-    def run(self) -> ParameterVariationResult:
+    def run(self, *, verbose: bool = False) -> ParameterVariationResult:
         iteration_values = self.variation.build_iterations(self.base_params)
+        total_iterations = len(iteration_values)
         system_random = SystemRandom()
         runs: list[ParameterVariationRun] = []
+        t_start = time.monotonic()
 
         for iteration_index, values in enumerate(iteration_values):
+            iteration_runs: list[ParameterVariationRun] = []
             for replication_index in range(self.replications):
                 run_index = len(runs)
                 parameter_values = dict(values)
@@ -320,18 +325,27 @@ class ParameterVariationExperiment:
                     seed=seed,
                 )
                 metrics = self._collect_metrics(context, model, stats)
-                runs.append(
-                    ParameterVariationRun(
-                        iteration_index=iteration_index,
-                        iteration_number=iteration_index + 1,
-                        replication_index=replication_index,
-                        replication_number=replication_index + 1,
-                        run_index=run_index,
-                        run_number=run_index + 1,
-                        seed=seed,
-                        parameter_values=output_parameter_values,
-                        metrics=metrics,
-                    )
+                run = ParameterVariationRun(
+                    iteration_index=iteration_index,
+                    iteration_number=iteration_index + 1,
+                    replication_index=replication_index,
+                    replication_number=replication_index + 1,
+                    run_index=run_index,
+                    run_number=run_index + 1,
+                    seed=seed,
+                    parameter_values=output_parameter_values,
+                    metrics=metrics,
+                )
+                runs.append(run)
+                iteration_runs.append(run)
+
+            if verbose:
+                _print_iteration_progress(
+                    iteration_index=iteration_index,
+                    total_iterations=total_iterations,
+                    replications=self.replications,
+                    iteration_runs=iteration_runs,
+                    t_start=t_start,
                 )
 
         return ParameterVariationResult(
@@ -540,6 +554,58 @@ def _all_numeric(values: Sequence[Any]) -> bool:
 
 def _all_values_equal(values: Sequence[Any]) -> bool:
     return len(values) <= 1 or all(value == values[0] for value in values)
+
+
+def _print_iteration_progress(
+    *,
+    iteration_index: int,
+    total_iterations: int,
+    replications: int,
+    iteration_runs: list[ParameterVariationRun],
+    t_start: float,
+) -> None:
+    """Print a one-line iteration summary to stderr."""
+    elapsed = time.monotonic() - t_start
+    completed_iters = iteration_index + 1
+    eta_s = (elapsed / completed_iters) * (total_iterations - completed_iters)
+
+    # Parameter summary (skip internal fields like random_seed)
+    _SKIP = {"random_seed", "replication"}
+    params = iteration_runs[0].parameter_values if iteration_runs else {}
+    param_str = "  ".join(
+        f"{k}={v:.4g}" if isinstance(v, float) else f"{k}={v}"
+        for k, v in params.items()
+        if k not in _SKIP
+    )
+
+    # Key metric means
+    metric_parts: list[str] = []
+    numeric_metrics: dict[str, list[float]] = {}
+    for run in iteration_runs:
+        for name, val in run.metrics.items():
+            if isinstance(val, (int, float)) and not isinstance(val, bool):
+                numeric_metrics.setdefault(name, []).append(float(val))
+    _HIGHLIGHT = ["completed", "throughput_per_hour", "avg_time_in_system_s", "avg_wip"]
+    for name in _HIGHLIGHT:
+        if name in numeric_metrics:
+            mean = statistics.fmean(numeric_metrics[name])
+            if name in ("avg_time_in_system_s",):
+                metric_parts.append(f"cycle={mean:.1f}s")
+            elif name == "throughput_per_hour":
+                metric_parts.append(f"tput={mean:.1f}/h")
+            elif name == "avg_wip":
+                metric_parts.append(f"wip={mean:.2f}")
+            else:
+                metric_parts.append(f"{name}={mean:.1f}")
+
+    eta_str = f"ETA {eta_s:.0f}s" if eta_s > 0 else "done"
+    metric_str = "  " + "  ".join(metric_parts) if metric_parts else ""
+    print(
+        f"[{completed_iters:>3}/{total_iterations}] {param_str}{metric_str}"
+        f"  ({elapsed:.0f}s elapsed  {eta_str})",
+        file=sys.stderr,
+        flush=True,
+    )
 
 
 def _write_rows_csv(output_path: Path, rows: Sequence[Mapping[str, Any]]) -> None:

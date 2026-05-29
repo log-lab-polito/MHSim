@@ -1,19 +1,19 @@
 metric_key,metric,count,avg_s,min_s,max_s,std_dev_s
-store_seize_to_load_start_s,Store legacy: seize -> load start,150,27.799350802968753,27.799350802535628,27.799350803039488,1.4220465707663594e-10
+store_seize_to_load_start_s,Store legacy: seize -> load start,150,28.14159265361998,28.141592653188127,28.141592653690168,1.417638668146942e-10
 store_load_duration_s,Store legacy: load start -> load finish,150,1.0,1.0,1.0,0.0
-store_unload_finish_to_release_s,Store legacy: load finish -> release,150,33.9463641226172,33.49935080245268,59.675349776370865,2.9804387917775874
-retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,147,16.105573770509274,16.005573770260526,16.205573770550473,0.08164965809286884
+store_unload_finish_to_release_s,Store legacy: load finish -> release,150,34.292147222337185,33.84159265310518,60.283185307183146,3.010890338026653
+retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,147,16.800000000016837,16.699999999767897,16.900000000057844,0.08164965809286884
 retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,147,1.0,1.0,1.0,0.0
-retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,147,28.875998973232285,28.8759989730097,28.87599897353357,2.4906753734260923e-10
+retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,147,29.141592653392898,29.141592653169937,29.141592653694715,2.494756271105091e-10
 store_enter_to_seize_s,Store: enter -> seize,150,0.0,0.0,0.0,0.0
-store_seize_to_loading_start_s,Store: seize -> loading start,150,27.799350802968753,27.799350802535628,27.799350803039488,1.4220465707663594e-10
+store_seize_to_loading_start_s,Store: seize -> loading start,150,28.14159265361998,28.141592653188127,28.141592653690168,1.417638668146942e-10
 store_loading_duration_s,Store: loading start -> loading finish,150,1.0,1.0,1.0,0.0
-store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,150,33.59935080297145,33.49935080245268,33.69935080306095,0.08164965808894067
+store_loading_finish_to_unloading_start_s,Store: loading finish -> unloading start,150,33.94159265362262,33.84159265310518,34.04159265371163,0.08164965808894567
 store_unloading_duration_s,Store: unloading start -> unloading finish,150,0.0,0.0,0.0,0.0
-store_unloading_finish_to_release_s,Store: unloading finish -> release,150,0.34701331964574517,0.0,26.075998973434594,2.985127030829473
-retrieve_enter_to_seize_s,Retrieve: enter -> seize,147,59.64590477585962,33.824001026582835,60.200000000277214,3.0124951592847298
-retrieve_seize_to_loading_start_s,Retrieve: seize -> loading start,147,2.252786885248187,2.1527868852135725,2.352786885254318,0.08164965809312222
+store_unloading_finish_to_release_s,Store: unloading finish -> release,150,0.35055456871455715,0.0,26.341592653595484,3.0155899507700603
+retrieve_enter_to_seize_s,Retrieve: enter -> seize,147,59.64229125640169,33.558407346421916,60.200000000277214,3.0432292471351614
+retrieve_seize_to_loading_start_s,Retrieve: seize -> loading start,147,2.600000000001971,2.499999999967258,2.7000000000080036,0.08164965809312552
 retrieve_loading_duration_s,Retrieve: loading start -> loading finish,147,0.0,0.0,0.0,0.0
-retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,147,13.852786885261086,13.752786885048408,13.952786885296518,0.08164965809130408
+retrieve_loading_finish_to_unloading_start_s,Retrieve: loading finish -> unloading start,147,14.200000000014867,14.099999999802094,14.300000000050204,0.08164965809129981
 retrieve_unloading_duration_s,Retrieve: unloading start -> unloading finish,147,1.0,1.0,1.0,0.0
-retrieve_unloading_finish_to_release_s,Retrieve: unloading finish -> release,147,28.875998973232285,28.8759989730097,28.87599897353357,2.4906753734260923e-10
+retrieve_unloading_finish_to_release_s,Retrieve: unloading finish -> release,147,29.141592653392898,29.141592653169937,29.141592653694715,2.494756271105091e-10

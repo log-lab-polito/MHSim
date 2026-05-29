@@ -57,6 +57,14 @@ class Model5Params(SimulationParams):
     nof_shelves: int = 6  # number of shelves (vertical levels)
     shelf_height: float = 1.0  # meters - height between shelf levels
 
+    # Stochastic timing. Deterministic mode remains the default so existing
+    # AnyLogic parity checks keep their current semantics.
+    random_arrival_times: bool = False
+    random_service_times: bool = False
+    arrival_time_distribution: str = "exponential"
+    service_time_distribution: str = "triangular"
+    service_time_triangular_spread: float = 0.5
+
     def arrival_rate_per_second(self) -> float:
         """Convert arrival rate from per minute to per second."""
         return self.arrival_rate_per_min / 60.0
