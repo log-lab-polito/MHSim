@@ -6,10 +6,10 @@ from typing import Optional
 
 import simpy
 
-from .blocks import DelayBlock, RetrieveBlock, ServiceBlock, Sink, Source, StoreBlock
+from mhsim.blocks import DelayBlock, RetrieveBlock, ServiceBlock, Sink, Source, StoreBlock
 from mhsim.cyclic_position_logger import CyclicPositionLogger
 from .params import Model5Params
-from mhsim.random_variables import DurationValue, make_duration_sampler
+from mhsim.random_variables import DurationValue, make_duration_sampler, make_service_time
 from .setup import create_warehouse_with_standard_config
 from .stats import Model5Stats
 from mhsim.storage_slots import StorageSlotManager
@@ -118,15 +118,7 @@ class Model5SimModel:
         )
 
     def _service_time(self, mean_s: float, name: str) -> DurationValue:
-        if not self.params.random_service_times:
-            return mean_s
-        return make_duration_sampler(
-            mean_s,
-            rng=self.rng,
-            distribution=self.params.service_time_distribution,
-            triangular_spread=self.params.service_time_triangular_spread,
-            name=f"{name}.service_time_s",
-        )
+        return make_service_time(self.params, self.rng, mean_s, name)
 
     def _interarrival_time(self) -> DurationValue | None:
         if not self.params.random_arrival_times:

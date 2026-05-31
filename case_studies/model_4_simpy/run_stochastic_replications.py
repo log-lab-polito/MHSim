@@ -1,18 +1,10 @@
 from __future__ import annotations
 
-import argparse
-from pathlib import Path
-
-from mhsim.experiments import (
-    ParameterVariationExperiment,
-    ParameterVariationResult,
-    RangeVariation,
-)
+from mhsim.experiments import RangeVariation
 from mhsim.stochastic_replications import (
     StochasticReplicationOptions,
     StochasticReplicationSpec,
-    build_stochastic_replication_experiment as _build_stochastic_replication_experiment,
-    write_stochastic_replication_outputs,
+    run_stochastic_replications_cli,
 )
 
 from .model import Model4SimModel
@@ -57,49 +49,11 @@ STOCHASTIC_REPLICATION_SPEC = StochasticReplicationSpec(
 )
 
 
-def build_stochastic_replication_experiment(
-    *,
-    replications: int = DEFAULT_REPLICATIONS,
-    run_until: float | None = DEFAULT_RANGE_RUN_UNTIL_S,
-    base_random_seed: int = 1,
-    random_arrival_times: bool = True,
-    random_service_times: bool = True,
-    arrival_time_distribution: str = "exponential",
-    service_time_distribution: str = "triangular",
-    service_time_triangular_spread: float = 0.5,
-) -> ParameterVariationExperiment:
-    return _build_stochastic_replication_experiment(
-        STOCHASTIC_REPLICATION_SPEC,
-        StochasticReplicationOptions(
-            replications=replications,
-            run_until=run_until,
-            base_random_seed=base_random_seed,
-            random_arrival_times=random_arrival_times,
-            random_service_times=random_service_times,
-            arrival_time_distribution=arrival_time_distribution,
-            service_time_distribution=service_time_distribution,
-            service_time_triangular_spread=service_time_triangular_spread,
-        ),
-    )
-
-
-def _write_outputs(
-    result: ParameterVariationResult,
-    *,
-    output_dir: Path,
-) -> tuple[Path, Path]:
-    return write_stochastic_replication_outputs(
-        result,
-        STOCHASTIC_REPLICATION_SPEC,
-        output_dir=output_dir,
-    )
-
-
 def _metric(row: dict[str, object], name: str) -> float:
     return float(row[f"metric_{name}"])
 
 
-def _print_summary(result: ParameterVariationResult) -> None:
+def _print_summary(result) -> None:
     print("\n--- Model 4 Stochastic Replications ---")
     print(
         f"Iterations: {result.total_iterations}  "
@@ -119,58 +73,7 @@ def _print_summary(result: ParameterVariationResult) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Run stochastic Model 4 replications and write per-run CSV output."
-    )
-    parser.add_argument("--output-dir", default="logs")
-    parser.add_argument(
-        "--run-until",
-        type=float,
-        default=STOCHASTIC_REPLICATION_SPEC.default_run_until_s,
-    )
-    parser.add_argument(
-        "--replications",
-        type=int,
-        default=STOCHASTIC_REPLICATION_SPEC.default_replications,
-    )
-    parser.add_argument("--base-seed", type=int, default=1)
-    parser.add_argument(
-        "--arrival-distribution",
-        choices=("deterministic", "exponential", "triangular"),
-        default="exponential",
-    )
-    parser.add_argument(
-        "--service-distribution",
-        choices=("deterministic", "exponential", "triangular"),
-        default="triangular",
-    )
-    parser.add_argument("--service-triangular-spread", type=float, default=0.5)
-    parser.add_argument(
-        "--deterministic-arrivals",
-        action="store_true",
-        help="Keep arrivals deterministic while allowing stochastic services.",
-    )
-    parser.add_argument(
-        "--deterministic-services",
-        action="store_true",
-        help="Keep services deterministic while allowing stochastic arrivals.",
-    )
-    args = parser.parse_args()
-
-    result = build_stochastic_replication_experiment(
-        replications=args.replications,
-        run_until=args.run_until,
-        base_random_seed=args.base_seed,
-        random_arrival_times=not args.deterministic_arrivals,
-        random_service_times=not args.deterministic_services,
-        arrival_time_distribution=args.arrival_distribution,
-        service_time_distribution=args.service_distribution,
-        service_time_triangular_spread=args.service_triangular_spread,
-    ).run()
-    run_csv, summary_csv = _write_outputs(result, output_dir=Path(args.output_dir))
-    _print_summary(result)
-    print(f"Wrote run CSV: {run_csv}")
-    print(f"Wrote summary CSV: {summary_csv}")
+    run_stochastic_replications_cli(STOCHASTIC_REPLICATION_SPEC, summary_callback=_print_summary)
 
 
 if __name__ == "__main__":

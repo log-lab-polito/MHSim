@@ -6,10 +6,10 @@ from typing import Optional
 
 import simpy
 
-from case_studies.model_5_simpy.stats import Model5Stats
+from mhsim.stats import Model5Stats
 from mhsim.blocks import MoveByTransporterBlock, Sink, Source
 from mhsim.cyclic_position_logger import CyclicPositionLogger
-from mhsim.random_variables import DurationValue, make_duration_sampler
+from mhsim.random_variables import DurationValue, make_duration_sampler, make_service_time
 
 from .benchmark_labels import MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 from .params import Model1Params
@@ -91,15 +91,7 @@ class Model1SimModel:
         )
 
     def _service_time(self, mean_s: float, name: str) -> DurationValue:
-        if not self.params.random_service_times:
-            return mean_s
-        return make_duration_sampler(
-            mean_s,
-            rng=self.rng,
-            distribution=self.params.service_time_distribution,
-            triangular_spread=self.params.service_time_triangular_spread,
-            name=f"{name}.service_time_s",
-        )
+        return make_service_time(self.params, self.rng, mean_s, name)
 
     def _interarrival_time(self) -> DurationValue | None:
         if not self.params.random_arrival_times:

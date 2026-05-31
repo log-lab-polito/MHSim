@@ -14,8 +14,8 @@ from matplotlib.patches import Rectangle
 
 from .model import Model5SimModel
 from .params import Model5Params
-from .spatial import PointNode, RectangularNode
-from .visualization import MovementRecorder, create_recording_process
+from mhsim.spatial import PointNode, RectangularNode
+from mhsim.visualization import MovementRecorder, create_recording_process
 
 try:
     matplotlib.use("TkAgg")

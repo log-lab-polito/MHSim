@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from random import Random
-from typing import Callable
+from typing import Any, Callable
 
 
 DurationSampler = Callable[[], float]
@@ -48,4 +48,17 @@ def make_duration_sampler(
     raise ValueError(
         f"Unsupported {name} distribution '{distribution}'. "
         "Use deterministic, exponential, or triangular."
+    )
+
+
+def make_service_time(params: Any, rng: Random, mean_s: float, name: str) -> DurationValue:
+    """Return a fixed or sampled service time based on params randomization settings."""
+    if not params.random_service_times:
+        return mean_s
+    return make_duration_sampler(
+        mean_s,
+        rng=rng,
+        distribution=params.service_time_distribution,
+        triangular_spread=params.service_time_triangular_spread,
+        name=f"{name}.service_time_s",
     )

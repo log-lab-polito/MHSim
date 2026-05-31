@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from case_studies.model_5_simpy.model import Model5SimModel
+from .model import Model5SimModel
 from mhsim.experiments import (
     ChoiceParameter,
     ParameterVariationExperiment,

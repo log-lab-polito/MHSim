@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from case_studies.model_5_simpy.reporting import (
+from mhsim.reporting import (
     run_model_and_print_summary,
     write_forklift_movement_benchmark_csv,
 )

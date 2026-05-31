@@ -10,8 +10,8 @@ import re
 from dataclasses import dataclass, replace
 from pathlib import Path
 
-from case_studies.model_5_simpy.reporting import build_forklift_movement_benchmark_rows
-from case_studies.model_5_simpy.stats import PHASE_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
+from mhsim.reporting import build_forklift_movement_benchmark_rows
+from mhsim.stats import PHASE_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 
 from .model import Model2SimModel
 from .params import Model2Params

@@ -15,6 +15,7 @@ from mhsim.pallet import Pallet
 from mhsim.random_variables import (
     DurationValue,
     make_duration_sampler,
+    make_service_time,
     sample_duration_s,
 )
 from mhsim.stats import SimulationStats
@@ -667,15 +668,7 @@ class Model4SimModel:
         )
 
     def _service_time(self, mean_s: float, name: str) -> DurationValue:
-        if not self.params.random_service_times:
-            return mean_s
-        return make_duration_sampler(
-            mean_s,
-            rng=self.rng,
-            distribution=self.params.service_time_distribution,
-            triangular_spread=self.params.service_time_triangular_spread,
-            name=f"{name}.service_time_s",
-        )
+        return make_service_time(self.params, self.rng, mean_s, name)
 
     def _arrival_time(self, mean_s: float, name: str) -> DurationValue:
         if not self.params.random_arrival_times:

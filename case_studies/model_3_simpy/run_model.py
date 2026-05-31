@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from case_studies.model_5_simpy.reporting import run_model_and_print_summary
+from mhsim.reporting import run_model_and_print_summary
 
 from .model import Model3SimModel
 from .params import Model3Params

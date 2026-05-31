@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from case_studies.model_5_simpy.reporting import run_model_and_print_summary
+from mhsim.reporting import run_model_and_print_summary
 
 from .model import Model4SimModel
 from .params import Model4Params

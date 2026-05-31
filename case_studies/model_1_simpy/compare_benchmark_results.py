@@ -8,7 +8,7 @@ import math
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from case_studies.model_5_simpy.reporting import build_forklift_movement_benchmark_rows
+from mhsim.reporting import build_forklift_movement_benchmark_rows
 
 from .benchmark_labels import (
     ANYLOGIC_BENCHMARK_KEY_MAP,
