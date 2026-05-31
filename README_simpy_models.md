@@ -25,7 +25,6 @@ This README covers:
 - SimPy Model 3 validates against `anylogic/Model 3`.
 - SimPy Model 4 remains WIP.
 - SimPy Model 5 validates against `anylogic/Model 5` and `logs/anylogic_model_5*`.
-- `anylogic/Model 6` is the renamed AnyLogic ranged parameter-variation reference.
 - `anylogic/Legacy Model 1` is retained as historical context only.
 
 ## Prerequisites
