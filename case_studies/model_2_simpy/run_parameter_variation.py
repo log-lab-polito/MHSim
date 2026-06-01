@@ -13,7 +13,7 @@ from mhsim.experiments import (
     stats_attr_metric,
 )
 
-from .compare_benchmark_results import (
+from .benchmark_labels import (
     ANYLOGIC_BENCHMARK_KEY_MAP,
     BENCHMARK_STAT_FIELDS,
     BenchmarkStats,

@@ -3,7 +3,7 @@ from __future__ import annotations
 from random import Random
 from typing import Any, Callable
 
-
+# TODO bad namings all around this file. Could be more generic and clear.
 DurationSampler = Callable[[], float]
 DurationValue = float | DurationSampler
 

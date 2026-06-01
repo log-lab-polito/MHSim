@@ -7,8 +7,8 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from .model import Model1SimModel
-from .params import Model1Params
+from ..model import Model1SimModel
+from ..params import Model1Params
 
 
 TRACE_LINE_RE = re.compile(r"t=([-+0-9.]+)")

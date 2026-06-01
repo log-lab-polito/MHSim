@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """
-Compare AnyLogic and SimPy outputs for Model 2 parameter-variation range runs.
+Compare AnyLogic and SimPy outputs for Model 1 parameter-variation range runs.
 
-This comparison focuses on summary metrics and phase-level forklift movement
-benchmarks. Model 2 now uses the shared range comparison/report renderer also
-used by Model 1, including report and HTML output support.
+This comparison focuses on summary metrics and forklift movement benchmarks.
 """
 
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 from pathlib import Path
 
-from mhsim.range_comparison import (
+from mhsim_analysis.range_comparison import (
     RangeComparisonSpec,
     RangeRow,
     build_comparison_context as _build_comparison_context,
@@ -23,96 +22,189 @@ from mhsim.range_comparison import (
     render_html_report,
 )
 
-from case_studies.model_2_simpy.compare_benchmark_results import (
+from case_studies.model_1_simpy.anylogic_range import range_values_for_iteration
+from case_studies.model_1_simpy.benchmark_labels import (
+    ANYLOGIC_BENCHMARK_KEY_MAP,
+    BENCHMARK_AVG_ONLY,
+    BENCHMARK_METRIC_PREFIX,
+    BENCHMARK_STAT_DISPLAY_LABELS,
     BENCHMARK_STAT_FIELDS,
-    MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    BenchmarkStats,
+    MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    SUMMARY_METRICS as METRICS,
+)
+from case_studies.model_1_simpy.analysis.compare_benchmark_results import (
     parse_anylogic_benchmark_output,
 )
 
 
-METRICS = (
-    ("created", "Created"),
-    ("completed", "Completed"),
-    ("avg_wip", "Avg WIP"),
-    ("avg_time_in_system_s", "Avg cycle (s)"),
-    ("storage_level", "Storage level"),
-    ("throughput_per_hour", "Throughput (/h)"),
-)
 OPTIONAL_METRICS = (
     ("forklift_utilization", "Forklifts Utilization (%)"),
-    # AnyLogic's Model 2 range export does not include enough per-phase counts
-    # to derive this safely. SimPy still writes it so run CSVs expose the same
-    # return-home diagnostic that Model 1 uses.
+    ("return_home_busy_s", "Return-home busy (s)"),
+    ("implied_return_home_busy_s", "Implied return-home busy (s)"),
+)
+CSV_OPTIONAL_METRICS = (
+    ("forklift_utilization", "Forklifts Utilization (%)"),
     ("return_home_busy_s", "Return-home busy (s)"),
 )
-BENCHMARK_STAT_DISPLAY_LABELS = {
-    "average": "avg",
-    "minimum": "min",
-    "maximum": "max",
-    "std_dev_pop": "std",
-}
-BENCHMARK_AVG_ONLY = "benchmark_avg_only"
+BENCHMARK_STAT_LABELS = {field_name: label for field_name, label in BENCHMARK_STAT_FIELDS}
 
 
-MODEL2_RANGE_SPEC = RangeComparisonSpec(
-    model_label="Model 2",
+MODEL1_RANGE_SPEC = RangeComparisonSpec(
+    model_label="Model 1",
     parameter_fields=(
         "arrival_rate_s",
         "n_forklifts",
-        "delay_time_s",
+        "forklift_max_speed",
+        "forklift_acceleration",
+        "displacement_m",
     ),
     parameter_labels={
         "arrival_rate_s": "Arrival rate (s)",
         "n_forklifts": "Forklift capacity",
-        "delay_time_s": "Delay time (s)",
+        "forklift_max_speed": "Forklift max speed (m/s)",
+        "forklift_acceleration": "Forklift acceleration (m/s/s)",
+        "displacement_m": "Displacement (m)",
     },
     parameter_short_labels={
         "arrival_rate_s": "a",
         "n_forklifts": "f",
-        "delay_time_s": "d",
+        "forklift_max_speed": "v",
+        "forklift_acceleration": "acc",
+        "displacement_m": "disp",
     },
     metrics=METRICS,
     optional_metrics=OPTIONAL_METRICS,
-    benchmark_metric_labels=MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    benchmark_metric_labels=MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
     benchmark_stat_fields=tuple(BENCHMARK_STAT_FIELDS),
     benchmark_stat_display_labels=BENCHMARK_STAT_DISPLAY_LABELS,
     benchmark_avg_only_name=BENCHMARK_AVG_ONLY,
     header_note="Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval",
 )
+_MODEL1_CSV_LOAD_SPEC = replace(
+    MODEL1_RANGE_SPEC,
+    optional_metrics=CSV_OPTIONAL_METRICS,
+)
+
+_MOVE_BUSY_BENCHMARKS = tuple(ANYLOGIC_BENCHMARK_KEY_MAP.values())
+
+
+def _implied_return_home_busy_s(row: RangeRow) -> float | None:
+    """Infer post-release transporter busy time from utilization.
+
+    AnyLogic's `ReleaseTransporter` sends the item downstream at unload
+    completion, then accounts the transporter return as a busy ResourcePool
+    wrap-up task. The range export does not print that wrap-up duration
+    directly, so derive it from utilization minus the exported move windows.
+    """
+    utilization = row.metrics.get("forklift_utilization")
+    completed = row.metrics.get("completed")
+    throughput_per_hour = row.metrics.get("throughput_per_hour")
+    n_forklifts = row.params.get("n_forklifts")
+    if (
+        utilization is None
+        or completed is None
+        or completed <= 0
+        or throughput_per_hour is None
+        or throughput_per_hour <= 0
+        or n_forklifts is None
+    ):
+        return None
+
+    task_busy_time = 0.0
+    for metric_key in _MOVE_BUSY_BENCHMARKS:
+        benchmark = row.benchmarks.get(metric_key)
+        if benchmark is None or benchmark.average is None:
+            return None
+        task_busy_time += float(benchmark.average)
+
+    sim_time_s = (float(completed) / float(throughput_per_hour)) * 3600.0
+    busy_time_per_completed_move = (
+        float(utilization) * float(n_forklifts) * sim_time_s / float(completed)
+    )
+    return busy_time_per_completed_move - task_busy_time
+
+
+def _with_return_home_busy_metrics(rows: list[RangeRow]) -> list[RangeRow]:
+    updated_rows: list[RangeRow] = []
+    for row in rows:
+        implied_return_home_busy_s = _implied_return_home_busy_s(row)
+        return_home_busy_s = row.metrics.get("return_home_busy_s")
+        if return_home_busy_s is None:
+            return_home_busy_s = implied_return_home_busy_s
+        updated_rows.append(
+            RangeRow(
+                iteration=row.iteration,
+                params=row.params,
+                metrics={
+                    **row.metrics,
+                    # AnyLogic does not export wrap-up duration directly, so
+                    # its value here is utilization-implied. SimPy writes this
+                    # metric from ForkliftFleet.return_home_time_s.
+                    "return_home_busy_s": return_home_busy_s,
+                    "implied_return_home_busy_s": implied_return_home_busy_s,
+                },
+                benchmarks=row.benchmarks,
+                replications=row.replications,
+                replication=row.replication,
+            )
+        )
+    return updated_rows
 
 
 def parse_anylogic_range_output(path: str | Path) -> list[RangeRow]:
     rows: list[RangeRow] = []
     for row in parse_anylogic_benchmark_output(path):
+        range_values = range_values_for_iteration(row.iteration)
+        forklift_max_speed = (
+            row.forklift_max_speed
+            if row.forklift_max_speed is not None
+            else range_values.forklift_max_speed
+        )
+        forklift_acceleration = (
+            row.forklift_acceleration
+            if row.forklift_acceleration is not None
+            else range_values.forklift_acceleration
+        )
+        displacement_m = (
+            row.displacement_m
+            if row.displacement_m is not None
+            else range_values.displacement_m
+        )
         rows.append(
             RangeRow(
                 iteration=row.iteration,
                 params={
                     "arrival_rate_s": row.arrival_rate_s,
                     "n_forklifts": row.forklift_capacity,
-                    "delay_time_s": row.delay_time_s,
+                    "forklift_max_speed": forklift_max_speed,
+                    "forklift_acceleration": forklift_acceleration,
+                    "displacement_m": displacement_m,
                 },
                 metrics={
                     "created": row.created,
                     "completed": row.completed,
                     "avg_wip": row.avg_wip,
                     "avg_time_in_system_s": row.avg_time_in_system_s,
-                    "storage_level": row.storage_level,
                     "throughput_per_hour": row.throughput_per_hour,
                     "forklift_utilization": row.forklift_utilization,
                 },
                 benchmarks=row.benchmarks,
             )
         )
-    return rows
+    return _with_return_home_busy_metrics(rows)
 
 
 def load_simpy_summary_rows(path: str | Path) -> list[RangeRow]:
-    return _load_simpy_summary_rows(path, MODEL2_RANGE_SPEC)
+    return _with_return_home_busy_metrics(
+        _load_simpy_summary_rows(path, _MODEL1_CSV_LOAD_SPEC)
+    )
 
 
 def load_simpy_run_rows(path: str | Path) -> list[RangeRow]:
-    return _load_simpy_run_rows(path, MODEL2_RANGE_SPEC)
+    return _with_return_home_busy_metrics(
+        _load_simpy_run_rows(path, _MODEL1_CSV_LOAD_SPEC)
+    )
 
 
 def build_comparison_context(
@@ -124,7 +216,7 @@ def build_comparison_context(
         anylogic_rows,
         simpy_summary_rows,
         simpy_run_rows,
-        spec=MODEL2_RANGE_SPEC,
+        spec=MODEL1_RANGE_SPEC,
     )
 
 
@@ -153,21 +245,21 @@ def _infer_output_format(output_path: Path, requested_format: str | None) -> str
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Compare AnyLogic and SimPy Model 2 range-experiment outputs."
+        description="Compare AnyLogic and SimPy Model 1 range-experiment outputs."
     )
     parser.add_argument(
         "--anylogic",
-        default="logs/anylogic_model_2_parameter_variation_range.txt",
+        default="logs/anylogic_model_1_parameter_variation_range.txt",
         help="AnyLogic console output text file.",
     )
     parser.add_argument(
         "--simpy-runs",
-        default="logs/model_2_parameter_variation_range_runs.csv",
+        default="logs/model_1_parameter_variation_range_runs.csv",
         help="SimPy per-run CSV file.",
     )
     parser.add_argument(
         "--simpy-summary",
-        default="logs/model_2_parameter_variation_range_summary.csv",
+        default="logs/model_1_parameter_variation_range_summary.csv",
         help="SimPy summary CSV file.",
     )
     parser.add_argument(
@@ -182,7 +274,7 @@ def main() -> None:
         help=(
             "Metric filter for matrix/offenders views. Supports summary metrics "
             "plus benchmark metric names like "
-            "'benchmark_store_seize_to_loading_start_s__average', "
+            "'benchmark_move_seize_to_loading_start_s__average', "
             "or the shortcut 'benchmark_avg_only' for all forklift average-duration metrics."
         ),
     )

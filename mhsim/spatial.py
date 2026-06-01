@@ -49,6 +49,7 @@ class RectangularNode(Node):
         )
 
 
+# TODO should inherit from Node, shouldn't it? Also refactor to match Anylogic data models.
 @dataclass
 class Shelf:
     """Warehouse shelf with multiple levels and positions."""
@@ -85,6 +86,7 @@ class Shelf:
         )
 
 
+# TODO Refactor to match Anylogic data models.
 @dataclass
 class Storage:
     """Collection of shelves for the warehouse storage."""
@@ -144,6 +146,7 @@ class Path:
         return self.waypoints[-1]  # End of path
 
 
+# TODO I'm not sure if every WarehouseLayout should have forklifts_home or storage.
 @dataclass
 class WarehouseLayout:
     """Defines the complete warehouse layout."""

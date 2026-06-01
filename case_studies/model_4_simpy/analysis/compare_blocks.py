@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import argparse
 
-from .model import Model4SimModel
-from .params import Model4Params
+from ..model import Model4SimModel
+from ..params import Model4Params
 
 
 # Fill these from the AnyLogic Model 4 reference run, the same way Model 3 keeps

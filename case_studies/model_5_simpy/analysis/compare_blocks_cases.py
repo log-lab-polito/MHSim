@@ -10,8 +10,8 @@ import csv
 from typing import Dict, List
 
 from .compare_blocks import ANYLOGIC_BLOCKS, BLOCK_MAPPING
-from .model import Model5SimModel
-from .params import Model5Params
+from ..model import Model5SimModel
+from ..params import Model5Params
 
 
 PRIORITY_MODES = [

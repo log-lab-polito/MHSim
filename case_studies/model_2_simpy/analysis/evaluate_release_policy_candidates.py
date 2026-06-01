@@ -7,22 +7,22 @@ import argparse
 from dataclasses import dataclass
 from pathlib import Path
 
-from mhsim.range_comparison import _format_percent, _format_value
+from mhsim_analysis.range_comparison import _format_percent, _format_value
 
-from case_studies.model_2_simpy.compare_benchmark_results import (
+from .compare_benchmark_results import (
     _status,
     parse_anylogic_benchmark_output,
     run_simpy_benchmark,
 )
-from case_studies.model_2_simpy.compare_parameter_variation_range import (
+from .compare_parameter_variation_range import (
     BENCHMARK_AVG_ONLY,
     build_comparison_context,
     load_simpy_run_rows,
     load_simpy_summary_rows,
     parse_anylogic_range_output,
 )
-from case_studies.model_2_simpy.compare_parity_step import _overview_for_metric
-from case_studies.model_2_simpy.params import Model2Params
+from .compare_parity_step import _overview_for_metric
+from ..params import Model2Params
 
 
 DEFAULT_CANDIDATES = (

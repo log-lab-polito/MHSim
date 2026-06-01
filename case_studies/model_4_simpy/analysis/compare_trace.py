@@ -7,8 +7,8 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Iterable
 
-from .model import Model4SimModel
-from .params import Model4Params
+from ..model import Model4SimModel
+from ..params import Model4Params
 
 
 PARAMETER_KEY_MAP = {

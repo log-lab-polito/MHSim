@@ -19,7 +19,7 @@ from .pallet import Pallet
 from .traffic import PathTrafficController
 
 
-class ForklifStatus(Enum):
+class ForkliftStatus(Enum):
     """Forklift operational status."""
     IDLE = "idle"
     MOVING = "moving"
@@ -27,10 +27,6 @@ class ForklifStatus(Enum):
     UNLOADING = "unloading"
     CHARGING = "charging"
     MAINTENANCE = "maintenance"
-
-
-# Keep a correctly-spelled alias for API clarity while preserving compatibility.
-ForkliftStatus = ForklifStatus
 
 
 @dataclass(frozen=True)
@@ -89,7 +85,7 @@ class Forklift:
 
     # State
     position: Position3D = field(default_factory=lambda: Position3D(0, 0, 0))
-    status: ForklifStatus = ForklifStatus.IDLE
+    status: ForkliftStatus = ForkliftStatus.IDLE
     current_load: Optional[Pallet] = None
     router: Optional[Router] = None
     traffic_controller: Optional[PathTrafficController] = None
@@ -102,6 +98,7 @@ class Forklift:
     home_position: Optional[Position3D] = None
     charging_station: Optional[ChargingStation] = None
 
+    # TODO check if we'll ever use it or not.
     # Battery settings (disabled by default when discharge_per_meter == 0).
     battery_soc: float = 1.0
     discharge_per_meter: float = 0.0
@@ -118,10 +115,12 @@ class Forklift:
         """Initialize forklift process."""
         if self.home_position is None:
             self.home_position = self.position
+        # TODO introduce clamp01 somewhere...
         self.battery_soc = min(max(self.battery_soc, 0.0), 1.0)
         self.charge_when_below = min(max(self.charge_when_below, 0.0), 1.0)
         self.charge_until = min(max(self.charge_until, 0.0), 1.0)
         if not self.router:
+            # TODO remove the fallback and make Router mandatory.
             # Create a simple router if none provided
             from .spatial import WarehouseLayout, RectangularNode, Storage
             default_layout = WarehouseLayout(
@@ -165,22 +164,23 @@ class Forklift:
         if self.position.distance_xy(target_station.position) > 0.01:
             yield from self.move_to(target_station.position, update_interval=update_interval)
 
-        self.status = ForklifStatus.CHARGING
+        self.status = ForkliftStatus.CHARGING
         target_soc = max(self.battery_soc, self.charge_until)
         if target_soc > self.battery_soc:
             charge_time = (target_soc - self.battery_soc) / self.charge_rate_per_second
             yield self.env.timeout(charge_time)
             self.battery_soc = target_soc
-        self.status = ForklifStatus.IDLE
+        self.status = ForkliftStatus.IDLE
 
     def _move_direct_to(self, target: Position3D, update_interval: float = 0.05) -> Generator:
         """Move directly to target using acceleration profile (no routing)."""
         # Check if we're already at target (in 3D, not just XY)
+        # TODO 0.01 should be a private constant.
         if self.position.distance_to(target) < 0.01:
             yield self.env.timeout(0)
             return
 
-        self.status = ForklifStatus.MOVING
+        self.status = ForkliftStatus.MOVING
         start_pos = self.position
         height_change = target.z - start_pos.z
 
@@ -209,8 +209,8 @@ class Forklift:
         if total_time <= 0:
             self.position = target
             self._consume_battery(horizontal_distance)
-            if self.status == ForklifStatus.MOVING:
-                self.status = ForklifStatus.IDLE
+            if self.status == ForkliftStatus.MOVING:
+                self.status = ForkliftStatus.IDLE
             yield self.env.timeout(0)
             return
 
@@ -235,8 +235,8 @@ class Forklift:
 
         self.position = target
         self._consume_battery(horizontal_distance)
-        if self.status == ForklifStatus.MOVING:
-            self.status = ForklifStatus.IDLE
+        if self.status == ForkliftStatus.MOVING:
+            self.status = ForkliftStatus.IDLE
 
     def _start_traffic_wait(self, reason: Optional[str]) -> None:
         """Start or switch an active traffic wait reason."""
@@ -390,7 +390,7 @@ class Forklift:
         return distance, next_speed, elapsed_time
 
     @staticmethod
-    def _distance_to_speed(
+    def _distance_to_speed(  # TODO check duplicated logic with HorizontalMovement
         current_speed: float,
         acceleration: float,
         target_speed: float,
@@ -410,7 +410,7 @@ class Forklift:
         )
 
     @staticmethod
-    def _time_to_cover_distance(
+    def _time_to_cover_distance(  # TODO check duplicated logic with HorizontalMovement
         current_speed: float,
         acceleration: float,
         distance_m: float,
@@ -431,7 +431,7 @@ class Forklift:
         nonnegative = [value for value in candidates if value >= -1e-12]
         return max(0.0, min(nonnegative)) if nonnegative else math.inf
 
-    def _compute_line_guided_horizontal_motion(
+    def _compute_line_guided_horizontal_motion(  # TODO check duplicated logic with HorizontalMovement
         self,
         current_speed: float,
         dt: float,
@@ -535,7 +535,7 @@ class Forklift:
             return now
         return (math.floor(now / update_timestep) + 1.0) * update_timestep
 
-    def _move_along_route(
+    def _move_along_route(  # TODO this is the most important function for a deep review
         self,
         route: Route,
         update_interval: float = 0.05,
@@ -565,7 +565,7 @@ class Forklift:
                     )
                 )
 
-        self.status = ForklifStatus.MOVING
+        self.status = ForkliftStatus.MOVING
         start_pos = self.position
         target = route.waypoints[-1]
         height_change = target.z - start_pos.z
@@ -616,8 +616,8 @@ class Forklift:
         if total_distance <= 0 and vertical_total_distance <= 0:
             self.position = target
             self._consume_battery(total_distance)
-            if self.status == ForklifStatus.MOVING:
-                self.status = ForklifStatus.IDLE
+            if self.status == ForkliftStatus.MOVING:
+                self.status = ForkliftStatus.IDLE
             yield self.env.timeout(0)
             return
 
@@ -991,8 +991,8 @@ class Forklift:
         if traffic is not None:
             traffic.release_forklift(self.id)
         self._consume_battery(total_distance)
-        if self.status == ForklifStatus.MOVING:
-            self.status = ForklifStatus.IDLE
+        if self.status == ForkliftStatus.MOVING:
+            self.status = ForkliftStatus.IDLE
 
     def move_to(
         self,
@@ -1087,7 +1087,7 @@ class Forklift:
         shelf_level: int,
         update_interval: float = 0.1,
         dwell_time_s: float = 0.0,
-        dwell_status: Optional[ForklifStatus] = None,
+        dwell_status: Optional[ForkliftStatus] = None,
         on_dwell_start: Optional[Callable[[float], None]] = None,
         on_dwell_end: Optional[Callable[[float], None]] = None,
         movement_overrides: Optional[ForkliftMovementOverrides] = None,
@@ -1105,7 +1105,7 @@ class Forklift:
             if on_dwell_end is not None:
                 on_dwell_end(self.env.now)
             if dwell_status is not None and self.status == dwell_status:
-                self.status = ForklifStatus.IDLE
+                self.status = ForkliftStatus.IDLE
             return
 
         if self.position != target_pos:
@@ -1135,7 +1135,7 @@ class Forklift:
             if on_dwell_end is not None:
                 on_dwell_end(self.env.now)
             if dwell_status is not None and self.status == dwell_status:
-                self.status = ForklifStatus.IDLE
+                self.status = ForkliftStatus.IDLE
 
         if self.lift_profile and shelf_level > 0:
             ground_pos = target_pos._replace(z=0)
@@ -1154,7 +1154,7 @@ class Forklift:
     def is_available(self) -> bool:
         """Check if forklift is available for next task."""
         return (
-            self.status == ForklifStatus.IDLE
+            self.status == ForkliftStatus.IDLE
             and self.current_load is None
             and not self.is_reserved
         )
@@ -1267,6 +1267,7 @@ class ForkliftFleet:
             return self._available_forklifts.pop(0)
 
         best_idx = 0
+        # TODO we should introduce sqr_distance_xy and sqr_distance for faster comparison operations.
         best_cost = self._available_forklifts[0].position.distance_xy(near_position)
         for i in range(1, len(self._available_forklifts)):
             cost = self._available_forklifts[i].position.distance_xy(near_position)
@@ -1312,8 +1313,8 @@ class ForkliftFleet:
         if self.traffic_controller is not None:
             self.traffic_controller.release_forklift(forklift.id)
         forklift._finish_traffic_wait()
-        if forklift.status != ForklifStatus.MAINTENANCE:
-            forklift.status = ForklifStatus.IDLE
+        if forklift.status != ForkliftStatus.MAINTENANCE:
+            forklift.status = ForkliftStatus.IDLE
         self._available_forklifts.append(forklift)
         self.resource.release(assignment.request)
 
@@ -1335,7 +1336,7 @@ class ForkliftFleet:
     def run_post_task_policy(
         self,
         forklift: Forklift,
-    ) -> Generator:
+    ) -> Generator:  # TODO check this function once more.
         """Apply AnyLogic-style transporter wrap-up behavior after a task.
 
         AnyLogic's ``ReleaseTransporter`` sends the material item downstream as
@@ -1401,6 +1402,7 @@ class ForkliftFleet:
         return self._resource
 
 
+# TODO why not turn into an explicit Factory Method implementation?
 def create_forklift_fleet(
     env: simpy.Environment,
     count: int,

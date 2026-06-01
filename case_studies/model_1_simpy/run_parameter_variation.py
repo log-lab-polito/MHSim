@@ -12,11 +12,11 @@ from mhsim.experiments import (
     stats_attr_metric,
 )
 
-from .compare_benchmark_results import (
+from .benchmark_labels import (
     BENCHMARK_STAT_FIELDS,
     BenchmarkStats,
+    MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
 )
-from .benchmark_labels import MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS
 from .anylogic_range import range_variation_parameters
 from .model import Model1SimModel
 from .params import Model1Params

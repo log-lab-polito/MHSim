@@ -7,7 +7,7 @@ from typing import Any, Optional, Callable, Generator, Union
 from .pallet import Pallet
 from .forklift import (
     ForkliftFleet,
-    ForklifStatus,
+    ForkliftStatus,
     ForkliftAssignment,
     ForkliftMovementOverrides,
 )
@@ -22,6 +22,10 @@ from .random_variables import DurationValue, sample_duration_s
 PositionResolver = Optional[Union[Callable[[Pallet], Optional[Position3D]], Position3D]]
 DistanceResolver = Optional[Union[Callable[[Pallet], float], float]]
 DEFAULT_TRANSPORTER_ASSIGNMENT_KEY = "_transporter_assignment"
+
+# TODO some of the static functions below could be moved to a class. Couldn't they?
+
+# TODO add return type here
 
 
 def _resolve_position(resolver: PositionResolver, pallet: Pallet):
@@ -147,6 +151,17 @@ def _record_move_by_transporter_benchmarks(
     )
 
 
+'''
+TODO we should have an abstract class with abstract handle function so Sink, ServiceBlock, etc, inherit from it.
+Also env, name, logger are common properties. We could have something like Block for that, then an InBetweenBlock
+that inherits from Block and handles all blocks but Sink, so having the next_block property. We could also have
+a QueueBlock that inherits from InBetweenBlock, dealing with queue_capacity, capacity and resource.
+
+Regarding entered_count, finished_count and completed_count, we should check if they are really needed in all blocks,
+and if so, we could have some interfaces for that.
+'''
+
+
 class Sink:
     def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[CyclicPositionLogger] = None):
         self.env = env
@@ -212,6 +227,7 @@ class ServiceBlock:
         self.completed_count += 1
 
 
+# TODO verify if DelayBlock really shouln't ever have queue logic. Either ways it's a particular variation of ServiceBlock.
 class DelayBlock:
     def __init__(self, env: simpy.Environment, delay_s: float, next_block, name: str = "delay", logger: Optional[CyclicPositionLogger] = None):
         self.env = env
@@ -276,6 +292,7 @@ class ConveyBlock:
         conveyor: Conveyor,
         next_block,
         name: str = "convey",
+        # TODO it's better naming as "distance" and specify the unit in a comment, like we did in HorizontalMovement definition.
         distance_m: DistanceResolver = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
@@ -595,7 +612,7 @@ class MoveByTransporterBlock:
                     pickup,
                     0,
                     dwell_time_s=loading_time_s,
-                    dwell_status=ForklifStatus.LOADING,
+                    dwell_status=ForkliftStatus.LOADING,
                     on_dwell_start=mark_load_start,
                     on_dwell_end=mark_load_end,
                     movement_overrides=self.pickup_movement_overrides,
@@ -609,7 +626,7 @@ class MoveByTransporterBlock:
                     dropoff,
                     0,
                     dwell_time_s=unloading_time_s,
-                    dwell_status=ForklifStatus.UNLOADING,
+                    dwell_status=ForkliftStatus.UNLOADING,
                     on_dwell_start=mark_unload_start,
                     on_dwell_end=mark_unload_end,
                     movement_overrides=self.dropoff_movement_overrides,
@@ -751,7 +768,7 @@ class StoreBlock:
                 self.inbound_pos,
                 0,
                 dwell_time_s=sample_duration_s(self.loading_time_s, name=f"{self.name}.loading_time_s") if self.loading_time_s else 0.0,
-                dwell_status=ForklifStatus.LOADING,
+                dwell_status=ForkliftStatus.LOADING,
                 on_dwell_start=mark_load_start,
                 on_dwell_end=mark_load_end,
             )
@@ -791,7 +808,7 @@ class StoreBlock:
             yield from fl.perform_lift(
                 storage_slot.ground_pos,
                 storage_slot.level,
-                dwell_status=ForklifStatus.UNLOADING,
+                dwell_status=ForkliftStatus.UNLOADING,
                 on_dwell_start=mark_unload_start,
                 on_dwell_end=mark_unload_end,
             )
@@ -893,7 +910,7 @@ class RetrieveBlock:
                         self.outbound_pos._replace(z=0) if self.outbound_pos else fl.position,
                     )
                     + fl.lift_cycle_time(slot.level)
-                    )
+                )
                 if storage_slot is None:
                     yield self.env.timeout(0.1)
 
@@ -909,7 +926,7 @@ class RetrieveBlock:
             yield from fl.perform_lift(
                 storage_slot.ground_pos,
                 storage_slot.level,
-                dwell_status=ForklifStatus.LOADING,
+                dwell_status=ForkliftStatus.LOADING,
                 on_dwell_start=mark_load_start,
                 on_dwell_end=mark_load_end,
             )
@@ -929,7 +946,7 @@ class RetrieveBlock:
                 self.outbound_pos,
                 0,
                 dwell_time_s=sample_duration_s(self.unloading_time_s, name=f"{self.name}.unloading_time_s") if self.unloading_time_s else 0.0,
-                dwell_status=ForklifStatus.UNLOADING,
+                dwell_status=ForkliftStatus.UNLOADING,
                 on_dwell_start=mark_unload_start,
                 on_dwell_end=mark_unload_end,
             )

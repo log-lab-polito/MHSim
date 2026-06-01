@@ -5,9 +5,10 @@ Block-by-block comparison between AnyLogic and SimPy for Model 5.
 
 from __future__ import annotations
 
-from .reporting import DEFAULT_BLOCK_MAPPING, compare_blocks_with_anylogic
-from .model import Model5SimModel
-from .params import Model5Params
+from mhsim.reporting import DEFAULT_BLOCK_MAPPING
+from mhsim_analysis.reporting import compare_blocks_with_anylogic
+from ..model import Model5SimModel
+from ..params import Model5Params
 
 ANYLOGIC_BLOCKS = {
     "source": 151,

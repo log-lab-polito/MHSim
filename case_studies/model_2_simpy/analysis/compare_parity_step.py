@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from mhsim.range_comparison import (
+from mhsim_analysis.range_comparison import (
     ComparisonContext,
     MetricComparisonRow,
     RangeRow,
@@ -27,7 +27,7 @@ from mhsim.range_comparison import (
     _format_value,
 )
 
-from case_studies.model_2_simpy.compare_parameter_variation_range import (
+from .compare_parameter_variation_range import (
     BENCHMARK_AVG_ONLY,
     MODEL2_RANGE_SPEC,
     build_comparison_context,

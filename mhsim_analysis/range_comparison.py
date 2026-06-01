@@ -1108,7 +1108,7 @@ def _load_benchmarks(record: dict[str, str], spec: RangeComparisonSpec, *, field
     if not spec.benchmark_metric_labels or not spec.benchmark_stat_fields:
         return {}
     try:
-        from case_studies.model_1_simpy.compare_benchmark_results import BenchmarkStats
+        from case_studies.model_1_simpy.analysis.compare_benchmark_results import BenchmarkStats
     except Exception:
         return {}
     benchmarks: dict[str, Any] = {}
@@ -1180,7 +1180,7 @@ def _decode_benchmark_metric_name(
 ) -> tuple[str, str] | None:
     if not metric_name.startswith("benchmark_") or "__" not in metric_name:
         return None
-    body = metric_name[len("benchmark_") :]
+    body = metric_name[len("benchmark_"):]
     metric_key, stat_field = body.rsplit("__", 1)
     if spec is not None and metric_key not in spec.benchmark_metric_labels:
         return None

@@ -7,7 +7,7 @@ import argparse
 from itertools import product
 from pathlib import Path
 
-from mhsim.range_comparison import (
+from mhsim_analysis.range_comparison import (
     RangeRow,
     RangeComparisonSpec,
     build_comparison_context,
@@ -20,7 +20,7 @@ from mhsim.range_comparison import (
     validate_simpy_runs,
 )
 
-from .range_config import RANGE_VALUES, range_values_for_iteration
+from ..range_config import RANGE_VALUES, range_values_for_iteration
 
 
 METRICS = (

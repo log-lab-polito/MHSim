@@ -114,8 +114,8 @@ class VerticalMovement:
 @dataclass
 class MovementProfile:
     """Combined 3D movement profile."""
-    horizontal: HorizontalMovement
-    elevation: VerticalMovement
+    horizontal: HorizontalMovement # TODO rename HorizontalMovement class to a more generic name, like "MRUV"
+    elevation: VerticalMovement # TODO rename VerticalMovement class to a more generic name, like "MRU".
 
     def horizontal_travel_time(self, distance_m: float) -> float:
         """Time for horizontal movement."""
@@ -125,7 +125,7 @@ class MovementProfile:
         """Time for vertical movement."""
         return self.elevation.travel_time(height_change_m)
 
-    def point_to_point_time(self, start: Position3D, end: Position3D) -> float:
+    def point_to_point_time(self, start: Position3D, end: Position3D) -> float: # TODO this one shouldn't ever never be used, caused those movements are sequential, not parallel.
         """Time to move from start to end (parallel vertical and horizontal)."""
         horizontal_dist = start.distance_xy(end)
         vertical_dist = abs(end.z - start.z)
@@ -137,7 +137,7 @@ class MovementProfile:
         return max(h_time, v_time)
 
 
-class AcceleratingInterpolator:
+class AcceleratingInterpolator: # TODO duplicated with HorizontalMovement
     """Position interpolation with acceleration/deceleration profile.
 
     Implements realistic movement: accelerate -> cruise -> decelerate

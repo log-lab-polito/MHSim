@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from mhsim.range_comparison import (
+from mhsim_analysis.range_comparison import (
     RangeComparisonSpec,
     build_comparison_context,
     load_simpy_run_rows,

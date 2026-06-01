@@ -5,10 +5,10 @@ Block-by-block comparison between AnyLogic and SimPy for Model 3.
 
 from __future__ import annotations
 
-from mhsim.reporting import compare_blocks_with_anylogic
+from mhsim_analysis.reporting import compare_blocks_with_anylogic
 
-from .model import Model3SimModel
-from .params import Model3Params
+from ..model import Model3SimModel
+from ..params import Model3Params
 
 # AnyLogic results transcribed from the current Model 3 reference output.
 # Model 3 intentionally does not parse event logs or generate SimPy logs.

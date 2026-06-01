@@ -12,8 +12,8 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
 import numpy as np
 
-from .movement import Position3D
-from .forklift import Forklift, ForklifStatus
+from mhsim.movement import Position3D
+from mhsim.forklift import Forklift, ForkliftStatus
 
 
 @dataclass
@@ -21,7 +21,7 @@ class PositionRecord:
     """Record of a position at a specific time."""
     time: float
     position: Position3D
-    status: ForklifStatus
+    status: ForkliftStatus
     has_load: bool = False
 
 
@@ -31,7 +31,7 @@ class ForkliftTrajectory:
     forklift_id: str
     records: List[PositionRecord] = field(default_factory=list)
 
-    def add_record(self, time: float, position: Position3D, status: ForklifStatus, has_load: bool = False):
+    def add_record(self, time: float, position: Position3D, status: ForkliftStatus, has_load: bool = False):
         """Add a position record."""
         self.records.append(PositionRecord(time, position, status, has_load))
 
@@ -88,7 +88,7 @@ class ForkliftTrajectory:
         # This eliminates aliasing artifacts from position recording misalignment
         speeds_filtered = np.zeros_like(speeds)
         for i, record in enumerate(self.records):
-            if i < len(speeds) and record.status == ForklifStatus.MOVING:
+            if i < len(speeds) and record.status == ForkliftStatus.MOVING:
                 speeds_filtered[i] = speeds[i]
 
         return speeds_filtered
@@ -260,6 +260,7 @@ class Visualizer2D:
 
         fig.tight_layout()
         return fig, axes
+
 
 class Visualizer3D:
     """Create 3D matplotlib visualizations of forklift movements."""
@@ -440,7 +441,7 @@ class AnimationBuilder:
         # Optional: draw warehouse background (areas, shelves, paths)
         if self._layout is not None:
             from matplotlib.patches import Rectangle, Circle
-            from .spatial import PointNode, RectangularNode
+            from mhsim.spatial import PointNode, RectangularNode
 
             # Draw areas (inbound, outbound, home)
             areas = [

@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Compare stochastic AnyLogic and SimPy replication samples for Model 5."""
+"""Compare stochastic AnyLogic and SimPy replication samples for Model 3."""
 
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Mapping
 
-from mhsim.stochastic_comparison import (
+from mhsim_analysis.stochastic_comparison import (
     MetricComparison,
     MetricSpec,
     ReplicationRow,
@@ -43,9 +42,7 @@ METRICS = (
     MetricSpec("completed", "Completed"),
     MetricSpec("avg_wip", "Avg WIP"),
     MetricSpec("avg_time_in_system_s", "Avg cycle (s)"),
-    MetricSpec("storage_level", "Storage level"),
     MetricSpec("throughput_per_hour", "Throughput (/h)"),
-    MetricSpec("forklift_utilization", "Forklifts Utilization (%)"),
 )
 
 ANYLOGIC_KEY_MAP = {
@@ -53,29 +50,29 @@ ANYLOGIC_KEY_MAP = {
     "Completed": "completed",
     "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
-    "Storage level": "storage_level",
     "Throughput (/h)": "throughput_per_hour",
-    "Forklifts Utilization (%)": "forklift_utilization",
 }
 
 ANYLOGIC_PARAMETER_KEY_MAP = {
     "Arrival rate (s)": "arrival_rate_s",
-    "Forklift capacity": "n_forklifts",
-    "Delay time (s)": "delay_time_s",
+    "Service1 time (s)": "service1_time_s",
+    "Service2 time (s)": "service2_time_s",
+    "Conveyor Speed (m/s)": "conveyor_speed_mps",
+    "Conveyor Gap (m)": "conveyor_min_gap_m",
     "Random arrivals": "random_arrival_times",
     "Random services": "random_service_times",
 }
 
 COMPARISON_SPEC = StochasticComparisonSpec(
-    title="MODEL 5 STOCHASTIC REPLICATION COMPARISON",
-    description="Compare Model 5 stochastic AnyLogic and SimPy replication outputs.",
+    title="MODEL 3 STOCHASTIC REPLICATION COMPARISON",
+    description="Compare Model 3 stochastic AnyLogic and SimPy replication outputs.",
     metrics=METRICS,
     anylogic_key_map=ANYLOGIC_KEY_MAP,
-    default_anylogic_path="logs/anylogic_model_5_stochastic_replications.txt",
-    default_simpy_runs_path="logs/model_5_stochastic_replications_runs.csv",
+    default_anylogic_path="anylogic/Model 3/log_file.txt",
+    default_simpy_runs_path="logs/model_3_stochastic_replications_runs.csv",
     anylogic_parameter_key_map=ANYLOGIC_PARAMETER_KEY_MAP,
     default_replications_per_iteration=50,
-    default_expected_iterations=36,
+    default_expected_iterations=64,
 )
 
 
@@ -88,23 +85,8 @@ def parse_anylogic_replication_log(path: str | Path) -> list[ReplicationRow]:
     )
 
 
-def _patch_arrival_rate(row: ReplicationRow) -> ReplicationRow:
-    """Add arrival_rate_s derived from arrival_rate_per_min for AnyLogic matching."""
-    params = dict(row.parameters)
-    arrival_rate_per_min = params.get("arrival_rate_per_min")
-    if arrival_rate_per_min is not None and "arrival_rate_s" not in params:
-        params["arrival_rate_s"] = 60.0 / float(arrival_rate_per_min)
-    return ReplicationRow(
-        iteration=row.iteration,
-        replication=row.replication,
-        metrics=row.metrics,
-        parameters=params,
-    )
-
-
 def load_simpy_replication_csv(path: str | Path) -> list[ReplicationRow]:
-    rows = _load_simpy_replication_csv(path, metrics=METRICS)
-    return [_patch_arrival_rate(row) for row in rows]
+    return _load_simpy_replication_csv(path, metrics=METRICS)
 
 
 def main() -> None:

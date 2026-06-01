@@ -1,88 +1,58 @@
 #!/usr/bin/env python3
-"""Compare AnyLogic Model 1 benchmark output against fresh SimPy runs."""
+"""Compare AnyLogic Model 2 benchmark output against fresh SimPy runs."""
 
 from __future__ import annotations
+
 import argparse
 import csv
 import math
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
+
 from mhsim.reporting import build_forklift_movement_benchmark_rows
 
-from .benchmark_labels import (
+from ..benchmark_labels import (
     ANYLOGIC_BENCHMARK_KEY_MAP,
-    MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    BENCHMARK_STAT_FIELDS,
+    BENCHMARK_STAT_NAME_MAP,
+    BenchmarkStats,
+    MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS,
+    SUMMARY_METRICS,
 )
-from .anylogic_range import Model1RangeValues, range_values_for_iteration
-from .model import Model1SimModel
-from .params import Model1Params
+from ..model import Model2SimModel
+from ..params import Model2Params
 
 
 ANYLOGIC_SUMMARY_KEY_MAP = {
     "Arrival rate (s)": "arrival_rate_s",
-    "Displacement (m)": "displacement_m",
     "Forklift capacity": "forklift_capacity",
-    "Forklift max speed (m/s)": "forklift_max_speed",
-    "Forklift acceleration (m/s/s)": "forklift_acceleration",
+    "Delay time (s)": "delay_time_s",
     "Created": "created",
     "Completed": "completed",
     "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
+    "Storage level": "storage_level",
     "Throughput (/h)": "throughput_per_hour",
     "Forklifts Utilization (%)": "forklift_utilization",
 }
 
-SUMMARY_METRICS = [
-    ("created", "Created"),
-    ("completed", "Completed"),
-    ("avg_wip", "Avg WIP"),
-    ("avg_time_in_system_s", "Avg cycle (s)"),
-    ("throughput_per_hour", "Throughput (/h)"),
-]
 OPTIONAL_SUMMARY_METRICS = [
     ("forklift_utilization", "Forklifts Utilization (%)"),
 ]
 
-BENCHMARK_STAT_FIELDS = [
-    ("average", "avg"),
-    ("minimum", "min"),
-    ("maximum", "max"),
-    ("std_dev_pop", "std dev (pop)"),
-]
 
-BENCHMARK_STAT_NAME_MAP = {
-    "avg": "average",
-    "min": "minimum",
-    "max": "maximum",
-    "std dev (pop)": "std_dev_pop",
-    "std dev (sample)": "std_dev_sample",
-}
-
-
-@dataclass(frozen=True)
-class BenchmarkStats:
-    average: float
-    minimum: float
-    maximum: float
-    std_dev_pop: float
-    std_dev_sample: float | None = None
-    count: int | None = None
-
-
-# TODO AnyLogicBenchmarkRow and SimPyBenchmarkRow are exactly the same. We may use the same dataclass for them.
 @dataclass(frozen=True)
 class AnyLogicBenchmarkRow:
     iteration: int
     arrival_rate_s: float
     forklift_capacity: int
-    forklift_max_speed: float | None
-    forklift_acceleration: float | None
-    displacement_m: float | None
+    delay_time_s: float
     created: int
     completed: int
     avg_wip: float
     avg_time_in_system_s: float
+    storage_level: int
     throughput_per_hour: float
     forklift_utilization: float | None
     benchmarks: dict[str, BenchmarkStats]
@@ -93,10 +63,12 @@ class SimPyBenchmarkRow:
     iteration: int
     arrival_rate_s: float
     forklift_capacity: int
+    delay_time_s: float
     created: int
     completed: int
     avg_wip: float
     avg_time_in_system_s: float
+    storage_level: int
     throughput_per_hour: float
     forklift_utilization: float
     benchmarks: dict[str, BenchmarkStats]
@@ -128,10 +100,12 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
         required_summary_fields = [
             "arrival_rate_s",
             "forklift_capacity",
+            "delay_time_s",
             "created",
             "completed",
             "avg_wip",
             "avg_time_in_system_s",
+            "storage_level",
             "throughput_per_hour",
         ]
         missing = [name for name in required_summary_fields if name not in current_values]
@@ -171,25 +145,12 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
                 iteration=current_iteration,
                 arrival_rate_s=float(current_values["arrival_rate_s"]),
                 forklift_capacity=int(current_values["forklift_capacity"]),
-                forklift_max_speed=(
-                    None
-                    if "forklift_max_speed" not in current_values
-                    else float(current_values["forklift_max_speed"])
-                ),
-                forklift_acceleration=(
-                    None
-                    if "forklift_acceleration" not in current_values
-                    else float(current_values["forklift_acceleration"])
-                ),
-                displacement_m=(
-                    None
-                    if "displacement_m" not in current_values
-                    else float(current_values["displacement_m"])
-                ),
+                delay_time_s=float(current_values["delay_time_s"]),
                 created=int(current_values["created"]),
                 completed=int(current_values["completed"]),
                 avg_wip=float(current_values["avg_wip"]),
                 avg_time_in_system_s=float(current_values["avg_time_in_system_s"]),
+                storage_level=int(current_values["storage_level"]),
                 throughput_per_hour=float(current_values["throughput_per_hour"]),
                 forklift_utilization=(
                     None
@@ -255,37 +216,19 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
     return rows
 
 
-def _parameter_values_for_anylogic_row(
-    anylogic_row: AnyLogicBenchmarkRow,
-) -> Model1RangeValues:
-    if (
-        anylogic_row.forklift_max_speed is not None
-        and anylogic_row.forklift_acceleration is not None
-        and anylogic_row.displacement_m is not None
-    ):
-        return Model1RangeValues(
-            arrival_rate_s=anylogic_row.arrival_rate_s,
-            n_forklifts=anylogic_row.forklift_capacity,
-            forklift_max_speed=anylogic_row.forklift_max_speed,
-            forklift_acceleration=anylogic_row.forklift_acceleration,
-            displacement_m=anylogic_row.displacement_m,
-        )
-    return range_values_for_iteration(anylogic_row.iteration)
-
-
 def run_simpy_benchmark(
-    anylogic_row: AnyLogicBenchmarkRow, *, sim_time: float
+    anylogic_row: AnyLogicBenchmarkRow,
+    *,
+    sim_time: float,
+    base_params: Model2Params | None = None,
 ) -> SimPyBenchmarkRow:
-    params = Model1Params()
+    params = replace(base_params) if base_params is not None else Model2Params()
     params.sim_time = sim_time
-    range_values = _parameter_values_for_anylogic_row(anylogic_row)
-    params.arrival_rate_s = range_values.arrival_rate_s
-    params.n_forklifts = range_values.n_forklifts
-    params.forklift_max_speed = range_values.forklift_max_speed
-    params.forklift_acceleration = range_values.forklift_acceleration
-    params.displacement_m = range_values.displacement_m
+    params.arrival_rate_s = anylogic_row.arrival_rate_s
+    params.n_forklifts = anylogic_row.forklift_capacity
+    params.delay_time_s = anylogic_row.delay_time_s
 
-    model = Model1SimModel(params=params, console_logging=False, enable_logging=False)
+    model = Model2SimModel(params=params, console_logging=False, enable_logging=False)
     stats = model.run()
 
     benchmarks: dict[str, BenchmarkStats] = {}
@@ -302,32 +245,29 @@ def run_simpy_benchmark(
         iteration=anylogic_row.iteration,
         arrival_rate_s=anylogic_row.arrival_rate_s,
         forklift_capacity=anylogic_row.forklift_capacity,
+        delay_time_s=anylogic_row.delay_time_s,
         created=stats.created,
         completed=stats.completed,
         avg_wip=(stats.avg_time_in_system * (stats.completed / sim_time) if sim_time else 0.0),
         avg_time_in_system_s=stats.avg_time_in_system,
+        storage_level=int(model.get_storage_level()),
         throughput_per_hour=((stats.completed / sim_time) * 3600.0 if sim_time else 0.0),
         forklift_utilization=model.fleet.utilization,
         benchmarks=benchmarks,
     )
+
 
 def _numeric_diff(anylogic_value: int | float, simpy_value: int | float) -> float:
     return float(simpy_value) - float(anylogic_value)
 
 
 def _percent_diff(anylogic_value: int | float, simpy_value: int | float) -> float | None:
-    if math.isclose(float(anylogic_value), float(simpy_value), rel_tol=1e-9, abs_tol=1e-9):
-        return 0.0
-    if abs(float(anylogic_value)) < 1e-9 and abs(float(simpy_value)) < 1e-9:
-        return None
     if math.isclose(float(anylogic_value), 0.0):
         return None
     return abs(_numeric_diff(anylogic_value, simpy_value)) / abs(float(anylogic_value)) * 100.0
 
 
 def _status(anylogic_value: int | float, simpy_value: int | float) -> str:
-    if math.isclose(float(anylogic_value), float(simpy_value), rel_tol=1e-9, abs_tol=1e-9):
-        return "MATCH"
     pct = _percent_diff(anylogic_value, simpy_value)
     if pct is None or pct < 1:
         return "MATCH"
@@ -378,7 +318,7 @@ def _ordered_benchmark_metrics(
     ordered_metrics: list[tuple[str, str]] = []
     seen: set[str] = set()
 
-    for metric_key, label in MODEL1_FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items():
+    for metric_key, label in MODEL2_FORKLIFT_MOVEMENT_BENCHMARK_LABELS.items():
         if metric_key not in present_keys:
             continue
         ordered_metrics.append((metric_key, label))
@@ -403,14 +343,11 @@ def _build_csv_row(
     simpy_value: int | float,
     simpy_count: int | None,
 ) -> dict[str, str | int | float | None]:
-    range_values = _parameter_values_for_anylogic_row(anylogic_row)
     return {
         "iteration": anylogic_row.iteration,
         "arrival_rate_s": anylogic_row.arrival_rate_s,
         "forklift_capacity": anylogic_row.forklift_capacity,
-        "forklift_max_speed": range_values.forklift_max_speed,
-        "forklift_acceleration": range_values.forklift_acceleration,
-        "displacement_m": range_values.displacement_m,
+        "delay_time_s": anylogic_row.delay_time_s,
         "section": section,
         "metric_key": metric_key,
         "metric": metric_label,
@@ -436,9 +373,7 @@ def write_comparison_csv(
         "iteration",
         "arrival_rate_s",
         "forklift_capacity",
-        "forklift_max_speed",
-        "forklift_acceleration",
-        "displacement_m",
+        "delay_time_s",
         "section",
         "metric_key",
         "metric",
@@ -513,21 +448,18 @@ def print_report(
     anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[SimPyBenchmarkRow]
 ) -> None:
     print("=" * 112)
-    print("MODEL 1 BENCHMARK COMPARISON: ANYLOGIC vs SIMPY")
+    print("MODEL 2 BENCHMARK COMPARISON: ANYLOGIC vs SIMPY")
     print("=" * 112)
     print("Arrival mapping used for SimPy: arrival_rate_s is the cyclic inject interval")
 
     benchmark_metrics = _ordered_benchmark_metrics(anylogic_rows)
     for anylogic_row, simpy_row in zip(anylogic_rows, simpy_rows):
         print("\n" + "-" * 112)
-        range_values = _parameter_values_for_anylogic_row(anylogic_row)
         print(
             f"ITERATION #{anylogic_row.iteration}  "
             f"arrival_s={_format_value(anylogic_row.arrival_rate_s)}  "
             f"forklifts={anylogic_row.forklift_capacity}  "
-            f"speed={_format_value(range_values.forklift_max_speed)}  "
-            f"accel={_format_value(range_values.forklift_acceleration)}  "
-            f"displacement={_format_value(range_values.displacement_m)}"
+            f"delay_s={_format_value(anylogic_row.delay_time_s)}"
         )
 
         print("\nSummary metrics:")
@@ -599,7 +531,7 @@ def print_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Compare AnyLogic Model 1 benchmark text against fresh SimPy runs."
+        description="Compare AnyLogic Model 2 benchmark text against fresh SimPy runs."
     )
     parser.add_argument(
         "--anylogic",
@@ -609,7 +541,7 @@ def main() -> None:
     parser.add_argument(
         "--sim-time",
         type=float,
-        default=3600.0,
+        default=18000.0,
         help="SimPy run duration for each benchmark iteration.",
     )
     parser.add_argument(
@@ -617,10 +549,45 @@ def main() -> None:
         default=None,
         help="Optional CSV export path for the comparison table.",
     )
+    parser.add_argument(
+        "--move-to-storage-post-task-policy",
+        choices=("return", "stay"),
+        default=None,
+        help="Override moveToStorage post-task policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--move-to-outbound-post-task-policy",
+        choices=("return", "stay"),
+        default=None,
+        help="Override moveToOutbound post-task policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--move-to-storage-dropoff-motion-mode",
+        choices=("default", "analytical", "anylogic_line_guided"),
+        default=None,
+        help="Override moveToStorage loaded/dropoff movement mode for diagnostics.",
+    )
     args = parser.parse_args()
 
+    base_params = Model2Params()
+    if args.move_to_storage_post_task_policy == "return":
+        base_params.move_to_storage_apply_post_task_policy = True
+    elif args.move_to_storage_post_task_policy == "stay":
+        base_params.move_to_storage_apply_post_task_policy = False
+    if args.move_to_outbound_post_task_policy == "return":
+        base_params.move_to_outbound_apply_post_task_policy = True
+    elif args.move_to_outbound_post_task_policy == "stay":
+        base_params.move_to_outbound_apply_post_task_policy = False
+    if args.move_to_storage_dropoff_motion_mode not in (None, "default"):
+        base_params.move_to_storage_dropoff_routed_motion_mode = (
+            args.move_to_storage_dropoff_motion_mode
+        )
+
     anylogic_rows = parse_anylogic_benchmark_output(args.anylogic)
-    simpy_rows = [run_simpy_benchmark(row, sim_time=args.sim_time) for row in anylogic_rows]
+    simpy_rows = [
+        run_simpy_benchmark(row, sim_time=args.sim_time, base_params=base_params)
+        for row in anylogic_rows
+    ]
     print_report(anylogic_rows, simpy_rows)
     if args.csv:
         output_path = write_comparison_csv(anylogic_rows, simpy_rows, args.csv)

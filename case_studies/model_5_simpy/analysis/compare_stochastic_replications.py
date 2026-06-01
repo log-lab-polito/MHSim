@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Compare stochastic AnyLogic and SimPy replication samples for Model 2."""
+"""Compare stochastic AnyLogic and SimPy replication samples for Model 5."""
 
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Mapping
 
-from mhsim.stochastic_comparison import (
+from mhsim_analysis.stochastic_comparison import (
     MetricComparison,
     MetricSpec,
     ReplicationRow,
@@ -66,12 +67,12 @@ ANYLOGIC_PARAMETER_KEY_MAP = {
 }
 
 COMPARISON_SPEC = StochasticComparisonSpec(
-    title="MODEL 2 STOCHASTIC REPLICATION COMPARISON",
-    description="Compare Model 2 stochastic AnyLogic and SimPy replication outputs.",
+    title="MODEL 5 STOCHASTIC REPLICATION COMPARISON",
+    description="Compare Model 5 stochastic AnyLogic and SimPy replication outputs.",
     metrics=METRICS,
     anylogic_key_map=ANYLOGIC_KEY_MAP,
-    default_anylogic_path="logs/anylogic_model_2_stochastic_replications.txt",
-    default_simpy_runs_path="logs/model_2_stochastic_replications_runs.csv",
+    default_anylogic_path="logs/anylogic_model_5_stochastic_replications.txt",
+    default_simpy_runs_path="logs/model_5_stochastic_replications_runs.csv",
     anylogic_parameter_key_map=ANYLOGIC_PARAMETER_KEY_MAP,
     default_replications_per_iteration=50,
     default_expected_iterations=36,
@@ -87,8 +88,23 @@ def parse_anylogic_replication_log(path: str | Path) -> list[ReplicationRow]:
     )
 
 
+def _patch_arrival_rate(row: ReplicationRow) -> ReplicationRow:
+    """Add arrival_rate_s derived from arrival_rate_per_min for AnyLogic matching."""
+    params = dict(row.parameters)
+    arrival_rate_per_min = params.get("arrival_rate_per_min")
+    if arrival_rate_per_min is not None and "arrival_rate_s" not in params:
+        params["arrival_rate_s"] = 60.0 / float(arrival_rate_per_min)
+    return ReplicationRow(
+        iteration=row.iteration,
+        replication=row.replication,
+        metrics=row.metrics,
+        parameters=params,
+    )
+
+
 def load_simpy_replication_csv(path: str | Path) -> list[ReplicationRow]:
-    return _load_simpy_replication_csv(path, metrics=METRICS)
+    rows = _load_simpy_replication_csv(path, metrics=METRICS)
+    return [_patch_arrival_rate(row) for row in rows]
 
 
 def main() -> None:
