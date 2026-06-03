@@ -9,9 +9,8 @@ from ..model import Model4SimModel
 from ..params import Model4Params
 
 
-# Fill these from the AnyLogic Model 4 reference run, the same way Model 3 keeps
-# its transcribed block baseline in the script. Leave as None until the real
-# AnyLogic spur model has been run and exported.
+# Transcribed AnyLogic Model 4 reference block counts, kept here like the
+# Model 3 block baseline so the comparison can run without parsing the .alp.
 ANYLOGIC_BLOCKS = {
     "mainSource": 1200,
     "branchSource": 1200,
@@ -142,7 +141,7 @@ def _validated_anylogic_blocks() -> dict[str, int]:
     unset = sorted(key for key, value in ANYLOGIC_BLOCKS.items() if value is None)
     if unset:
         raise ValueError(
-            "Fill ANYLOGIC_BLOCKS in case_studies/model_4_simpy/compare_blocks.py "
+            "Fill ANYLOGIC_BLOCKS in case_studies/model_4_simpy/analysis/compare_blocks.py "
             "with the transcribed AnyLogic Model 4 block counts before running "
             "the comparison. Unset keys: "
             + ", ".join(unset)

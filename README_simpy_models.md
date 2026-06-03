@@ -546,9 +546,9 @@ python -m case_studies.model_4_simpy.analysis.compare_blocks
 ```
 
 Model 4 follows the Model 3 approach: AnyLogic values are transcribed into
-`ANYLOGIC_BLOCKS` in `case_studies/model_4_simpy/compare_blocks.py`. Fill that
-dictionary after running the AnyLogic Model 4 reference. Until then, inspect the
-SimPy-only block counts with:
+`ANYLOGIC_BLOCKS` in `case_studies/model_4_simpy/analysis/compare_blocks.py`.
+The checked-in baseline supports the normal comparison command above. To inspect
+only the fresh SimPy block counts, use:
 
 ```bash
 python -m case_studies.model_4_simpy.analysis.compare_blocks \
@@ -609,7 +609,7 @@ Validate the SimPy run and summary CSVs:
 python -m case_studies.model_4_simpy.analysis.compare_parameter_variation_range
 ```
 
-If a Model 4 AnyLogic range export is available, pass it explicitly:
+Compare against the AnyLogic Model 4 range export:
 
 ```bash
 python -m case_studies.model_4_simpy.analysis.compare_parameter_variation_range \

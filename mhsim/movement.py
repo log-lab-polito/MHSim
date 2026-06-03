@@ -12,6 +12,67 @@ from dataclasses import dataclass
 from typing import NamedTuple
 
 
+def clamp01(value: float) -> float:
+    """Clamp a numeric value into the inclusive [0, 1] interval."""
+    return min(max(float(value), 0.0), 1.0)
+
+
+def constant_accel_speed(start_speed: float, acceleration: float, time_s: float) -> float:
+    """Speed after ``time_s`` under constant acceleration."""
+    return start_speed + acceleration * max(0.0, time_s)
+
+
+def constant_accel_distance(
+    start_speed: float,
+    acceleration: float,
+    time_s: float,
+) -> float:
+    """Distance covered after ``time_s`` under constant acceleration."""
+    elapsed = max(0.0, time_s)
+    return start_speed * elapsed + 0.5 * acceleration * elapsed * elapsed
+
+
+def distance_to_speed(
+    start_speed: float,
+    acceleration: float,
+    target_speed: float,
+) -> float:
+    """Distance needed to reach ``target_speed`` from ``start_speed``."""
+    if start_speed == target_speed:
+        return 0.0
+    if acceleration == 0.0:
+        return math.inf
+    if math.copysign(1.0, target_speed - start_speed) != math.copysign(
+        1.0,
+        acceleration,
+    ):
+        return math.copysign(math.inf, target_speed - start_speed)
+    elapsed = (target_speed - start_speed) / acceleration
+    return constant_accel_distance(start_speed, acceleration, elapsed)
+
+
+def time_to_cover_distance(
+    start_speed: float,
+    acceleration: float,
+    distance: float,
+) -> float:
+    """Solve non-negative travel time for a distance under constant acceleration."""
+    if distance <= 0.0:
+        return 0.0
+    if acceleration == 0.0:
+        return math.inf if start_speed <= 0.0 else distance / start_speed
+    discriminant = start_speed * start_speed + 2.0 * acceleration * distance
+    if discriminant < 0.0:
+        return math.inf
+    root = math.sqrt(discriminant)
+    candidates = [
+        (root - start_speed) / acceleration,
+        (-root - start_speed) / acceleration,
+    ]
+    nonnegative = [value for value in candidates if value >= -1e-12]
+    return max(0.0, min(nonnegative)) if nonnegative else math.inf
+
+
 class Position3D(NamedTuple):
     """3D position in warehouse."""
     x: float
@@ -30,6 +91,18 @@ class Position3D(NamedTuple):
         """Horizontal distance (ignoring elevation)."""
         return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
+    def sqr_distance_to(self, other: Position3D) -> float:
+        """Squared Euclidean distance to another position."""
+        return (
+            (self.x - other.x) ** 2
+            + (self.y - other.y) ** 2
+            + (self.z - other.z) ** 2
+        )
+
+    def sqr_distance_xy(self, other: Position3D) -> float:
+        """Squared horizontal distance, useful for comparison-only checks."""
+        return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
+
     def move_towards(self, target: Position3D, distance: float) -> Position3D:
         """Move towards target by given distance (3D)."""
         total_dist = self.distance_to(target)
@@ -46,6 +119,41 @@ class Position3D(NamedTuple):
             self.y + direction[1] * distance,
             self.z + direction[2] * distance,
         )
+
+
+@dataclass(frozen=True)
+class HorizontalTravelProfile:
+    """Solved horizontal travel profile for one distance."""
+
+    distance: float
+    travel_time: float
+    peak_speed: float
+    accel_time: float
+    accel_dist: float
+    cruise_time: float
+    cruise_dist: float
+    decel_time: float
+    decel_dist: float
+    acceleration: float
+    deceleration: float
+
+    def distance_at_time(self, time_s: float) -> float:
+        """Distance traveled at ``time_s`` within this solved profile."""
+        t = max(0.0, time_s)
+        if t <= self.accel_time:
+            return constant_accel_distance(0.0, self.acceleration, t)
+
+        cruise_end_time = self.accel_time + self.cruise_time
+        if t <= cruise_end_time:
+            return self.accel_dist + self.peak_speed * (t - self.accel_time)
+
+        decel_elapsed = t - cruise_end_time
+        distance = (
+            self.accel_dist
+            + self.cruise_dist
+            + constant_accel_distance(self.peak_speed, -self.deceleration, decel_elapsed)
+        )
+        return max(0.0, min(self.distance, distance))
 
 
 @dataclass
@@ -73,8 +181,24 @@ class HorizontalMovement:
 
     def travel_time(self, distance: float) -> float:
         """Calculate time to travel a given distance with optimal speed profile."""
+        return self.solve_profile(distance).travel_time
+
+    def solve_profile(self, distance: float) -> HorizontalTravelProfile:
+        """Solve the triangular/trapezoidal profile for a distance."""
         if distance <= 0:
-            return 0.0
+            return HorizontalTravelProfile(
+                distance=0.0,
+                travel_time=0.0,
+                peak_speed=0.0,
+                accel_time=0.0,
+                accel_dist=0.0,
+                cruise_time=0.0,
+                cruise_dist=0.0,
+                decel_time=0.0,
+                decel_dist=0.0,
+                acceleration=self.acceleration,
+                deceleration=self.deceleration,
+            )
 
         accel_dist = self.distance_to_max_speed()
         decel_dist = self.distance_to_decelerate_from_max()
@@ -86,7 +210,8 @@ class HorizontalMovement:
             accel_time = self.time_to_reach_max_speed()
             cruise_time = cruise_dist / self.max_speed
             decel_time = self.max_speed / self.deceleration
-            return accel_time + cruise_time + decel_time
+            travel_time = accel_time + cruise_time + decel_time
+            peak_speed = self.max_speed
         else:
             # Cannot reach max speed; triangular profile with peak speed below max.
             # Solve: distance = 0.5 * v^2 * (1/a + 1/d)
@@ -95,8 +220,41 @@ class HorizontalMovement:
             a = self.acceleration
             d = self.deceleration
             if a <= 0 or d <= 0:
-                return float("inf")
-            return math.sqrt(2 * distance * (a + d) / (a * d))
+                return HorizontalTravelProfile(
+                    distance=distance,
+                    travel_time=float("inf"),
+                    peak_speed=0.0,
+                    accel_time=0.0,
+                    accel_dist=0.0,
+                    cruise_time=0.0,
+                    cruise_dist=0.0,
+                    decel_time=0.0,
+                    decel_dist=0.0,
+                    acceleration=a,
+                    deceleration=d,
+                )
+            peak_speed = math.sqrt(2 * distance * a * d / (a + d))
+            accel_time = peak_speed / a
+            decel_time = peak_speed / d
+            accel_dist = constant_accel_distance(0.0, a, accel_time)
+            decel_dist = constant_accel_distance(peak_speed, -d, decel_time)
+            cruise_dist = 0.0
+            cruise_time = 0.0
+            travel_time = accel_time + decel_time
+
+        return HorizontalTravelProfile(
+            distance=distance,
+            travel_time=travel_time,
+            peak_speed=peak_speed,
+            accel_time=accel_time,
+            accel_dist=accel_dist,
+            cruise_time=cruise_time,
+            cruise_dist=cruise_dist,
+            decel_time=decel_time,
+            decel_dist=decel_dist,
+            acceleration=self.acceleration,
+            deceleration=self.deceleration,
+        )
 
 
 @dataclass
@@ -114,8 +272,8 @@ class VerticalMovement:
 @dataclass
 class MovementProfile:
     """Combined 3D movement profile."""
-    horizontal: HorizontalMovement # TODO rename HorizontalMovement class to a more generic name, like "MRUV"
-    elevation: VerticalMovement # TODO rename VerticalMovement class to a more generic name, like "MRU".
+    horizontal: HorizontalMovement
+    elevation: VerticalMovement
 
     def horizontal_travel_time(self, distance_m: float) -> float:
         """Time for horizontal movement."""
@@ -125,19 +283,8 @@ class MovementProfile:
         """Time for vertical movement."""
         return self.elevation.travel_time(height_change_m)
 
-    def point_to_point_time(self, start: Position3D, end: Position3D) -> float: # TODO this one shouldn't ever never be used, caused those movements are sequential, not parallel.
-        """Time to move from start to end (parallel vertical and horizontal)."""
-        horizontal_dist = start.distance_xy(end)
-        vertical_dist = abs(end.z - start.z)
 
-        h_time = self.horizontal_travel_time(horizontal_dist)
-        v_time = self.vertical_travel_time(vertical_dist)
-
-        # Movements happen in parallel, so total time is max
-        return max(h_time, v_time)
-
-
-class AcceleratingInterpolator: # TODO duplicated with HorizontalMovement
+class AcceleratingInterpolator:
     """Position interpolation with acceleration/deceleration profile.
 
     Implements realistic movement: accelerate -> cruise -> decelerate
@@ -149,72 +296,20 @@ class AcceleratingInterpolator: # TODO duplicated with HorizontalMovement
         self.horiz = horizontal_movement
         self.elapsed = 0.0
 
-        # Calculate horizontal distance and movement profile
         self.distance = start.distance_xy(end)
-        self.travel_time = horizontal_movement.travel_time(self.distance)
-        self.peak_speed = self.horiz.max_speed
-
-        # Calculate movement phases
-        self.accel_time = self.horiz.time_to_reach_max_speed()
-        self.accel_dist = self.horiz.distance_to_max_speed()
-        self.decel_dist = self.horiz.distance_to_decelerate_from_max()
-
-        # If distance is large enough for full profile
-        if self.distance >= self.accel_dist + self.decel_dist:
-            self.cruise_dist = self.distance - self.accel_dist - self.decel_dist
-            self.cruise_time = self.cruise_dist / \
-                self.horiz.max_speed if self.horiz.max_speed > 0 else 0
-            self.decel_time = self.horiz.max_speed / self.horiz.deceleration
-        else:
-            # Limited distance - triangular profile with peak speed below max.
-            self.cruise_dist = 0
-            self.cruise_time = 0
-            a = self.horiz.acceleration
-            d = self.horiz.deceleration
-            if a > 0 and d > 0 and self.distance > 0:
-                self.peak_speed = math.sqrt(2 * self.distance * a * d / (a + d))
-                self.accel_time = self.peak_speed / a
-                self.decel_time = self.peak_speed / d
-            else:
-                self.peak_speed = 0.0
-                self.accel_time = 0.0
-                self.decel_time = 0.0
-
-            # Recalculate accel/decel distances for this time
-            self.accel_dist = 0.5 * a * self.accel_time ** 2
-            self.decel_dist = 0.5 * d * self.decel_time ** 2
-            self.travel_time = self.accel_time + self.decel_time
+        self.profile = horizontal_movement.solve_profile(self.distance)
+        self.travel_time = self.profile.travel_time
+        self.peak_speed = self.profile.peak_speed
+        self.accel_time = self.profile.accel_time
+        self.accel_dist = self.profile.accel_dist
+        self.cruise_time = self.profile.cruise_time
+        self.cruise_dist = self.profile.cruise_dist
+        self.decel_time = self.profile.decel_time
+        self.decel_dist = self.profile.decel_dist
 
     def get_distance_at_time(self, t: float) -> float:
         """Calculate distance traveled at time t with acceleration profile."""
-        if t <= 0:
-            return 0.0
-
-        # Phase 1: Acceleration
-        if t <= self.accel_time:
-            return 0.5 * self.horiz.acceleration * t ** 2
-
-        # Phase 2: Cruise (if exists)
-        accel_time = self.accel_time
-        cruise_start_dist = self.accel_dist
-        cruise_start_time = accel_time
-
-        cruise_duration = self.cruise_time
-        cruise_end_time = cruise_start_time + cruise_duration
-
-        if t <= cruise_end_time:
-            cruise_time = t - cruise_start_time
-            return cruise_start_dist + self.peak_speed * cruise_time
-
-        # Phase 3: Deceleration
-        decel_start_dist = self.accel_dist + self.cruise_dist
-        decel_start_time = cruise_end_time
-        decel_elapsed = t - decel_start_time
-
-        # Distance during deceleration: d = v0*t - 0.5*a*t^2
-        dist_in_decel = self.peak_speed * decel_elapsed - \
-            0.5 * self.horiz.deceleration * decel_elapsed ** 2
-        return decel_start_dist + dist_in_decel
+        return self.profile.distance_at_time(t)
 
     def update(self, dt: float) -> Position3D:
         """Update elapsed time and return current position with acceleration profile."""

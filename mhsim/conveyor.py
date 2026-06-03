@@ -9,7 +9,9 @@ import simpy
 @dataclass
 class Conveyor:
     """Simple conveyor model with occupancy and entry headway constraints."""
-	# TODO rename variables removing the unit specs. Instead, specify the unit in a comment (like we did eg. in HorizontalMovement definition).
+
+    # Public constructor fields keep unit suffixes because case-study params,
+    # range CSVs, and AnyLogic comparison tooling expose those names.
     id: str
     env: simpy.Environment
     length_m: float
@@ -82,9 +84,14 @@ class Conveyor:
 
 @dataclass
 class ConveyorSpur:
-    """Transfer point that moves items from one conveyor onto another."""
-	# TODO rename variables removing the unit specs. Instead, specify the unit in a comment (like we did eg. in HorizontalMovement definition).
-    # TODO double check if this ConveyorSpur implementation is correctly mirroing the Anylogic ConveyorSpur entity.
+    """Transfer point that moves items from one conveyor onto another.
+
+    The clearance and merge-window behavior is calibrated through the active
+    AnyLogic-backed Model 4 spur/merge comparison workflow.
+    """
+
+    # Public constructor fields keep unit suffixes because case-study params,
+    # range CSVs, and AnyLogic comparison tooling expose those names.
     id: str
     env: simpy.Environment
     source_conveyor: Conveyor

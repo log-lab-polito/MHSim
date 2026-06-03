@@ -42,7 +42,8 @@ OPTIONAL_SUMMARY_METRICS = [
 ]
 
 
-# TODO AnyLogicBenchmarkRow and SimPyBenchmarkRow are exactly the same. We may use the same dataclass for them.
+# Keep separate row types: AnyLogic exports can carry optional speed,
+# acceleration, and displacement fields that fresh SimPy rows do not need.
 @dataclass(frozen=True)
 class AnyLogicBenchmarkRow:
     iteration: int

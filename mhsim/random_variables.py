@@ -1,11 +1,15 @@
+"""Duration sampling helpers used by service, delay, and dwell times."""
+
 from __future__ import annotations
 
 from random import Random
 from typing import Any, Callable
 
-# TODO bad namings all around this file. Could be more generic and clear.
 DurationSampler = Callable[[], float]
+"""Callable that samples one positive duration in seconds."""
+
 DurationValue = float | DurationSampler
+"""Either a fixed duration in seconds or a sampler returning one."""
 
 
 def sample_duration_s(value: DurationValue, *, name: str = "duration") -> float:

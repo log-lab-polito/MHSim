@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 import simpy
 from random import Random
 from typing import Any, Optional, Callable, Generator, Union
@@ -23,12 +24,11 @@ PositionResolver = Optional[Union[Callable[[Pallet], Optional[Position3D]], Posi
 DistanceResolver = Optional[Union[Callable[[Pallet], float], float]]
 DEFAULT_TRANSPORTER_ASSIGNMENT_KEY = "_transporter_assignment"
 
-# TODO some of the static functions below could be moved to a class. Couldn't they?
 
-# TODO add return type here
-
-
-def _resolve_position(resolver: PositionResolver, pallet: Pallet):
+def _resolve_position(
+    resolver: PositionResolver,
+    pallet: Pallet,
+) -> Optional[Position3D]:
     if callable(resolver):
         return resolver(pallet)
     return resolver
@@ -151,37 +151,77 @@ def _record_move_by_transporter_benchmarks(
     )
 
 
-'''
-TODO we should have an abstract class with abstract handle function so Sink, ServiceBlock, etc, inherit from it.
-Also env, name, logger are common properties. We could have something like Block for that, then an InBetweenBlock
-that inherits from Block and handles all blocks but Sink, so having the next_block property. We could also have
-a QueueBlock that inherits from InBetweenBlock, dealing with queue_capacity, capacity and resource.
+class Block(ABC):
+    """Base lifecycle shape shared by AnyLogic-style process blocks."""
 
-Regarding entered_count, finished_count and completed_count, we should check if they are really needed in all blocks,
-and if so, we could have some interfaces for that.
-'''
-
-
-class Sink:
-    def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[CyclicPositionLogger] = None):
+    def __init__(
+        self,
+        env: simpy.Environment,
+        name: str,
+        logger: Optional[CyclicPositionLogger] = None,
+    ):
         self.env = env
-        self.stats = stats
         self.name = name
         self.logger = logger
         self.entered_count = 0
+        self.finished_count = 0
+        self.completed_count = 0
+
+    def _log_event(self, pallet: Pallet) -> None:
+        if self.logger:
+            self.logger.log_event(
+                f"{self.name} block",
+                f"Pallet {pallet.id}",
+                self.env.now,
+            )
+
+    def _record_enter(self, pallet: Pallet) -> None:
+        self.entered_count += 1
+        self._log_event(pallet)
+
+    def _record_finish(self) -> None:
+        self.finished_count += 1
+
+    def _record_complete(self) -> None:
+        self.completed_count += 1
+
+    @abstractmethod
+    def handle(self, pallet: Pallet) -> Generator:
+        """Process one pallet."""
+
+
+class PassThroughBlock(Block):
+    """Base for blocks that forward pallets to a downstream block."""
+
+    def __init__(
+        self,
+        env: simpy.Environment,
+        next_block,
+        name: str,
+        logger: Optional[CyclicPositionLogger] = None,
+    ):
+        super().__init__(env=env, name=name, logger=logger)
+        self.next_block = next_block
+
+    def _forward(self, pallet: Pallet) -> Generator:
+        if self.next_block:
+            yield from self.next_block.handle(pallet)
+
+
+class Sink(Block):
+    def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[CyclicPositionLogger] = None):
+        super().__init__(env=env, name=name, logger=logger)
+        self.stats = stats
 
     def handle(self, pallet: Pallet):
         # Make this a generator so upstream `yield from` never fails.
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         yield self.env.timeout(0)
         duration = self.env.now - pallet.created_at
         self.stats.record_completed(duration)
 
 
-class ServiceBlock:
+class ServiceBlock(PassThroughBlock):
     def __init__(
         self,
         env: simpy.Environment,
@@ -192,16 +232,10 @@ class ServiceBlock:
         queue_capacity: int = 0,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.service_time_s = service_time_s
-        self.next_block = next_block
         self.resource = simpy.Resource(env, capacity=capacity)
-        self.name = name
         self.queue_capacity = queue_capacity
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def sample_service_time_s(self) -> float:
         return sample_duration_s(
@@ -210,10 +244,7 @@ class ServiceBlock:
         )
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         if self.queue_capacity and self.queue_capacity > 0:
             # Block upstream until there is room in the waiting line.
             while len(self.resource.queue) >= self.queue_capacity:
@@ -221,37 +252,27 @@ class ServiceBlock:
         with self.resource.request() as req:
             yield req
             yield self.env.timeout(self.sample_service_time_s())
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-# TODO verify if DelayBlock really shouln't ever have queue logic. Either ways it's a particular variation of ServiceBlock.
-class DelayBlock:
+class DelayBlock(PassThroughBlock):
+    """Pure time-delay block without queue or resource semantics."""
+
     def __init__(self, env: simpy.Environment, delay_s: DurationValue, next_block, name: str = "delay", logger: Optional[CyclicPositionLogger] = None):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.delay_s = delay_s
-        self.next_block = next_block
-        self.name = name
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         yield self.env.timeout(sample_duration_s(self.delay_s, name=f"{self.name}.delay_s"))
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class ConveyorEnterBlock:
+class ConveyorEnterBlock(PassThroughBlock):
     """AnyLogic-style conveyor entry block."""
 
     def __init__(
@@ -262,28 +283,18 @@ class ConveyorEnterBlock:
         name: str = "conveyor_enter",
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
-        self.next_block = next_block
-        self.name = name
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         yield from self.conveyor.enter()
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class ConveyBlock:
+class ConveyBlock(PassThroughBlock):
     """AnyLogic-style conveyor travel block."""
 
     def __init__(
@@ -292,34 +303,24 @@ class ConveyBlock:
         conveyor: Conveyor,
         next_block,
         name: str = "convey",
-        # TODO it's better naming as "distance" and specify the unit in a comment, like we did in HorizontalMovement definition.
         distance_m: DistanceResolver = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
-        self.next_block = next_block
-        self.name = name
+        # Distance is measured in meters.
         self.distance_m = distance_m
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         distance = _resolve_distance(self.distance_m, pallet)
         yield self.env.timeout(self.conveyor.travel_time_s(distance))
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class ConveyorExitBlock:
+class ConveyorExitBlock(PassThroughBlock):
     """AnyLogic-style conveyor exit block."""
 
     def __init__(
@@ -330,29 +331,19 @@ class ConveyorExitBlock:
         name: str = "conveyor_exit",
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
-        self.next_block = next_block
-        self.name = name
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         self.conveyor.leave()
         yield self.env.timeout(0)
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class ConveyorSpurBlock:
+class ConveyorSpurBlock(PassThroughBlock):
     """AnyLogic-style conveyor spur transfer block."""
 
     def __init__(
@@ -363,28 +354,18 @@ class ConveyorSpurBlock:
         name: str = "conveyor_spur",
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.spur = spur
-        self.next_block = next_block
-        self.name = name
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         yield from self.spur.transfer()
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class SeizeTransporterBlock:
+class SeizeTransporterBlock(PassThroughBlock):
     """Reserve a specific transporter and attach it to the pallet context."""
 
     def __init__(
@@ -399,24 +380,15 @@ class SeizeTransporterBlock:
         assignment_key: str = DEFAULT_TRANSPORTER_ASSIGNMENT_KEY,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.fleet = fleet
-        self.next_block = next_block
-        self.name = name
         self.request_priority = request_priority
         self.near_position = near_position
         self.pending_attr = pending_attr
         self.assignment_key = assignment_key
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
 
         if _get_assignment(pallet, assignment_key=self.assignment_key) is not None:
             raise RuntimeError(
@@ -432,13 +404,12 @@ class SeizeTransporterBlock:
         )
         _set_assignment(pallet, assignment, assignment_key=self.assignment_key)
 
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class ReleaseTransporterBlock:
+class ReleaseTransporterBlock(PassThroughBlock):
     """Release a previously seized transporter from pallet context."""
 
     def __init__(
@@ -452,23 +423,14 @@ class ReleaseTransporterBlock:
         strict: bool = True,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.fleet = fleet
-        self.next_block = next_block
-        self.name = name
         self.assignment_key = assignment_key
         self.apply_post_task_policy = apply_post_task_policy
         self.strict = strict
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
 
         assignment = _clear_assignment(pallet, assignment_key=self.assignment_key)
         if assignment is None:
@@ -482,13 +444,12 @@ class ReleaseTransporterBlock:
                 yield from _run_fleet_post_task(self.fleet, fl)
             self.fleet.release(assignment)
 
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class MoveByTransporterBlock:
+class MoveByTransporterBlock(PassThroughBlock):
     """Move a pallet using a seized transporter (or auto-seize when configured)."""
 
     def __init__(
@@ -512,10 +473,8 @@ class MoveByTransporterBlock:
         dropoff_movement_overrides: Optional[ForkliftMovementOverrides] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.fleet = fleet
-        self.next_block = next_block
-        self.name = name
         self.pickup_pos = pickup_pos
         self.dropoff_pos = dropoff_pos
         self.loading_time_s = loading_time_s
@@ -533,10 +492,6 @@ class MoveByTransporterBlock:
         )
         self.pickup_movement_overrides = pickup_movement_overrides
         self.dropoff_movement_overrides = dropoff_movement_overrides
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     @staticmethod
     def _sample_dwell_time_s(value: DurationValue, *, name: str) -> float:
@@ -560,10 +515,7 @@ class MoveByTransporterBlock:
         )
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
 
         enter_at = self.env.now
         downstream_process: Optional[simpy.Process] = None
@@ -675,13 +627,13 @@ class MoveByTransporterBlock:
             if auto_seized:
                 self.fleet.release(assignment)
 
-        self.finished_count += 1
-        if self.next_block and downstream_process is None:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        if downstream_process is None:
+            yield from self._forward(pallet)
+        self._record_complete()
 
 
-class StoreBlock:
+class StoreBlock(PassThroughBlock):
     def __init__(
         self,
         env: simpy.Environment,
@@ -696,26 +648,17 @@ class StoreBlock:
         request_priority: int = 1,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.storage = storage
         self.fleet = fleet
         self.slot_manager = slot_manager
         self.stats = stats
-        self.next_block = next_block
-        self.name = name
         self.inbound_pos = inbound_pos
         self.loading_time_s = loading_time_s
         self.request_priority = request_priority
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         enter_at = self.env.now
 
         # Block until storage has room (hard capacity constraint)
@@ -844,14 +787,13 @@ class StoreBlock:
         finally:
             self.fleet.release(assignment)
 
-        self.finished_count += 1
+        self._record_finish()
         yield self.storage.put(1)
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
-class RetrieveBlock:
+class RetrieveBlock(PassThroughBlock):
     def __init__(
         self,
         env: simpy.Environment,
@@ -866,26 +808,17 @@ class RetrieveBlock:
         request_priority: int = 1,
         logger: Optional[CyclicPositionLogger] = None,
     ):
-        self.env = env
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.storage = storage
         self.fleet = fleet
         self.slot_manager = slot_manager
         self.stats = stats
-        self.next_block = next_block
-        self.name = name
         self.outbound_pos = outbound_pos
         self.unloading_time_s = unloading_time_s
         self.request_priority = request_priority
-        self.logger = logger
-        self.entered_count = 0
-        self.finished_count = 0
-        self.completed_count = 0
 
     def handle(self, pallet: Pallet):
-        self.entered_count += 1
-        if self.logger:
-            self.logger.log_event(
-                f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
+        self._record_enter(pallet)
         enter_at = self.env.now
         yield self.storage.get(1)
 
@@ -1011,10 +944,9 @@ class RetrieveBlock:
         finally:
             self.fleet.release(assignment)
 
-        self.finished_count += 1
-        if self.next_block:
-            yield from self.next_block.handle(pallet)
-        self.completed_count += 1
+        self._record_finish()
+        yield from self._forward(pallet)
+        self._record_complete()
 
 
 class Source:

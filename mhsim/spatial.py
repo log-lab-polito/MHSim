@@ -49,12 +49,9 @@ class RectangularNode(Node):
         )
 
 
-# TODO should inherit from Node, shouldn't it? Also refactor to match Anylogic data models.
 @dataclass
-class Shelf:
+class Shelf(Node):
     """Warehouse shelf with multiple levels and positions."""
-    id: str
-    position: Position3D
     levels: int  # number of vertical levels
     positions_per_level: int  # number of storage cells per level
     cell_depth: float = 1.0  # meters
@@ -86,10 +83,9 @@ class Shelf:
         )
 
 
-# TODO Refactor to match Anylogic data models.
 @dataclass
 class Storage:
-    """Collection of shelves for the warehouse storage."""
+    """Collection of AnyLogic-style rack shelves for warehouse storage."""
     shelves: List[Shelf] = field(default_factory=list)
 
     def add_shelf(self, shelf: Shelf) -> None:
@@ -146,14 +142,13 @@ class Path:
         return self.waypoints[-1]  # End of path
 
 
-# TODO I'm not sure if every WarehouseLayout should have forklifts_home or storage.
 @dataclass
 class WarehouseLayout:
-    """Defines the complete warehouse layout."""
+    """Defines the designed movement layout for a material-handling model."""
     inbound_area: Node
     outbound_area: Node
-    forklifts_home: RectangularNode
-    storage: Storage
+    forklifts_home: Optional[RectangularNode] = None
+    storage: Optional[Storage] = None
     paths: List[Path] = field(default_factory=list)
 
     def add_path(self, path: Path) -> None:

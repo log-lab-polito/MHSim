@@ -13,10 +13,18 @@ from dataclasses import dataclass, field
 from typing import Optional, Generator, Callable
 from enum import Enum
 
-from .movement import Position3D, MovementProfile
+from .movement import (
+    Position3D,
+    MovementProfile,
+    clamp01,
+    distance_to_speed,
+    time_to_cover_distance,
+)
 from .routing import Route, RouteMotionSegment, RouteStep, Router
 from .pallet import Pallet
 from .traffic import PathTrafficController
+
+POSITION_TOLERANCE_M = 0.01
 
 
 class ForkliftStatus(Enum):
@@ -98,8 +106,8 @@ class Forklift:
     home_position: Optional[Position3D] = None
     charging_station: Optional[ChargingStation] = None
 
-    # TODO check if we'll ever use it or not.
-    # Battery settings (disabled by default when discharge_per_meter == 0).
+    # Battery settings are explicit optional core behavior: disabled unless
+    # discharge and charge rates are both configured by a case study.
     battery_soc: float = 1.0
     discharge_per_meter: float = 0.0
     charge_rate_per_second: float = 0.0
@@ -115,24 +123,11 @@ class Forklift:
         """Initialize forklift process."""
         if self.home_position is None:
             self.home_position = self.position
-        # TODO introduce clamp01 somewhere...
-        self.battery_soc = min(max(self.battery_soc, 0.0), 1.0)
-        self.charge_when_below = min(max(self.charge_when_below, 0.0), 1.0)
-        self.charge_until = min(max(self.charge_until, 0.0), 1.0)
-        if not self.router:
-            # TODO remove the fallback and make Router mandatory.
-            # Create a simple router if none provided
-            from .spatial import WarehouseLayout, RectangularNode, Storage
-            default_layout = WarehouseLayout(
-                inbound_area=RectangularNode(
-                    "inbound", Position3D(0, 0, 0), 10, 10, 2),
-                outbound_area=RectangularNode(
-                    "outbound", Position3D(20, 0, 0), 10, 10, 2),
-                forklifts_home=RectangularNode(
-                    "home", Position3D(10, 10, 0), 5, 5, 2),
-                storage=Storage(),
-            )
-            self.router = Router(default_layout)
+        self.battery_soc = clamp01(self.battery_soc)
+        self.charge_when_below = clamp01(self.charge_when_below)
+        self.charge_until = clamp01(self.charge_until)
+        if self.router is None:
+            raise ValueError("Forklift requires an explicit Router")
 
     def _consume_battery(self, horizontal_distance_m: float) -> None:
         """Apply travel energy usage to battery SOC."""
@@ -175,8 +170,7 @@ class Forklift:
     def _move_direct_to(self, target: Position3D, update_interval: float = 0.05) -> Generator:
         """Move directly to target using acceleration profile (no routing)."""
         # Check if we're already at target (in 3D, not just XY)
-        # TODO 0.01 should be a private constant.
-        if self.position.distance_to(target) < 0.01:
+        if self.position.distance_to(target) < POSITION_TOLERANCE_M:
             yield self.env.timeout(0)
             return
 
@@ -389,49 +383,7 @@ class Forklift:
 
         return distance, next_speed, elapsed_time
 
-    @staticmethod
-    def _distance_to_speed(  # TODO check duplicated logic with HorizontalMovement
-        current_speed: float,
-        acceleration: float,
-        target_speed: float,
-    ) -> float:
-        """Distance needed to reach target speed under constant acceleration."""
-        if current_speed == target_speed:
-            return 0.0
-        if acceleration == 0.0:
-            return math.inf
-        if math.copysign(1.0, target_speed - current_speed) != math.copysign(
-            1.0,
-            acceleration,
-        ):
-            return math.copysign(math.inf, target_speed - current_speed)
-        return (current_speed + (target_speed - current_speed) / 2.0) * (
-            (target_speed - current_speed) / acceleration
-        )
-
-    @staticmethod
-    def _time_to_cover_distance(  # TODO check duplicated logic with HorizontalMovement
-        current_speed: float,
-        acceleration: float,
-        distance_m: float,
-    ) -> float:
-        """Solve time for distance under constant acceleration."""
-        if distance_m <= 0.0:
-            return 0.0
-        if acceleration == 0.0:
-            return math.inf if current_speed <= 0.0 else distance_m / current_speed
-        discriminant = current_speed * current_speed + 2.0 * acceleration * distance_m
-        if discriminant < 0.0:
-            return math.inf
-        root = math.sqrt(discriminant)
-        candidates = [
-            (root - current_speed) / acceleration,
-            (-root - current_speed) / acceleration,
-        ]
-        nonnegative = [value for value in candidates if value >= -1e-12]
-        return max(0.0, min(nonnegative)) if nonnegative else math.inf
-
-    def _compute_line_guided_horizontal_motion(  # TODO check duplicated logic with HorizontalMovement
+    def _compute_line_guided_horizontal_motion(
         self,
         current_speed: float,
         dt: float,
@@ -480,7 +432,7 @@ class Forklift:
 
         if distance > effective_distance + 1e-9:
             if acceleration == 0.0:
-                elapsed_time = self._time_to_cover_distance(
+                elapsed_time = time_to_cover_distance(
                     current_speed,
                     0.0,
                     effective_distance,
@@ -495,7 +447,7 @@ class Forklift:
                     + 0.5 * acceleration * time_to_limit * time_to_limit
                 )
                 if effective_distance <= distance_to_limit + 1e-9:
-                    elapsed_time = self._time_to_cover_distance(
+                    elapsed_time = time_to_cover_distance(
                         current_speed,
                         acceleration,
                         effective_distance,
@@ -535,7 +487,7 @@ class Forklift:
             return now
         return (math.floor(now / update_timestep) + 1.0) * update_timestep
 
-    def _move_along_route(  # TODO this is the most important function for a deep review
+    def _move_along_route(
         self,
         route: Route,
         update_interval: float = 0.05,
@@ -589,6 +541,14 @@ class Forklift:
         )
         use_analytical_topup = not use_line_guided_controller
 
+        # Reviewed invariants for parity-sensitive routed motion:
+        # - straight routes keep the analytical top-up used by Model 1/2/5
+        # - AnyLogic line-guided mode only applies to real cornered routes
+        # - route-boundary updates share the same global controller cadence
+        # - traffic waits clamp only the current movement slice
+        # - final position, traffic release, and battery distance accounting run
+        #   once after the route completes.
+        #
         # AnyLogic's line-guided controller rebuilds motion profiles on a 0.5 s
         # controller cadence. On cornered paths this delays final deceleration
         # and can arrive with residual velocity. Straight paths match the
@@ -652,7 +612,7 @@ class Forklift:
             deceleration = max(0.0, horizontal.deceleration)
             route_remaining = max(0.0, total_distance - horizontal_distance)
             stopping_distance = (
-                self._distance_to_speed(current_speed, -deceleration, 0.0)
+                distance_to_speed(current_speed, -deceleration, 0.0)
                 if deceleration > 0.0
                 else math.inf
             )
@@ -1007,7 +967,7 @@ class Forklift:
         over that network. Only pure vertical moves bypass path routing.
         """
         # Avoid any routing/resume delays if we're already at the target.
-        if self.position.distance_to(target) < 0.01:
+        if self.position.distance_to(target) < POSITION_TOLERANCE_M:
             yield self.env.timeout(0)
             return
 
@@ -1267,10 +1227,9 @@ class ForkliftFleet:
             return self._available_forklifts.pop(0)
 
         best_idx = 0
-        # TODO we should introduce sqr_distance_xy and sqr_distance for faster comparison operations.
-        best_cost = self._available_forklifts[0].position.distance_xy(near_position)
+        best_cost = self._available_forklifts[0].position.sqr_distance_xy(near_position)
         for i in range(1, len(self._available_forklifts)):
-            cost = self._available_forklifts[i].position.distance_xy(near_position)
+            cost = self._available_forklifts[i].position.sqr_distance_xy(near_position)
             if cost < best_cost:
                 best_cost = cost
                 best_idx = i
@@ -1336,7 +1295,7 @@ class ForkliftFleet:
     def run_post_task_policy(
         self,
         forklift: Forklift,
-    ) -> Generator:  # TODO check this function once more.
+    ) -> Generator:
         """Apply AnyLogic-style transporter wrap-up behavior after a task.
 
         AnyLogic's ``ReleaseTransporter`` sends the material item downstream as
@@ -1352,7 +1311,10 @@ class ForkliftFleet:
             should_return = return_policy == "always"
             if return_policy == "idle":
                 should_return = self.waiting_requests_count == 0
-            if should_return and forklift.position.distance_xy(home_pos) > 0.01:
+            if (
+                should_return
+                and forklift.position.distance_xy(home_pos) > POSITION_TOLERANCE_M
+            ):
                 self._returning_home_since_by_forklift[forklift.id] = self.env.now
                 try:
                     yield from forklift.move_to(home_pos)
@@ -1402,7 +1364,6 @@ class ForkliftFleet:
         return self._resource
 
 
-# TODO why not turn into an explicit Factory Method implementation?
 def create_forklift_fleet(
     env: simpy.Environment,
     count: int,
@@ -1435,7 +1396,8 @@ def create_forklift_fleet(
         count: Number of forklifts in fleet
         movement_profile: Movement profile for all forklifts
         lift_profile: Lift profile for shelf operations (optional)
-        router: Router instance (shared across fleet)
+        router: Explicit Router instance shared across the fleet. It may have
+            an empty path network, but it must be provided.
         home_position: Starting position for all forklifts
         charging_station: Optional charging station assigned to each forklift
         name_prefix: Prefix for forklift IDs
@@ -1445,6 +1407,8 @@ def create_forklift_fleet(
     """
     if home_position is None:
         home_position = Position3D(0, 0, 0)
+    if router is None:
+        raise ValueError("create_forklift_fleet requires an explicit Router")
 
     fleet = ForkliftFleet(
         env,
