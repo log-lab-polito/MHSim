@@ -232,7 +232,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--anylogic-range",
-        default="logs/anylogic_model_2_parameter_variation_range.txt",
+        default="anylogic/Model 2/log_file.txt",
         help="AnyLogic parameter variation range output.",
     )
     parser.add_argument(

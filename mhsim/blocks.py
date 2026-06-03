@@ -229,7 +229,7 @@ class ServiceBlock:
 
 # TODO verify if DelayBlock really shouln't ever have queue logic. Either ways it's a particular variation of ServiceBlock.
 class DelayBlock:
-    def __init__(self, env: simpy.Environment, delay_s: float, next_block, name: str = "delay", logger: Optional[CyclicPositionLogger] = None):
+    def __init__(self, env: simpy.Environment, delay_s: DurationValue, next_block, name: str = "delay", logger: Optional[CyclicPositionLogger] = None):
         self.env = env
         self.delay_s = delay_s
         self.next_block = next_block
@@ -244,7 +244,7 @@ class DelayBlock:
         if self.logger:
             self.logger.log_event(
                 f"{self.name} block", f"Pallet {pallet.id}", self.env.now)
-        yield self.env.timeout(self.delay_s)
+        yield self.env.timeout(sample_duration_s(self.delay_s, name=f"{self.name}.delay_s"))
         self.finished_count += 1
         if self.next_block:
             yield from self.next_block.handle(pallet)

@@ -18,27 +18,48 @@
 		<ActiveObjectClass>
 			<Id>1764169459609</Id>
 			<Name><![CDATA[Main]]></Name>
-			<StartupCode><![CDATA[log_file.println();
-log_file.println("ITERATION #" + iteration + ", REPLICATION #" + replication);
-log_file.println("PARAMETERS");
-log_file.println("    Arrival rate (s): " + main_arrival_time_s);
-log_file.println("    Branch arrival rate (s): " + branch_arrival_time_s);
-log_file.println("    Conveyor Speed (m/s): " + conveyor_speed_ms);
-log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
-log_file.println("    Random arrivals: " + random_arrival_times);
-log_file.println("    Random services: " + random_service_times);
+			<StartupCode><![CDATA[if (random_arrival_times || random_service_times) {
+	stochastic_log_file.println();
+	stochastic_log_file.println("ITERATION #" + iteration + ", REPLICATION #" + replication);
+	stochastic_log_file.println("PARAMETERS");
+	stochastic_log_file.println("    Arrival rate (s): " + main_arrival_time_s);
+	stochastic_log_file.println("    Branch arrival rate (s): " + branch_arrival_time_s);
+	stochastic_log_file.println("    Conveyor Speed (m/s): " + conveyor_speed_ms);
+	stochastic_log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
+	stochastic_log_file.println("    Random arrivals: " + random_arrival_times);
+	stochastic_log_file.println("    Random services: " + random_service_times);
+} else {
+	log_file.println();
+	log_file.println("ITERATION #" + iteration);
+	log_file.println("PARAMETERS");
+	log_file.println("    Arrival rate (s): " + main_arrival_time_s);
+	log_file.println("    Branch arrival rate (s): " + branch_arrival_time_s);
+	log_file.println("    Conveyor Speed (m/s): " + conveyor_speed_ms);
+	log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
+}
 if (trace_enabled && iteration == trace_iteration) {
     log_file.println("TRACE_HEADER\titeration\ttime_s\tevent\tpallet_id\torigin\tcycle_time_s\tdetail_1\tdetail_2\tdetail_3\tdetail_4\tdetail_5\tdetail_6\tdetail_7\tdetail_8\tdetail_9\tdetail_10\tdetail_11\tdetail_12");
 }
 ]]></StartupCode>
-			<DestroyCode><![CDATA[log_file.println("RESULTS");
-log_file.println("    Created: " + created_count);
-log_file.println("    Completed: " + completed_count);
-log_file.println("    Main completed: " + main_completed_count);
-log_file.println("    Branch completed: " + branch_completed_count);
-log_file.println("    Avg WIP: " + (completed_count > 0 && cycle_time_samples > 0 ? (completed_count / time()) * (total_cycle_time_s / cycle_time_samples) : 0.0));
-log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
-log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));]]></DestroyCode>
+			<DestroyCode><![CDATA[if (random_arrival_times || random_service_times) {
+	stochastic_log_file.println("RESULTS");
+	stochastic_log_file.println("    Created: " + created_count);
+	stochastic_log_file.println("    Completed: " + completed_count);
+	stochastic_log_file.println("    Main completed: " + main_completed_count);
+	stochastic_log_file.println("    Branch completed: " + branch_completed_count);
+	stochastic_log_file.println("    Avg WIP: " + (completed_count > 0 && cycle_time_samples > 0 ? (completed_count / time()) * (total_cycle_time_s / cycle_time_samples) : 0.0));
+	stochastic_log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
+	stochastic_log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
+} else {
+	log_file.println("RESULTS");
+	log_file.println("    Created: " + created_count);
+	log_file.println("    Completed: " + completed_count);
+	log_file.println("    Main completed: " + main_completed_count);
+	log_file.println("    Branch completed: " + branch_completed_count);
+	log_file.println("    Avg WIP: " + (completed_count > 0 && cycle_time_samples > 0 ? (completed_count / time()) * (total_cycle_time_s / cycle_time_samples) : 0.0));
+	log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
+	log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
+}]]></DestroyCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1764169459615</Id>
@@ -231,7 +252,7 @@ log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[true]]></Code>
+							<Code><![CDATA[false]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -829,6 +850,24 @@ return random_service_times
 					<ResourceReference>
 						<PackageName><![CDATA[model_4]]></PackageName>
 						<ClassName><![CDATA[log_file.txt]]></ClassName>
+					</ResourceReference>
+					<FileMode>WRITE_APPEND</FileMode>
+					<CharsetName>null</CharsetName>
+					<Separators></Separators>
+				</TextFile>
+				<TextFile>
+					<Id>1904000000013</Id>
+					<Name><![CDATA[stochastic_log_file]]></Name>
+					<X>150</X><Y>340</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<FileType>FILE</FileType>
+					<Url><![CDATA[]]></Url>
+					<ResourceReference>
+						<PackageName><![CDATA[model_4]]></PackageName>
+						<ClassName><![CDATA[log_file_stochastic.txt]]></ClassName>
 					</ResourceReference>
 					<FileMode>WRITE_APPEND</FileMode>
 					<CharsetName>null</CharsetName>
@@ -3741,6 +3780,12 @@ if (trace_enabled && iteration == trace_iteration) {
 		<Resource>
 			<Id>1773398708582</Id>
 			<Path><![CDATA[log_file.txt]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1904000000014</Id>
+			<Path><![CDATA[log_file_stochastic.txt]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>

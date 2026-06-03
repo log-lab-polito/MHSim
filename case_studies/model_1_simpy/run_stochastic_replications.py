@@ -75,7 +75,7 @@ def _print_summary(result) -> None:
 
 
 def main() -> None:
-    run_stochastic_replications_cli(STOCHASTIC_REPLICATION_SPEC, summary_callback=_print_summary)
+    run_stochastic_replications_cli(STOCHASTIC_REPLICATION_SPEC, verbose=True, summary_callback=_print_summary)
 
 
 if __name__ == "__main__":

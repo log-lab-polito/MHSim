@@ -296,7 +296,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--anylogic-trace",
-        default="anylogic/Model 1/log_file.txt",
+        default="anylogic/Model 1/log_file_movement_trace.txt",
         help="AnyLogic cyclic position trace path.",
     )
     parser.add_argument(

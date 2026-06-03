@@ -1580,7 +1580,7 @@ log_file.println("      std dev (sample) = " + s[4]);]]></Body>
 						<Parameter>
 							<Name><![CDATA[delayTime]]></Name>
 							<Value Class="CodeUnitValue">
-								<Code><![CDATA[delay_time_s]]></Code>
+								<Code><![CDATA[serviceTime(delay_time_s)]]></Code>
 								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 							</Value>
 						</Parameter>

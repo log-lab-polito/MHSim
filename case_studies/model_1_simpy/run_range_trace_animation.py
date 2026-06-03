@@ -15,7 +15,7 @@ import numpy as np
 
 from mhsim.spatial import PointNode, RectangularNode
 
-from .compare_movement_trace import (
+from .analysis.compare_movement_trace import (
     POSITION_RE,
     TRACE_LINE_RE,
     TracePhases,
@@ -156,6 +156,9 @@ def parse_cyclic_trace(path: str | Path, *, label: str) -> CyclicTrace:
     rows: list[tuple[float, tuple[tuple[float, float], ...]]] = []
     with trace_path.open(encoding="utf-8") as handle:
         for raw_line in handle:
+            if raw_line.strip().startswith("ITERATION #"):
+                rows.clear()
+                continue
             time_match = TRACE_LINE_RE.search(raw_line)
             if time_match is None:
                 continue
@@ -519,7 +522,10 @@ def build_animation(
             key = (trace.label, forklift_index)
             if mask.any():
                 positions = forklift.positions_m[mask]
-                map_lines[key].set_data(positions[:, 0], positions[:, 1])
+                if len(positions) > 1:
+                    map_lines[key].set_data(positions[:, 0], positions[:, 1])
+                else:
+                    map_lines[key].set_data([], [])
             else:
                 map_lines[key].set_data([], [])
             current_position = _current_position(forklift, current_time)
@@ -590,7 +596,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--anylogic-trace",
-        default="anylogic/Model 1/log_file.txt",
+        default="anylogic/Model 1/log_file_movement_trace.txt",
         help="AnyLogic cyclic position log to compare.",
     )
     parser.add_argument(

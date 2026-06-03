@@ -95,7 +95,7 @@ class Model2SimModel:
         )
         self.delay = DelayBlock(
             self.env,
-            delay_s=self.params.delay_time_s,
+            delay_s=self._service_time(self.params.delay_time_s, "delay"),
             next_block=self.move_to_outbound,
             name="delay",
             logger=self.logger,

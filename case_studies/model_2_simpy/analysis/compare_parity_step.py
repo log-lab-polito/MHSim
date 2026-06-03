@@ -38,7 +38,7 @@ from .compare_parameter_variation_range import (
 
 
 STEP_ROOT = Path("logs/model_2_parity_steps")
-DEFAULT_ANYLOGIC_RANGE = Path("logs/anylogic_model_2_parameter_variation_range.txt")
+DEFAULT_ANYLOGIC_RANGE = Path("anylogic/Model 2/log_file.txt")
 SUMMARY_RANGE_METRICS = (
     "avg_time_in_system_s",
     "forklift_utilization",
