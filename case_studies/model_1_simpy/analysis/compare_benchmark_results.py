@@ -6,7 +6,7 @@ import argparse
 import csv
 import math
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from mhsim.reporting import build_forklift_movement_benchmark_rows
 
@@ -247,9 +247,12 @@ def _parameter_values_for_anylogic_row(
 
 
 def run_simpy_benchmark(
-    anylogic_row: AnyLogicBenchmarkRow, *, sim_time: float
+    anylogic_row: AnyLogicBenchmarkRow,
+    *,
+    sim_time: float,
+    base_params: Model1Params | None = None,
 ) -> SimPyBenchmarkRow:
-    params = Model1Params()
+    params = Model1Params() if base_params is None else replace(base_params)
     params.sim_time = sim_time
     range_values = _parameter_values_for_anylogic_row(anylogic_row)
     params.arrival_rate_s = range_values.arrival_rate_s
@@ -590,10 +593,24 @@ def main() -> None:
         default=None,
         help="Optional CSV export path for the comparison table.",
     )
+    parser.add_argument(
+        "--forklift-return-home-policy",
+        choices=("idle", "stay", "always"),
+        default=None,
+        help="Override forklift return-home policy for diagnostics.",
+    )
     args = parser.parse_args()
 
+    base_params = None
+    if args.forklift_return_home_policy is not None:
+        base_params = Model1Params()
+        base_params.forklift_return_home_policy = args.forklift_return_home_policy
+
     anylogic_rows = parse_anylogic_benchmark_output(args.anylogic)
-    simpy_rows = [run_simpy_benchmark(row, sim_time=args.sim_time) for row in anylogic_rows]
+    simpy_rows = [
+        run_simpy_benchmark(row, sim_time=args.sim_time, base_params=base_params)
+        for row in anylogic_rows
+    ]
     print_report(anylogic_rows, simpy_rows)
     if args.csv:
         output_path = write_comparison_csv(anylogic_rows, simpy_rows, args.csv)

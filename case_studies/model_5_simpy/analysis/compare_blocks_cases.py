@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from pathlib import Path
 from typing import Dict, List
 
 from .compare_blocks import ANYLOGIC_BLOCKS, BLOCK_MAPPING
@@ -118,7 +119,9 @@ def write_csv(
     results: Dict[str, Dict[str, str | int | float]],
     base_params: Model5Params,
 ) -> None:
-    with open(output_path, "w", newline="") as csvfile:
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.open("w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         case_ids = [case["id"] for case in cases]
         header_priority = ["Store vs Retrieve Priority", "AnyLogic"] + [
@@ -148,7 +151,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--output",
-        default="case_studies/model_5_simpy/compare_blocks_cases.csv",
+        default="logs/model_5_compare_blocks_cases.csv",
         help="CSV output path.",
     )
     args = parser.parse_args()

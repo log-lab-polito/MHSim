@@ -1,32 +1,1117 @@
 iteration,arrival_rate_s,forklift_capacity,delay_time_s,section,metric_key,metric,stat,anylogic_value,simpy_value,simpy_count,diff,diff_pct,status
-0,120.0,1,180.0,summary,created,Created,value,151,150,,-1.0,-0.6622516556291391,CLOSE
-0,120.0,1,180.0,summary,completed,Completed,value,147,147,,0.0,0.0,MATCH
-0,120.0,1,180.0,summary,in_flight,In flight,value,4,3,,-1.0,-25.0,DIFF
-0,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,354.1183349800862,408.38027434968916,,54.26193936960294,15.323109257433492,DIFF
-0,120.0,1,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
-0,120.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.4,,0.0,0.0,MATCH
-0,120.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9178477851355441,0.8999249850312732,,-0.01792280010427094,-1.9526985187009165,DIFF
-0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,32.43681667766286,27.799350802968753,150,-4.637465874694108,-14.296920443144568,DIFF
-0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,27.799350802535628,150,-0.26911450083480304,-0.9587788214501634,CLOSE
-0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,36.92323160263186,27.799350803039488,150,-9.12388079959237,-24.710406981121412,DIFF
-0,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),4.426989586958809,1.4220465707663594e-10,150,-4.426989586816605,-99.99999999678778,DIFF
-0,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
-0,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
-0,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
-0,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
-0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.469874519153546,33.9463641226172,150,7.476489603463651,28.24527784615556,DIFF
-0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,33.49935080245268,150,10.397096236092693,45.00468214575159,DIFF
-0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.171754470695305,59.675349776370865,150,31.50359530567556,111.82688440099137,DIFF
-0,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.357933795654357,2.9804387917775874,150,0.6225049961232303,26.400444205452217,DIFF
-0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,27.613831326570306,16.105573770509274,147,-11.508257556061032,-41.67570019516876,DIFF
-0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.13879652659034,16.005573770260526,147,0.8667772436701853,5.725535990577228,DIFF
-0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,40.15643369411919,16.205573770550473,147,-23.950859923568714,-59.64389195018646,DIFF
-0,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.520377664503897,0.08164965809286884,147,-8.438728006411027,-99.04171315746925,DIFF
-0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,147,0.0,0.0,MATCH
-0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,147,0.0,0.0,MATCH
-0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,147,0.0,0.0,MATCH
-0,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,147,0.0,,MATCH
-0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,28.875998973232285,147,28.875998973232285,,DIFF
-0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,28.8759989730097,147,28.8759989730097,,DIFF
-0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,28.87599897353357,147,28.87599897353357,,DIFF
-0,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4906753734260923e-10,147,2.4906753734260923e-10,,MATCH
+1,96.0,1,180.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+1,96.0,1,180.0,summary,completed,Completed,value,185,184,,-1.0,-0.5405405405405406,CLOSE
+1,96.0,1,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+1,96.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,325.2865315379259,416.9901716854842,,91.7036401475583,28.191649901393586,DIFF
+1,96.0,1,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+1,96.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,37.0,36.800000000000004,,-0.19999999999999574,-0.540540540540529,CLOSE
+1,96.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9952131848606526,0.9975916419956412,,0.002378457134988632,0.23898971307556158,CLOSE
+1,96.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,24.66859424919274,35.989186236514875,187,11.320591987322135,45.89070570039714,DIFF
+1,96.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,18.05945011005133,28.141592653564658,187,10.082142543513328,55.8275167963277,DIFF
+1,96.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,36.741592653721455,187,8.673127350350114,30.899898717684337,DIFF
+1,96.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),1.3737739241619364,1.7705650584708739,187,0.3967911343089374,28.883292027179635,DIFF
+1,96.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+1,96.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+1,96.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+1,96.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+1,96.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.50255515724227,35.945241301476074,187,9.442686144233804,35.62934248493935,DIFF
+1,96.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.090946636525814,33.84159265310518,187,10.750646016579367,46.55784011719007,DIFF
+1,96.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.495782145535486,60.48318530724373,187,31.987403161708244,112.25311520961287,DIFF
+1,96.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.351682377109689,6.92439358962783,187,4.572711212518142,194.44425220969617,DIFF
+1,96.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,20.142404514877764,20.8499470675113,184,0.7075425526335373,3.512701535265692,DIFF
+1,96.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.091136182199989,16.599999999769352,184,1.5088638175693632,9.998344719392763,DIFF
+1,96.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,25.5794357398172,40.7415926537351,184,15.162156913917897,59.27479037513066,DIFF
+1,96.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.074251754030993,7.8380042963286165,184,3.763752542297624,92.37898808226159,DIFF
+1,96.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,184,0.0,0.0,MATCH
+1,96.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,184,0.0,0.0,MATCH
+1,96.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,184,0.0,0.0,MATCH
+1,96.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,184,0.0,,MATCH
+1,96.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,1.583782209422101,184,1.583782209422101,,DIFF
+1,96.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,0.0,184,0.0,,MATCH
+1,96.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,184,29.141592653694715,,DIFF
+1,96.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,6.606479388581029,184,6.606479388581029,,DIFF
+2,120.0,1,180.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+2,120.0,1,180.0,summary,completed,Completed,value,147,147,,0.0,0.0,MATCH
+2,120.0,1,180.0,summary,in_flight,In flight,value,4,4,,0.0,0.0,MATCH
+2,120.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,353.9646534738529,410.02477796065966,,56.060124486806785,15.837774742937125,DIFF
+2,120.0,1,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+2,120.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.4,,0.0,0.0,MATCH
+2,120.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9178477851355441,0.9134606620077,,-0.0043871231278440614,-0.4779793772881621,CLOSE
+2,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,32.43681667766286,28.14159265361998,150,-4.295224024042881,-13.241817366747718,DIFF
+2,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+2,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,36.92323160263186,28.141592653690168,150,-8.78163894894169,-23.783505851951873,DIFF
+2,120.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),4.426989586958809,1.417638668146942e-10,150,-4.4269895868170455,-99.99999999679774,DIFF
+2,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+2,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+2,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+2,120.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+2,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.469874519153546,34.292147222337185,150,7.822272703183639,29.551604778192125,DIFF
+2,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,33.84159265310518,150,10.739338086745192,46.48610401161072,DIFF
+2,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.171754470695305,60.283185307183146,150,32.11143083648784,113.98449063543646,DIFF
+2,120.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.357933795654357,3.010890338026653,150,0.6529565423722961,27.6918946399465,DIFF
+2,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,27.613831326570306,16.800000000016837,147,-10.81383132655347,-39.16092337446956,DIFF
+2,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.13879652659034,16.699999999767897,147,1.5612034731775566,10.312599620685841,DIFF
+2,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,40.15643369411919,16.900000000057844,147,-23.256433694061343,-57.914589406048755,DIFF
+2,120.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.520377664503897,0.08164965809286884,147,-8.438728006411027,-99.04171315746925,DIFF
+2,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,147,0.0,0.0,MATCH
+2,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,147,0.0,0.0,MATCH
+2,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,147,0.0,0.0,MATCH
+2,120.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,147,0.0,,MATCH
+2,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392898,147,29.141592653392898,,DIFF
+2,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,147,29.141592653169937,,DIFF
+2,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,147,29.141592653694715,,DIFF
+2,120.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.494756271105091e-10,147,2.494756271105091e-10,,MATCH
+3,144.0,1,180.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+3,144.0,1,180.0,summary,completed,Completed,value,123,122,,-1.0,-0.8130081300813009,CLOSE
+3,144.0,1,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+3,144.0,1,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,323.7845045954043,398.3372389995661,,74.55273440416181,23.02541762995164,DIFF
+3,144.0,1,180.0,summary,storage_level,Storage level,value,1,2,,1.0,100.0,DIFF
+3,144.0,1,180.0,summary,throughput_per_hour,Throughput (/h),value,24.6,24.4,,-0.20000000000000284,-0.8130081300813123,CLOSE
+3,144.0,1,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.8497023301774558,0.8957615468155022,,0.04605921663804646,5.420629672561595,DIFF
+3,144.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,23.41161447562728,33.783192653623615,125,10.371578177996334,44.30099508427191,DIFF
+3,144.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,22.67006239472903,28.141592653188127,125,5.471530258459097,24.135488306954425,DIFF
+3,144.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.068465303370665,36.741592653721455,125,8.67312735035079,30.899898717687485,DIFF
+3,144.0,1,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.9831952721418802,4.085353037374879,125,3.102157765232999,315.51797014594894,DIFF
+3,144.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+3,144.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+3,144.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+3,144.0,1,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+3,144.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,25.69497654691004,51.584742916718504,125,25.889766369808463,100.75808523328598,DIFF
+3,144.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.090896750061802,33.84159265355947,125,10.750695903497672,46.558156748368376,DIFF
+3,144.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.55115802880573,60.2831853073958,125,31.732027278590067,111.14094653034776,DIFF
+3,144.0,1,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.4955660980759418,12.307797735800511,125,9.812231637724569,393.1866058482566,DIFF
+3,144.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,32.66883460229066,32.60089916746573,123,-0.06793543482493192,-0.2079518160105058,CLOSE
+3,144.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,30.0914012618141,16.699999999767897,123,-13.391401262046202,-44.502418300605534,DIFF
+3,144.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,35.53917591019308,40.7415926537351,123,5.202416743542017,14.638540737940687,DIFF
+3,144.0,1,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),2.4908355476739827,11.192715470300909,123,8.701879922626926,349.3558589507446,DIFF
+3,144.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,123,0.0,0.0,MATCH
+3,144.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,123,0.0,0.0,MATCH
+3,144.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,123,0.0,0.0,MATCH
+3,144.0,1,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,123,0.0,,MATCH
+3,144.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,9.71386421779582,123,9.71386421779582,,DIFF
+3,144.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,0.0,123,0.0,,MATCH
+3,144.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,123,29.141592653694715,,DIFF
+3,144.0,1,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,13.737478519857566,123,13.737478519857566,,DIFF
+4,96.0,1,300.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+4,96.0,1,300.0,summary,completed,Completed,value,183,182,,-1.0,-0.546448087431694,CLOSE
+4,96.0,1,300.0,summary,in_flight,In flight,value,5,6,,1.0,20.0,DIFF
+4,96.0,1,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,496.5424196342781,533.4533542991329,,36.910934664854835,7.433591412399592,DIFF
+4,96.0,1,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+4,96.0,1,300.0,summary,throughput_per_hour,Throughput (/h),value,36.6,36.4,,-0.20000000000000284,-0.5464480874317017,CLOSE
+4,96.0,1,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9927218243911236,0.9968943951023949,,0.004172570711271306,0.42031620628774957,CLOSE
+4,96.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,31.141527251260158,34.99239479266391,187,3.850867541403751,12.365699056227001,DIFF
+4,96.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,18.012065342381902,28.141592653188127,187,10.129527310806225,56.23745594000107,DIFF
+4,96.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,37.00383922972651,36.741592653721455,187,-0.2622465760050545,-0.7087009928266645,CLOSE
+4,96.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),6.5967751578824085,2.9171147012254752,187,-3.6796604566569333,-55.77968580996959,DIFF
+4,96.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+4,96.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+4,96.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+4,96.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+4,96.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,30.01100066048789,34.73896144115111,187,4.727960780663221,15.754092421476617,DIFF
+4,96.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.090978092158366,33.84159265310518,187,10.750614560946815,46.55764046910466,DIFF
+4,96.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,38.4901254395736,60.68318530719279,187,22.193059867619183,57.65909987084999,DIFF
+4,96.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),5.027696739874561,4.256214954339094,187,-0.7714817855354674,-15.3446364299752,DIFF
+4,96.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,28.380475332090494,20.057779816151992,182,-8.322695515938502,-29.325426789197667,DIFF
+4,96.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.090896791622072,16.499999999770807,182,1.4091032081487356,9.337438507504865,DIFF
+4,96.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,50.18434764124504,41.14159265373564,182,-9.042754987509397,-18.019074497398513,DIFF
+4,96.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),9.596689730905894,6.722327244815899,182,-2.8743624860899946,-29.95160379972673,DIFF
+4,96.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,182,0.0,0.0,MATCH
+4,96.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,182,0.0,0.0,MATCH
+4,96.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,182,0.0,0.0,MATCH
+4,96.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,182,0.0,,MATCH
+4,96.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,4.643440587630591,182,4.643440587630591,,DIFF
+4,96.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,0.0,182,0.0,,MATCH
+4,96.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,182,29.141592653694715,,DIFF
+4,96.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,10.665632359319662,182,10.665632359319662,,DIFF
+5,120.0,1,300.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+5,120.0,1,300.0,summary,completed,Completed,value,147,146,,-1.0,-0.6802721088435374,CLOSE
+5,120.0,1,300.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+5,120.0,1,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,477.99184408024024,530.0247779606588,,52.03293388041851,10.88573675991086,DIFF
+5,120.0,1,300.0,summary,storage_level,Storage level,value,2,3,,1.0,50.0,DIFF
+5,120.0,1,300.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.2,,-0.1999999999999993,-0.6802721088435351,CLOSE
+5,120.0,1,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.946282075535546,0.9123273286743667,,-0.033954746861179275,-3.5882267813181046,DIFF
+5,120.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,32.37005134509056,28.14159265361998,150,-4.228458691470578,-13.0628729821644,DIFF
+5,120.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+5,120.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,36.92323160263186,28.141592653690168,150,-8.78163894894169,-23.783505851951873,DIFF
+5,120.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),4.3604299985210995,1.417638668146942e-10,150,-4.3604299983793355,-99.99999999674885,DIFF
+5,120.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+5,120.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+5,120.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+5,120.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+5,120.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.118095608653427,34.51709117336124,150,6.3989955647078105,22.75757097411142,DIFF
+5,120.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,33.84159265310518,150,10.73933808674434,46.48610401160532,DIFF
+5,120.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.171754470668645,60.48318530719274,150,27.311430836524096,82.33339258758109,DIFF
+5,120.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.4986237613537146,3.6826156724494354,150,0.18399191109572088,5.258979634452872,DIFF
+5,120.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,30.025205843161345,16.750000000016854,146,-13.27520584314449,-44.213538160199164,DIFF
+5,120.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.138796526591136,16.599999999769352,146,1.461203473178216,9.652045131933885,DIFF
+5,120.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,40.15643369411919,16.900000000057844,146,-23.256433694061343,-57.914589406048755,DIFF
+5,120.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),7.165758997984409,0.1124143509553521,146,-7.053344647029057,-98.43122897397231,DIFF
+5,120.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,146,0.0,0.0,MATCH
+5,120.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,146,0.0,0.0,MATCH
+5,120.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,146,0.0,0.0,MATCH
+5,120.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,146,0.0,,MATCH
+5,120.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391513,146,29.141592653391513,,DIFF
+5,120.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,146,29.141592653169937,,DIFF
+5,120.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,146,29.141592653694715,,DIFF
+5,120.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.497595052114353e-10,146,2.497595052114353e-10,,MATCH
+6,144.0,1,300.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+6,144.0,1,300.0,summary,completed,Completed,value,122,122,,0.0,0.0,MATCH
+6,144.0,1,300.0,summary,in_flight,In flight,value,4,4,,0.0,0.0,MATCH
+6,144.0,1,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,449.7486364642887,524.8155447659685,,75.0669083016798,16.69085845191669,DIFF
+6,144.0,1,300.0,summary,storage_level,Storage level,value,2,1,,-1.0,-50.0,DIFF
+6,144.0,1,300.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.4,,0.0,0.0,MATCH
+6,144.0,1,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.8971053126397572,0.9183922750686901,,0.02128696242893291,2.3728498905324096,DIFF
+6,144.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,33.783192653625,125,5.714727350253998,20.35995658646739,DIFF
+6,144.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+6,144.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,36.741592653721455,125,8.673127350350114,30.899898717684337,DIFF
+6,144.0,1,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,4.085353037380107,125,4.0853530373797176,,DIFF
+6,144.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+6,144.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+6,144.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+6,144.0,1,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+6,144.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.422254566360678,53.92796127799062,124,27.50570671162994,104.10052875142854,DIFF
+6,144.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,33.84159265355947,124,10.739338087199485,46.48610401357717,DIFF
+6,144.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.102254566365445,60.483185307396525,124,32.38093074103108,115.2253840152264,DIFF
+6,144.0,1,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.361694307060052,11.2581566083448,124,8.896462301284748,376.69829980491767,DIFF
+6,144.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,33.314327302683445,34.50281425268392,122,1.188486950000474,3.567494967562326,DIFF
+6,144.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,26.665205290822996,16.599999999769352,122,-10.065205291053644,-37.746588414669546,DIFF
+6,144.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,40.15643369411919,40.7415926537351,122,0.5851589596159101,1.4571985253302144,DIFF
+6,144.0,1,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),5.509461146398754,10.253012889183294,122,4.74355174278454,86.09828832144774,DIFF
+6,144.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,122,0.0,0.0,MATCH
+6,144.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,122,0.0,0.0,MATCH
+6,144.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,122,0.0,0.0,MATCH
+6,144.0,1,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,122,0.0,,MATCH
+6,144.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,9.07688951499407,122,9.07688951499407,,DIFF
+6,144.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,0.0,122,0.0,,MATCH
+6,144.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,122,29.141592653694715,,DIFF
+6,144.0,1,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,13.495373041842292,122,13.495373041842292,,DIFF
+7,96.0,1,420.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+7,96.0,1,420.0,summary,completed,Completed,value,180,181,,1.0,0.5555555555555556,CLOSE
+7,96.0,1,420.0,summary,in_flight,In flight,value,8,7,,-1.0,-12.5,DIFF
+7,96.0,1,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,691.5002760647774,649.0219977702768,,-42.47827829450057,-6.142915594515446,DIFF
+7,96.0,1,420.0,summary,storage_level,Storage level,value,4,5,,1.0,25.0,DIFF
+7,96.0,1,420.0,summary,throughput_per_hour,Throughput (/h),value,36.0,36.2,,0.20000000000000284,0.5555555555555635,CLOSE
+7,96.0,1,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9924301662599826,0.996562438322439,,0.004132272062456366,0.41637912700991525,CLOSE
+7,96.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,35.83573645686104,33.7982771456048,187,-2.0374593112562422,-5.685551666306425,DIFF
+7,96.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,18.23943932111274,28.141592653188127,187,9.902153332075386,54.28979015058496,DIFF
+7,96.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,37.06357381084126,36.741592653721455,187,-0.3219811571198079,-0.8687266877260146,CLOSE
+7,96.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.352879744493223,4.080368511454416,187,0.7274887669611929,21.697430936973568,DIFF
+7,96.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,0.9999999999999933,1.0,187,6.661338147750939e-15,6.661338147750984e-13,MATCH
+7,96.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,0.9999999999990905,1.0,187,9.094947017729282e-13,9.094947017737554e-11,MATCH
+7,96.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+7,96.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),6.652345439144937e-14,0.0,187,-6.652345439144937e-14,,MATCH
+7,96.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,31.274125373775025,34.79725021120668,187,3.5231248374316557,11.265302531484952,DIFF
+7,96.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,22.092016286511353,33.84159265310518,187,11.749576366593828,53.184717113248404,DIFF
+7,96.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,43.470755107180594,60.88318530719283,187,17.41243020001224,40.05550434327748,DIFF
+7,96.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),6.506315424184113,4.261027643301124,187,-2.2452877808829887,-34.509359514560366,DIFF
+7,96.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,26.987796585418383,16.64818230876351,181,-10.339614276654874,-38.31218396777679,DIFF
+7,96.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.090996948571956,16.399999999772263,181,1.3090030512003068,8.67406610485185,DIFF
+7,96.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,41.67820702764766,16.900000000057844,181,-24.778207027589815,-59.45123073829194,DIFF
+7,96.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.209044777462523,0.17169629256795382,181,-8.037348484894569,-97.90844979869841,DIFF
+7,96.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,181,0.0,0.0,MATCH
+7,96.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,181,0.0,0.0,MATCH
+7,96.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,181,0.0,0.0,MATCH
+7,96.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,181,0.0,,MATCH
+7,96.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,9.33818991103154,181,9.33818991103154,,DIFF
+7,96.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,0.0,181,0.0,,MATCH
+7,96.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,181,29.141592653694715,,DIFF
+7,96.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,13.598821114081927,181,13.598821114081927,,DIFF
+8,120.0,1,420.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+8,120.0,1,420.0,summary,completed,Completed,value,146,145,,-1.0,-0.684931506849315,CLOSE
+8,120.0,1,420.0,summary,in_flight,In flight,value,5,6,,1.0,20.0,DIFF
+8,120.0,1,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,604.0276920786026,650.0247779606578,,45.99708588205522,7.615062435923811,DIFF
+8,120.0,1,420.0,summary,storage_level,Storage level,value,3,4,,1.0,33.33333333333333,DIFF
+8,120.0,1,420.0,summary,throughput_per_hour,Throughput (/h),value,29.2,29.0,,-0.1999999999999993,-0.6849315068493127,CLOSE
+8,120.0,1,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.9420669821575686,0.9112051064521441,,-0.030861875705424424,-3.2759746695232885,DIFF
+8,120.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,31.514203411992813,28.14159265361998,150,-3.372610758372833,-10.701875323586243,DIFF
+8,120.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,25.09756075384894,28.141592653188127,150,3.0440318993391884,12.128795818822189,DIFF
+8,120.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,36.92323160263186,28.141592653690168,150,-8.78163894894169,-23.783505851951873,DIFF
+8,120.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),4.326719604603392,1.417638668146942e-10,150,-4.326719604461628,-99.99999999672352,DIFF
+8,120.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+8,120.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+8,120.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+8,120.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+8,120.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,30.066636142443645,34.74536845771854,150,4.678732315274896,15.561209751263632,DIFF
+8,120.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,33.84159265310518,150,10.73933808674434,46.48610401160532,DIFF
+8,120.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,38.17175447066859,60.68318530719279,150,22.511430836524198,58.97405332474859,DIFF
+8,120.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),5.059201023603979,4.246067166010022,150,-0.8131338575939573,-16.072376918810637,DIFF
+8,120.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,29.096458652006817,16.70000000001691,145,-12.396458651989906,-42.60469908125712,DIFF
+8,120.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.156485021899016,16.499999999770807,145,1.3435149778717914,8.864291264964132,DIFF
+8,120.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,40.15643369411919,16.900000000057844,145,-23.256433694061343,-57.914589406048755,DIFF
+8,120.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.110520585651647,0.14142135623758836,145,-7.969099229414059,-98.25632208507335,DIFF
+8,120.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,145,0.0,0.0,MATCH
+8,120.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,145,0.0,0.0,MATCH
+8,120.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,145,0.0,0.0,MATCH
+8,120.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,145,0.0,,MATCH
+8,120.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.1415926533901,145,29.1415926533901,,DIFF
+8,120.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,145,29.141592653169937,,DIFF
+8,120.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,145,29.141592653694715,,DIFF
+8,120.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.500387440782762e-10,145,2.500387440782762e-10,,MATCH
+9,144.0,1,420.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+9,144.0,1,420.0,summary,completed,Completed,value,122,121,,-1.0,-0.819672131147541,CLOSE
+9,144.0,1,420.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+9,144.0,1,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,572.7685327897659,635.4607457275263,,62.69221293776036,10.945470875016012,DIFF
+9,144.0,1,420.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+9,144.0,1,420.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.2,,-0.1999999999999993,-0.8196721311475381,CLOSE
+9,144.0,1,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.7570391159245956,0.9303466004213725,,0.1733074844967769,22.89280446032317,DIFF
+9,144.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.14159265361886,125,0.07312735024785866,0.26053205780038186,CLOSE
+9,144.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+9,144.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+9,144.0,1,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.4253153388615316e-10,125,1.4214231157250466e-10,,MATCH
+9,144.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+9,144.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+9,144.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+9,144.0,1,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+9,144.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.10225456636068,47.52688809217511,125,19.424633525814432,69.12126384715891,DIFF
+9,144.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,33.84159265310518,125,10.739338086745192,46.48610401161072,DIFF
+9,144.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.68318530739725,125,27.580930741031807,83.32039947833721,DIFF
+9,144.0,1,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.5213633723318654,13.265648330606817,125,9.744284958274951,276.71909791639126,DIFF
+9,144.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,22.55682931347646,28.76724918902782,121,6.210419875551359,27.532326415401727,DIFF
+9,144.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,15.13879652659034,16.699999999767897,121,1.5612034731775566,10.312599620685841,DIFF
+9,144.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,30.13879652659307,40.7415926537351,121,10.602796127142028,35.17989219571729,DIFF
+9,144.0,1,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),5.589568979445025,11.869809768604396,121,6.280240789159371,112.35644129724867,DIFF
+9,144.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,121,0.0,0.0,MATCH
+9,144.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,121,0.0,0.0,MATCH
+9,144.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,121,0.0,0.0,MATCH
+9,144.0,1,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,121,0.0,,MATCH
+9,144.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338845,121,29.14159265338845,,DIFF
+9,144.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,121,29.141592653169937,,DIFF
+9,144.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,121,29.141592653694715,,DIFF
+9,144.0,1,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.496023702140039e-10,121,2.496023702140039e-10,,MATCH
+10,96.0,2,180.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+10,96.0,2,180.0,summary,completed,Completed,value,185,184,,-1.0,-0.5405405405405406,CLOSE
+10,96.0,2,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+10,96.0,2,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,328.27507849654484,400.3079632677017,,72.03288477115689,21.942842905120212,DIFF
+10,96.0,2,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+10,96.0,2,180.0,summary,throughput_per_hour,Throughput (/h),value,37.0,36.800000000000004,,-0.19999999999999574,-0.540540540540529,CLOSE
+10,96.0,2,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.6588593905439546,0.82832541103268,,0.1694660204887254,25.721120913039453,DIFF
+10,96.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,23.04307695701488,28.141592653620062,187,5.098515696605183,22.126019481322217,DIFF
+10,96.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,17.881925834589538,28.141592653188127,187,10.259666818598589,57.37450716160007,DIFF
+10,96.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.568465303370886,28.141592653690168,187,-1.4268726496807176,-4.825656776708158,DIFF
+10,96.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),4.952916871995392,1.4104777790424572e-10,187,-4.952916871854344,-99.99999999715222,DIFF
+10,96.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+10,96.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+10,96.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+10,96.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+10,96.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.750659418215232,60.381581028962486,187,31.630921610747254,110.01807350097579,DIFF
+10,96.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,187,36.98093073995648,160.07498590117848,DIFF
+10,96.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,31.993191166719953,60.68318530739725,187,28.6899941406773,89.67531244748503,DIFF
+10,96.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),1.3205777368766511,0.22312221437449084,187,-1.0974555225021603,-83.10419688717411,DIFF
+10,96.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,34.42083847304073,40.641592653634184,184,6.2207541805934525,18.072639879082853,DIFF
+10,96.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,20.14484532588176,40.34159265301787,184,20.19674732713611,100.25764407924078,DIFF
+10,96.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,40.5244896302454,40.941592653735825,184,0.4171030234904265,1.0292616324009722,DIFF
+10,96.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),6.426588688306777,0.22360679775021908,184,-6.202981890556558,-96.52059889631535,DIFF
+10,96.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,184,0.0,0.0,MATCH
+10,96.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,184,0.0,0.0,MATCH
+10,96.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,184,0.0,0.0,MATCH
+10,96.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,184,0.0,,MATCH
+10,96.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391264,184,29.141592653391264,,DIFF
+10,96.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,184,29.141592653169937,,DIFF
+10,96.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,184,29.141592653694715,,DIFF
+10,96.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4935428589402537e-10,184,2.4935428589402537e-10,,MATCH
+11,120.0,2,180.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+11,120.0,2,180.0,summary,completed,Completed,value,148,147,,-1.0,-0.6756756756756757,CLOSE
+11,120.0,2,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+11,120.0,2,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,331.4577107241885,400.1079632677048,,68.65025254351633,20.71161729607231,DIFF
+11,120.0,2,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+11,120.0,2,180.0,summary,throughput_per_hour,Throughput (/h),value,29.6,29.4,,-0.20000000000000284,-0.6756756756756852,CLOSE
+11,120.0,2,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.5755233870121024,0.6629144487853127,,0.08739106177321032,15.18462389980559,DIFF
+11,120.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.50683366032043,28.14159265361998,150,-0.365241006700451,-1.2812401792937165,DIFF
+11,120.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+11,120.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.393570374219507,28.141592653690168,150,-1.2519777205293394,-4.259359120344983,DIFF
+11,120.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.3491895522649181,1.417638668146942e-10,150,-0.3491895521231542,-99.99999995940203,DIFF
+11,120.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+11,120.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+11,120.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+11,120.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+11,120.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,27.845963884955804,60.283185307035346,150,32.437221422079546,116.48805391004704,DIFF
+11,120.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,150,36.98093073995648,160.07498590117848,DIFF
+11,120.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,29.76503870999221,60.483185307396525,150,30.718146597404314,103.20210531791494,DIFF
+11,120.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.1454843012136733,0.16329931617807872,150,-1.9821849850355946,-92.38869675785078,DIFF
+11,120.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,33.09735456898853,40.541592653633394,147,7.444238084644866,22.491942880594898,DIFF
+11,120.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.00901333580657,40.34159265301787,147,12.332579317211298,44.030752420133965,DIFF
+11,120.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,38.13717042100325,40.7415926537351,147,2.6044222327318494,6.829091419161812,DIFF
+11,120.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.060026044230598,0.16329931618184,147,-3.8967267280487583,-95.97787515639482,DIFF
+11,120.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,147,0.0,0.0,MATCH
+11,120.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,147,0.0,0.0,MATCH
+11,120.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,147,0.0,0.0,MATCH
+11,120.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,147,0.0,,MATCH
+11,120.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392603,147,29.141592653392603,,DIFF
+11,120.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,147,29.141592653169937,,DIFF
+11,120.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,147,29.141592653694715,,DIFF
+11,120.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.492325164276281e-10,147,2.492325164276281e-10,,MATCH
+12,144.0,2,180.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+12,144.0,2,180.0,summary,completed,Completed,value,123,123,,0.0,0.0,MATCH
+12,144.0,2,180.0,summary,in_flight,In flight,value,3,3,,0.0,0.0,MATCH
+12,144.0,2,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,326.16533866622024,400.10796326770094,,73.9426246014807,22.67028891048093,DIFF
+12,144.0,2,180.0,summary,storage_level,Storage level,value,1,2,,1.0,100.0,DIFF
+12,144.0,2,180.0,summary,throughput_per_hour,Throughput (/h),value,24.6,24.6,,0.0,0.0,MATCH
+12,144.0,2,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.4363954843790972,0.551998028829031,,0.11560254444993384,26.490316373097432,DIFF
+12,144.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,27.841823250730062,28.1415926536185,125,0.2997694028884368,1.0766874000630555,DIFF
+12,144.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,26.439695626941102,28.141592653188127,125,1.7018970262470248,6.436900977456234,DIFF
+12,144.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.214024878878263,28.141592653690168,125,-1.072432225188095,-3.67094992776385,DIFF
+12,144.0,2,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),1.3762805546219283,1.426111385201659e-10,125,-1.3762805544793173,-99.99999998963793,DIFF
+12,144.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+12,144.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+12,144.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+12,144.0,2,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+12,144.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,25.64047626387474,60.28158530703967,125,34.64110904316493,135.10321995060335,DIFF
+12,144.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.090953023673137,60.08318530631732,125,36.99223228264418,160.2022759507556,DIFF
+12,144.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.150111119481153,60.483185307396525,125,32.33307418791537,114.8594904321334,DIFF
+12,144.0,2,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.4998570626550585,0.16296453602847816,125,-2.3368925266265803,-93.481045838061,DIFF
+12,144.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,30.682471555028773,40.5415926536318,123,9.85912109860303,32.13274745784665,DIFF
+12,144.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.00901333580657,40.34159265301787,123,12.332579317211298,44.030752420133965,DIFF
+12,144.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,33.21656457419522,40.7415926537351,123,7.525028079539879,22.654444178690923,DIFF
+12,144.0,2,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),2.500121556687003,0.16329931617816767,123,-2.3368222405088357,-93.46834493941323,DIFF
+12,144.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,123,0.0,0.0,MATCH
+12,144.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,123,0.0,0.0,MATCH
+12,144.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,123,0.0,0.0,MATCH
+12,144.0,2,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,123,0.0,,MATCH
+12,144.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392234,123,29.141592653392234,,DIFF
+12,144.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,123,29.141592653169937,,DIFF
+12,144.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,123,29.141592653694715,,DIFF
+12,144.0,2,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.496391558757508e-10,123,2.496391558757508e-10,,MATCH
+13,96.0,2,300.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+13,96.0,2,300.0,summary,completed,Completed,value,183,183,,0.0,0.0,MATCH
+13,96.0,2,300.0,summary,in_flight,In flight,value,5,5,,0.0,0.0,MATCH
+13,96.0,2,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,450.66455594438014,520.501405890657,,69.83684994627686,15.49641502201827,DIFF
+13,96.0,2,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+13,96.0,2,300.0,summary,throughput_per_hour,Throughput (/h),value,36.6,36.599999999999994,,-7.105427357601002e-15,-1.9413735949729513e-14,MATCH
+13,96.0,2,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.6664858104489024,0.8266786558852528,,0.16019284543635037,24.03544725557693,DIFF
+13,96.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,27.62250519322982,28.141592653620062,187,0.5190874603902422,1.8792193421959018,DIFF
+13,96.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,26.255540507796468,28.141592653188127,187,1.886052145391659,7.183444366081909,DIFF
+13,96.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,187,0.07312735031882767,0.26053205805322116,CLOSE
+13,96.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.7807763582964921,1.4104777790424572e-10,187,-0.7807763581554443,-99.99999998193493,DIFF
+13,96.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+13,96.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+13,96.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+13,96.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+13,96.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.093481356538643,60.479976750887396,187,32.386495394348756,115.28117495773064,DIFF
+13,96.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,187,36.98093073995733,160.0749859011881,DIFF
+13,96.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.88318530739798,187,27.780930741032535,83.92458793202623,DIFF
+13,96.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.526243055847188,0.283202416861369,187,-3.2430406389858186,-91.96872103323209,DIFF
+13,96.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,32.949001302433565,40.738313965108986,183,7.789312662675421,23.64051216963627,DIFF
+13,96.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,19.803574995188683,40.34159265301787,183,20.538017657829187,103.70863676290234,DIFF
+13,96.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,43.00901333580691,41.14159265373655,183,-1.8674206820703603,-4.341928673159423,DIFF
+13,96.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.653592088164446,0.28243702124053244,183,-8.371155066923913,-96.73618748881377,DIFF
+13,96.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,183,0.0,0.0,MATCH
+13,96.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,183,0.0,0.0,MATCH
+13,96.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,183,0.0,0.0,MATCH
+13,96.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,183,0.0,,MATCH
+13,96.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653390134,183,29.141592653390134,,DIFF
+13,96.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,183,29.141592653169937,,DIFF
+13,96.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,183,29.141592653694715,,DIFF
+13,96.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4958182510571554e-10,183,2.4958182510571554e-10,,MATCH
+14,120.0,2,300.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+14,120.0,2,300.0,summary,completed,Completed,value,147,146,,-1.0,-0.6802721088435374,CLOSE
+14,120.0,2,300.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+14,120.0,2,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,455.1164451765281,520.302483815657,,65.18603863912887,14.322936323218304,DIFF
+14,120.0,2,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+14,120.0,2,300.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.2,,-0.1999999999999993,-0.6802721088435351,CLOSE
+14,120.0,2,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.5840717293692488,0.6617399158601126,,0.07766818649086382,13.297713719980816,DIFF
+14,120.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.19063267051,28.14159265361998,150,-0.04904001689001802,-0.17395855376214525,CLOSE
+14,120.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+14,120.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.893570374219507,28.141592653690168,150,-0.7519777205293394,-2.602578050375861,DIFF
+14,120.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.21896831641266065,1.417638668146942e-10,150,-0.21896831627089677,-99.99999993525826,DIFF
+14,120.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+14,120.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+14,120.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+14,120.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+14,120.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.936680217476784,60.38051864036845,150,31.443838422891666,108.66429108858398,DIFF
+14,120.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,150,36.98093073995648,160.07498590117848,DIFF
+14,120.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,34.76503870999221,60.68318530739725,150,25.91814659740504,74.55233061470923,DIFF
+14,120.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.586681496746548,0.22359089626691864,150,-3.3630906004796293,-93.76607885395633,DIFF
+14,120.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,35.99674163123633,40.63885292760641,146,4.642111296370075,12.89592081396018,DIFF
+14,120.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.00901333580657,40.34159265301787,146,12.332579317211298,44.030752420133965,DIFF
+14,120.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,44.9642539494198,40.941592653735825,146,-4.0226612956839745,-8.946353919736016,DIFF
+14,120.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),6.1877559167374425,0.22359001297528802,146,-5.964165903762154,-96.38657348505792,DIFF
+14,120.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,146,0.0,0.0,MATCH
+14,120.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,146,0.0,0.0,MATCH
+14,120.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,146,0.0,0.0,MATCH
+14,120.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,146,0.0,,MATCH
+14,120.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391193,146,29.141592653391193,,DIFF
+14,120.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,146,29.141592653169937,,DIFF
+14,120.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,146,29.141592653694715,,DIFF
+14,120.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.495042938647236e-10,146,2.495042938647236e-10,,MATCH
+15,144.0,2,300.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+15,144.0,2,300.0,summary,completed,Completed,value,122,122,,0.0,0.0,MATCH
+15,144.0,2,300.0,summary,in_flight,In flight,value,4,4,,0.0,0.0,MATCH
+15,144.0,2,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,449.0445642156621,520.1046845791848,,71.06012036352269,15.824736791467926,DIFF
+15,144.0,2,300.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+15,144.0,2,300.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.4,,0.0,0.0,MATCH
+15,144.0,2,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.44369173466583406,0.5503728076272069,,0.1066810729613728,24.04396219860159,DIFF
+15,144.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.1415926536185,125,0.07312735024749628,0.2605320577990908,CLOSE
+15,144.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+15,144.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+15,144.0,2,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.426111385201659e-10,125,1.422219162065174e-10,,MATCH
+15,144.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+15,144.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+15,144.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+15,144.0,2,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+15,144.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.422254566360678,60.28158530703967,125,33.85933074067899,128.14701582576825,DIFF
+15,144.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+15,144.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.102254566365445,60.483185307396525,125,32.38093074103108,115.2253840152264,DIFF
+15,144.0,2,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.361694307060052,0.16296453602847816,125,-2.198729771031574,-93.09967697591887,DIFF
+15,144.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,32.59852051657985,40.539953309370055,122,7.941432792790202,24.3613288791776,DIFF
+15,144.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,26.665205290822996,40.34159265301787,122,13.676387362194873,51.289263341624036,DIFF
+15,144.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,38.00901333580691,40.7415926537351,122,2.7325793179281845,7.189292954768496,DIFF
+15,144.0,2,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.645822689393095,0.16295609716147427,122,-4.4828665922316215,-96.49241677833466,DIFF
+15,144.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,122,0.0,0.0,MATCH
+15,144.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,122,0.0,0.0,MATCH
+15,144.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,122,0.0,0.0,MATCH
+15,144.0,2,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,122,0.0,,MATCH
+15,144.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653390482,122,29.141592653390482,,DIFF
+15,144.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,122,29.141592653169937,,DIFF
+15,144.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,122,29.141592653694715,,DIFF
+15,144.0,2,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4987062029327695e-10,122,2.4987062029327695e-10,,MATCH
+16,96.0,2,420.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+16,96.0,2,420.0,summary,completed,Completed,value,182,181,,-1.0,-0.5494505494505495,CLOSE
+16,96.0,2,420.0,summary,in_flight,In flight,value,6,7,,1.0,16.666666666666664,DIFF
+16,96.0,2,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,584.265886968281,640.7024384058421,,56.43655143756109,9.65939526786457,DIFF
+16,96.0,2,420.0,summary,storage_level,Storage level,value,4,5,,1.0,25.0,DIFF
+16,96.0,2,420.0,summary,throughput_per_hour,Throughput (/h),value,36.4,36.2,,-0.19999999999999574,-0.5494505494505377,CLOSE
+16,96.0,2,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.7616919199204746,0.8253937001255507,,0.06370178020507611,8.363194953115292,DIFF
+16,96.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.309107014600947,28.141592653620062,187,-0.1675143609808849,-0.5917331157584246,CLOSE
+16,96.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,187,0.07312734981769609,0.2605320562678396,CLOSE
+16,96.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.06846530337134,28.141592653690168,187,-0.9268726496811723,-3.1885847429780694,DIFF
+16,96.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.37765900780282724,1.4104777790424572e-10,187,-0.37765900766177946,-99.99999996265207,DIFF
+16,96.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+16,96.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+16,96.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+16,96.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+16,96.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,32.90388093981684,60.580511510245316,187,27.67663057042848,84.11357499454452,DIFF
+16,96.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,187,36.98093073995648,160.07498590117848,DIFF
+16,96.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,44.765038709992155,61.08318530739871,187,16.318146597406553,36.452881685466124,DIFF
+16,96.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),6.6304039483752595,0.3425967453893468,187,-6.2878072029859124,-94.8329430897902,DIFF
+16,96.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,41.09824252424824,40.83719704923629,182,-0.2610454750119544,-0.6351743018157913,CLOSE
+16,96.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,26.925695185881978,40.34159265301787,182,13.415897467135892,49.825630775803646,DIFF
+16,96.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,53.13717042100325,41.34159265373728,182,-11.795577767265968,-22.19835507575991,DIFF
+16,96.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),9.13983994555153,0.34239367096104995,182,-8.797446274590481,-96.25383296643288,DIFF
+16,96.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,182,0.0,0.0,MATCH
+16,96.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,182,0.0,0.0,MATCH
+16,96.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,182,0.0,0.0,MATCH
+16,96.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,182,0.0,,MATCH
+16,96.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338888,182,29.14159265338888,,DIFF
+16,96.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,182,29.141592653169937,,DIFF
+16,96.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,182,29.141592653694715,,DIFF
+16,96.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4962992915156105e-10,182,2.4962992915156105e-10,,MATCH
+17,120.0,2,420.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+17,120.0,2,420.0,summary,completed,Completed,value,146,145,,-1.0,-0.684931506849315,CLOSE
+17,120.0,2,420.0,summary,in_flight,In flight,value,5,6,,1.0,20.0,DIFF
+17,120.0,2,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,580.2031659618453,640.5079632677183,,60.30479730587297,10.393738063442187,DIFF
+17,120.0,2,420.0,summary,storage_level,Storage level,value,4,3,,-1.0,-25.0,DIFF
+17,120.0,2,420.0,summary,throughput_per_hour,Throughput (/h),value,29.2,29.0,,-0.1999999999999993,-0.6849315068493127,CLOSE
+17,120.0,2,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.5991303085053805,0.6606258057693973,,0.06149549726401682,10.264127250952546,DIFF
+17,120.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.453966003843327,28.14159265361998,150,-0.31237335022334634,-1.0978200725380551,DIFF
+17,120.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+17,120.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.06846530337134,28.141592653690168,150,-0.9268726496811723,-3.1885847429780694,DIFF
+17,120.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.3776169122999608,1.417638668146942e-10,150,-0.3776169121581969,-99.99999996245829,DIFF
+17,120.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+17,120.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+17,120.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+17,120.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+17,120.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,30.854666941975445,60.48050074328123,149,29.625833801305788,96.01735081768807,DIFF
+17,120.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,149,36.98093073995648,160.07498590117848,DIFF
+17,120.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,39.765038709992155,60.88318530739798,149,21.118146597405826,53.10732060748443,DIFF
+17,120.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),5.0257681157034595,0.2818791946265808,149,-4.743888921076879,-94.3913211247088,DIFF
+17,120.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,38.90899282314478,40.74159265363403,145,1.8325998304892508,4.709964708721887,DIFF
+17,120.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.009013335806515,40.34159265301787,145,12.332579317211355,44.03075242013426,DIFF
+17,120.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,48.13717042100325,41.14159265373655,145,-6.9955777672666954,-14.53259031655583,DIFF
+17,120.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),7.93266357827731,0.2828427124639772,145,-7.649820865813333,-96.43445471154847,DIFF
+17,120.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,145,0.0,0.0,MATCH
+17,120.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,145,0.0,0.0,MATCH
+17,120.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,145,0.0,0.0,MATCH
+17,120.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,145,0.0,,MATCH
+17,120.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653389797,145,29.141592653389797,,DIFF
+17,120.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,145,29.141592653169937,,DIFF
+17,120.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,145,29.141592653694715,,DIFF
+17,120.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4978943644169856e-10,145,2.4978943644169856e-10,,MATCH
+18,144.0,2,420.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+18,144.0,2,420.0,summary,completed,Completed,value,122,121,,-1.0,-0.819672131147541,CLOSE
+18,144.0,2,420.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+18,144.0,2,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,579.0359275721378,640.3030045900314,,61.2670770178936,10.580876608949415,DIFF
+18,144.0,2,420.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+18,144.0,2,420.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.2,,-0.1999999999999993,-0.8196721311475381,CLOSE
+18,144.0,2,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.48707087086404666,0.5497593858131166,,0.0626885149490699,12.870512013552087,DIFF
+18,144.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.1415926536185,125,0.07312735024749628,0.2605320577990908,CLOSE
+18,144.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+18,144.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+18,144.0,2,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.426111385201659e-10,125,1.422219162065174e-10,,MATCH
+18,144.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+18,144.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+18,144.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+18,144.0,2,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+18,144.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.10225456636068,60.38078530703933,125,32.27853074067865,114.8610004384385,DIFF
+18,144.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+18,144.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.68318530739725,125,27.580930741031807,83.32039947833721,DIFF
+18,144.0,2,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.5213633723318654,0.2243083591791884,125,-3.297055013152677,-93.63007064418206,DIFF
+18,144.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,40.90619130896374,40.639113314790464,121,-0.2670779941732775,-0.6529035963188118,CLOSE
+18,144.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,34.40288531895931,40.34159265301787,121,5.938707334058563,17.262236231057525,DIFF
+18,144.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,48.71272004135972,40.941592653735825,121,-7.771127387623892,-15.95297364020278,DIFF
+18,144.0,2,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),5.592463203219248,0.2243310754013597,121,-5.368132127817888,-95.98868929039665,DIFF
+18,144.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,121,0.0,0.0,MATCH
+18,144.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,121,0.0,0.0,MATCH
+18,144.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,121,0.0,0.0,MATCH
+18,144.0,2,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,121,0.0,,MATCH
+18,144.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338788,121,29.14159265338788,,DIFF
+18,144.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,121,29.141592653169937,,DIFF
+18,144.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,121,29.141592653694715,,DIFF
+18,144.0,2,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4933445375388306e-10,121,2.4933445375388306e-10,,MATCH
+19,96.0,3,180.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+19,96.0,3,180.0,summary,completed,Completed,value,185,184,,-1.0,-0.5405405405405406,CLOSE
+19,96.0,3,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+19,96.0,3,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,330.7734849639622,400.3079632677017,,69.53447830373955,21.021781208162842,DIFF
+19,96.0,3,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+19,96.0,3,180.0,summary,throughput_per_hour,Throughput (/h),value,37.0,36.800000000000004,,-0.19999999999999574,-0.540540540540529,CLOSE
+19,96.0,3,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.4523949270738048,0.5522169406884534,,0.0998220136146486,22.065237172379565,DIFF
+19,96.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,26.583689601372896,28.141592653620062,187,1.5579030522471662,5.86037181297328,DIFF
+19,96.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,17.88528436452907,28.141592653188127,187,10.256308288659056,57.34495510174747,DIFF
+19,96.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,30.15684276049558,28.141592653690168,187,-2.0152501068054107,-6.682563300178487,DIFF
+19,96.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.8440332879885766,1.4104777790424572e-10,187,-3.844033287847529,-99.99999999633073,DIFF
+19,96.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+19,96.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+19,96.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+19,96.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+19,96.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,27.031969741697175,60.381581028962486,187,33.34961128726531,123.37099961984306,DIFF
+19,96.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.09439838099388,60.08318530631732,187,36.98878692532344,160.1634574545328,DIFF
+19,96.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,32.84410981560393,60.68318530739725,187,27.839075491793324,84.76124226867383,DIFF
+19,96.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.9606379387348944,0.22312221437449084,187,-2.737515724360404,-92.463711571911,DIFF
+19,96.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,35.131681637005975,40.641592653634184,184,5.509911016628209,15.683596001918513,DIFF
+19,96.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.332646762368313,40.34159265301787,184,13.008945890649557,47.59489998809892,DIFF
+19,96.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,43.55898934526158,40.941592653735825,184,-2.617396691525755,-6.008855418521045,DIFF
+19,96.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),5.462509302768004,0.22360679775021908,184,-5.238902505017785,-95.90651868296295,DIFF
+19,96.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,184,0.0,0.0,MATCH
+19,96.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,184,0.0,0.0,MATCH
+19,96.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,184,0.0,0.0,MATCH
+19,96.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,184,0.0,,MATCH
+19,96.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391264,184,29.141592653391264,,DIFF
+19,96.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,184,29.141592653169937,,DIFF
+19,96.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,184,29.141592653694715,,DIFF
+19,96.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4935428589402537e-10,184,2.4935428589402537e-10,,MATCH
+20,120.0,3,180.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+20,120.0,3,180.0,summary,completed,Completed,value,148,147,,-1.0,-0.6756756756756757,CLOSE
+20,120.0,3,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+20,120.0,3,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,330.20083692258976,400.1079632677048,,69.90712634511505,21.17109302224562,DIFF
+20,120.0,3,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+20,120.0,3,180.0,summary,throughput_per_hour,Throughput (/h),value,29.6,29.4,,-0.20000000000000284,-0.6756756756756852,CLOSE
+20,120.0,3,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.37648640952920714,0.44194296585687515,,0.065456556327668,17.38616711544006,DIFF
+20,120.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371017,28.14159265361998,150,0.07312735024896355,0.2605320578043181,CLOSE
+20,120.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+20,120.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,150,0.07312735031882767,0.26053205805322116,CLOSE
+20,120.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.906053184839715e-13,1.417638668146942e-10,150,1.4137326149621023e-10,,MATCH
+20,120.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+20,120.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+20,120.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+20,120.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+20,120.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,27.586527909782998,60.283185307035346,150,32.69665739725235,118.52400383325208,DIFF
+20,120.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,150,36.98093073995648,160.07498590117848,DIFF
+20,120.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,29.48113408048505,60.483185307396525,150,31.002051226911476,105.15895060981795,DIFF
+20,120.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.2581871376497733,0.16329931617807872,150,-2.0948878214716946,-92.76856583515777,DIFF
+20,120.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,32.533642611171885,40.541592653633394,147,8.007950042461509,24.614366544100477,DIFF
+20,120.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.30768931607747,40.34159265301787,147,13.033903336940398,47.729792096567664,DIFF
+20,120.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,37.583312726026634,40.7415926537351,147,3.158279927708463,8.403410180288175,DIFF
+20,120.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.089434158404699,0.16329931618184,147,-3.926134842222859,-96.00679923293976,DIFF
+20,120.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,147,0.0,0.0,MATCH
+20,120.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,147,0.0,0.0,MATCH
+20,120.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,147,0.0,0.0,MATCH
+20,120.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,147,0.0,,MATCH
+20,120.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392603,147,29.141592653392603,,DIFF
+20,120.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,147,29.141592653169937,,DIFF
+20,120.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,147,29.141592653694715,,DIFF
+20,120.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.492325164276281e-10,147,2.492325164276281e-10,,MATCH
+21,144.0,3,180.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+21,144.0,3,180.0,summary,completed,Completed,value,123,123,,0.0,0.0,MATCH
+21,144.0,3,180.0,summary,in_flight,In flight,value,3,3,,0.0,0.0,MATCH
+21,144.0,3,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,325.5276436390491,400.10796326770094,,74.58031962865186,22.910594871429065,DIFF
+21,144.0,3,180.0,summary,storage_level,Storage level,value,1,2,,1.0,100.0,DIFF
+21,144.0,3,180.0,summary,throughput_per_hour,Throughput (/h),value,24.6,24.6,,0.0,0.0,MATCH
+21,144.0,3,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.28581214863868315,0.3679986858860207,,0.08218653724733754,28.755438716930044,DIFF
+21,144.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,27.855260979655156,28.1415926536185,125,0.2863316739633426,1.0279267323055155,DIFF
+21,144.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,26.061027414580167,28.141592653188127,125,2.08056523860796,7.98343520963399,DIFF
+21,144.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.39357037422087,28.141592653690168,125,-1.2519777205307037,-4.259359120349426,DIFF
+21,144.0,3,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),1.366127421181241,1.426111385201659e-10,125,-1.36612742103863,-99.99999998956093,DIFF
+21,144.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+21,144.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+21,144.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+21,144.0,3,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+21,144.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,25.708387139091737,60.28158530703967,125,34.573198167947936,134.48217494506497,DIFF
+21,144.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.100979277023725,60.08318530631732,125,36.98220602929359,160.08934333825476,DIFF
+21,144.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.359846434323117,60.483185307396525,125,32.12333887307341,113.27049653624161,DIFF
+21,144.0,3,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.502195076037502,0.16296453602847816,125,-2.339230540009024,-93.48713705061917,DIFF
+21,144.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,29.962272977722797,40.5415926536318,123,10.579319675909005,35.30880211850022,DIFF
+21,144.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.366949418911645,40.34159265301787,123,12.974643234106225,47.409899567177305,DIFF
+21,144.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,32.5589893452925,40.7415926537351,123,8.182603308442594,25.13162562162165,DIFF
+21,144.0,3,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),2.502242330629223,0.16329931617816767,123,-2.3389430144510555,-93.47388083962662,DIFF
+21,144.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,123,0.0,0.0,MATCH
+21,144.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,123,0.0,0.0,MATCH
+21,144.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,123,0.0,0.0,MATCH
+21,144.0,3,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,123,0.0,,MATCH
+21,144.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392234,123,29.141592653392234,,DIFF
+21,144.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,123,29.141592653169937,,DIFF
+21,144.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,123,29.141592653694715,,DIFF
+21,144.0,3,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.496391558757508e-10,123,2.496391558757508e-10,,MATCH
+22,96.0,3,300.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+22,96.0,3,300.0,summary,completed,Completed,value,183,183,,0.0,0.0,MATCH
+22,96.0,3,300.0,summary,in_flight,In flight,value,5,5,,0.0,0.0,MATCH
+22,96.0,3,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,450.4407735228519,520.501405890657,,70.06063236780511,15.553794524387296,DIFF
+22,96.0,3,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+22,96.0,3,300.0,summary,throughput_per_hour,Throughput (/h),value,36.6,36.599999999999994,,-7.105427357601002e-15,-1.9413735949729513e-14,MATCH
+22,96.0,3,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.44258923136555745,0.5511191039235018,,0.10852987255794438,24.521580026492764,DIFF
+22,96.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,27.62250519322982,28.141592653620062,187,0.5190874603902422,1.8792193421959018,DIFF
+22,96.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,26.255540507796468,28.141592653188127,187,1.886052145391659,7.183444366081909,DIFF
+22,96.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,187,0.07312735031882767,0.26053205805322116,CLOSE
+22,96.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.7807763582964921,1.4104777790424572e-10,187,-0.7807763581554443,-99.99999998193493,DIFF
+22,96.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+22,96.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+22,96.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+22,96.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+22,96.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.093481356538643,60.479976750887396,187,32.386495394348756,115.28117495773064,DIFF
+22,96.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,187,36.98093073995733,160.0749859011881,DIFF
+22,96.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.88318530739798,187,27.780930741032535,83.92458793202623,DIFF
+22,96.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.526243055847188,0.283202416861369,187,-3.2430406389858186,-91.96872103323209,DIFF
+22,96.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,32.725218880905715,40.738313965108986,183,8.013095084203272,24.485993854967607,DIFF
+22,96.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,19.803574995188683,40.34159265301787,183,20.538017657829187,103.70863676290234,DIFF
+22,96.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,42.5589893452925,41.14159265373655,183,-1.4173966915559504,-3.330428455563713,DIFF
+22,96.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.459549932043535,0.28243702124053244,183,-8.177112910803002,-96.66132331495908,DIFF
+22,96.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,183,0.0,0.0,MATCH
+22,96.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,183,0.0,0.0,MATCH
+22,96.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,183,0.0,0.0,MATCH
+22,96.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,183,0.0,,MATCH
+22,96.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653390134,183,29.141592653390134,,DIFF
+22,96.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,183,29.141592653169937,,DIFF
+22,96.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,183,29.141592653694715,,DIFF
+22,96.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4958182510571554e-10,183,2.4958182510571554e-10,,MATCH
+23,120.0,3,300.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+23,120.0,3,300.0,summary,completed,Completed,value,147,146,,-1.0,-0.6802721088435374,CLOSE
+23,120.0,3,300.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+23,120.0,3,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,455.1980355190867,520.302483815657,,65.10444829657024,14.302444917700083,DIFF
+23,120.0,3,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+23,120.0,3,300.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.2,,-0.1999999999999993,-0.6802721088435351,CLOSE
+23,120.0,3,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.3840505991550971,0.44115994390674174,,0.05710934475164464,14.870265761148127,DIFF
+23,120.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.335762537655715,28.14159265361998,150,-0.194169884035734,-0.6852467223273043,CLOSE
+23,120.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+23,120.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.214024878878263,28.141592653690168,150,-1.072432225188095,-3.67094992776385,DIFF
+23,120.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.4845173833670391,1.417638668146942e-10,150,-0.4845173832252752,-99.99999997074121,DIFF
+23,120.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+23,120.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+23,120.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+23,120.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+23,120.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.907772089303798,60.38051864036845,150,31.472746551064652,108.87295794998302,DIFF
+23,120.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,150,36.98093073995648,160.07498590117848,DIFF
+23,120.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,34.48113408048505,60.68318530739725,150,26.202051226912204,75.98952855132896,DIFF
+23,120.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.5667275421582776,0.22359089626691864,150,-3.343136645891359,-93.7312033615099,DIFF
+23,120.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,35.955229626927974,40.63885292760641,146,4.683623300678434,13.02626446632599,DIFF
+23,120.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.30768931607747,40.34159265301787,146,13.033903336940398,47.729792096567664,DIFF
+23,120.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,46.48478054988345,40.941592653735825,146,-5.543187896147629,-11.924737151763377,DIFF
+23,120.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),6.9066548215712125,0.22359001297528802,146,-6.683064808595924,-96.76268731025965,DIFF
+23,120.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,146,0.0,0.0,MATCH
+23,120.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,146,0.0,0.0,MATCH
+23,120.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,146,0.0,0.0,MATCH
+23,120.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,146,0.0,,MATCH
+23,120.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391193,146,29.141592653391193,,DIFF
+23,120.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,146,29.141592653169937,,DIFF
+23,120.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,146,29.141592653694715,,DIFF
+23,120.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.495042938647236e-10,146,2.495042938647236e-10,,MATCH
+24,144.0,3,300.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+24,144.0,3,300.0,summary,completed,Completed,value,122,122,,0.0,0.0,MATCH
+24,144.0,3,300.0,summary,in_flight,In flight,value,4,4,,0.0,0.0,MATCH
+24,144.0,3,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,448.8970153663025,520.1046845791848,,71.20766921288225,15.862807453682084,DIFF
+24,144.0,3,300.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+24,144.0,3,300.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.4,,0.0,0.0,MATCH
+24,144.0,3,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.2950320096598387,0.3669152050848046,,0.07188319542496585,24.364541158718538,DIFF
+24,144.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.1415926536185,125,0.07312735024749628,0.2605320577990908,CLOSE
+24,144.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+24,144.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+24,144.0,3,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.426111385201659e-10,125,1.422219162065174e-10,,MATCH
+24,144.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+24,144.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+24,144.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+24,144.0,3,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+24,144.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.422254566360678,60.28158530703967,125,33.85933074067899,128.14701582576825,DIFF
+24,144.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+24,144.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.102254566365445,60.483185307396525,125,32.38093074103108,115.2253840152264,DIFF
+24,144.0,3,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.361694307060052,0.16296453602847816,125,-2.198729771031574,-93.09967697591887,DIFF
+24,144.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,32.44851251973149,40.539953309370055,122,8.091440789638568,24.93624564367404,DIFF
+24,144.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,26.665205290822996,40.34159265301787,122,13.676387362194873,51.289263341624036,DIFF
+24,144.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,37.5589893452925,40.7415926537351,122,3.1826033084425944,8.473612746029573,DIFF
+24,144.0,3,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.472743998930362,0.16295609716147427,122,-4.309787901768888,-96.35668624896833,DIFF
+24,144.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,122,0.0,0.0,MATCH
+24,144.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,122,0.0,0.0,MATCH
+24,144.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,122,0.0,0.0,MATCH
+24,144.0,3,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,122,0.0,,MATCH
+24,144.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653390482,122,29.141592653390482,,DIFF
+24,144.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,122,29.141592653169937,,DIFF
+24,144.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,122,29.141592653694715,,DIFF
+24,144.0,3,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4987062029327695e-10,122,2.4987062029327695e-10,,MATCH
+25,96.0,3,420.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+25,96.0,3,420.0,summary,completed,Completed,value,182,181,,-1.0,-0.5494505494505495,CLOSE
+25,96.0,3,420.0,summary,in_flight,In flight,value,6,7,,1.0,16.666666666666664,DIFF
+25,96.0,3,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,583.8719978072413,640.7024384058421,,56.83044059860083,9.733373207146466,DIFF
+25,96.0,3,420.0,summary,storage_level,Storage level,value,4,5,,1.0,25.0,DIFF
+25,96.0,3,420.0,summary,throughput_per_hour,Throughput (/h),value,36.4,36.2,,-0.19999999999999574,-0.5494505494505377,CLOSE
+25,96.0,3,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.5077928373036817,0.5502624667503672,,0.04246962944668542,8.363573947240766,DIFF
+25,96.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.899334562212776,28.141592653620062,187,-0.7577419085927133,-2.6220046934350387,DIFF
+25,96.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,187,0.07312734981769609,0.2605320562678396,CLOSE
+25,96.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,31.656842760496147,28.141592653690168,187,-3.515250106805979,-11.104234662316292,DIFF
+25,96.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),1.3399006863084197,1.4104777790424572e-10,187,-1.339900686167372,-99.99999998947327,DIFF
+25,96.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+25,96.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+25,96.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+25,96.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+25,96.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,32.972033528490286,60.580511510245316,187,27.60847798175503,83.73301561124295,DIFF
+25,96.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,187,36.98093073995648,160.07498590117848,DIFF
+25,96.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,44.48113408048505,61.08318530739871,187,16.60205122691366,37.32380383304431,DIFF
+25,96.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),6.744313491503883,0.3425967453893468,187,-6.401716746114536,-94.92021321634986,DIFF
+25,96.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,40.046074254713105,40.83719704923629,182,0.7911227945231829,1.9755314578184253,DIFF
+25,96.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.30768931607804,40.34159265301787,182,13.03390333693983,47.72979209656459,DIFF
+25,96.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,53.5589893452925,41.34159265373728,182,-12.217396691555223,-22.811103870519645,DIFF
+25,96.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),8.833104834980356,0.34239367096104995,182,-8.490711164019306,-96.12374496445325,DIFF
+25,96.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,182,0.0,0.0,MATCH
+25,96.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,182,0.0,0.0,MATCH
+25,96.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,182,0.0,0.0,MATCH
+25,96.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,182,0.0,,MATCH
+25,96.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338888,182,29.14159265338888,,DIFF
+25,96.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,182,29.141592653169937,,DIFF
+25,96.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,182,29.141592653694715,,DIFF
+25,96.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4962992915156105e-10,182,2.4962992915156105e-10,,MATCH
+26,120.0,3,420.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+26,120.0,3,420.0,summary,completed,Completed,value,146,145,,-1.0,-0.684931506849315,CLOSE
+26,120.0,3,420.0,summary,in_flight,In flight,value,5,6,,1.0,20.0,DIFF
+26,120.0,3,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,579.2457092587716,640.5079632677183,,61.262254008946684,10.576211964926001,DIFF
+26,120.0,3,420.0,summary,storage_level,Storage level,value,4,3,,-1.0,-25.0,DIFF
+26,120.0,3,420.0,summary,throughput_per_hour,Throughput (/h),value,29.2,29.0,,-0.1999999999999993,-0.6849315068493127,CLOSE
+26,120.0,3,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.3956617532877083,0.44041720384626487,,0.044755450558556564,11.311543303507609,DIFF
+26,120.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,29.069389399176195,28.14159265361998,150,-0.9277967455562148,-3.191662311223186,DIFF
+26,120.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+26,120.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,31.656842760496147,28.141592653690168,150,-3.515250106805979,-11.104234662316292,DIFF
+26,120.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),1.4117602027204321,1.417638668146942e-10,150,-1.4117602025786682,-99.99999998995835,DIFF
+26,120.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+26,120.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+26,120.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+26,120.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+26,120.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,30.776800958952307,60.48050074328123,149,29.703699784328926,96.51327902450095,DIFF
+26,120.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,149,36.98093073995648,160.07498590117848,DIFF
+26,120.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,39.48113408048505,60.88318530739798,149,21.40205122691293,54.20829904045653,DIFF
+26,120.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),5.02562060635358,0.2818791946265808,149,-4.743741411726999,-94.39115650174192,DIFF
+26,120.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,37.418658039734055,40.74159265363403,145,3.3229346138999745,8.880421661224256,DIFF
+26,120.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.30768931607804,40.34159265301787,145,13.03390333693983,47.72979209656459,DIFF
+26,120.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,47.5589893452925,41.14159265373655,145,-6.41739669155595,-13.4935514397998,DIFF
+26,120.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),7.120361623498988,0.2828427124639772,145,-6.837518911035011,-96.02769174629383,DIFF
+26,120.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,145,0.0,0.0,MATCH
+26,120.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,145,0.0,0.0,MATCH
+26,120.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,145,0.0,0.0,MATCH
+26,120.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,145,0.0,,MATCH
+26,120.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653389797,145,29.141592653389797,,DIFF
+26,120.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,145,29.141592653169937,,DIFF
+26,120.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,145,29.141592653694715,,DIFF
+26,120.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4978943644169856e-10,145,2.4978943644169856e-10,,MATCH
+27,144.0,3,420.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+27,144.0,3,420.0,summary,completed,Completed,value,122,121,,-1.0,-0.819672131147541,CLOSE
+27,144.0,3,420.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+27,144.0,3,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,578.7144206724187,640.3030045900314,,61.58858391761271,10.642310216851316,DIFF
+27,144.0,3,420.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+27,144.0,3,420.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.2,,-0.1999999999999993,-0.8196721311475381,CLOSE
+27,144.0,3,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.3227256580567211,0.3665062572087444,,0.043780599152023314,13.565887328465404,DIFF
+27,144.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.1415926536185,125,0.07312735024749628,0.2605320577990908,CLOSE
+27,144.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+27,144.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+27,144.0,3,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.426111385201659e-10,125,1.422219162065174e-10,,MATCH
+27,144.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+27,144.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+27,144.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+27,144.0,3,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+27,144.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.10225456636068,60.38078530703933,125,32.27853074067865,114.8610004384385,DIFF
+27,144.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+27,144.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.68318530739725,125,27.580930741031807,83.32039947833721,DIFF
+27,144.0,3,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.5213633723318654,0.2243083591791884,125,-3.297055013152677,-93.63007064418206,DIFF
+27,144.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,40.584684409244915,40.639113314790464,121,0.054428905545549355,0.13411193492772563,CLOSE
+27,144.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,34.40288531895931,40.34159265301787,121,5.938707334058563,17.262236231057525,DIFF
+27,144.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,48.0589893452925,40.941592653735825,121,-7.117396691556678,-14.809709460221606,DIFF
+27,144.0,3,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),5.288694141289228,0.2243310754013597,121,-5.064363065887868,-95.75828986497838,DIFF
+27,144.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,121,0.0,0.0,MATCH
+27,144.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,121,0.0,0.0,MATCH
+27,144.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,121,0.0,0.0,MATCH
+27,144.0,3,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,121,0.0,,MATCH
+27,144.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338788,121,29.14159265338788,,DIFF
+27,144.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,121,29.141592653169937,,DIFF
+27,144.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,121,29.141592653694715,,DIFF
+27,144.0,3,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4933445375388306e-10,121,2.4933445375388306e-10,,MATCH
+28,96.0,4,180.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+28,96.0,4,180.0,summary,completed,Completed,value,185,184,,-1.0,-0.5405405405405406,CLOSE
+28,96.0,4,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+28,96.0,4,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,335.6818697386682,400.3079632677017,,64.62609352903354,19.252184688838163,DIFF
+28,96.0,4,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+28,96.0,4,180.0,summary,throughput_per_hour,Throughput (/h),value,37.0,36.800000000000004,,-0.19999999999999574,-0.540540540540529,CLOSE
+28,96.0,4,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.36861058162765353,0.41416270551634,,0.04555212388868646,12.35779062216403,DIFF
+28,96.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.88053002531278,28.141592653620062,187,-0.7389373716927174,-2.5586004517405483,DIFF
+28,96.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,187,0.07312734981769609,0.2605320562678396,CLOSE
+28,96.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,29.39357037422087,28.141592653690168,187,-1.2519777205307037,-4.259359120349426,DIFF
+28,96.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.5902783910402724,1.4104777790424572e-10,187,-0.5902783908992246,-99.99999997610487,DIFF
+28,96.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+28,96.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+28,96.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+28,96.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+28,96.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.544394728063164,60.381581028962486,187,33.83718630089932,127.47394185306511,DIFF
+28,96.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,187,36.98093073995648,160.07498590117848,DIFF
+28,96.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.150111119481153,60.68318530739725,187,32.5330741879161,115.56996720130792,DIFF
+28,96.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.2458793202529876,0.22312221437449084,187,-2.022757105878497,-90.06526252936169,DIFF
+28,96.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,38.271458533190874,40.641592653634184,184,2.3701341204433106,6.192954779572393,DIFF
+28,96.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,32.36805850169202,40.34159265301787,184,7.97353415132585,24.633958663010446,DIFF
+28,96.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,44.49805421491692,40.941592653735825,184,-3.556461561181095,-7.992397923747586,DIFF
+28,96.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.6019100686579915,0.22360679775021908,184,-4.3783032709077725,-95.14100027131936,DIFF
+28,96.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,184,0.0,0.0,MATCH
+28,96.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,184,0.0,0.0,MATCH
+28,96.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,184,0.0,0.0,MATCH
+28,96.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,184,0.0,,MATCH
+28,96.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391264,184,29.141592653391264,,DIFF
+28,96.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,184,29.141592653169937,,DIFF
+28,96.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,184,29.141592653694715,,DIFF
+28,96.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4935428589402537e-10,184,2.4935428589402537e-10,,MATCH
+29,120.0,4,180.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+29,120.0,4,180.0,summary,completed,Completed,value,148,147,,-1.0,-0.6756756756756757,CLOSE
+29,120.0,4,180.0,summary,in_flight,In flight,value,3,4,,1.0,33.33333333333333,DIFF
+29,120.0,4,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,332.83275518074964,400.1079632677048,,67.27520808695516,20.212916859826606,DIFF
+29,120.0,4,180.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+29,120.0,4,180.0,summary,throughput_per_hour,Throughput (/h),value,29.6,29.4,,-0.20000000000000284,-0.6756756756756852,CLOSE
+29,120.0,4,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.29204790369900113,0.33145722439265635,,0.039409320693655214,13.494128940665979,DIFF
+29,120.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,29.28615439101037,28.14159265361998,150,-1.14456173739039,-3.908200858702441,DIFF
+29,120.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+29,120.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,30.47668228742623,28.141592653690168,150,-2.335089633736061,-7.661889216528826,DIFF
+29,120.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.9824249166924344,1.417638668146942e-10,150,-0.9824249165506705,-99.99999998557001,DIFF
+29,120.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+29,120.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+29,120.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+29,120.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+29,120.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,27.674348265723026,60.283185307035346,150,32.60883704131232,117.83055097886827,DIFF
+29,120.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,150,36.98093073995648,160.07498590117848,DIFF
+29,120.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,29.602254566365445,60.483185307396525,150,30.88093074103108,104.31952293295419,DIFF
+29,120.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.444502492284946,0.16329931617807872,150,-2.2812031761068674,-93.31973206435808,DIFF
+29,120.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,33.868877845399815,40.541592653633394,147,6.672714808233579,19.70161172357793,DIFF
+29,120.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.773073308099583,40.34159265301787,147,11.568519344918286,40.20606078830572,DIFF
+29,120.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,39.049427849047106,40.7415926537351,147,1.692164804687991,4.333392056931977,DIFF
+29,120.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.11063646349362,0.16329931618184,147,-3.9473371473117798,-96.02739581492807,DIFF
+29,120.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,147,0.0,0.0,MATCH
+29,120.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,147,0.0,0.0,MATCH
+29,120.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,147,0.0,0.0,MATCH
+29,120.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,147,0.0,,MATCH
+29,120.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392603,147,29.141592653392603,,DIFF
+29,120.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,147,29.141592653169937,,DIFF
+29,120.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,147,29.141592653694715,,DIFF
+29,120.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.492325164276281e-10,147,2.492325164276281e-10,,MATCH
+30,144.0,4,180.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+30,144.0,4,180.0,summary,completed,Completed,value,123,123,,0.0,0.0,MATCH
+30,144.0,4,180.0,summary,in_flight,In flight,value,3,3,,0.0,0.0,MATCH
+30,144.0,4,180.0,summary,avg_time_in_system_s,Avg cycle (s),value,326.248090177957,400.10796326770094,,73.85987308974393,22.639174086645514,DIFF
+30,144.0,4,180.0,summary,storage_level,Storage level,value,1,2,,1.0,100.0,DIFF
+30,144.0,4,180.0,summary,throughput_per_hour,Throughput (/h),value,24.6,24.6,,0.0,0.0,MATCH
+30,144.0,4,180.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.2159531605216017,0.2759990144145155,,0.06004585389291381,27.80503593829434,DIFF
+30,144.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,26.99461740514219,28.1415926536185,125,1.1469752484763092,4.2489035175502154,DIFF
+30,144.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,25.903449379516132,28.141592653188127,125,2.2381432736719944,8.640329096254911,DIFF
+30,144.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+30,144.0,4,180.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),1.0824733211151607,1.426111385201659e-10,125,-1.0824733209725497,-99.99999998682544,DIFF
+30,144.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+30,144.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+30,144.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+30,144.0,4,180.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+30,144.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,25.764994470491793,60.28158530703967,125,34.51659083654788,133.96700269460231,DIFF
+30,144.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+30,144.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.390036631193652,60.483185307396525,125,32.09314867620287,113.04370294802794,DIFF
+30,144.0,4,180.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.5029170397638927,0.16296453602847816,125,-2.3399525037354145,-93.48901567892753,DIFF
+30,144.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,31.48803100256064,40.5415926536318,123,9.053561651071163,28.752390552254344,DIFF
+30,144.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.86805850169003,40.34159265301787,123,11.47353415132784,39.74473777187386,DIFF
+30,144.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,34.15095387272959,40.7415926537351,123,6.590638781005509,19.298549626364327,DIFF
+30,144.0,4,180.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),2.5027577506046557,0.16329931617816767,123,-2.339458434426488,-93.47522483393708,DIFF
+30,144.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,123,0.0,0.0,MATCH
+30,144.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,123,0.0,0.0,MATCH
+30,144.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,123,0.0,0.0,MATCH
+30,144.0,4,180.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,123,0.0,,MATCH
+30,144.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653392234,123,29.141592653392234,,DIFF
+30,144.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,123,29.141592653169937,,DIFF
+30,144.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,123,29.141592653694715,,DIFF
+30,144.0,4,180.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.496391558757508e-10,123,2.496391558757508e-10,,MATCH
+31,96.0,4,300.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+31,96.0,4,300.0,summary,completed,Completed,value,183,183,,0.0,0.0,MATCH
+31,96.0,4,300.0,summary,in_flight,In flight,value,5,5,,0.0,0.0,MATCH
+31,96.0,4,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,451.0917314093842,520.501405890657,,69.40967448127282,15.387042068895893,DIFF
+31,96.0,4,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+31,96.0,4,300.0,summary,throughput_per_hour,Throughput (/h),value,36.6,36.599999999999994,,-7.105427357601002e-15,-1.9413735949729513e-14,MATCH
+31,96.0,4,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.33536959130715627,0.4133393279426264,,0.07796973663547013,23.24889872441049,DIFF
+31,96.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,27.62250519322982,28.141592653620062,187,0.5190874603902422,1.8792193421959018,DIFF
+31,96.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,26.255540507796468,28.141592653188127,187,1.886052145391659,7.183444366081909,DIFF
+31,96.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,187,0.07312735031882767,0.26053205805322116,CLOSE
+31,96.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.7807763582964921,1.4104777790424572e-10,187,-0.7807763581554443,-99.99999998193493,DIFF
+31,96.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+31,96.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+31,96.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+31,96.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+31,96.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.093481356538643,60.479976750887396,187,32.386495394348756,115.28117495773064,DIFF
+31,96.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,187,36.98093073995733,160.0749859011881,DIFF
+31,96.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.88318530739798,187,27.780930741032535,83.92458793202623,DIFF
+31,96.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.526243055847188,0.283202416861369,187,-3.2430406389858186,-91.96872103323209,DIFF
+31,96.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,33.37617676743722,40.738313965108986,183,7.362137197671764,22.05806030142578,DIFF
+31,96.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,19.803574995188683,40.34159265301787,183,20.538017657829187,103.70863676290234,DIFF
+31,96.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,43.86805850169549,41.14159265373655,183,-2.7264658479589343,-6.21515047868726,DIFF
+31,96.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),9.027988275403363,0.28243702124053244,183,-8.74555125416283,-96.87153978688664,DIFF
+31,96.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,183,0.0,0.0,MATCH
+31,96.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,183,0.0,0.0,MATCH
+31,96.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,183,0.0,0.0,MATCH
+31,96.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,183,0.0,,MATCH
+31,96.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653390134,183,29.141592653390134,,DIFF
+31,96.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,183,29.141592653169937,,DIFF
+31,96.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,183,29.141592653694715,,DIFF
+31,96.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4958182510571554e-10,183,2.4958182510571554e-10,,MATCH
+32,120.0,4,300.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+32,120.0,4,300.0,summary,completed,Completed,value,147,146,,-1.0,-0.6802721088435374,CLOSE
+32,120.0,4,300.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+32,120.0,4,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,455.7392885256618,520.302483815657,,64.56319528999518,14.16669506350005,DIFF
+32,120.0,4,300.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+32,120.0,4,300.0,summary,throughput_per_hour,Throughput (/h),value,29.4,29.2,,-0.1999999999999993,-0.6802721088435351,CLOSE
+32,120.0,4,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.2944285068351307,0.3308699579300563,,0.03644145109492558,12.377011820846366,DIFF
+32,120.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.2664905203746,28.14159265361998,150,-0.124897866754619,-0.4418584141692161,CLOSE
+32,120.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+32,120.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.89357037422087,28.141592653690168,150,-0.7519777205307037,-2.6025780503804596,DIFF
+32,120.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.3523884563038,1.417638668146942e-10,150,-0.3523884561620361,-99.99999995977056,DIFF
+32,120.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+32,120.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+32,120.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+32,120.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+32,120.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.918644778470906,60.38051864036845,150,31.461873861897544,108.79442692736416,DIFF
+32,120.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,150,36.98093073995648,160.07498590117848,DIFF
+32,120.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,34.26503870999221,60.68318530739725,150,26.41814659740504,77.09942142776889,DIFF
+32,120.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.564011884246976,0.22359089626691864,150,-3.3404209879800573,-93.7264267480365,DIFF
+32,120.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,36.56248979060905,40.63885292760641,146,4.076363136997358,11.149030496397863,DIFF
+32,120.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.7730733080989,40.34159265301787,146,11.568519344918968,40.206060788309046,DIFF
+32,120.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,45.44046475384937,40.941592653735825,146,-4.4988721001135445,-9.900585578259154,DIFF
+32,120.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),6.02000997512858,0.22359001297528802,146,-5.7964199621532915,-96.28588633741404,DIFF
+32,120.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,146,0.0,0.0,MATCH
+32,120.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,146,0.0,0.0,MATCH
+32,120.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,146,0.0,0.0,MATCH
+32,120.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,146,0.0,,MATCH
+32,120.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653391193,146,29.141592653391193,,DIFF
+32,120.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,146,29.141592653169937,,DIFF
+32,120.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,146,29.141592653694715,,DIFF
+32,120.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.495042938647236e-10,146,2.495042938647236e-10,,MATCH
+33,144.0,4,300.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+33,144.0,4,300.0,summary,completed,Completed,value,122,122,,0.0,0.0,MATCH
+33,144.0,4,300.0,summary,in_flight,In flight,value,4,4,,0.0,0.0,MATCH
+33,144.0,4,300.0,summary,avg_time_in_system_s,Avg cycle (s),value,450.0665214966541,520.1046845791848,,70.03816308253067,15.56173581843531,DIFF
+33,144.0,4,300.0,summary,storage_level,Storage level,value,2,2,,0.0,0.0,MATCH
+33,144.0,4,300.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.4,,0.0,0.0,MATCH
+33,144.0,4,300.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.22494482123823079,0.27518640381360343,,0.050241582575372645,22.335069684562168,DIFF
+33,144.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.1415926536185,125,0.07312735024749628,0.2605320577990908,CLOSE
+33,144.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+33,144.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+33,144.0,4,300.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.426111385201659e-10,125,1.422219162065174e-10,,MATCH
+33,144.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+33,144.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+33,144.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+33,144.0,4,300.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+33,144.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,26.422254566360678,60.28158530703967,125,33.85933074067899,128.14701582576825,DIFF
+33,144.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+33,144.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,28.102254566365445,60.483185307396525,125,32.38093074103108,115.2253840152264,DIFF
+33,144.0,4,300.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),2.361694307060052,0.16296453602847816,125,-2.198729771031574,-93.09967697591887,DIFF
+33,144.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,33.61915330883112,40.539953309370055,122,6.920800000538932,20.585884293287563,DIFF
+33,144.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.86805850169003,40.34159265301787,122,11.47353415132784,39.74473777187386,DIFF
+33,144.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,38.86805850169549,40.7415926537351,122,1.8735341520396105,4.820241154977896,DIFF
+33,144.0,4,300.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),4.097630322117105,0.16295609716147427,122,-3.934674224955631,-96.02316255124546,DIFF
+33,144.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,122,0.0,0.0,MATCH
+33,144.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,122,0.0,0.0,MATCH
+33,144.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,122,0.0,0.0,MATCH
+33,144.0,4,300.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,122,0.0,,MATCH
+33,144.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653390482,122,29.141592653390482,,DIFF
+33,144.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,122,29.141592653169937,,DIFF
+33,144.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,122,29.141592653694715,,DIFF
+33,144.0,4,300.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4987062029327695e-10,122,2.4987062029327695e-10,,MATCH
+34,96.0,4,420.0,summary,created,Created,value,188,188,,0.0,0.0,MATCH
+34,96.0,4,420.0,summary,completed,Completed,value,182,181,,-1.0,-0.5494505494505495,CLOSE
+34,96.0,4,420.0,summary,in_flight,In flight,value,6,7,,1.0,16.666666666666664,DIFF
+34,96.0,4,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,584.2077370424732,640.7024384058421,,56.494701363368904,9.670310367570774,DIFF
+34,96.0,4,420.0,summary,storage_level,Storage level,value,4,5,,1.0,25.0,DIFF
+34,96.0,4,420.0,summary,throughput_per_hour,Throughput (/h),value,36.4,36.2,,-0.19999999999999574,-0.5494505494505377,CLOSE
+34,96.0,4,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.3818316959148152,0.41269685006277534,,0.03086515414796015,8.083444742325954,DIFF
+34,96.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.06846530337102,28.141592653620062,187,0.07312735024904171,0.26053205780459654,CLOSE
+34,96.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,187,0.07312734981769609,0.2605320562678396,CLOSE
+34,96.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,187,0.07312735031882767,0.26053205805322116,CLOSE
+34,96.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.9424448727879387e-13,1.4104777790424572e-10,187,1.4065353341696693e-10,,MATCH
+34,96.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,187,0.0,0.0,MATCH
+34,96.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,187,0.0,0.0,MATCH
+34,96.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,187,0.0,0.0,MATCH
+34,96.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,187,0.0,,MATCH
+34,96.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,32.95976576465174,60.580511510245316,187,27.620745745593574,83.80140181462062,DIFF
+34,96.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,187,36.98093073995648,160.07498590117848,DIFF
+34,96.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,44.26503870999659,61.08318530739871,187,16.81814659740212,37.994198327909736,DIFF
+34,96.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),6.789566038884198,0.3425967453893468,187,-6.446969293494851,-94.95407006239755,DIFF
+34,96.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,41.22850209564844,40.83719704923629,182,-0.3913050464121497,-0.949112935280399,CLOSE
+34,96.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,27.342795668966573,40.34159265301787,182,12.998796984051296,47.54011675113611,DIFF
+34,96.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,53.77307330810072,41.34159265373728,182,-12.43148065436344,-23.11841204079121,DIFF
+34,96.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),9.02625766957105,0.34239367096104995,182,-8.68386399861,-96.20669292307804,DIFF
+34,96.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,182,0.0,0.0,MATCH
+34,96.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,182,0.0,0.0,MATCH
+34,96.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,182,0.0,0.0,MATCH
+34,96.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,182,0.0,,MATCH
+34,96.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338888,182,29.14159265338888,,DIFF
+34,96.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,182,29.141592653169937,,DIFF
+34,96.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,182,29.141592653694715,,DIFF
+34,96.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4962992915156105e-10,182,2.4962992915156105e-10,,MATCH
+35,120.0,4,420.0,summary,created,Created,value,151,151,,0.0,0.0,MATCH
+35,120.0,4,420.0,summary,completed,Completed,value,146,145,,-1.0,-0.684931506849315,CLOSE
+35,120.0,4,420.0,summary,in_flight,In flight,value,5,6,,1.0,20.0,DIFF
+35,120.0,4,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,580.0861685180114,640.5079632677183,,60.42179474970692,10.416003350686829,DIFF
+35,120.0,4,420.0,summary,storage_level,Storage level,value,4,3,,-1.0,-25.0,DIFF
+35,120.0,4,420.0,summary,throughput_per_hour,Throughput (/h),value,29.2,29.0,,-0.1999999999999993,-0.6849315068493127,CLOSE
+35,120.0,4,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.30068916538522295,0.33031290288469867,,0.029623737499475722,9.851947096771433,DIFF
+35,120.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.227985617068327,28.14159265361998,150,-0.0863929634483469,-0.30605429880943597,CLOSE
+35,120.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,150,0.07312734981769609,0.2605320562678396,CLOSE
+35,120.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.89357037422087,28.141592653690168,150,-0.7519777205307037,-2.6025780503804596,DIFF
+35,120.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),0.3258439645795103,1.417638668146942e-10,150,-0.32584396443774644,-99.99999995649333,DIFF
+35,120.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,150,0.0,0.0,MATCH
+35,120.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,150,0.0,0.0,MATCH
+35,120.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,150,0.0,0.0,MATCH
+35,120.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,150,0.0,,MATCH
+35,120.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,30.775772238833703,60.48050074328123,149,29.70472850444753,96.51984773582805,DIFF
+35,120.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456636084,60.08318530631732,149,36.98093073995648,160.07498590117848,DIFF
+35,120.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,39.265038709992155,60.88318530739798,149,21.618146597405826,55.056985317333826,DIFF
+35,120.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),5.084869283383812,0.2818791946265808,149,-4.802990088757231,-94.45651050366826,DIFF
+35,120.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,39.09455987496258,40.74159265363403,145,1.647032778671452,4.212946210263555,DIFF
+35,120.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,28.7730733080989,40.34159265301787,145,11.568519344918968,40.206060788309046,DIFF
+35,120.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,49.049427849069616,41.14159265373655,145,-7.907835195333064,-16.122176225309552,DIFF
+35,120.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),7.414147213626896,0.2828427124639772,145,-7.131304501162919,-96.18509446448374,DIFF
+35,120.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,145,0.0,0.0,MATCH
+35,120.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,145,0.0,0.0,MATCH
+35,120.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,145,0.0,0.0,MATCH
+35,120.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,145,0.0,,MATCH
+35,120.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.141592653389797,145,29.141592653389797,,DIFF
+35,120.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,145,29.141592653169937,,DIFF
+35,120.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,145,29.141592653694715,,DIFF
+35,120.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4978943644169856e-10,145,2.4978943644169856e-10,,MATCH
+36,144.0,4,420.0,summary,created,Created,value,126,126,,0.0,0.0,MATCH
+36,144.0,4,420.0,summary,completed,Completed,value,122,121,,-1.0,-0.819672131147541,CLOSE
+36,144.0,4,420.0,summary,in_flight,In flight,value,4,5,,1.0,25.0,DIFF
+36,144.0,4,420.0,summary,avg_time_in_system_s,Avg cycle (s),value,579.3201765167204,640.3030045900314,,60.982828073311,10.526619052003777,DIFF
+36,144.0,4,420.0,summary,storage_level,Storage level,value,3,3,,0.0,0.0,MATCH
+36,144.0,4,420.0,summary,throughput_per_hour,Throughput (/h),value,24.4,24.2,,-0.1999999999999993,-0.8196721311475381,CLOSE
+36,144.0,4,420.0,summary,forklift_utilization,Forklifts Utilization (%),value,0.24528016868191835,0.2748796929065583,,0.029599524224639934,12.067638563566415,DIFF
+36,144.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,avg,28.068465303371003,28.1415926536185,125,0.07312735024749628,0.2605320577990908,CLOSE
+36,144.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,min,28.06846530337043,28.141592653188127,125,0.07312734981769609,0.2605320562678396,CLOSE
+36,144.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,max,28.06846530337134,28.141592653690168,125,0.07312735031882767,0.26053205805322116,CLOSE
+36,144.0,4,420.0,benchmark,store_seize_to_load_start_s,Store legacy: seize -> load start,std dev (pop),3.892223136485055e-13,1.426111385201659e-10,125,1.422219162065174e-10,,MATCH
+36,144.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,avg,1.0,1.0,125,0.0,0.0,MATCH
+36,144.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,min,1.0,1.0,125,0.0,0.0,MATCH
+36,144.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,max,1.0,1.0,125,0.0,0.0,MATCH
+36,144.0,4,420.0,benchmark,store_load_duration_s,Store legacy: load start -> load finish,std dev (pop),0.0,0.0,125,0.0,,MATCH
+36,144.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,avg,28.10225456636068,60.38078530703933,125,32.27853074067865,114.8610004384385,DIFF
+36,144.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,min,23.10225456635999,60.08318530631732,125,36.98093073995733,160.0749859011881,DIFF
+36,144.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,max,33.102254566365445,60.68318530739725,125,27.580930741031807,83.32039947833721,DIFF
+36,144.0,4,420.0,benchmark,store_unload_finish_to_release_s,Store legacy: load finish -> release,std dev (pop),3.5213633723318654,0.2243083591791884,125,-3.297055013152677,-93.63007064418206,DIFF
+36,144.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,avg,41.19044025354546,40.639113314790464,121,-0.5513269387549968,-1.3384827531857746,DIFF
+36,144.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,min,34.40288531895931,40.34159265301787,121,5.938707334058563,17.262236231057525,DIFF
+36,144.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,max,49.29069289537438,40.941592653735825,121,-8.349100241638553,-16.93849234248047,DIFF
+36,144.0,4,420.0,benchmark,retrieve_seize_to_load_start_s,Retrieve legacy: seize -> unload start,std dev (pop),5.8630952383325114,0.2243310754013597,121,-5.638764162931151,-96.17384561767479,DIFF
+36,144.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,avg,1.0,1.0,121,0.0,0.0,MATCH
+36,144.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,min,1.0,1.0,121,0.0,0.0,MATCH
+36,144.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,max,1.0,1.0,121,0.0,0.0,MATCH
+36,144.0,4,420.0,benchmark,retrieve_load_duration_s,Retrieve legacy: unload start -> unload finish,std dev (pop),0.0,0.0,121,0.0,,MATCH
+36,144.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,avg,0.0,29.14159265338788,121,29.14159265338788,,DIFF
+36,144.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,min,0.0,29.141592653169937,121,29.141592653169937,,DIFF
+36,144.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,max,0.0,29.141592653694715,121,29.141592653694715,,DIFF
+36,144.0,4,420.0,benchmark,retrieve_unload_finish_to_release_s,Retrieve legacy: unload finish -> release,std dev (pop),0.0,2.4933445375388306e-10,121,2.4933445375388306e-10,,MATCH

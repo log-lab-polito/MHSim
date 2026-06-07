@@ -249,7 +249,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--anylogic",
-        default="logs/anylogic_model_1_parameter_variation_range.txt",
+        default="anylogic/Model 1/log_file.txt",
         help="AnyLogic console output text file.",
     )
     parser.add_argument(

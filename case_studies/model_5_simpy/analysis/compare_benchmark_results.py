@@ -123,7 +123,6 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
             "delay_time_s",
             "created",
             "completed",
-            "in_flight",
             "avg_time_in_system_s",
             "storage_level",
             "throughput_per_hour",
@@ -132,6 +131,10 @@ def parse_anylogic_benchmark_output(path: str | Path) -> list[AnyLogicBenchmarkR
         if missing:
             raise ValueError(
                 f"AnyLogic iteration #{current_iteration} is missing fields: {', '.join(missing)}"
+            )
+        if "in_flight" not in current_values:
+            current_values["in_flight"] = int(current_values["created"]) - int(
+                current_values["completed"]
             )
 
         benchmarks: dict[str, BenchmarkStats] = {}
@@ -357,7 +360,7 @@ def write_comparison_csv(
 
 def print_report(anylogic_rows: list[AnyLogicBenchmarkRow], simpy_rows: list[SimPyBenchmarkRow]) -> None:
     print("=" * 112)
-    print("MODEL 1 BENCHMARK COMPARISON: ANYLOGIC vs SIMPY")
+    print("MODEL 5 BENCHMARK COMPARISON: ANYLOGIC vs SIMPY")
     print("=" * 112)
     print("Arrival conversion used for SimPy: arrival_rate_per_min = 60 / arrival_rate_s")
 
@@ -578,7 +581,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--anylogic",
-        required=True,
+        default="anylogic/Model 5/log_file.txt",
         help="Path to the AnyLogic benchmark output text file.",
     )
     parser.add_argument(

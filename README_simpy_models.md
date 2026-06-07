@@ -1,22 +1,24 @@
 # MHSim SimPy Models: Run Guide
 
-This README covers:
+This guide lists runnable commands for the active SimPy packages:
 
 - `case_studies/model_1_simpy`
 - `case_studies/model_2_simpy`
 - `case_studies/model_3_simpy`
 - `case_studies/model_4_simpy`
 - `case_studies/model_5_simpy`
-- `mhsim`
+- shared support under `mhsim`
 
-## What each package is
+Run commands from the repository root. Activate `.venv` first, or replace `python` with `.venv/bin/python`. Do not use system Python for project commands.
 
-- `mhsim`: shared simulation library primitives for movement, spatial layout, routing, forklift behavior, AnyLogic-style blocks, storage logic, visualization, experiments, and logging.
-- `case_studies/model_1_simpy`: simplified single-move transporter reference matching AnyLogic Model 1 (`Source -> moveByTransporter -> Sink`).
-- `case_studies/model_2_simpy`: simplified transporter-focused warehouse model built around `MoveByTransporter` to validate forklift fleet movement behavior.
-- `case_studies/model_3_simpy`: conveyor-focused scenario for `Conveyor Enter`, `Convey`, and `Conveyor Exit`.
-- `case_studies/model_4_simpy`: conveyor spur merge scenario for `Conveyor Spur`.
-- `case_studies/model_5_simpy`: parameterized warehouse model with `Store` and `Retrieve` blocks. This is the main warehouse parity model and shared warehouse reporting/stats home.
+## What Each Package Is
+
+- `mhsim`: shared simulation library primitives for movement, routing, traffic, forklift behavior, blocks, conveyor behavior, storage logic, stats, reporting, random durations, experiments, stochastic replications, range comparison, visualization, and logging.
+- `case_studies/model_1_simpy`: simplified single-move transporter reference matching AnyLogic Model 1.
+- `case_studies/model_2_simpy`: simplified transporter-validation flow built around `MoveByTransporterBlock`.
+- `case_studies/model_3_simpy`: conveyor reference model.
+- `case_studies/model_4_simpy`: conveyor spur/merge reference model.
+- `case_studies/model_5_simpy`: parameterized warehouse model with `Store` and `Retrieve`; canonical warehouse topology.
 
 ## AnyLogic Mapping
 
@@ -26,11 +28,11 @@ This README covers:
 - SimPy Model 4 validates against `anylogic/Model 4`.
 - SimPy Model 5 validates against `anylogic/Model 5`.
 
+`anylogic/Model 6` is not part of this active run guide.
+
 ## Prerequisites
 
-Run from repo root.
-
-Install core dependency:
+Install core dependencies:
 
 ```bash
 python -m pip install -r mhsim/core_requirements.txt
@@ -42,57 +44,81 @@ For animation scripts, also install:
 python -m pip install -r mhsim/anim_requirements.txt
 ```
 
-## Runnable scripts
+## Model 1
 
-### Model 1
+Purpose: `Source -> moveByTransporter -> Sink` single-move transporter validation.
 
-Run model and print summary plus forklift benchmark rows:
+Run model:
 
 ```bash
 python -m case_studies.model_1_simpy.run_model
 ```
 
-Export the forklift benchmark table as CSV:
+Export forklift benchmark CSV:
 
 ```bash
 python -m case_studies.model_1_simpy.run_model --csv logs/model_1_forklift_benchmarks.csv
 ```
 
-Compare an AnyLogic benchmark text export against fresh SimPy runs:
+Compare forklift benchmark text export:
 
 ```bash
-python -m case_studies.model_1_simpy.analysis.compare_benchmark_results --anylogic "anylogic/Model 1/log_file.txt" --csv logs/model_1_benchmark_comparison.csv
+python -m case_studies.model_1_simpy.analysis.compare_benchmark_results \
+  --anylogic "anylogic/Model 1/log_file.txt" \
+  --csv logs/model_1_benchmark_comparison.csv
 ```
 
-Run parameter-variation validation experiments:
+Run deterministic parameter variation:
 
 ```bash
 python -m case_studies.model_1_simpy.run_parameter_variation
 ```
 
-Compare AnyLogic vs SimPy parameter-variation range outputs:
+Run a return-home policy variation artifact:
 
 ```bash
-python -m case_studies.model_1_simpy.analysis.compare_parameter_variation_range
+python -m case_studies.model_1_simpy.run_parameter_variation \
+  --forklift-return-home-policy idle \
+  --output-prefix model_1_release_policy_idle_parameter_variation_range
 ```
 
-Run stochastic ranged replications with exponential interarrival times and
-triangular transporter loading/unloading times. The default stochastic run
-matches the AnyLogic `StochasticAnalysis` experiment: 64 parameter combinations,
-50 replications per iteration:
+Compare parameter variation:
+
+```bash
+python -m case_studies.model_1_simpy.analysis.compare_parameter_variation_range \
+  --anylogic "anylogic/Model 1/log_file.txt" \
+  --view overview
+```
+
+Write text report:
+
+```bash
+python -m case_studies.model_1_simpy.analysis.compare_parameter_variation_range \
+  --anylogic "anylogic/Model 1/log_file.txt" \
+  --view report \
+  --metric benchmark_avg_only \
+  --top 25 \
+  --output logs/model_1_parameter_variation_range_report.txt
+```
+
+Write HTML report:
+
+```bash
+python -m case_studies.model_1_simpy.analysis.compare_parameter_variation_range \
+  --anylogic "anylogic/Model 1/log_file.txt" \
+  --view report \
+  --metric benchmark_avg_only \
+  --top 25 \
+  --output logs/model_1_parameter_variation_range_report.html
+```
+
+Run stochastic replications:
 
 ```bash
 python -m case_studies.model_1_simpy.run_stochastic_replications
 ```
 
-Outputs:
-
-```text
-logs/model_1_stochastic_replications_runs.csv
-logs/model_1_stochastic_replications_summary.csv
-```
-
-Compare stochastic AnyLogic and SimPy replication samples:
+Compare stochastic replications:
 
 ```bash
 python -m case_studies.model_1_simpy.analysis.compare_stochastic_replications \
@@ -101,159 +127,103 @@ python -m case_studies.model_1_simpy.analysis.compare_stochastic_replications \
   --output-csv logs/model_1_stochastic_comparison.csv
 ```
 
-Write a curated text report:
-
-```bash
-python -m case_studies.model_1_simpy.analysis.compare_parameter_variation_range \
-  --view report \
-  --metric benchmark_avg_only \
-  --top 25 \
-  --output logs/model_1_parameter_variation_range_report.txt
-```
-
-Write an interactive HTML report:
-
-```bash
-python -m case_studies.model_1_simpy.analysis.compare_parameter_variation_range \
-  --view report \
-  --metric benchmark_avg_only \
-  --top 25 \
-  --output logs/model_1_parameter_variation_range_report.html
-```
-
-HTML report options that usually matter:
-
-```text
---output ...html       Writes HTML automatically when the path ends in .html or .htm.
---format html          Forces HTML when the output path does not use an HTML extension.
---metric               Controls the Top Offenders section; benchmark_avg_only is the
-                       recommended benchmark-focused view.
---top                  Controls how many Top Offenders rows are included.
-```
-
-Only pass `--anylogic`, `--simpy-runs`, or `--simpy-summary` when comparing
-against non-default input files. `--view` mostly affects text output; HTML
-always includes the interactive report with overview, offenders, and
-per-iteration benchmark details.
-
 Run animation:
 
 ```bash
-python -m case_studies.model_1_simpy.run_model_animation
+python -m case_studies.model_1_simpy.run_model_animation \
+  --sim-time 5 \
+  --fps 1 \
+  --record-fps 1 \
+  --no-show
 ```
 
-Compare AnyLogic and SimPy cyclic forklift traces:
+Compare cyclic movement trace:
 
 ```bash
 python -m case_studies.model_1_simpy.analysis.compare_movement_trace
 ```
 
-Animate the current AnyLogic cyclic position log against a SimPy trace:
+Optional parity-step diff:
 
 ```bash
-python -m case_studies.model_1_simpy.run_range_trace_animation
+python -m case_studies.model_1_simpy.analysis.compare_parity_step baseline current
 ```
 
-For parameter-variation logs, pass the SimPy settings that match the AnyLogic
-run that produced `anylogic/Model 1/log_file.txt`. The script infers the SimPy
-forklift count from the AnyLogic trace column count. By default the script
-applies the Simulation experiment A/B displacement geometry; add
-`--no-apply-displacement-geometry` for parameter-variation logs that use the
-original markup positions.
+Optional return-home policy candidate evaluation:
 
 ```bash
-python -m case_studies.model_1_simpy.run_range_trace_animation --arrival-rate-s 60 --forklift-max-speed 20 --forklift-acceleration 1 --displacement-m 100 --no-apply-displacement-geometry
+python -m case_studies.model_1_simpy.analysis.evaluate_release_policy_candidates
 ```
 
-The range trace animation derives AnyLogic speed and acceleration from
-`t=..., x=..., y=...` cyclic position samples. It uses timestamp deltas and
-central differences after converting logged presentation coordinates to model
-meters with `/ 10.0`; these are sample-derived estimates, not AnyLogic internal
-solver state.
+Animate AnyLogic range trace against SimPy:
 
-Model 1 reports `Move: ...` benchmark labels for its single
-`moveByTransporter` block.
+```bash
+python -m case_studies.model_1_simpy.run_range_trace_animation \
+  --arrival-rate-s 60 \
+  --forklift-max-speed 20 \
+  --forklift-acceleration 1 \
+  --displacement-m 100 \
+  --no-apply-displacement-geometry
+```
 
-Accepted Model 1 summary `--metric` values:
+Common outputs:
 
 ```text
-created
-completed
-avg_wip
-avg_time_in_system_s
-throughput_per_hour
-forklift_utilization
+logs/model_1_forklift_benchmarks.csv
+logs/model_1_benchmark_comparison.csv
+logs/model_1_parameter_variation_range_runs.csv
+logs/model_1_parameter_variation_range_summary.csv
+logs/model_1_parameter_variation_range_report.txt
+logs/model_1_parameter_variation_range_report.html
+logs/model_1_stochastic_replications_runs.csv
+logs/model_1_stochastic_replications_summary.csv
+logs/model_1_stochastic_comparison.csv
+logs/model_1_parity_<step>_benchmark_comparison.csv
+logs/model_1_parity_<step>_parameter_variation_range_runs.csv
+logs/model_1_parity_<step>_parameter_variation_range_summary.csv
+logs/model_1_release_policy_<policy>_parameter_variation_range_runs.csv
+logs/model_1_release_policy_<policy>_parameter_variation_range_summary.csv
 ```
 
-Accepted Model 1 forklift benchmark average shorthand `--metric` values:
+Benchmark prefix: `move`.
 
-```text
-move_enter_to_seize_s
-move_seize_to_loading_start_s
-move_loading_duration_s
-move_loading_finish_to_unloading_start_s
-move_unloading_duration_s
-move_unloading_finish_to_release_s
-```
+## Model 2
 
-### Model 2
+Purpose: simplified transporter-validation flow around two `MoveByTransporterBlock` instances.
 
-Run model and print summary plus phase benchmark rows:
+Run model:
 
 ```bash
 python -m case_studies.model_2_simpy.run_model
 ```
 
-Export the forklift benchmark table as CSV:
+Export forklift benchmark CSV:
 
 ```bash
 python -m case_studies.model_2_simpy.run_model --csv logs/model_2_forklift_benchmarks.csv
 ```
 
-Compare an AnyLogic benchmark text export against fresh SimPy runs:
+Compare forklift benchmark text export:
 
 ```bash
-python -m case_studies.model_2_simpy.analysis.compare_benchmark_results --anylogic "anylogic/Model 2/log_file.txt" --csv logs/model_2_benchmark_comparison.csv
+python -m case_studies.model_2_simpy.analysis.compare_benchmark_results \
+  --anylogic "anylogic/Model 2/log_file.txt" \
+  --csv logs/model_2_benchmark_comparison.csv
 ```
 
-Run parameter-variation validation experiments:
+Run deterministic parameter variation:
 
 ```bash
 python -m case_studies.model_2_simpy.run_parameter_variation
 ```
 
-Compare AnyLogic vs SimPy parameter-variation range outputs:
+Compare parameter variation:
 
 ```bash
 python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range --view overview
 ```
 
-Run stochastic ranged replications with exponential interarrival times and
-triangular service/delay/loading/unloading times. The default stochastic run
-matches the AnyLogic `StochasticAnalysis` experiment: 36 parameter combinations,
-50 replications per iteration:
-
-```bash
-python -m case_studies.model_2_simpy.run_stochastic_replications
-```
-
-Outputs:
-
-```text
-logs/model_2_stochastic_replications_runs.csv
-logs/model_2_stochastic_replications_summary.csv
-```
-
-Compare stochastic AnyLogic and SimPy replication samples:
-
-```bash
-python -m case_studies.model_2_simpy.analysis.compare_stochastic_replications \
-  --anylogic "anylogic/Model 2/log_file_stochastic.txt" \
-  --simpy-runs logs/model_2_stochastic_replications_runs.csv \
-  --output-csv logs/model_2_stochastic_comparison.csv
-```
-
-Show the top benchmark-average offenders against the AnyLogic range export:
+Show benchmark offenders:
 
 ```bash
 python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range \
@@ -263,116 +233,7 @@ python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range 
   --top 10
 ```
 
-For the offenders view, use `--view offenders`. The offender count is controlled
-by `--top`; the metric filter is controlled by `--metric`.
-
-Accepted `--metric` shortcuts for offenders:
-
-```text
-all
-benchmark_avg_only
-```
-
-Accepted summary `--metric` values for offenders:
-
-```text
-created
-completed
-avg_wip
-avg_time_in_system_s
-storage_level
-throughput_per_hour
-forklift_utilization
-```
-
-Accepted forklift benchmark average shorthand `--metric` values for offenders:
-
-```text
-store_enter_to_seize_s
-store_seize_to_loading_start_s
-store_loading_duration_s
-store_loading_finish_to_unloading_start_s
-store_unloading_duration_s
-store_unloading_finish_to_release_s
-retrieve_enter_to_seize_s
-retrieve_seize_to_loading_start_s
-retrieve_loading_duration_s
-retrieve_loading_finish_to_unloading_start_s
-retrieve_unloading_duration_s
-retrieve_unloading_finish_to_release_s
-```
-
-Accepted full forklift benchmark `--metric` values for offenders:
-
-```text
-benchmark_store_enter_to_seize_s__average
-benchmark_store_enter_to_seize_s__minimum
-benchmark_store_enter_to_seize_s__maximum
-benchmark_store_enter_to_seize_s__std_dev_pop
-benchmark_store_seize_to_loading_start_s__average
-benchmark_store_seize_to_loading_start_s__minimum
-benchmark_store_seize_to_loading_start_s__maximum
-benchmark_store_seize_to_loading_start_s__std_dev_pop
-benchmark_store_loading_duration_s__average
-benchmark_store_loading_duration_s__minimum
-benchmark_store_loading_duration_s__maximum
-benchmark_store_loading_duration_s__std_dev_pop
-benchmark_store_loading_finish_to_unloading_start_s__average
-benchmark_store_loading_finish_to_unloading_start_s__minimum
-benchmark_store_loading_finish_to_unloading_start_s__maximum
-benchmark_store_loading_finish_to_unloading_start_s__std_dev_pop
-benchmark_store_unloading_duration_s__average
-benchmark_store_unloading_duration_s__minimum
-benchmark_store_unloading_duration_s__maximum
-benchmark_store_unloading_duration_s__std_dev_pop
-benchmark_store_unloading_finish_to_release_s__average
-benchmark_store_unloading_finish_to_release_s__minimum
-benchmark_store_unloading_finish_to_release_s__maximum
-benchmark_store_unloading_finish_to_release_s__std_dev_pop
-benchmark_retrieve_enter_to_seize_s__average
-benchmark_retrieve_enter_to_seize_s__minimum
-benchmark_retrieve_enter_to_seize_s__maximum
-benchmark_retrieve_enter_to_seize_s__std_dev_pop
-benchmark_retrieve_seize_to_loading_start_s__average
-benchmark_retrieve_seize_to_loading_start_s__minimum
-benchmark_retrieve_seize_to_loading_start_s__maximum
-benchmark_retrieve_seize_to_loading_start_s__std_dev_pop
-benchmark_retrieve_loading_duration_s__average
-benchmark_retrieve_loading_duration_s__minimum
-benchmark_retrieve_loading_duration_s__maximum
-benchmark_retrieve_loading_duration_s__std_dev_pop
-benchmark_retrieve_loading_finish_to_unloading_start_s__average
-benchmark_retrieve_loading_finish_to_unloading_start_s__minimum
-benchmark_retrieve_loading_finish_to_unloading_start_s__maximum
-benchmark_retrieve_loading_finish_to_unloading_start_s__std_dev_pop
-benchmark_retrieve_unloading_duration_s__average
-benchmark_retrieve_unloading_duration_s__minimum
-benchmark_retrieve_unloading_duration_s__maximum
-benchmark_retrieve_unloading_duration_s__std_dev_pop
-benchmark_retrieve_unloading_finish_to_release_s__average
-benchmark_retrieve_unloading_finish_to_release_s__minimum
-benchmark_retrieve_unloading_finish_to_release_s__maximum
-benchmark_retrieve_unloading_finish_to_release_s__std_dev_pop
-```
-
-Show the full AnyLogic vs SimPy parameter-variation comparison table:
-
-```bash
-python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range \
-  --anylogic "anylogic/Model 2/log_file.txt" \
-  --view full
-```
-
-Write a curated text report:
-
-```bash
-python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range \
-  --view report \
-  --top 25 \
-  --output logs/model_2_parameter_variation_range_report.txt
-```
-
-Write an HTML report:
+Write HTML report:
 
 ```bash
 python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range \
@@ -381,91 +242,100 @@ python -m case_studies.model_2_simpy.analysis.compare_parameter_variation_range 
   --output logs/model_2_parameter_variation_range_report.html
 ```
 
+Run stochastic replications:
+
+```bash
+python -m case_studies.model_2_simpy.run_stochastic_replications --workers auto
+```
+
+Expected runtime: this is a full stochastic parity run; `--workers auto` keeps the parity defaults but uses local CPU workers.
+
+Compare stochastic replications:
+
+```bash
+python -m case_studies.model_2_simpy.analysis.compare_stochastic_replications \
+  --anylogic "anylogic/Model 2/log_file_stochastic.txt" \
+  --simpy-runs logs/model_2_stochastic_replications_runs.csv \
+  --output-csv logs/model_2_stochastic_comparison.csv
+```
+
 Run animation:
 
 ```bash
-python -m case_studies.model_2_simpy.run_model_animation
+python -m case_studies.model_2_simpy.run_model_animation \
+  --sim-time 5 \
+  --fps 1 \
+  --record-fps 1 \
+  --no-show
 ```
 
-### Model 3
+Optional parity-step diff:
 
-Run conveyor model and print conveyor summary metrics:
+```bash
+python -m case_studies.model_2_simpy.analysis.compare_parity_step baseline current
+```
+
+Optional release-policy candidate evaluation:
+
+```bash
+python -m case_studies.model_2_simpy.analysis.evaluate_release_policy_candidates
+```
+
+Common outputs:
+
+```text
+logs/model_2_forklift_benchmarks.csv
+logs/model_2_benchmark_comparison.csv
+logs/model_2_parameter_variation_range_runs.csv
+logs/model_2_parameter_variation_range_summary.csv
+logs/model_2_parameter_variation_range_report.html
+logs/model_2_stochastic_replications_runs.csv
+logs/model_2_stochastic_replications_summary.csv
+logs/model_2_stochastic_comparison.csv
+logs/model_2_parity_<step>_benchmark_comparison.csv
+logs/model_2_parity_<step>_parameter_variation_range_runs.csv
+logs/model_2_parity_<step>_parameter_variation_range_summary.csv
+logs/model_2_release_policy_<candidate>_parameter_variation_range_runs.csv
+logs/model_2_release_policy_<candidate>_parameter_variation_range_summary.csv
+```
+
+Important note: Model 2 uses `arrival_rate_s` as an interarrival interval in seconds. It also uses line-guided routed motion defaults with per-leg movement overrides.
+
+## Model 3
+
+Purpose: conveyor reference model.
+
+Run model:
 
 ```bash
 python -m case_studies.model_3_simpy.run_model
 ```
 
-Run with a shorter stop time:
+Run shorter model:
 
 ```bash
 python -m case_studies.model_3_simpy.run_model --sim-time 600
 ```
 
-Compare AnyLogic vs SimPy block counts:
+Compare block counts:
 
 ```bash
 python -m case_studies.model_3_simpy.analysis.compare_blocks
 ```
 
-Model 3 does not generate runtime logs. It validates the conveyor reference
-through summary metrics, block counts, parameter-variation exports, and
-animation inspection. The checked-in AnyLogic parameter-variation source is
-`anylogic/Model 3/log_file.txt`.
-
-Run ranged parameter-variation validation experiments:
+Run deterministic parameter variation:
 
 ```bash
 python -m case_studies.model_3_simpy.run_parameter_variation
 ```
 
-This writes:
-
-```text
-logs/model_3_parameter_variation_range_runs.csv
-logs/model_3_parameter_variation_range_summary.csv
-```
-
-The ranged experiment mirrors AnyLogic's Model 3 sensitivity analysis:
-
-```text
-arrival_rate_s       60, 120, 180, 240
-conveyor_speed_mps   0.5, 1.0, 1.5, 2.0
-conveyor_min_gap_m   0.3, 0.6, 0.9, 1.2
-stop time            3600 s
-```
-
-Run stochastic replications with exponential interarrival times and triangular
-service times:
-
-```bash
-python -m case_studies.model_3_simpy.run_stochastic_replications \
-  --replications 100 \
-  --run-until 18000
-```
-
-This writes:
-
-```text
-logs/model_3_stochastic_replications_runs.csv
-logs/model_3_stochastic_replications_summary.csv
-```
-
-Compare stochastic AnyLogic and SimPy replication samples:
-
-```bash
-python -m case_studies.model_3_simpy.analysis.compare_stochastic_replications \
-  --anylogic "anylogic/Model 3/log_file_stochastic.txt" \
-  --simpy-runs logs/model_3_stochastic_replications_runs.csv \
-  --output-csv logs/model_3_stochastic_comparison.csv
-```
-
-Compare AnyLogic vs SimPy parameter-variation range outputs:
+Compare parameter variation:
 
 ```bash
 python -m case_studies.model_3_simpy.analysis.compare_parameter_variation_range
 ```
 
-Show the average-cycle hotspot matrix:
+Show matrix:
 
 ```bash
 python -m case_studies.model_3_simpy.analysis.compare_parameter_variation_range \
@@ -473,16 +343,7 @@ python -m case_studies.model_3_simpy.analysis.compare_parameter_variation_range 
   --metric avg_time_in_system_s
 ```
 
-Write a curated text report:
-
-```bash
-python -m case_studies.model_3_simpy.analysis.compare_parameter_variation_range \
-  --view report \
-  --top 25 \
-  --output logs/model_3_parameter_variation_range_report.txt
-```
-
-Write an HTML report:
+Write HTML report:
 
 ```bash
 python -m case_studies.model_3_simpy.analysis.compare_parameter_variation_range \
@@ -491,132 +352,92 @@ python -m case_studies.model_3_simpy.analysis.compare_parameter_variation_range 
   --output logs/model_3_parameter_variation_range_report.html
 ```
 
-Only pass `--anylogic`, `--simpy-runs`, or `--simpy-summary` when comparing
-against non-default input files. The default AnyLogic input is
-`anylogic/Model 3/log_file.txt`.
-
-Accepted Model 3 summary `--metric` values:
-
-```text
-created
-completed
-avg_wip
-avg_time_in_system_s
-throughput_per_hour
-conveyor_entered
-conveyor_exited
-conveyor_occupancy_end
-```
-
-Run conveyor animation:
+Run stochastic replications:
 
 ```bash
-python -m case_studies.model_3_simpy.run_model_animation
+python -m case_studies.model_3_simpy.run_stochastic_replications \
+  --replications 100 \
+  --run-until 18000
 ```
 
-### Model 4
+Compare stochastic replications:
 
-Model 4 is the conveyor spur/merge scenario. Its SimPy process block surface
-matches the current AnyLogic Model 4 topology:
+```bash
+python -m case_studies.model_3_simpy.analysis.compare_stochastic_replications \
+  --anylogic "anylogic/Model 3/log_file_stochastic.txt" \
+  --simpy-runs logs/model_3_stochastic_replications_runs.csv \
+  --output-csv logs/model_3_stochastic_comparison.csv
+```
+
+Run animation:
+
+```bash
+python -m case_studies.model_3_simpy.run_model_animation \
+  --sim-time 5 \
+  --fps 1 \
+  --record-fps 1 \
+  --no-show
+```
+
+Common outputs:
 
 ```text
-mainSource -> mainService -> mainConvey -> downstreamService -> sink
-branchSource -> branchService -> branchConvey -> downstreamService -> sink
+logs/model_3_parameter_variation_range_runs.csv
+logs/model_3_parameter_variation_range_summary.csv
+logs/model_3_parameter_variation_range_report.html
+logs/model_3_stochastic_replications_runs.csv
+logs/model_3_stochastic_replications_summary.csv
+logs/model_3_stochastic_comparison.csv
 ```
 
-`conveyorSpur` is a physical conveyor-network element inside `branchConvey`,
-not a separate process block in the SimPy comparison table.
+## Model 4
 
-Run conveyor spur model and print summary metrics:
+Purpose: conveyor spur/merge reference model.
+
+Run model:
 
 ```bash
 python -m case_studies.model_4_simpy.run_model
 ```
 
-Run with a shorter stop time:
+Run shorter model:
 
 ```bash
 python -m case_studies.model_4_simpy.run_model --sim-time 600
 ```
 
-Compare AnyLogic vs SimPy block counts for the spur model:
+Write event trace:
+
+```bash
+python -m case_studies.model_4_simpy.run_model --trace-csv logs/model_4_trace.csv
+```
+
+Compare block counts:
 
 ```bash
 python -m case_studies.model_4_simpy.analysis.compare_blocks
 ```
 
-Model 4 follows the Model 3 approach: AnyLogic values are transcribed into
-`ANYLOGIC_BLOCKS` in `case_studies/model_4_simpy/analysis/compare_blocks.py`.
-The checked-in baseline supports the normal comparison command above. To inspect
-only the fresh SimPy block counts, use:
+Show fresh SimPy block counts only:
 
 ```bash
-python -m case_studies.model_4_simpy.analysis.compare_blocks \
-  --simpy-only
+python -m case_studies.model_4_simpy.analysis.compare_blocks --simpy-only
 ```
 
-Run ranged parameter-variation experiments:
+Run deterministic parameter variation:
 
 ```bash
 python -m case_studies.model_4_simpy.run_parameter_variation
 ```
 
-This writes:
-
-```text
-logs/model_4_parameter_variation_range_runs.csv
-logs/model_4_parameter_variation_range_summary.csv
-```
-
-The ranged experiment uses 64 SimPy combinations:
-
-```text
-main_arrival_time_s    15, 30, 45, 60
-branch_arrival_time_s  15, 30, 45, 60
-conveyor_speed_mps     0.5, 1.0
-conveyor_gap_m         0.3, 0.6
-stop time              3600 s
-```
-
-Run stochastic replications with exponential interarrival times and triangular
-service times:
-
-```bash
-python -m case_studies.model_4_simpy.run_stochastic_replications \
-  --replications 100 \
-  --run-until 18000
-```
-
-This writes:
-
-```text
-logs/model_4_stochastic_replications_runs.csv
-logs/model_4_stochastic_replications_summary.csv
-```
-
-Compare stochastic AnyLogic and SimPy replication samples:
-
-```bash
-python -m case_studies.model_4_simpy.analysis.compare_stochastic_replications \
-  --anylogic "anylogic/Model 4/log_file_stochastic.txt" \
-  --simpy-runs logs/model_4_stochastic_replications_runs.csv \
-  --output-csv logs/model_4_stochastic_comparison.csv
-```
-
-Validate the SimPy run and summary CSVs:
-
-```bash
-python -m case_studies.model_4_simpy.analysis.compare_parameter_variation_range
-```
-
-Compare against the AnyLogic Model 4 range export:
+Compare parameter variation:
 
 ```bash
 python -m case_studies.model_4_simpy.analysis.compare_parameter_variation_range \
   --anylogic "anylogic/Model 4/log_file.txt"
 ```
 
-Write a text or HTML comparison report when an AnyLogic export is supplied:
+Write HTML report:
 
 ```bash
 python -m case_studies.model_4_simpy.analysis.compare_parameter_variation_range \
@@ -626,105 +447,124 @@ python -m case_studies.model_4_simpy.analysis.compare_parameter_variation_range 
   --output logs/model_4_parameter_variation_range_report.html
 ```
 
-Accepted Model 4 summary `--metric` values:
-
-```text
-created
-completed
-avg_wip
-avg_time_in_system_s
-throughput_per_hour
-main_created
-branch_created
-main_completed
-branch_completed
-main_conveyor_entered
-main_conveyor_exited
-main_conveyor_occupancy_end
-branch_conveyor_entered
-branch_conveyor_exited
-branch_conveyor_occupancy_end
-spur_transferred
-spur_remaining_main_distance_m
-```
-
-Run conveyor spur animation:
+Run stochastic replications:
 
 ```bash
-python -m case_studies.model_4_simpy.run_model_animation
+python -m case_studies.model_4_simpy.run_stochastic_replications \
+  --replications 100 \
+  --run-until 18000
 ```
 
-The animation shows the main conveyor, branch conveyor, and `ConveyorSpur`
-merge point. Branch pallets leave the branch line inside `branchConvey`, enter
-the main line at `spur_merge_offset_m`, and then continue to the shared
-`downstreamService`.
+Compare stochastic replications:
 
-### Model 5
+```bash
+python -m case_studies.model_4_simpy.analysis.compare_stochastic_replications \
+  --anylogic "anylogic/Model 4/log_file_stochastic.txt" \
+  --simpy-runs logs/model_4_stochastic_replications_runs.csv \
+  --output-csv logs/model_4_stochastic_comparison.csv
+```
 
-Run model and print summary plus forklift benchmark rows:
+Compare traces:
+
+```bash
+python -m case_studies.model_4_simpy.analysis.compare_trace \
+  --anylogic "anylogic/Model 4/log_file_trace.txt"
+```
+
+Analyze trace diagnostics:
+
+```bash
+python -m case_studies.model_4_simpy.analysis.analyze_trace_diagnostics \
+  --anylogic "anylogic/Model 4/log_file_trace.txt"
+```
+
+Run animation:
+
+```bash
+python -m case_studies.model_4_simpy.run_model_animation \
+  --sim-time 5 \
+  --fps 1 \
+  --record-fps 1 \
+  --no-show
+```
+
+Common outputs:
+
+```text
+logs/model_4_parameter_variation_range_runs.csv
+logs/model_4_parameter_variation_range_summary.csv
+logs/model_4_parameter_variation_range_report.html
+logs/model_4_stochastic_replications_runs.csv
+logs/model_4_stochastic_replications_summary.csv
+logs/model_4_stochastic_comparison.csv
+```
+
+## Model 5
+
+Purpose: canonical parameterized warehouse flow.
+
+Run model:
 
 ```bash
 python -m case_studies.model_5_simpy.run_model
 ```
 
-Export the forklift benchmark table as CSV:
+Export forklift benchmark CSV:
 
 ```bash
 python -m case_studies.model_5_simpy.run_model --csv logs/model_5_forklift_benchmarks.csv
 ```
 
-Compare AnyLogic vs SimPy block counts:
+Compare block counts:
 
 ```bash
 python -m case_studies.model_5_simpy.analysis.compare_blocks
 ```
 
-Compare an AnyLogic benchmark text export against fresh SimPy runs:
+Compare forklift benchmark text export:
 
 ```bash
-python -m case_studies.model_5_simpy.analysis.compare_benchmark_results --anylogic "anylogic/Model 5/log_file.txt" --csv logs/model_5_benchmark_comparison.csv
+python -m case_studies.model_5_simpy.analysis.compare_benchmark_results \
+  --anylogic "anylogic/Model 5/log_file.txt" \
+  --csv logs/model_5_benchmark_comparison.csv
 ```
 
-Run parameter-variation validation experiments:
+Run deterministic parameter variation:
 
 ```bash
 python -m case_studies.model_5_simpy.run_parameter_variation
 ```
 
-Compare AnyLogic vs SimPy parameter-variation range outputs:
+Compare parameter variation:
 
 ```bash
 python -m case_studies.model_5_simpy.analysis.compare_parameter_variation_range --view overview
 ```
 
-Write a text or HTML comparison report when an AnyLogic export is supplied:
+Write HTML report:
 
 ```bash
 python -m case_studies.model_5_simpy.analysis.compare_parameter_variation_range \
-  --anylogic "anylogic/Model 5/log_file.txt" \
   --view report \
   --top 25 \
   --output logs/model_5_parameter_variation_range_report.html
 ```
 
-Run stochastic ranged replications with exponential interarrival times and
-triangular service/delay/loading/unloading times. The default stochastic run
-matches the AnyLogic `StochasticAnalysis` experiment: 36 parameter combinations
-(4 forklift counts × 3 delay times × 3 arrival rates), 50 replications per
-iteration:
+Run policy-sweep block comparison:
 
 ```bash
-python -m case_studies.model_5_simpy.run_stochastic_replications
+python -m case_studies.model_5_simpy.analysis.compare_blocks_cases
 ```
 
-Outputs:
+Run stochastic replications:
 
-```text
-logs/model_5_stochastic_replications_runs.csv
-logs/model_5_stochastic_replications_summary.csv
+```bash
+python -m case_studies.model_5_simpy.run_stochastic_replications --workers auto
 ```
 
-Compare stochastic AnyLogic and SimPy replication samples:
+Expected runtime: this is a full stochastic parity run; `--workers auto` keeps the parity defaults but uses local CPU workers.
+
+Compare stochastic replications:
 
 ```bash
 python -m case_studies.model_5_simpy.analysis.compare_stochastic_replications \
@@ -736,5 +576,64 @@ python -m case_studies.model_5_simpy.analysis.compare_stochastic_replications \
 Run animation:
 
 ```bash
-python -m case_studies.model_5_simpy.run_model_animation
+python -m case_studies.model_5_simpy.run_model_animation \
+  --sim-time 5 \
+  --fps 1 \
+  --record-fps 1 \
+  --no-show
 ```
+
+Common outputs:
+
+```text
+logs/model_5_forklift_benchmarks.csv
+logs/model_5_benchmark_comparison.csv
+logs/model_5_parameter_variation_range_runs.csv
+logs/model_5_parameter_variation_range_summary.csv
+logs/model_5_parameter_variation_range_report.html
+logs/model_5_compare_blocks_cases.csv
+logs/model_5_stochastic_replications_runs.csv
+logs/model_5_stochastic_replications_summary.csv
+logs/model_5_stochastic_comparison.csv
+```
+
+## Shared CLI Notes
+
+Range comparison scripts commonly support:
+
+```text
+--view overview|matrix|offenders|report|full|all
+--metric all|benchmark_avg_only|<metric-name>
+--top <count>
+--output <path>
+--format text|html
+```
+
+Exact options vary by model. Use:
+
+```bash
+python -m case_studies.model_5_simpy.analysis.compare_parameter_variation_range --help
+```
+
+Stochastic replication scripts commonly support:
+
+```text
+--output-dir
+--run-until
+--replications
+--base-seed
+--workers auto|N
+--arrival-distribution deterministic|exponential|triangular
+--service-distribution deterministic|exponential|triangular
+--service-triangular-spread
+--deterministic-arrivals
+--deterministic-services
+```
+
+Use:
+
+```bash
+python -m case_studies.model_5_simpy.run_stochastic_replications --help
+```
+
+Deterministic parity defaults remain deterministic. Stochastic commands opt into random arrivals and/or services through their own params.

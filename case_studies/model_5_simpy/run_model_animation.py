@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import time
 from dataclasses import dataclass
 from typing import Any, Callable, List, Optional, Tuple
@@ -17,9 +18,7 @@ from .params import Model5Params
 from mhsim.spatial import PointNode, RectangularNode
 from mhsim_analysis.visualization import MovementRecorder, create_recording_process
 
-try:
-    matplotlib.use("TkAgg")
-except Exception:  # pragma: no cover - backend fallback is environment-specific
+if "--no-show" in sys.argv:
     matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
@@ -736,6 +735,11 @@ def run_animation_cli(
         default=None,
         help="Override simulation time in seconds (e.g., 900)",
     )
+    parser.add_argument(
+        "--no-show",
+        action="store_true",
+        help="Build the animation with a non-interactive backend, close it, and exit.",
+    )
     args = parser.parse_args()
 
     print("\n" + "=" * 70)
@@ -794,6 +798,13 @@ def run_animation_cli(
     # Keep a strong reference alive until the window closes; otherwise
     # matplotlib may garbage-collect the animation before it ever renders.
     fig._mhsim_animation = anim
+
+    if args.no_show:
+        anim._draw_was_started = True
+        fig.canvas.draw()
+        plt.close(fig)
+        print("\nAnimation built successfully (--no-show).")
+        return
 
     print("\n" + "=" * 70)
     print("ANIMATION READY")

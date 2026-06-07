@@ -7,6 +7,7 @@ import math
 import statistics
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass, field, is_dataclass, replace
 from itertools import product
 from numbers import Number
@@ -45,6 +46,7 @@ class ExperimentRunContext(ExperimentIterationContext):
 
 
 MetricCollector = Callable[[ExperimentRunContext, Any, Any], Any]
+MetricFactory = Callable[[], Mapping[str, MetricCollector]]
 
 
 @dataclass(frozen=True)
@@ -184,6 +186,28 @@ class ParameterVariationRun:
         return row
 
 
+@dataclass(frozen=True)
+class _ResolvedRunSpec:
+    iteration_index: int
+    iteration_number: int
+    replication_index: int
+    replication_number: int
+    run_index: int
+    run_number: int
+    seed: int | None
+    parameter_values: Mapping[str, Any]
+    output_parameter_values: Mapping[str, Any]
+
+
+@dataclass(frozen=True)
+class _WorkerRunTask:
+    base_params: Any
+    model_cls: type[Any]
+    metrics_factory: MetricFactory | None
+    run_until: float | None
+    run_spec: _ResolvedRunSpec
+
+
 @dataclass
 class ParameterVariationResult:
     experiment_name: str | None
@@ -271,6 +295,7 @@ class ParameterVariationExperiment:
     model_cls: type[Any] | None = None
     model_factory: Callable[[Any], Any] | None = None
     metrics: Mapping[str, MetricCollector] | None = None
+    metrics_factory: MetricFactory | None = None
     replications: int = 1
     random_seed_mode: str = "fixed"
     base_random_seed: int | None = None
@@ -278,6 +303,7 @@ class ParameterVariationExperiment:
     run_until: float | None = None
     experiment_name: str | None = None
     compact_numeric_summary: bool = False
+    workers: int = 1
 
     def __post_init__(self) -> None:
         if self.model_cls is None and self.model_factory is None:
@@ -288,18 +314,40 @@ class ParameterVariationExperiment:
             raise ValueError("replications must be >= 1")
         if self.random_seed_mode not in {"fixed", "random"}:
             raise ValueError("random_seed_mode must be 'fixed' or 'random'")
+        if self.workers < 1:
+            raise ValueError("workers must be >= 1")
 
     def run(self, *, verbose: bool = False) -> ParameterVariationResult:
+        run_specs = self._build_run_specs()
+        total_iterations = len({spec.iteration_index for spec in run_specs})
+        if self.workers > 1:
+            runs = self._run_parallel(
+                run_specs,
+                total_iterations=total_iterations,
+                verbose=verbose,
+            )
+        else:
+            runs = self._run_sequential(
+                run_specs,
+                total_iterations=total_iterations,
+                verbose=verbose,
+            )
+
+        runs.sort(key=lambda run: run.run_index)
+        return ParameterVariationResult(
+            experiment_name=self.experiment_name,
+            runs=runs,
+            compact_numeric_summary=self.compact_numeric_summary,
+        )
+
+    def _build_run_specs(self) -> list[_ResolvedRunSpec]:
         iteration_values = self.variation.build_iterations(self.base_params)
-        total_iterations = len(iteration_values)
         system_random = SystemRandom()
-        runs: list[ParameterVariationRun] = []
-        t_start = time.monotonic()
+        run_specs: list[_ResolvedRunSpec] = []
 
         for iteration_index, values in enumerate(iteration_values):
-            iteration_runs: list[ParameterVariationRun] = []
             for replication_index in range(self.replications):
-                run_index = len(runs)
+                run_index = len(run_specs)
                 parameter_values = dict(values)
                 seed_is_explicit = self.seed_field_name in parameter_values
                 seed = self._resolve_seed(
@@ -310,48 +358,139 @@ class ParameterVariationExperiment:
                 output_parameter_values = dict(parameter_values)
                 if not seed_is_explicit:
                     output_parameter_values.pop(self.seed_field_name, None)
-                params = _clone_with_updates(self.base_params, parameter_values)
-                model = self._build_model(params)
-                stats = self._run_model(model)
-                context = ExperimentRunContext(
-                    iteration_index=iteration_index,
-                    iteration_number=iteration_index + 1,
-                    replication_index=replication_index,
-                    replication_number=replication_index + 1,
-                    run_index=run_index,
-                    run_number=run_index + 1,
-                    parameter_values=output_parameter_values,
-                    base_params=self.base_params,
-                    seed=seed,
+                run_specs.append(
+                    _ResolvedRunSpec(
+                        iteration_index=iteration_index,
+                        iteration_number=iteration_index + 1,
+                        replication_index=replication_index,
+                        replication_number=replication_index + 1,
+                        run_index=run_index,
+                        run_number=run_index + 1,
+                        seed=seed,
+                        parameter_values=parameter_values,
+                        output_parameter_values=output_parameter_values,
+                    )
                 )
-                metrics = self._collect_metrics(context, model, stats)
-                run = ParameterVariationRun(
-                    iteration_index=iteration_index,
-                    iteration_number=iteration_index + 1,
-                    replication_index=replication_index,
-                    replication_number=replication_index + 1,
-                    run_index=run_index,
-                    run_number=run_index + 1,
-                    seed=seed,
-                    parameter_values=output_parameter_values,
-                    metrics=metrics,
-                )
+        return run_specs
+
+    def _run_sequential(
+        self,
+        run_specs: list[_ResolvedRunSpec],
+        *,
+        total_iterations: int,
+        verbose: bool,
+    ) -> list[ParameterVariationRun]:
+        runs: list[ParameterVariationRun] = []
+        iteration_runs: list[ParameterVariationRun] = []
+        current_iteration: int | None = None
+        t_start = time.monotonic()
+
+        for run_spec in run_specs:
+            if current_iteration is None:
+                current_iteration = run_spec.iteration_index
+            elif run_spec.iteration_index != current_iteration:
+                if verbose:
+                    _print_iteration_progress(
+                        iteration_index=current_iteration,
+                        total_iterations=total_iterations,
+                        replications=self.replications,
+                        iteration_runs=iteration_runs,
+                        t_start=t_start,
+                    )
+                current_iteration = run_spec.iteration_index
+                iteration_runs = []
+
+            run = self._execute_run_spec(run_spec)
+            runs.append(run)
+            iteration_runs.append(run)
+
+        if verbose and iteration_runs and current_iteration is not None:
+            _print_iteration_progress(
+                iteration_index=current_iteration,
+                total_iterations=total_iterations,
+                replications=self.replications,
+                iteration_runs=iteration_runs,
+                t_start=t_start,
+            )
+
+        return runs
+
+    def _run_parallel(
+        self,
+        run_specs: list[_ResolvedRunSpec],
+        *,
+        total_iterations: int,
+        verbose: bool,
+    ) -> list[ParameterVariationRun]:
+        if self.model_cls is None or self.model_factory is not None:
+            raise ValueError("parallel workers require model_cls and do not support model_factory")
+        if self.metrics_factory is None:
+            raise ValueError(
+                "parallel workers require metrics_factory so metrics are constructed in each worker"
+            )
+
+        runs: list[ParameterVariationRun] = []
+        completed_by_iteration: dict[int, list[ParameterVariationRun]] = {}
+        t_start = time.monotonic()
+        tasks = [
+            _WorkerRunTask(
+                base_params=self.base_params,
+                model_cls=self.model_cls,
+                metrics_factory=self.metrics_factory,
+                run_until=self.run_until,
+                run_spec=run_spec,
+            )
+            for run_spec in run_specs
+        ]
+
+        with ProcessPoolExecutor(max_workers=self.workers) as executor:
+            futures = [executor.submit(_execute_worker_run_task, task) for task in tasks]
+            for future in as_completed(futures):
+                run = future.result()
                 runs.append(run)
-                iteration_runs.append(run)
-
-            if verbose:
-                _print_iteration_progress(
-                    iteration_index=iteration_index,
-                    total_iterations=total_iterations,
-                    replications=self.replications,
-                    iteration_runs=iteration_runs,
-                    t_start=t_start,
+                iteration_runs = completed_by_iteration.setdefault(
+                    run.iteration_index,
+                    [],
                 )
+                iteration_runs.append(run)
+                if verbose and len(iteration_runs) == self.replications:
+                    iteration_runs.sort(key=lambda item: item.replication_index)
+                    _print_iteration_progress(
+                        iteration_index=run.iteration_index,
+                        total_iterations=total_iterations,
+                        replications=self.replications,
+                        iteration_runs=iteration_runs,
+                        t_start=t_start,
+                    )
 
-        return ParameterVariationResult(
-            experiment_name=self.experiment_name,
-            runs=runs,
-            compact_numeric_summary=self.compact_numeric_summary,
+        return runs
+
+    def _execute_run_spec(self, run_spec: _ResolvedRunSpec) -> ParameterVariationRun:
+        params = _clone_with_updates(self.base_params, run_spec.parameter_values)
+        model = self._build_model(params)
+        stats = self._run_model(model)
+        context = ExperimentRunContext(
+            iteration_index=run_spec.iteration_index,
+            iteration_number=run_spec.iteration_number,
+            replication_index=run_spec.replication_index,
+            replication_number=run_spec.replication_number,
+            run_index=run_spec.run_index,
+            run_number=run_spec.run_number,
+            parameter_values=run_spec.output_parameter_values,
+            base_params=self.base_params,
+            seed=run_spec.seed,
+        )
+        metrics = self._collect_metrics(context, model, stats)
+        return ParameterVariationRun(
+            iteration_index=run_spec.iteration_index,
+            iteration_number=run_spec.iteration_number,
+            replication_index=run_spec.replication_index,
+            replication_number=run_spec.replication_number,
+            run_index=run_spec.run_index,
+            run_number=run_spec.run_number,
+            seed=run_spec.seed,
+            parameter_values=run_spec.output_parameter_values,
+            metrics=metrics,
         )
 
     def _resolve_seed(
@@ -404,12 +543,58 @@ class ParameterVariationExperiment:
         model: Any,
         stats: Any,
     ) -> dict[str, Any]:
-        if not self.metrics:
+        metrics = self.metrics
+        if metrics is None and self.metrics_factory is not None:
+            metrics = self.metrics_factory()
+        if not metrics:
             return _collect_default_metrics(stats)
         return {
             metric_name: collector(context, model, stats)
-            for metric_name, collector in self.metrics.items()
+            for metric_name, collector in metrics.items()
         }
+
+
+def _execute_worker_run_task(task: _WorkerRunTask) -> ParameterVariationRun:
+    params = _clone_with_updates(task.base_params, task.run_spec.parameter_values)
+    kwargs: dict[str, Any] = {"params": params}
+    signature = inspect.signature(task.model_cls)
+    if "console_logging" in signature.parameters:
+        kwargs["console_logging"] = False
+    if "enable_logging" in signature.parameters:
+        kwargs["enable_logging"] = False
+    model = task.model_cls(**kwargs)
+    stats = model.run() if task.run_until is None else model.run(until=task.run_until)
+    context = ExperimentRunContext(
+        iteration_index=task.run_spec.iteration_index,
+        iteration_number=task.run_spec.iteration_number,
+        replication_index=task.run_spec.replication_index,
+        replication_number=task.run_spec.replication_number,
+        run_index=task.run_spec.run_index,
+        run_number=task.run_spec.run_number,
+        parameter_values=task.run_spec.output_parameter_values,
+        base_params=task.base_params,
+        seed=task.run_spec.seed,
+    )
+    metrics = task.metrics_factory() if task.metrics_factory is not None else None
+    collected = (
+        _collect_default_metrics(stats)
+        if not metrics
+        else {
+            metric_name: collector(context, model, stats)
+            for metric_name, collector in metrics.items()
+        }
+    )
+    return ParameterVariationRun(
+        iteration_index=task.run_spec.iteration_index,
+        iteration_number=task.run_spec.iteration_number,
+        replication_index=task.run_spec.replication_index,
+        replication_number=task.run_spec.replication_number,
+        run_index=task.run_spec.run_index,
+        run_number=task.run_spec.run_number,
+        seed=task.run_spec.seed,
+        parameter_values=task.run_spec.output_parameter_values,
+        metrics=collected,
+    )
 
 
 def attribute_metric(

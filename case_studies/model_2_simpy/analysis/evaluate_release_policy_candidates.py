@@ -25,6 +25,14 @@ from .compare_parity_step import _overview_for_metric
 from ..params import Model2Params
 
 
+DEFAULT_CANDIDATE_ROOT = Path("logs")
+DEFAULT_ANYLOGIC_RANGE = Path("anylogic/Model 2/log_file.txt")
+DEFAULT_ANYLOGIC_BENCHMARK = Path("anylogic/Model 2/log_file.txt")
+ARTIFACT_REFRESH_NOTE = (
+    "Refresh release-policy candidate artifacts by running the Model 2 benchmark and parameter-variation "
+    "commands for each release-policy candidate, then copying the range run/summary "
+    "CSVs to logs/model_2_release_policy_<candidate>_parameter_variation_range_*.csv."
+)
 DEFAULT_CANDIDATES = (
     ("storage_return_outbound_return", True, True),
     ("storage_stay_outbound_return", False, True),
@@ -61,6 +69,16 @@ def _policy_label(value: bool) -> str:
     return "return" if value else "stay"
 
 
+def _candidate_artifact_path(candidate_root: Path, name: str, suffix: str) -> Path:
+    path = candidate_root / name
+    if path.exists() and path.is_dir():
+        return path / f"model_2_parameter_variation_range_{suffix}.csv"
+    return (
+        candidate_root
+        / f"model_2_release_policy_{name}_parameter_variation_range_{suffix}.csv"
+    )
+
+
 def _load_candidate_result(
     *,
     candidate_root: Path,
@@ -70,13 +88,20 @@ def _load_candidate_result(
     storage_returns: bool,
     outbound_returns: bool,
 ) -> CandidateResult:
-    candidate_dir = candidate_root / name
+    summary_path = _candidate_artifact_path(candidate_root, name, "summary")
+    runs_path = _candidate_artifact_path(candidate_root, name, "runs")
+    _require_file(
+        summary_path,
+        f"Model 2 release-policy candidate summary CSV for {name}",
+    )
+    _require_file(
+        runs_path,
+        f"Model 2 release-policy candidate run CSV for {name}",
+    )
     context = build_comparison_context(
         anylogic_range_rows,
-        load_simpy_summary_rows(
-            candidate_dir / "model_2_parameter_variation_range_summary.csv"
-        ),
-        load_simpy_run_rows(candidate_dir / "model_2_parameter_variation_range_runs.csv"),
+        load_simpy_summary_rows(summary_path),
+        load_simpy_run_rows(runs_path),
     )
     benchmark_overview = _overview_for_metric(context, BENCHMARK_AVG_ONLY)
     avg_cycle_overview = _overview_for_metric(context, "avg_time_in_system_s")
@@ -115,6 +140,12 @@ def _load_candidate_result(
         default_utilization_status=default_utilization_status,
         rejected=rejected,
     )
+
+
+def _require_file(path: Path, description: str) -> None:
+    if path.exists():
+        return
+    raise FileNotFoundError(f"Missing {description}: {path}\n{ARTIFACT_REFRESH_NOTE}")
 
 
 def _render_table(rows: list[CandidateResult]) -> str:
@@ -164,6 +195,8 @@ def evaluate_candidates(
     anylogic_range_path: Path,
     anylogic_benchmark_path: Path,
 ) -> tuple[list[CandidateResult], CandidateResult | None]:
+    _require_file(anylogic_range_path, "AnyLogic Model 2 parameter-variation output")
+    _require_file(anylogic_benchmark_path, "AnyLogic Model 2 benchmark output")
     anylogic_range_rows = parse_anylogic_range_output(anylogic_range_path)
     benchmark_rows = parse_anylogic_benchmark_output(anylogic_benchmark_path)
     if not benchmark_rows:
@@ -223,21 +256,21 @@ def render_evaluation(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Evaluate Model 2 release-policy candidate step directories."
+        description="Evaluate Model 2 release-policy candidate outputs."
     )
     parser.add_argument(
         "--candidate-root",
-        default="logs/model_2_parity_steps/02_release_policy_candidates",
-        help="Directory containing release-policy candidate output directories.",
+        default=str(DEFAULT_CANDIDATE_ROOT),
+        help="Directory containing release-policy candidate output CSV files.",
     )
     parser.add_argument(
         "--anylogic-range",
-        default="anylogic/Model 2/log_file.txt",
+        default=str(DEFAULT_ANYLOGIC_RANGE),
         help="AnyLogic parameter variation range output.",
     )
     parser.add_argument(
         "--anylogic-benchmark",
-        default="logs/anylogic_model_2_forklift_timing.txt",
+        default=str(DEFAULT_ANYLOGIC_BENCHMARK),
         help="AnyLogic default benchmark output.",
     )
     parser.add_argument("--output", help="Optional text output path.")

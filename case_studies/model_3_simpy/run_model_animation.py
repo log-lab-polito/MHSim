@@ -2,14 +2,6 @@
 """Animate Model 3 conveyor simulation to inspect conveyor behavior."""
 
 from __future__ import annotations
-from mhsim.spatial import Path, PointNode, RectangularNode, Shelf, Storage, WarehouseLayout
-from mhsim.movement import Position3D
-from .params import Model3Params
-from .model import Model3SimModel
-from matplotlib.patches import Circle, Rectangle
-from matplotlib import animation
-import numpy as np
-import matplotlib.pyplot as plt
 
 import argparse
 import os
@@ -20,8 +12,19 @@ from dataclasses import dataclass
 from typing import Deque, List, Tuple
 
 import matplotlib
+import numpy as np
 
-matplotlib.use("TkAgg")
+if "--no-show" in sys.argv:
+    matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+from matplotlib import animation
+from matplotlib.patches import Circle, Rectangle
+
+from mhsim.spatial import Path, PointNode, RectangularNode, Shelf, Storage, WarehouseLayout
+from mhsim.movement import Position3D
+from .params import Model3Params
+from .model import Model3SimModel
 
 
 if __package__ in (None, ""):
@@ -582,6 +585,11 @@ def run_animation_cli():
         default=None,
         help="Override simulation time in seconds.",
     )
+    parser.add_argument(
+        "--no-show",
+        action="store_true",
+        help="Build the animation with a non-interactive backend, close it, and exit.",
+    )
     args = parser.parse_args()
 
     speed = args.speed
@@ -625,7 +633,14 @@ def run_animation_cli():
         playback_speed=speed,
     )
 
-    _ = (fig, anim)  # keep references alive for matplotlib
+    fig._mhsim_animation = anim
+    if args.no_show:
+        anim._draw_was_started = True
+        fig.canvas.draw()
+        plt.close(fig)
+        print("Animation built successfully (--no-show).")
+        return
+
     print("Showing:")
     print("  Top Left:  Warehouse map reference (with conveyor path)")
     print("  Top Right: Conveyor occupancy and moving pallets")

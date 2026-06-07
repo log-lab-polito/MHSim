@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Mapping
@@ -18,6 +19,7 @@ class StochasticReplicationOptions:
     replications: int
     run_until: float | None
     base_random_seed: int = 1
+    workers: int = 1
     random_arrival_times: bool = True
     random_service_times: bool = True
     arrival_time_distribution: str = "exponential"
@@ -48,12 +50,13 @@ def build_stochastic_replication_experiment(
         model_cls=spec.model_cls,
         base_params=spec.params_factory(options),
         variation=spec.variation_factory(),
-        metrics=spec.metrics_factory(),
+        metrics_factory=spec.metrics_factory,
         replications=options.replications,
         random_seed_mode="fixed",
         base_random_seed=options.base_random_seed,
         run_until=options.run_until,
         compact_numeric_summary=False,
+        workers=options.workers,
     )
 
 
@@ -88,6 +91,14 @@ def run_stochastic_replications_cli(
     parser.add_argument("--replications", type=int, default=spec.default_replications)
     parser.add_argument("--base-seed", type=int, default=1)
     parser.add_argument(
+        "--workers",
+        default="1",
+        help=(
+            "Parallel worker processes to use. Use an integer or 'auto'. "
+            "Default: 1 (sequential)."
+        ),
+    )
+    parser.add_argument(
         "--arrival-distribution",
         choices=("deterministic", "exponential", "triangular"),
         default="exponential",
@@ -110,10 +121,12 @@ def run_stochastic_replications_cli(
     )
     args = parser.parse_args()
 
+    workers = _parse_workers(args.workers)
     options = StochasticReplicationOptions(
         replications=args.replications,
         run_until=args.run_until,
         base_random_seed=args.base_seed,
+        workers=workers,
         random_arrival_times=not args.deterministic_arrivals,
         random_service_times=not args.deterministic_services,
         arrival_time_distribution=args.arrival_distribution,
@@ -128,3 +141,15 @@ def run_stochastic_replications_cli(
         summary_callback(result)
     print(f"Wrote run CSV: {run_csv}")
     print(f"Wrote summary CSV: {summary_csv}")
+
+
+def _parse_workers(value: str) -> int:
+    if value == "auto":
+        return max(1, os.cpu_count() or 1)
+    try:
+        workers = int(value)
+    except ValueError as exc:
+        raise SystemExit("--workers must be a positive integer or 'auto'") from exc
+    if workers < 1:
+        raise SystemExit("--workers must be >= 1")
+    return workers

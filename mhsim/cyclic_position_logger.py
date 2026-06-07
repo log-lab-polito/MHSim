@@ -5,6 +5,9 @@ from pathlib import Path
 from typing import Iterable, Optional, TextIO
 
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
 class CyclicPositionLogger:
     """Write AnyLogic-style cyclic transporter position rows."""
 
@@ -14,7 +17,8 @@ class CyclicPositionLogger:
         filename_prefix: str = "simpy_model1",
         position_scale: float = 1.0,
     ):
-        self.log_dir = Path(log_dir)
+        log_path = Path(log_dir)
+        self.log_dir = log_path if log_path.is_absolute() else REPO_ROOT / log_path
         self.log_dir.mkdir(parents=True, exist_ok=True)
         self.position_scale = position_scale
 

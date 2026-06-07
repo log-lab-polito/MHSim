@@ -12,7 +12,8 @@ from typing import List, Tuple
 
 import matplotlib
 
-matplotlib.use("TkAgg")
+if "--no-show" in sys.argv:
+    matplotlib.use("Agg")
 
 from matplotlib import animation
 from matplotlib.patches import FancyArrowPatch, Rectangle
@@ -687,6 +688,11 @@ def run_animation_cli():
         default=300.0,
         help="Override simulation time in seconds. Default: 300",
     )
+    parser.add_argument(
+        "--no-show",
+        action="store_true",
+        help="Build the animation with a non-interactive backend, close it, and exit.",
+    )
     args = parser.parse_args()
 
     speed = args.speed
@@ -730,7 +736,14 @@ def run_animation_cli():
         playback_speed=speed,
     )
 
-    _ = (fig, anim)
+    fig._mhsim_animation = anim
+    if args.no_show:
+        anim._draw_was_started = True
+        fig.canvas.draw()
+        plt.close(fig)
+        print("Animation built successfully (--no-show).")
+        return
+
     print("Showing:")
     print("  Top Left:  Main conveyor, branch conveyor, and ConveyorSpur merge")
     print("  Top Right: Block counters for both source lines")

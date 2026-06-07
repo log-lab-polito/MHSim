@@ -88,11 +88,16 @@ def build_range_validation_experiment(
     *,
     replications: int = 2,
     run_until: float | None = None,
+    base_params: Model1Params | None = None,
 ) -> ParameterVariationExperiment:
     return ParameterVariationExperiment(
         experiment_name="model_1_range_validation",
         model_cls=Model1SimModel,
-        base_params=Model1Params(apply_displacement_geometry=False),
+        base_params=(
+            Model1Params(apply_displacement_geometry=False)
+            if base_params is None
+            else base_params
+        ),
         variation=RangeVariation(
             parameters=range_variation_parameters(),
         ),
@@ -188,18 +193,33 @@ def main() -> None:
         default=2,
         help="Replications per ranged iteration.",
     )
+    parser.add_argument(
+        "--forklift-return-home-policy",
+        choices=("idle", "stay", "always"),
+        default=None,
+        help="Override forklift return-home policy for diagnostics.",
+    )
+    parser.add_argument(
+        "--output-prefix",
+        default="model_1_parameter_variation_range",
+        help="Output filename prefix for run and summary CSV files.",
+    )
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
+    base_params = Model1Params(apply_displacement_geometry=False)
+    if args.forklift_return_home_policy is not None:
+        base_params.forklift_return_home_policy = args.forklift_return_home_policy
 
     range_result = build_range_validation_experiment(
         replications=args.range_replications,
         run_until=args.run_until,
+        base_params=base_params,
     ).run()
     run_csv, summary_csv = _write_outputs(
         range_result,
         output_dir=output_dir,
-        prefix="model_1_parameter_variation_range",
+        prefix=args.output_prefix,
     )
     _print_summary("Model 1 Range Validation", range_result)
     print(f"Wrote run CSV: {run_csv}")

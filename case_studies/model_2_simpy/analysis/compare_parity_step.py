@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Compare two Model 2 parity-step output directories.
+"""Compare two Model 2 parity-step outputs.
 
-The parity-step workflow keeps each behavior change in its own output directory
-under ``logs/model_2_parity_steps``. This helper summarizes what changed from
-one step to the next without replacing the canonical Model 2 comparison CSVs.
+The parity-step workflow keeps each behavior change as named artifacts
+under logs/. This helper summarizes what changed from one step to the next
+without replacing the canonical Model 2 comparison CSVs.
 """
 
 from __future__ import annotations
@@ -37,8 +37,15 @@ from .compare_parameter_variation_range import (
 )
 
 
-STEP_ROOT = Path("logs/model_2_parity_steps")
+LOG_DIR = Path("logs")
+DEFAULT_PREVIOUS_STEP = "baseline"
+DEFAULT_CURRENT_STEP = "current"
 DEFAULT_ANYLOGIC_RANGE = Path("anylogic/Model 2/log_file.txt")
+ARTIFACT_REFRESH_NOTE = (
+    "Refresh parity-step artifacts by running the Model 2 benchmark and parameter-variation "
+    "commands, then copying the benchmark comparison and range run/summary CSVs "
+    "to logs/model_2_parity_<step>_*.csv."
+)
 SUMMARY_RANGE_METRICS = (
     "avg_time_in_system_s",
     "forklift_utilization",
@@ -75,11 +82,34 @@ class OverviewSummary:
     worst_case: tuple[int | float, ...] | None
 
 
-def _step_dir(value: str) -> Path:
+@dataclass(frozen=True)
+class StepArtifacts:
+    label: str
+    benchmark_comparison: Path
+    range_runs: Path
+    range_summary: Path
+
+
+def _step_artifacts(value: str) -> StepArtifacts:
     path = Path(value)
     if path.exists() or path.is_absolute() or "/" in value:
-        return path
-    return STEP_ROOT / value
+        return StepArtifacts(
+            label=path.name,
+            benchmark_comparison=path / "benchmark_comparison.csv",
+            range_runs=path / "model_2_parameter_variation_range_runs.csv",
+            range_summary=path / "model_2_parameter_variation_range_summary.csv",
+        )
+    prefix = LOG_DIR / f"model_2_parity_{value}"
+    return StepArtifacts(
+        label=value,
+        benchmark_comparison=prefix.with_name(f"{prefix.name}_benchmark_comparison.csv"),
+        range_runs=prefix.with_name(
+            f"{prefix.name}_parameter_variation_range_runs.csv"
+        ),
+        range_summary=prefix.with_name(
+            f"{prefix.name}_parameter_variation_range_summary.csv"
+        ),
+    )
 
 
 def _float_or_none(value: str | None) -> float | None:
@@ -89,6 +119,7 @@ def _float_or_none(value: str | None) -> float | None:
 
 
 def _read_benchmark_comparison(path: Path) -> dict[tuple[str, str, str], CsvComparisonRow]:
+    _require_file(path, "Model 2 parity-step benchmark comparison CSV")
     rows: dict[tuple[str, str, str], CsvComparisonRow] = {}
     with path.open(newline="") as handle:
         reader = csv.DictReader(handle)
@@ -108,15 +139,26 @@ def _read_benchmark_comparison(path: Path) -> dict[tuple[str, str, str], CsvComp
     return rows
 
 
-def _load_range_context(step_dir: Path, anylogic_range: Path) -> ComparisonContext:
+def _load_range_context(artifacts: StepArtifacts, anylogic_range: Path) -> ComparisonContext:
+    _require_file(anylogic_range, "AnyLogic Model 2 range output")
+    _require_file(
+        artifacts.range_summary,
+        "Model 2 parity-step range summary CSV",
+    )
+    _require_file(
+        artifacts.range_runs,
+        "Model 2 parity-step range run CSV",
+    )
     anylogic_rows = parse_anylogic_range_output(anylogic_range)
-    simpy_summary_rows = load_simpy_summary_rows(
-        step_dir / "model_2_parameter_variation_range_summary.csv"
-    )
-    simpy_run_rows = load_simpy_run_rows(
-        step_dir / "model_2_parameter_variation_range_runs.csv"
-    )
+    simpy_summary_rows = load_simpy_summary_rows(artifacts.range_summary)
+    simpy_run_rows = load_simpy_run_rows(artifacts.range_runs)
     return build_comparison_context(anylogic_rows, simpy_summary_rows, simpy_run_rows)
+
+
+def _require_file(path: Path, description: str) -> None:
+    if path.exists():
+        return
+    raise FileNotFoundError(f"Missing {description}: {path}\n{ARTIFACT_REFRESH_NOTE}")
 
 
 def _matched_rows(context: ComparisonContext) -> Iterable[tuple[RangeRow, RangeRow]]:
@@ -394,20 +436,23 @@ def _render_offender_delta(
 
 
 def render_step_delta(
-    previous_dir: Path,
-    current_dir: Path,
+    previous_artifacts: StepArtifacts,
+    current_artifacts: StepArtifacts,
     *,
     anylogic_range: Path,
     top: int,
 ) -> str:
-    old_default = _read_benchmark_comparison(previous_dir / "benchmark_comparison.csv")
-    new_default = _read_benchmark_comparison(current_dir / "benchmark_comparison.csv")
-    old_context = _load_range_context(previous_dir, anylogic_range)
-    new_context = _load_range_context(current_dir, anylogic_range)
+    old_default = _read_benchmark_comparison(previous_artifacts.benchmark_comparison)
+    new_default = _read_benchmark_comparison(current_artifacts.benchmark_comparison)
+    old_context = _load_range_context(previous_artifacts, anylogic_range)
+    new_context = _load_range_context(current_artifacts, anylogic_range)
 
     return "\n\n".join(
         [
-            f"Model 2 parity step delta: {previous_dir.name} -> {current_dir.name}",
+            (
+                "Model 2 parity step delta: "
+                f"{previous_artifacts.label} -> {current_artifacts.label}"
+            ),
             _render_default_delta(
                 "Default benchmark summary deltas",
                 old_default,
@@ -430,10 +475,20 @@ def render_step_delta(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Compare two Model 2 parity-step output directories."
+        description="Compare two Model 2 parity-step outputs."
     )
-    parser.add_argument("previous", help="Previous step name or directory.")
-    parser.add_argument("current", help="Current step name or directory.")
+    parser.add_argument(
+        "previous",
+        nargs="?",
+        default=DEFAULT_PREVIOUS_STEP,
+        help=f"Previous step name or directory. Default: {DEFAULT_PREVIOUS_STEP}.",
+    )
+    parser.add_argument(
+        "current",
+        nargs="?",
+        default=DEFAULT_CURRENT_STEP,
+        help=f"Current step name or directory. Default: {DEFAULT_CURRENT_STEP}.",
+    )
     parser.add_argument(
         "--anylogic-range",
         default=str(DEFAULT_ANYLOGIC_RANGE),
@@ -444,8 +499,8 @@ def main() -> None:
     args = parser.parse_args()
 
     text = render_step_delta(
-        _step_dir(args.previous),
-        _step_dir(args.current),
+        _step_artifacts(args.previous),
+        _step_artifacts(args.current),
         anylogic_range=Path(args.anylogic_range),
         top=args.top,
     )
