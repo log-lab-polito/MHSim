@@ -16,6 +16,12 @@ from .stats import SimulationStats
 from .cyclic_position_logger import CyclicPositionLogger
 from .movement import Position3D
 from .conveyor import Conveyor, ConveyorSpur
+from .conveyor import (
+    ANYLOGIC_CONVEYOR_LOCATION_KEY,
+    ConveyorLocation,
+    PositionOnConveyor,
+    ConveyorSimpleStation,
+)
 from .storage_slots import StorageSlotManager, StorageSlot
 from .random_variables import DurationValue, sample_duration_s
 
@@ -209,16 +215,29 @@ class PassThroughBlock(Block):
 
 
 class Sink(Block):
-    def __init__(self, env: simpy.Environment, stats: SimulationStats, name: str = "sink", logger: Optional[CyclicPositionLogger] = None):
+    def __init__(
+        self,
+        env: simpy.Environment,
+        stats: SimulationStats,
+        name: str = "sink",
+        logger: Optional[CyclicPositionLogger] = None,
+        on_enter: Optional[Callable[[Pallet], None]] = None,
+        record_stats: bool = True,
+    ):
         super().__init__(env=env, name=name, logger=logger)
         self.stats = stats
+        self.on_enter = on_enter
+        self.record_stats = record_stats
 
     def handle(self, pallet: Pallet):
         # Make this a generator so upstream `yield from` never fails.
         self._record_enter(pallet)
+        if self.on_enter is not None:
+            self.on_enter(pallet)
         yield self.env.timeout(0)
-        duration = self.env.now - pallet.created_at
-        self.stats.record_completed(duration)
+        if self.record_stats:
+            duration = self.env.now - pallet.created_at
+            self.stats.record_completed(duration)
 
 
 class ServiceBlock(PassThroughBlock):
@@ -236,6 +255,8 @@ class ServiceBlock(PassThroughBlock):
         self.service_time_s = service_time_s
         self.resource = simpy.Resource(env, capacity=capacity)
         self.queue_capacity = queue_capacity
+        self.queue_entered_count = 0
+        self.delay_entered_count = 0
 
     def sample_service_time_s(self) -> float:
         return sample_duration_s(
@@ -249,8 +270,10 @@ class ServiceBlock(PassThroughBlock):
             # Block upstream until there is room in the waiting line.
             while len(self.resource.queue) >= self.queue_capacity:
                 yield self.env.timeout(0)
+        self.queue_entered_count += 1
         with self.resource.request() as req:
             yield req
+            self.delay_entered_count += 1
             yield self.env.timeout(self.sample_service_time_s())
         self._record_finish()
         yield from self._forward(pallet)
@@ -281,14 +304,28 @@ class ConveyorEnterBlock(PassThroughBlock):
         conveyor: Conveyor,
         next_block,
         name: str = "conveyor_enter",
+        position: PositionOnConveyor | None = None,
+        offset_m: float = 0.0,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
+        self.position = position
+        self.offset_m = offset_m
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
-        yield from self.conveyor.enter()
+        if self.position is not None:
+            yield from self.position.wait_until_unblocked(self.env)
+            yield from self.conveyor.occupy_without_entry_headway()
+            self.conveyor.place_agent(pallet, self.position.offset_m)
+            self.position.leading_edge_enter(pallet)
+        elif self.offset_m > 0:
+            yield from self.conveyor.occupy_without_entry_headway()
+            self.conveyor.place_agent(pallet, self.offset_m)
+        else:
+            yield from self.conveyor.enter()
+            self.conveyor.place_agent(pallet, 0.0)
         self._record_finish()
         yield from self._forward(pallet)
         self._record_complete()
@@ -304,20 +341,143 @@ class ConveyBlock(PassThroughBlock):
         next_block,
         name: str = "convey",
         distance_m: DistanceResolver = None,
+        source_position: PositionOnConveyor | None = None,
+        target_position: PositionOnConveyor | None = None,
+        target_station: ConveyorSimpleStation | None = None,
+        target_conveyor: Conveyor | None = None,
+        route_conveyors: tuple[Conveyor, ...] = (),
+        remove_from_conveyor_on_exit: bool = False,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
         # Distance is measured in meters.
         self.distance_m = distance_m
+        self.source_position = source_position
+        self.target_position = target_position
+        self.target_station = target_station
+        self.target_conveyor = target_conveyor
+        self.route_conveyors = route_conveyors
+        self.remove_from_conveyor_on_exit = remove_from_conveyor_on_exit
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
-        distance = _resolve_distance(self.distance_m, pallet)
-        yield self.env.timeout(self.conveyor.travel_time_s(distance))
+        yield from self._convey(pallet)
         self._record_finish()
         yield from self._forward(pallet)
         self._record_complete()
+
+    def _current_location(self, pallet: Pallet) -> ConveyorLocation:
+        location = pallet.attributes.get(ANYLOGIC_CONVEYOR_LOCATION_KEY)
+        if isinstance(location, ConveyorLocation):
+            return location
+        if self.source_position is not None:
+            return self.source_position.location()
+        return ConveyorLocation(self.conveyor, 0.0)
+
+    def _target_location(self) -> ConveyorLocation | None:
+        if self.target_station is not None:
+            return self.target_station.location()
+        if self.target_position is not None:
+            return self.target_position.location()
+        if self.target_conveyor is not None and self.target_conveyor is self.conveyor:
+            return ConveyorLocation(self.target_conveyor, self.target_conveyor.length_m)
+        return None
+
+    def _wait_for_positions(
+        self,
+        pallet: Pallet,
+        conveyor: Conveyor,
+        start_m: float,
+        end_m: float,
+    ) -> Generator:
+        network = conveyor.network
+        if network is None:
+            return
+        for position in network.positions_between(conveyor, start_m, end_m):
+            yield from position.wait_until_unblocked(self.env)
+            position.leading_edge_enter(pallet)
+            position.trailing_edge_exit(pallet)
+
+    def _move_on_conveyor(
+        self,
+        pallet: Pallet,
+        conveyor: Conveyor,
+        start_m: float,
+        end_m: float,
+    ) -> Generator:
+        distance = abs(end_m - start_m)
+        if distance > 0:
+            yield from self._wait_for_positions(pallet, conveyor, start_m, end_m)
+            yield self.env.timeout(conveyor.travel_time_s(distance))
+        conveyor.move_agent_to(pallet, end_m)
+
+    def _convey(self, pallet: Pallet) -> Generator:
+        if (
+            not isinstance(
+                pallet.attributes.get(ANYLOGIC_CONVEYOR_LOCATION_KEY),
+                ConveyorLocation,
+            )
+            and self.source_position is not None
+        ):
+            yield from self.source_position.wait_until_unblocked(self.env)
+            yield from self.source_position.conveyor.occupy_without_entry_headway()
+            self.source_position.conveyor.place_agent(
+                pallet,
+                self.source_position.offset_m,
+            )
+            self.source_position.leading_edge_enter(pallet)
+        current = self._current_location(pallet)
+        target = self._target_location()
+        if target is not None and target.conveyor is current.conveyor:
+            yield from self._move_on_conveyor(
+                pallet,
+                current.conveyor,
+                current.offset_m,
+                target.offset_m,
+            )
+            if self.target_station is not None:
+                yield from self.target_station.process(pallet)
+            return
+
+        if self.target_conveyor is not None and self.target_conveyor is not current.conveyor:
+            network = current.conveyor.network
+            spur = network.find_spur(current.conveyor, self.target_conveyor) if network else None
+            if spur is None:
+                raise RuntimeError(
+                    f"No conveyor spur route from {current.conveyor.id} to {self.target_conveyor.id}"
+                )
+            spur_offset = float(spur.offset_m if spur.offset_m is not None else spur.target_offset_m)
+            yield from self._move_on_conveyor(
+                pallet,
+                current.conveyor,
+                current.offset_m,
+                spur_offset,
+            )
+            current.conveyor.remove_agent(pallet)
+            yield from spur.transfer()
+            self.target_conveyor.place_agent(pallet, 0.0)
+            yield from self._move_on_conveyor(
+                pallet,
+                self.target_conveyor,
+                0.0,
+                self.target_conveyor.length_m,
+            )
+            if self.remove_from_conveyor_on_exit:
+                self.target_conveyor.leave()
+                self.target_conveyor.remove_agent(pallet)
+            return
+
+        distance = _resolve_distance(self.distance_m, pallet)
+        if distance is None:
+            distance = self.conveyor.length_m - current.offset_m
+        target_offset = min(self.conveyor.length_m, current.offset_m + distance)
+        yield from self._move_on_conveyor(
+            pallet,
+            current.conveyor,
+            current.offset_m,
+            target_offset,
+        )
 
 
 class ConveyorExitBlock(PassThroughBlock):
@@ -336,11 +496,65 @@ class ConveyorExitBlock(PassThroughBlock):
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
-        self.conveyor.leave()
+        location = pallet.attributes.get(ANYLOGIC_CONVEYOR_LOCATION_KEY)
+        conveyor = self.conveyor
+        if isinstance(location, ConveyorLocation):
+            conveyor = location.conveyor
+        conveyor.leave()
+        conveyor.remove_agent(pallet)
         yield self.env.timeout(0)
         self._record_finish()
         yield from self._forward(pallet)
         self._record_complete()
+
+
+class BatchBlock(PassThroughBlock):
+    """AnyLogic permanent Batch block."""
+
+    def __init__(
+        self,
+        env: simpy.Environment,
+        batch_size: int,
+        new_batch_factory: Callable[[list[Pallet]], Pallet],
+        next_block,
+        name: str = "batch",
+        permanent: bool = True,
+        logger: Optional[CyclicPositionLogger] = None,
+        on_add: Optional[Callable[[Pallet, Pallet | None], None]] = None,
+        on_exit: Optional[Callable[[Pallet], None]] = None,
+    ):
+        super().__init__(env=env, next_block=next_block, name=name, logger=logger)
+        if batch_size <= 0:
+            raise ValueError("batch_size must be > 0")
+        self.batch_size = batch_size
+        self.new_batch_factory = new_batch_factory
+        self.permanent = permanent
+        self.on_add = on_add
+        self.on_exit = on_exit
+        self._queue: list[Pallet] = []
+        self.batches_created = 0
+
+    def handle(self, pallet: Pallet):
+        self._record_enter(pallet)
+        location = pallet.attributes.get(ANYLOGIC_CONVEYOR_LOCATION_KEY)
+        if isinstance(location, ConveyorLocation):
+            location.conveyor.leave()
+            location.conveyor.remove_agent(pallet)
+        self._queue.append(pallet)
+        if self.on_add is not None:
+            self.on_add(pallet, None)
+        self._record_finish()
+        if len(self._queue) >= self.batch_size:
+            originals = [self._queue.pop(0) for _ in range(self.batch_size)]
+            batch = self.new_batch_factory(originals)
+            self.batches_created += 1
+            if self.on_exit is not None:
+                self.on_exit(batch)
+            yield from self._forward(batch)
+            self._record_complete()
+        else:
+            yield self.env.timeout(0)
+            self._record_complete()
 
 
 class ConveyorSpurBlock(PassThroughBlock):
@@ -959,6 +1173,11 @@ class Source:
         first_block,
         name: str = "source",
         interarrival_time_s: DurationValue | None = None,
+        entity_factory: Optional[Callable[[int, float], Pallet]] = None,
+        on_exit: Optional[Callable[[Pallet], None]] = None,
+        record_created: bool = True,
+        push_protocol: bool = False,
+        discard_hanging_entities: bool = False,
     ):
         self.env = env
         self.params = params
@@ -967,8 +1186,14 @@ class Source:
         self.first_block = first_block
         self.name = name
         self.interarrival_time_s = interarrival_time_s
+        self.entity_factory = entity_factory
+        self.on_exit = on_exit
+        self.record_created = record_created
+        self.push_protocol = push_protocol
+        self.discard_hanging_entities = discard_hanging_entities
         self._proc: Optional[simpy.Process] = None
         self._counter = 0
+        self.emitted_count = 0
 
     def start(self):
         if self._proc is None:
@@ -989,14 +1214,33 @@ class Source:
         """In this model, always return single pallet per arrival."""
         return 1
 
+    def _new_entity(self) -> Pallet:
+        self._counter += 1
+        if self.entity_factory is not None:
+            return self.entity_factory(self._counter, self.env.now)
+        return Pallet(id=self._counter, created_at=self.env.now)
+
+    def inject(self, n: int = 1) -> None:
+        """Generate agents immediately, matching AnyLogic Source.inject()."""
+        if n < 0:
+            raise ValueError("inject count must be >= 0")
+        self._emit(n)
+
+    def _emit(self, count: int) -> None:
+        if count <= 0:
+            return
+        if self.record_created:
+            self.stats.record_created(count)
+        for _ in range(count):
+            pallet = self._new_entity()
+            self.emitted_count += 1
+            if self.on_exit is not None:
+                self.on_exit(pallet)
+            self.env.process(self.first_block.handle(pallet))
+
     def _run(self):
         # First arrival at t=0 (matching AnyLogic firstArrivalMode behavior)
-        batch = self._batch_size()
-        self.stats.record_created(batch)
-        for _ in range(batch):
-            self._counter += 1
-            pallet = Pallet(id=self._counter, created_at=self.env.now)
-            self.env.process(self.first_block.handle(pallet))
+        self._emit(self._batch_size())
 
         # Subsequent arrivals with fixed interarrival time
         while True:
@@ -1004,9 +1248,4 @@ class Source:
             if ia == float("inf"):
                 break
             yield self.env.timeout(ia)
-            batch = self._batch_size()
-            self.stats.record_created(batch)
-            for _ in range(batch):
-                self._counter += 1
-                pallet = Pallet(id=self._counter, created_at=self.env.now)
-                self.env.process(self.first_block.handle(pallet))
+            self._emit(self._batch_size())

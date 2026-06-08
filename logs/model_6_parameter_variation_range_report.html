@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model 6 Parameter Variation Range Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --border: #d9dde5;
+      --text: #20242c;
+      --muted: #656d7a;
+      --match: #1d7f45;
+      --close: #9a6a00;
+      --diff: #b42318;
+      --header: #eef1f6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      padding: 24px 28px 16px;
+      background: #242a34;
+      color: white;
+    }
+    header h1 { margin: 0 0 8px; font-size: 24px; font-weight: 650; }
+    header p { margin: 0; color: #d8dde6; }
+    main { padding: 22px 28px 32px; max-width: 1280px; margin: 0 auto; }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      padding: 18px;
+    }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 18px 0 10px; font-size: 15px; }
+    .summary-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 14px;
+    }
+    .summary-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      background: #fbfcfe;
+    }
+    .summary-card .label { color: var(--muted); font-size: 12px; }
+    .summary-card .value { font-size: 22px; font-weight: 650; margin-top: 3px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid var(--border); padding: 8px 9px; text-align: left; vertical-align: top; }
+    th { background: var(--header); color: #343a46; font-weight: 650; position: sticky; top: 0; }
+    tbody tr:hover { background: #f9fafc; }
+    .numeric { text-align: right; font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
+    .badge { border-radius: 999px; color: white; display: inline-block; font-size: 12px; font-weight: 650; padding: 2px 8px; }
+    .MATCH { background: var(--match); }
+    .CLOSE { background: var(--close); }
+    .DIFF { background: var(--diff); }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: end; }
+    label { display: grid; gap: 4px; color: var(--muted); font-size: 12px; }
+    select, input {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      min-height: 34px;
+      padding: 6px 8px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+    #iteration-select { min-width: min(760px, 100%); }
+    details { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 650; }
+    .muted { color: var(--muted); }
+    .empty { color: var(--muted); text-align: center; }
+    .pass-text { color: var(--match); font-weight: 650; margin: 0; }
+    th.sortable { cursor: pointer; }
+    th.sortable::after { content: " sort"; color: var(--muted); font-size: 11px; font-weight: 400; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Model 6 Parameter Variation Range Report</h1>
+    <p>AnyLogic vs SimPy comparison report</p>
+  </header>
+  <main>
+    <section>
+      <h2>Run Summary</h2>
+      <div><p class="pass-text">PASS</p></div>
+      <div class="summary-grid">
+        <div class="summary-card"><div class="label">Matched combinations</div><div class="value">2</div></div>
+        <div class="summary-card"><div class="label">AnyLogic-only</div><div class="value">0</div></div>
+        <div class="summary-card"><div class="label">SimPy-only</div><div class="value">0</div></div>
+        <div class="summary-card"><div class="label">Top offender limit</div><div class="value">10</div></div>
+      </div>
+      <p class="muted">Model 6 uses AnyLogic manual Source.inject() flows for inbound pallets and loose items; arrival_rate_s is the cyclic inbound inject interval.</p>
+    </section>
+
+    <section>
+      <h2>Metrics Needing Attention</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th class="numeric">Match</th><th class="numeric">Close</th><th class="numeric">Diff</th><th class="numeric">Worst Diff</th><th class="numeric">Worst %</th><th>Worst Case</th></tr></thead>
+          <tbody><tr><td>Completed</td><td>0</td><td>0</td><td>2</td><td>+82</td><td>+136.67%</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td></tr><tr><td>Avg WIP</td><td>0</td><td>0</td><td>2</td><td>+41.2786</td><td>+132.12%</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td></tr><tr><td>Avg cycle (s)</td><td>0</td><td>0</td><td>2</td><td>-35.9955</td><td>-1.92%</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td></tr><tr><td>Throughput (/h)</td><td>0</td><td>0</td><td>2</td><td>+82</td><td>+136.67%</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td></tr></tbody>
+        </table>
+      </div>
+      <details>
+        <summary>Exact-match metrics</summary>
+        <ul><li>Created</li></ul>
+      </details>
+    </section>
+
+    <section>
+      <h2>Top Offenders</h2>
+      <div class="table-wrap">
+        <table id="offenders-table">
+          <thead><tr><th class="sortable" data-type="number">Rank</th><th class="sortable">Metric</th><th>Case</th><th class="sortable" data-type="number">AnyLogic it</th><th class="sortable" data-type="number">SimPy it</th><th class="sortable" data-type="number">Diff</th><th class="sortable" data-type="number">Diff %</th><th class="sortable">Status</th></tr></thead>
+          <tbody><tr><td class="numeric" data-sort="1">1</td><td>Completed</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="82">+82</td><td class="numeric" data-sort="136.666666667">+136.67%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="2">2</td><td>Throughput (/h)</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="82">+82</td><td class="numeric" data-sort="136.666666667">+136.67%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="3">3</td><td>Avg WIP</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="41.2785990622">+41.2786</td><td class="numeric" data-sort="132.122177123">+132.12%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="4">4</td><td>Completed</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=10</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="75">+75</td><td class="numeric" data-sort="125">+125%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="5">5</td><td>Throughput (/h)</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=10</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="75">+75</td><td class="numeric" data-sort="125">+125%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="6">6</td><td>Avg WIP</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=10</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="37.6668845488">+37.6669</td><td class="numeric" data-sort="121.137845513">+121.14%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="7">7</td><td>Avg cycle (s)</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="-35.9955234047">-35.9955</td><td class="numeric" data-sort="-1.9202068493">-1.92%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="8">8</td><td>Avg cycle (s)</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=10</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="-32.0241955919">-32.0242</td><td class="numeric" data-sort="-1.7165131055">-1.72%</td><td><span class="badge DIFF">DIFF</span></td></tr><tr><td class="numeric" data-sort="9">9</td><td>Created</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=20</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="2">2</td><td class="numeric" data-sort="0">+0</td><td class="numeric" data-sort="0">+0%</td><td><span class="badge MATCH">MATCH</span></td></tr><tr><td class="numeric" data-sort="10">10</td><td>Created</td><td>a=10 v=0.8 gap=0.3 min_items=5 max_items=10</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="1">1</td><td class="numeric" data-sort="0">+0</td><td class="numeric" data-sort="0">+0%</td><td><span class="badge MATCH">MATCH</span></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    
+
+    <section>
+      <h2>Iteration Details</h2>
+      <div class="controls">
+        <label>Iteration
+          <select id="iteration-select"><option value="0">AnyLogic 1 / SimPy 1 - a=10 v=0.8 gap=0.3 min_items=5 max_items=10</option><option value="1">AnyLogic 2 / SimPy 2 - a=10 v=0.8 gap=0.3 min_items=5 max_items=20</option></select>
+        </label>
+        <label>Metric filter
+          <input id="metric-filter" type="search" placeholder="Filter metric labels">
+        </label>
+        <label>Status
+          <select id="status-filter">
+            <option value="all">All statuses</option>
+            <option value="MATCH">MATCH</option>
+            <option value="CLOSE">CLOSE</option>
+            <option value="DIFF">DIFF</option>
+          </select>
+        </label>
+      </div>
+      <p id="iteration-case" class="muted"></p>
+      <h3>Benchmark metrics</h3>
+      <div class="table-wrap"><table><thead><tr><th>Metric</th><th class="numeric">AnyLogic</th><th class="numeric">SimPy</th><th class="numeric">Diff</th><th class="numeric">Diff %</th><th>Status</th></tr></thead><tbody id="benchmark-body"></tbody></table></div>
+      <h3>Summary metrics</h3>
+      <div class="table-wrap"><table><thead><tr><th>Metric</th><th class="numeric">AnyLogic</th><th class="numeric">SimPy</th><th class="numeric">Diff</th><th class="numeric">Diff %</th><th>Status</th></tr></thead><tbody id="summary-body"></tbody></table></div>
+    </section>
+  </main>
+  <script>
+    const iterationData = [{"label": "AnyLogic 1 / SimPy 1 - a=10 v=0.8 gap=0.3 min_items=5 max_items=10", "anylogicIteration": 1, "simpyIteration": 1, "caseLabel": "a=10 v=0.8 gap=0.3 min_items=5 max_items=10", "benchmarkRows": [], "summaryRows": [{"label": "Created", "anylogic": "361", "simpy": "361", "diff": "+0", "diffPct": "+0%", "status": "MATCH"}, {"label": "Completed", "anylogic": "60", "simpy": "135", "diff": "+75", "diffPct": "+125%", "status": "DIFF"}, {"label": "Avg WIP", "anylogic": "31.094234", "simpy": "68.761118", "diff": "+37.6669", "diffPct": "+121.14%", "status": "DIFF"}, {"label": "Avg cycle (s)", "anylogic": "1865.65401", "simpy": "1833.629815", "diff": "-32.0242", "diffPct": "-1.72%", "status": "DIFF"}, {"label": "Throughput (/h)", "anylogic": "60", "simpy": "135", "diff": "+75", "diffPct": "+125%", "status": "DIFF"}]}, {"label": "AnyLogic 2 / SimPy 2 - a=10 v=0.8 gap=0.3 min_items=5 max_items=20", "anylogicIteration": 2, "simpyIteration": 2, "caseLabel": "a=10 v=0.8 gap=0.3 min_items=5 max_items=20", "benchmarkRows": [], "summaryRows": [{"label": "Created", "anylogic": "361", "simpy": "361", "diff": "+0", "diffPct": "+0%", "status": "MATCH"}, {"label": "Completed", "anylogic": "60", "simpy": "142", "diff": "+82", "diffPct": "+136.67%", "status": "DIFF"}, {"label": "Avg WIP", "anylogic": "31.242748", "simpy": "72.521347", "diff": "+41.2786", "diffPct": "+132.12%", "status": "DIFF"}, {"label": "Avg cycle (s)", "anylogic": "1874.56489", "simpy": "1838.569366", "diff": "-35.9955", "diffPct": "-1.92%", "status": "DIFF"}, {"label": "Throughput (/h)", "anylogic": "60", "simpy": "142", "diff": "+82", "diffPct": "+136.67%", "status": "DIFF"}]}];
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function renderRows(rows, target) {
+      const metricFilter = document.getElementById('metric-filter').value.toLowerCase();
+      const statusFilter = document.getElementById('status-filter').value;
+      const visibleRows = rows.filter(row => {
+        const matchesMetric = row.label.toLowerCase().includes(metricFilter);
+        const matchesStatus = statusFilter === 'all' || row.status === statusFilter;
+        return matchesMetric && matchesStatus;
+      });
+      if (!visibleRows.length) {
+        target.innerHTML = '<tr><td colspan="6" class="empty">No matching rows.</td></tr>';
+        return;
+      }
+      target.innerHTML = visibleRows.map(row => `
+        <tr>
+          <td>${escapeHtml(row.label)}</td>
+          <td class="numeric">${escapeHtml(row.anylogic)}</td>
+          <td class="numeric">${escapeHtml(row.simpy)}</td>
+          <td class="numeric">${escapeHtml(row.diff)}</td>
+          <td class="numeric">${escapeHtml(row.diffPct)}</td>
+          <td><span class="badge ${row.status}">${escapeHtml(row.status)}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderIteration() {
+      const index = Number(document.getElementById('iteration-select').value || 0);
+      const row = iterationData[index];
+      if (!row) return;
+      document.getElementById('iteration-case').textContent =
+        `AnyLogic iteration ${row.anylogicIteration} / SimPy iteration ${row.simpyIteration} - ${row.caseLabel}`;
+      renderRows(row.benchmarkRows, document.getElementById('benchmark-body'));
+      renderRows(row.summaryRows, document.getElementById('summary-body'));
+    }
+
+    function makeSortable(table) {
+      table.querySelectorAll('th.sortable').forEach((header, columnIndex) => {
+        let ascending = true;
+        header.addEventListener('click', () => {
+          const type = header.dataset.type || 'text';
+          const rows = Array.from(table.tBodies[0].rows);
+          rows.sort((left, right) => {
+            const leftCell = left.cells[columnIndex];
+            const rightCell = right.cells[columnIndex];
+            const leftValue = leftCell.dataset.sort || leftCell.textContent.trim();
+            const rightValue = rightCell.dataset.sort || rightCell.textContent.trim();
+            if (type === 'number') {
+              return (Number(leftValue) || 0) - (Number(rightValue) || 0);
+            }
+            return leftValue.localeCompare(rightValue);
+          });
+          if (!ascending) rows.reverse();
+          ascending = !ascending;
+          rows.forEach(row => table.tBodies[0].appendChild(row));
+        });
+      });
+    }
+
+    document.getElementById('iteration-select').addEventListener('change', renderIteration);
+    document.getElementById('metric-filter').addEventListener('input', renderIteration);
+    document.getElementById('status-filter').addEventListener('change', renderIteration);
+    makeSortable(document.getElementById('offenders-table'));
+    renderIteration();
+  </script>
+</body>
+</html>

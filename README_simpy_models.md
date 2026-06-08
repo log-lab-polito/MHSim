@@ -7,6 +7,7 @@ This guide lists runnable commands for the active SimPy packages:
 - `case_studies/model_3_simpy`
 - `case_studies/model_4_simpy`
 - `case_studies/model_5_simpy`
+- `case_studies/model_6_simpy`
 - shared support under `mhsim`
 
 Run commands from the repository root. Activate `.venv` first, or replace `python` with `.venv/bin/python`. Do not use system Python for project commands.
@@ -19,6 +20,7 @@ Run commands from the repository root. Activate `.venv` first, or replace `pytho
 - `case_studies/model_3_simpy`: conveyor reference model.
 - `case_studies/model_4_simpy`: conveyor spur/merge reference model.
 - `case_studies/model_5_simpy`: parameterized warehouse model with `Store` and `Retrieve`; canonical warehouse topology.
+- `case_studies/model_6_simpy`: AnyLogic-mirrored conveyor batching model with pallet unbatching, loose item batching, and explicit conveyor markup.
 
 ## AnyLogic Mapping
 
@@ -27,8 +29,7 @@ Run commands from the repository root. Activate `.venv` first, or replace `pytho
 - SimPy Model 3 validates against `anylogic/Model 3`.
 - SimPy Model 4 validates against `anylogic/Model 4`.
 - SimPy Model 5 validates against `anylogic/Model 5`.
-
-`anylogic/Model 6` is not part of this active run guide.
+- SimPy Model 6 validates against `anylogic/Model 6`.
 
 ## Prerequisites
 
@@ -595,6 +596,49 @@ logs/model_5_compare_blocks_cases.csv
 logs/model_5_stochastic_replications_runs.csv
 logs/model_5_stochastic_replications_summary.csv
 logs/model_5_stochastic_comparison.csv
+```
+
+## Model 6
+
+Purpose: AnyLogic-mirrored conveyor batching flow with explicit conveyor network, positions, stations, spur, manual sources, and permanent batching.
+
+Range workflows keep arrival interval, conveyor speed, and conveyor gap fixed at the current AnyLogic Model 6 parity values, and vary `max_items_per_pallet` over `10, 20`; `min_items_per_pallet` defaults to `5`.
+
+Run model:
+
+```bash
+python -m case_studies.model_6_simpy.run_model
+```
+
+Run deterministic parameter variation:
+
+```bash
+python -m case_studies.model_6_simpy.run_parameter_variation
+```
+
+Compare parameter variation:
+
+```bash
+python -m case_studies.model_6_simpy.analysis.compare_parameter_variation_range --view overview
+```
+
+Run stochastic replications:
+
+```bash
+python -m case_studies.model_6_simpy.run_stochastic_replications --workers auto
+```
+
+Expected runtime: this is a full stochastic parity run across the Model 6 range grid. Use `--replications` and `--run-until` for short smoke checks.
+
+Common outputs:
+
+```text
+logs/model_6_parameter_variation_range_runs.csv
+logs/model_6_parameter_variation_range_summary.csv
+logs/model_6_parameter_variation_range_report.html
+logs/model_6_stochastic_replications_runs.csv
+logs/model_6_stochastic_replications_summary.csv
+logs/model_6_stochastic_comparison.csv
 ```
 
 ## Shared CLI Notes
