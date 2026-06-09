@@ -37,6 +37,9 @@ class Model6SimModel:
         self.timing_rng = JavaRandom(self.params.timing_random_seed)
         self.item_count_rng = JavaRandom(self.params.item_count_random_seed)
         self.unbatch_rng = JavaRandom(self.params.unbatch_random_seed)
+        self.station_process_time_rng = JavaRandom(
+            self.params.station_process_time_random_seed
+        )
         self.stats = SimulationStats()
         self.main_conveyor_occupancy_end = 0
         self.storage_conveyor_occupancy_end = 0
@@ -53,8 +56,12 @@ class Model6SimModel:
             self.env,
             self.params,
             on_unbatch_started=self._on_unbatch_station_started,
+            on_unbatch_process_finished=self._on_unbatch_station_process_finished,
+            on_batch_started=self._on_batch_station_started,
+            on_batch_process_finished=self._on_batch_station_process_finished,
             on_unbatch_released=self._on_unbatch_station_released,
             on_batch_released=self._on_batch_station_released,
+            station_process_time_s=self._station_process_time,
         )
         self.conveyor = self.markup.conveyor
         self.storage_conveyor = self.markup.storage_conveyor
@@ -107,6 +114,9 @@ class Model6SimModel:
             source_position=self.markup.unbatch_transfer_point,
             target_station=self.markup.batch_station,
             enforce_source_position_headway=True,
+            on_enter=self._on_item_convey_to_batch_enter,
+            on_at_exit=self._on_item_convey_to_batch_at_exit,
+            on_exit=self._on_item_convey_to_batch_exit,
         )
         self.item_conveyor_enter = ConveyorEnterBlock(
             self.env,
@@ -115,6 +125,7 @@ class Model6SimModel:
             name="itemConveyorEnter",
             position=self.markup.unbatch_transfer_point,
             enforce_position_headway=True,
+            on_at_enter_before_physical_entry=True,
             on_at_enter=self._on_item_conveyor_enter,
         )
         self.loose_item_source = Source(
@@ -146,6 +157,10 @@ class Model6SimModel:
                 self.params.empty_pallet_remove_from_storage_conveyor
             ),
             enforce_source_position_headway=True,
+            on_enter=self._on_empty_pallet_transfer_enter,
+            on_at_exit=self._on_empty_pallet_transfer_at_exit,
+            on_target_conveyor_enter=self._on_empty_pallet_storage_conveyor_enter,
+            on_target_conveyor_exit=self._on_empty_pallet_storage_conveyor_exit,
             on_exit=self._on_empty_pallet_transfer_exit,
         )
         self.convey_pallet_to_unbatch_station = ConveyBlock(
@@ -194,6 +209,13 @@ class Model6SimModel:
             name="inboundPalletSource.interarrival_time_s",
         )
 
+    def _station_process_time(self, _pallet: Pallet) -> float:
+        return self.station_process_time_rng.triangular(
+            self.params.station_process_time_min_s,
+            self.params.station_process_time_max_s,
+            self.params.station_process_time_mode_s,
+        )
+
     def _new_inbound_pallet(self, entity_id: int, now_s: float) -> Pallet:
         return Pallet(
             id=entity_id,
@@ -231,6 +253,12 @@ class Model6SimModel:
 
     def _on_unbatch_station_started(self, pallet: Pallet) -> None:
         current_nof_items = int(pallet.attributes.get("current_nof_items", 1))
+        self._record_debug_event(
+            "unbatch_station_process_started",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
         self._record_diagnostic_event(
             "unbatch_started",
             pallet,
@@ -268,6 +296,30 @@ class Model6SimModel:
             storage_occ=self.storage_conveyor_occupancy_end,
         )
 
+    def _on_unbatch_station_process_finished(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "unbatch_station_process_finished",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
+    def _on_batch_station_started(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "batch_station_process_started",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
+    def _on_batch_station_process_finished(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "batch_station_process_finished",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
     def _on_batch_station_released(self, pallet: Pallet) -> None:
         self._record_debug_event(
             "batch_station_released",
@@ -290,6 +342,32 @@ class Model6SimModel:
             "item_conveyor_enter",
             pallet,
             main_occ=self.main_conveyor_occupancy_end,
+        )
+
+    def _on_item_convey_to_batch_enter(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "item_convey_to_batch_enter",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            physical_main_occ=self.conveyor.occupancy,
+        )
+
+    def _on_item_convey_to_batch_at_exit(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "item_convey_to_batch_at_exit",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            physical_main_occ=self.conveyor.occupancy,
+            batch_station_size=self.markup.batch_station.size(),
+        )
+
+    def _on_item_convey_to_batch_exit(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "item_convey_to_batch_exit",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            physical_main_occ=self.conveyor.occupancy,
+            batch_station_size=self.markup.batch_station.size(),
         )
 
     def _on_loaded_pallet_convey_enter(self, pallet: Pallet) -> None:
@@ -333,6 +411,49 @@ class Model6SimModel:
             pallet,
             main_occ=self.main_conveyor_occupancy_end,
             storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
+    def _on_empty_pallet_transfer_enter(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "empty_pallet_transfer_enter",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
+    def _on_empty_pallet_transfer_at_exit(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "empty_pallet_transfer_at_exit",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+            storage_physical_occ=self.storage_conveyor.occupancy,
+        )
+
+    def _on_empty_pallet_storage_conveyor_enter(
+        self,
+        pallet: Pallet,
+        _conveyor,
+    ) -> None:
+        self._record_debug_event(
+            "empty_pallet_storage_conveyor_enter",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+            storage_physical_occ=self.storage_conveyor.occupancy,
+        )
+
+    def _on_empty_pallet_storage_conveyor_exit(
+        self,
+        pallet: Pallet,
+        _conveyor,
+    ) -> None:
+        self._record_debug_event(
+            "empty_pallet_storage_conveyor_exit",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+            storage_physical_occ=self.storage_conveyor.occupancy,
         )
 
     def _on_empty_pallet_enter(self, pallet: Pallet) -> None:
@@ -433,6 +554,14 @@ class Model6SimModel:
                 raise RuntimeError(f"Replay values exhausted for {event}")
             return None
         if not low <= value <= high:
+            if not self.params.random_replay_strict:
+                self._record_rng_event(
+                    f"invalid_replay_{event}",
+                    low=low,
+                    high=high,
+                    value=value,
+                )
+                return None
             raise ValueError(
                 f"Replay value for {event} must be in {low}..{high}, got {value}"
             )

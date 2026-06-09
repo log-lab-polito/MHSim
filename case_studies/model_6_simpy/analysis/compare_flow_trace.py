@@ -27,10 +27,23 @@ TRACE_EVENTS = (
 DEBUG_EVENTS = (
     "pallet_conveyor_enter",
     "item_conveyor_enter",
+    "item_convey_to_batch_enter",
+    "item_convey_to_batch_at_exit",
+    "item_convey_to_batch_exit",
     "loaded_pallet_convey_enter",
     "loaded_pallet_conveyor_exit",
+    "unbatch_station_process_started",
+    "unbatch_station_process_finished",
+    "batch_station_process_started",
+    "batch_station_process_finished",
     "batch_add",
+    "batch_released",
+    "empty_pallet_transfer_enter",
+    "empty_pallet_transfer_at_exit",
+    "empty_pallet_storage_conveyor_enter",
+    "empty_pallet_storage_conveyor_exit",
     "empty_pallet_transfer_exit",
+    "empty_pallet_sink_enter",
     "unbatch_station_released",
     "batch_station_released",
 )
@@ -258,6 +271,15 @@ def main() -> None:
         "--anylogic",
         default="anylogic/Model 6/model_6_diagnostic_trace.txt",
     )
+    parser.add_argument(
+        "--rng-anylogic",
+        default=None,
+        help=(
+            "AnyLogic trace used for replay RNG values. Defaults to --anylogic; "
+            "use the primary diagnostic trace when --anylogic points at a "
+            "debug-only trace."
+        ),
+    )
     parser.add_argument("--run-until", type=float, default=300.0)
     parser.add_argument("--trace-limit", type=int, default=200)
     parser.add_argument("--compare-limit", type=int, default=50)
@@ -304,8 +326,9 @@ def main() -> None:
         )
     )
 
+    rng_trace_path = args.rng_anylogic or args.anylogic
     anylogic_flow_sections = parse_anylogic_flow_trace(args.anylogic, events=events)
-    anylogic_rng_sections = parse_anylogic_rng_trace(args.anylogic)
+    anylogic_rng_sections = parse_anylogic_rng_trace(rng_trace_path)
     max_items_by_iteration = {
         index + 1: int(value)
         for index, value in enumerate(args.max_items.split(","))
@@ -314,6 +337,8 @@ def main() -> None:
 
     print("\n--- Model 6 Flow Trace Comparison ---")
     print(f"AnyLogic trace: {args.anylogic}")
+    if rng_trace_path != args.anylogic:
+        print(f"AnyLogic RNG trace: {rng_trace_path}")
     print(f"Replay mode: {args.replay}")
     print(f"Events: {', '.join(events)}")
 

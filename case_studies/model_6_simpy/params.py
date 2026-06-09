@@ -44,6 +44,14 @@ class Model6Params(SimulationParams):
     station_physical_occupancy: bool = True
     empty_pallet_remove_from_storage_conveyor: bool = True
 
+    # Both Model 6 station processTime fields are omitted in the AnyLogic
+    # export. AnyLogic's fixed-seed SensitivityAnalysis experiment uses seed
+    # 1, and the omitted Station delay trace matches triangular(5, 10, 15).
+    station_process_time_random_seed: int = 1
+    station_process_time_min_s: float = 5.0
+    station_process_time_mode_s: float = 10.0
+    station_process_time_max_s: float = 15.0
+
     # AnyLogic Batch default is 10 when the block field is omitted.
     batch_size: int = 10
 
@@ -76,6 +84,20 @@ class Model6Params(SimulationParams):
             raise ValueError("unbatch_station_capacity must be >= 0")
         if self.batch_station_capacity < 0:
             raise ValueError("batch_station_capacity must be >= 0")
+        if self.station_process_time_min_s < 0:
+            raise ValueError("station_process_time_min_s must be >= 0")
+        if self.station_process_time_max_s < self.station_process_time_min_s:
+            raise ValueError(
+                "station_process_time_max_s must be >= station_process_time_min_s"
+            )
+        if not (
+            self.station_process_time_min_s
+            <= self.station_process_time_mode_s
+            <= self.station_process_time_max_s
+        ):
+            raise ValueError(
+                "station_process_time_mode_s must be between min and max"
+            )
 
     def arrival_rate_per_second(self) -> float:
         return (1.0 / self.arrival_rate_s) if self.arrival_rate_s > 0 else 0.0

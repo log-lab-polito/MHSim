@@ -321,6 +321,7 @@ class ConveyorEnterBlock(PassThroughBlock):
         position: PositionOnConveyor | None = None,
         offset_m: float = 0.0,
         enforce_position_headway: bool = False,
+        on_at_enter_before_physical_entry: bool = False,
         on_at_enter: Optional[Callable[[Pallet], None]] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
@@ -329,20 +330,31 @@ class ConveyorEnterBlock(PassThroughBlock):
         self.position = position
         self.offset_m = offset_m
         self.enforce_position_headway = enforce_position_headway
+        self.on_at_enter_before_physical_entry = on_at_enter_before_physical_entry
         self.on_at_enter = on_at_enter
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
+        if self.on_at_enter is not None and self.on_at_enter_before_physical_entry:
+            self.on_at_enter(pallet)
         if self.position is not None:
-            yield from self.position.wait_until_unblocked(self.env)
-            if self.enforce_position_headway:
+            if self.on_at_enter_before_physical_entry and self.enforce_position_headway:
+                yield from self._complete_hanging_position_entry(pallet)
+            elif self.enforce_position_headway:
                 yield from self.conveyor.occupy_at_offset_with_headway(
                     self.position.offset_m,
+                    is_available=lambda: not self.position.is_blocked(),
+                    wait_until_available=lambda: self.position.wait_until_unblocked(
+                        self.env,
+                    ),
                 )
+                self.conveyor.place_agent(pallet, self.position.offset_m)
+                self.position.leading_edge_enter(pallet)
             else:
+                yield from self.position.wait_until_unblocked(self.env)
                 yield from self.conveyor.occupy_without_entry_headway()
-            self.conveyor.place_agent(pallet, self.position.offset_m)
-            self.position.leading_edge_enter(pallet)
+                self.conveyor.place_agent(pallet, self.position.offset_m)
+                self.position.leading_edge_enter(pallet)
         elif self.offset_m > 0:
             if self.enforce_position_headway:
                 yield from self.conveyor.occupy_at_offset_with_headway(self.offset_m)
@@ -352,11 +364,34 @@ class ConveyorEnterBlock(PassThroughBlock):
         else:
             yield from self.conveyor.enter()
             self.conveyor.place_agent(pallet, 0.0)
-        if self.on_at_enter is not None:
+        if self.on_at_enter is not None and not self.on_at_enter_before_physical_entry:
             self.on_at_enter(pallet)
         self._record_finish()
         yield from self._forward(pallet)
         self._record_complete()
+
+    def _complete_hanging_position_entry(self, pallet: Pallet) -> Generator:
+        if self.position is None:
+            return
+        entry_time_s = self.conveyor.entry_headway_time_s()
+        while True:
+            yield from self.conveyor.reserve_offset_headway(
+                self.position.offset_m,
+                is_available=lambda: not self.position.is_blocked(),
+                wait_until_available=lambda: self.position.wait_until_unblocked(
+                    self.env,
+                ),
+            )
+            if self.position.is_blocked():
+                continue
+            if entry_time_s > 0:
+                yield self.env.timeout(entry_time_s)
+            if self.position.is_blocked():
+                continue
+            yield from self.conveyor.occupy_without_entry_headway()
+            self.conveyor.place_agent(pallet, self.position.offset_m)
+            self.position.leading_edge_enter(pallet)
+            return
 
 
 class ConveyBlock(PassThroughBlock):
@@ -377,7 +412,10 @@ class ConveyBlock(PassThroughBlock):
         remove_from_conveyor_on_exit: bool = False,
         enforce_source_position_headway: bool = False,
         on_enter: Optional[Callable[[Pallet], None]] = None,
+        on_at_exit: Optional[Callable[[Pallet], None]] = None,
         on_exit: Optional[Callable[[Pallet], None]] = None,
+        on_target_conveyor_enter: Optional[Callable[[Pallet, Conveyor], None]] = None,
+        on_target_conveyor_exit: Optional[Callable[[Pallet, Conveyor], None]] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
@@ -392,13 +430,18 @@ class ConveyBlock(PassThroughBlock):
         self.remove_from_conveyor_on_exit = remove_from_conveyor_on_exit
         self.enforce_source_position_headway = enforce_source_position_headway
         self.on_enter = on_enter
+        self.on_at_exit = on_at_exit
         self.on_exit = on_exit
+        self.on_target_conveyor_enter = on_target_conveyor_enter
+        self.on_target_conveyor_exit = on_target_conveyor_exit
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
         if self.on_enter is not None:
             self.on_enter(pallet)
         yield from self._convey(pallet)
+        if self.on_at_exit is not None:
+            self.on_at_exit(pallet)
         if self.target_station is None:
             yield from _release_pending_station_releases(pallet)
         if self.on_exit is not None:
@@ -517,12 +560,16 @@ class ConveyBlock(PassThroughBlock):
             current.conveyor.remove_agent(pallet)
             yield from spur.transfer()
             self.target_conveyor.place_agent(pallet, 0.0)
+            if self.on_target_conveyor_enter is not None:
+                self.on_target_conveyor_enter(pallet, self.target_conveyor)
             yield from self._move_on_conveyor(
                 pallet,
                 self.target_conveyor,
                 0.0,
                 self.target_conveyor.length_m,
             )
+            if self.on_target_conveyor_exit is not None:
+                self.on_target_conveyor_exit(pallet, self.target_conveyor)
             if self.remove_from_conveyor_on_exit:
                 self.target_conveyor.leave()
                 self.target_conveyor.remove_agent(pallet)
