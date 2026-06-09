@@ -60,6 +60,7 @@ class StochasticComparisonSpec:
     anylogic_key_map: Mapping[str, str]
     default_anylogic_path: str
     default_simpy_runs_path: str
+    optional_metrics: Sequence[MetricSpec] = ()
     anylogic_parameter_key_map: Mapping[str, str] = field(default_factory=dict)
     default_replications_per_iteration: int | None = None
     default_expected_iterations: int | None = None
@@ -71,12 +72,14 @@ def parse_anylogic_replication_log(
     metrics: Sequence[MetricSpec],
     anylogic_key_map: Mapping[str, str],
     anylogic_parameter_key_map: Mapping[str, str] | None = None,
+    optional_metrics: Sequence[MetricSpec] = (),
 ) -> list[ReplicationRow]:
     iteration_re = re.compile(
         r"^ITERATION #(?P<iteration>\d+)(?:,\s*REPLICATION #(?P<replication>\d+))?\s*$"
     )
     key_value_re = re.compile(r"^\s*([^:]+):\s*(.+?)\s*$")
     metric_names = [metric.name for metric in metrics]
+    optional_metric_names = [metric.name for metric in optional_metrics]
     rows: list[ReplicationRow] = []
     current_iteration: int | None = None
     current_replication: int | None = None
@@ -106,7 +109,14 @@ def parse_anylogic_replication_log(
             ReplicationRow(
                 iteration=current_iteration,
                 replication=current_replication,
-                metrics={metric: current_values[metric] for metric in metric_names},
+                metrics={
+                    **{metric: current_values[metric] for metric in metric_names},
+                    **{
+                        metric: current_values[metric]
+                        for metric in optional_metric_names
+                        if metric in current_values
+                    },
+                },
                 parameters=dict(current_parameters),
             )
         )
@@ -356,6 +366,17 @@ def select_metric_specs(
 
 def values_for(rows: Iterable[ReplicationRow], metric_name: str) -> list[float]:
     return [row.metrics[metric_name] for row in rows]
+
+
+def _available_metric_specs(
+    metrics: Sequence[MetricSpec],
+    *row_groups: Sequence[ReplicationRow],
+) -> list[MetricSpec]:
+    return [
+        metric
+        for metric in metrics
+        if all(metric.name in row.metrics for rows in row_groups for row in rows)
+    ]
 
 
 def _build_comparison_group(
@@ -679,13 +700,15 @@ def run_stochastic_comparison_cli(spec: StochasticComparisonSpec) -> None:
     parser.add_argument("--output-csv", help="Optional CSV output path.")
     args = parser.parse_args()
 
+    all_metrics = tuple(spec.metrics) + tuple(spec.optional_metrics)
     anylogic_rows = parse_anylogic_replication_log(
         args.anylogic,
         metrics=spec.metrics,
         anylogic_key_map=spec.anylogic_key_map,
         anylogic_parameter_key_map=spec.anylogic_parameter_key_map,
+        optional_metrics=spec.optional_metrics,
     )
-    simpy_rows = load_simpy_replication_csv(args.simpy_runs, metrics=spec.metrics)
+    simpy_rows = load_simpy_replication_csv(args.simpy_runs, metrics=all_metrics)
     if not anylogic_rows:
         raise SystemExit(f"No AnyLogic replication rows found: {args.anylogic}")
     if not simpy_rows:
@@ -720,10 +743,18 @@ def run_stochastic_comparison_cli(spec: StochasticComparisonSpec) -> None:
                 label="SimPy",
             )
 
+        comparable_metrics = _available_metric_specs(
+            all_metrics,
+            anylogic_rows,
+            simpy_rows,
+        )
+        if not comparable_metrics:
+            raise ValueError("No comparable stochastic metrics were found")
+
         groups = compare_replication_sample_groups(
             anylogic_rows,
             simpy_rows,
-            metrics=spec.metrics,
+            metrics=comparable_metrics,
             metric_filter=args.metric,
             alpha=args.alpha,
             include_overall=args.comparison_scope in {"all", "overall"},

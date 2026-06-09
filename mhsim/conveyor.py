@@ -52,6 +52,8 @@ class Conveyor:
             raise ValueError("max_items must be > 0 when specified")
         self._entry_mutex = simpy.Resource(self.env, capacity=1)
         self._next_entry_time = 0.0
+        self._interior_entry_mutexes: dict[float, simpy.Resource] = {}
+        self._next_interior_entry_time: dict[float, float] = {}
         self._occupancy = 0
         self.total_entered = 0
         self.total_exited = 0
@@ -103,6 +105,42 @@ class Conveyor:
             yield self.env.timeout(self.entry_poll_interval_s)
         self._occupancy += 1
         self.total_entered += 1
+
+    def occupy_at_offset_with_headway(self, offset_m: float) -> Generator:
+        """Occupy this conveyor from an interior point with local spacing.
+
+        AnyLogic position-based conveyor entries still need local cell/gap
+        clearance. The clearance is keyed by offset so separate transfer
+        points do not serialize each other.
+        """
+        if offset_m < 0 or offset_m > self.length_m:
+            raise ValueError("offset_m must be within the conveyor length")
+
+        offset_key = round(float(offset_m), 9)
+        mutex = self._interior_entry_mutexes.get(offset_key)
+        if mutex is None:
+            mutex = simpy.Resource(self.env, capacity=1)
+            self._interior_entry_mutexes[offset_key] = mutex
+
+        with mutex.request() as req:
+            yield req
+            while not self._has_capacity():
+                yield self.env.timeout(self.entry_poll_interval_s)
+
+            next_entry_time = self._next_interior_entry_time.get(offset_key, 0.0)
+            wait_time = max(0.0, next_entry_time - self.env.now)
+            if wait_time > 0:
+                yield self.env.timeout(wait_time)
+
+            while not self._has_capacity():
+                yield self.env.timeout(self.entry_poll_interval_s)
+
+            self._occupancy += 1
+            self.total_entered += 1
+            self._next_interior_entry_time[offset_key] = (
+                max(next_entry_time, self.env.now)
+                + self.entry_headway_time_s()
+            )
 
     def place_agent(self, agent: Any, offset_m: float) -> ConveyorLocation:
         """Record the logical conveyor location of an agent."""
@@ -375,6 +413,8 @@ class ConveyorSimpleStation:
     process_time_s: float | Callable[[Any], float] = 0.0
     processing_mode: str = "agent_enters"
     poll_interval_s: float = 0.05
+    enforce_physical_occupancy: bool = False
+    physical_release_delay_s: float | Callable[[Any], float] | None = None
     on_process_started: Optional[Callable[[Any], None]] = None
     on_process_finished: Optional[Callable[[Any], None]] = None
 
@@ -409,23 +449,48 @@ class ConveyorSimpleStation:
     def process(self, agent: Any) -> Generator:
         while self.capacity == 0:
             yield self.env.timeout(self.poll_interval_s)
-        with self._resource.request() as req:
-            yield req
-            self._agents[id(agent)] = agent
-            if self.on_process_started is not None:
-                self.on_process_started(agent)
-            duration_s = (
-                self.process_time_s(agent)
-                if callable(self.process_time_s)
-                else self.process_time_s
-            )
-            if duration_s < 0:
-                raise ValueError("station process_time_s must be >= 0")
-            if duration_s > 0:
-                yield self.env.timeout(duration_s)
-            if self.on_process_finished is not None:
-                self.on_process_finished(agent)
-            self._agents.pop(id(agent), None)
+        req = self._resource.request()
+        yield req
+        self._agents[id(agent)] = agent
+        if self.on_process_started is not None:
+            self.on_process_started(agent)
+        duration_s = (
+            self.process_time_s(agent)
+            if callable(self.process_time_s)
+            else self.process_time_s
+        )
+        if duration_s < 0:
+            raise ValueError("station process_time_s must be >= 0")
+        if duration_s > 0:
+            yield self.env.timeout(duration_s)
+        if self.on_process_finished is not None:
+            self.on_process_finished(agent)
+
+        if self.enforce_physical_occupancy:
+            release_delay_s = self._physical_release_delay_s(agent)
+            self.env.process(self._release_after(agent, req, release_delay_s))
+        else:
+            self._release(agent, req)
+
+    def _physical_release_delay_s(self, agent: Any) -> float:
+        if self.physical_release_delay_s is None:
+            delay_s = self.conveyor.travel_time_s(self.length_m)
+        elif callable(self.physical_release_delay_s):
+            delay_s = self.physical_release_delay_s(agent)
+        else:
+            delay_s = self.physical_release_delay_s
+        if delay_s < 0:
+            raise ValueError("physical_release_delay_s must be >= 0")
+        return delay_s
+
+    def _release_after(self, agent: Any, req: simpy.events.Event, delay_s: float):
+        if delay_s > 0:
+            yield self.env.timeout(delay_s)
+        self._release(agent, req)
+
+    def _release(self, agent: Any, req: simpy.events.Event) -> None:
+        self._agents.pop(id(agent), None)
+        self._resource.release(req)
 
     def location(self) -> ConveyorLocation:
         return ConveyorLocation(self.conveyor, self.offset_m)

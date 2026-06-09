@@ -84,6 +84,8 @@ def create_model6_markup(
             offset_m=params.batch_transfer_offset_m,
             length_m=params.batch_station_length_m,
             capacity=params.station_capacity,
+            enforce_physical_occupancy=params.station_physical_occupancy,
+            physical_release_delay_s=params.station_physical_release_delay_s,
         )
     )
     unbatch_station = network.add_station(
@@ -94,6 +96,8 @@ def create_model6_markup(
             offset_m=params.unbatch_transfer_offset_m,
             length_m=params.unbatch_station_length_m,
             capacity=params.station_capacity,
+            enforce_physical_occupancy=params.station_physical_occupancy,
+            physical_release_delay_s=params.station_physical_release_delay_s,
             on_process_started=on_unbatch_started,
         )
     )
@@ -120,4 +124,3 @@ def create_model6_markup(
         batch_station=batch_station,
         storage_spur=storage_spur,
     )
-

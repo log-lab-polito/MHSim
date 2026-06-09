@@ -76,6 +76,11 @@ ANYLOGIC_KEY_MAP = {
     "Avg WIP": "avg_wip",
     "Avg cycle (s)": "avg_time_in_system_s",
     "Throughput (/h)": "throughput_per_hour",
+    "Main conveyor occupancy end": "main_conveyor_occupancy_end",
+    "Storage conveyor occupancy end": "storage_conveyor_occupancy_end",
+    "Empty pallets completed": "empty_pallets_completed",
+    "Loose items created": "loose_items_created",
+    "Batches created": "batches_created",
 }
 
 
@@ -86,6 +91,7 @@ def parse_anylogic_range_output(path: str | Path):
             key_map=ANYLOGIC_KEY_MAP,
             parameter_fields=MODEL6_RANGE_SPEC.parameter_fields,
             metric_fields=[name for name, _label in METRICS],
+            optional_metric_fields=[name for name, _label in OPTIONAL_METRICS],
         )
     except ValueError as exc:
         message = str(exc)
@@ -104,6 +110,7 @@ def parse_anylogic_range_output(path: str | Path):
                 "conveyor_gap_m",
             ),
             metric_fields=[name for name, _label in METRICS],
+            optional_metric_fields=[name for name, _label in OPTIONAL_METRICS],
         )
         return [
             RangeRow(

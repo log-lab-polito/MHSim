@@ -306,22 +306,32 @@ class ConveyorEnterBlock(PassThroughBlock):
         name: str = "conveyor_enter",
         position: PositionOnConveyor | None = None,
         offset_m: float = 0.0,
+        enforce_position_headway: bool = False,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
         self.position = position
         self.offset_m = offset_m
+        self.enforce_position_headway = enforce_position_headway
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
         if self.position is not None:
             yield from self.position.wait_until_unblocked(self.env)
-            yield from self.conveyor.occupy_without_entry_headway()
+            if self.enforce_position_headway:
+                yield from self.conveyor.occupy_at_offset_with_headway(
+                    self.position.offset_m,
+                )
+            else:
+                yield from self.conveyor.occupy_without_entry_headway()
             self.conveyor.place_agent(pallet, self.position.offset_m)
             self.position.leading_edge_enter(pallet)
         elif self.offset_m > 0:
-            yield from self.conveyor.occupy_without_entry_headway()
+            if self.enforce_position_headway:
+                yield from self.conveyor.occupy_at_offset_with_headway(self.offset_m)
+            else:
+                yield from self.conveyor.occupy_without_entry_headway()
             self.conveyor.place_agent(pallet, self.offset_m)
         else:
             yield from self.conveyor.enter()
@@ -347,6 +357,7 @@ class ConveyBlock(PassThroughBlock):
         target_conveyor: Conveyor | None = None,
         route_conveyors: tuple[Conveyor, ...] = (),
         remove_from_conveyor_on_exit: bool = False,
+        enforce_source_position_headway: bool = False,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
@@ -359,6 +370,7 @@ class ConveyBlock(PassThroughBlock):
         self.target_conveyor = target_conveyor
         self.route_conveyors = route_conveyors
         self.remove_from_conveyor_on_exit = remove_from_conveyor_on_exit
+        self.enforce_source_position_headway = enforce_source_position_headway
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
@@ -421,7 +433,12 @@ class ConveyBlock(PassThroughBlock):
             and self.source_position is not None
         ):
             yield from self.source_position.wait_until_unblocked(self.env)
-            yield from self.source_position.conveyor.occupy_without_entry_headway()
+            if self.enforce_source_position_headway:
+                yield from self.source_position.conveyor.occupy_at_offset_with_headway(
+                    self.source_position.offset_m,
+                )
+            else:
+                yield from self.source_position.conveyor.occupy_without_entry_headway()
             self.source_position.conveyor.place_agent(
                 pallet,
                 self.source_position.offset_m,

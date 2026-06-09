@@ -32,8 +32,10 @@ def main() -> None:
     print(f"Empty pallets completed: {model.empty_pallets_completed}")
     print(f"Loose items created: {model.loose_items_created}")
     print(f"Batches created: {model.batch.batches_created}")
+    print(f"Diagnostic events captured: {len(model.diagnostic_events)}")
+    for event in model.diagnostic_events[:10]:
+        print(f"  {event}")
 
 
 if __name__ == "__main__":
     main()
-

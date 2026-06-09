@@ -37,9 +37,15 @@ class Model6Params(SimulationParams):
     batch_transfer_offset_m: float = 25.0
     batch_station_length_m: float = 12.0
     station_capacity: int = 10
+    station_physical_occupancy: bool = True
+    station_physical_release_delay_s: float | None = None
+    empty_pallet_remove_from_storage_conveyor: bool = True
 
     # AnyLogic Batch default is 10 when the block field is omitted.
     batch_size: int = 10
+
+    # Bounded first-N parity event diagnostics.
+    diagnostic_trace_limit: int = 50
 
     # Java new Random() in the .alp is represented explicitly here.
     min_items_per_pallet: int = 5

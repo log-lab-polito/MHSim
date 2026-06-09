@@ -51,6 +51,14 @@
 	stochastic_log_file.println("    Avg WIP: " + (completed_count > 0 && cycle_time_samples > 0 ? (completed_count / time()) * (total_cycle_time_s / cycle_time_samples) : 0.0));
 	stochastic_log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
 	stochastic_log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
+	stochastic_log_file.println("    Main conveyor occupancy end: " + main_conveyor_occupancy_end);
+	stochastic_log_file.println("    Storage conveyor occupancy end: " + storage_conveyor_occupancy_end);
+	stochastic_log_file.println("    Empty pallets completed: " + empty_pallets_completed);
+	stochastic_log_file.println("    Loose items created: " + loose_items_created);
+	stochastic_log_file.println("    Batches created: " + batches_created);
+	diagnostic_log_file.println();
+	diagnostic_log_file.println("ITERATION #" + iteration + ", REPLICATION #" + replication);
+	diagnostic_log_file.println(diagnostic_trace);
 } else {
 	log_file.println("RESULTS");
 	log_file.println("    Created: " + created_count);
@@ -58,6 +66,14 @@
 	log_file.println("    Avg WIP: " + (completed_count > 0 && cycle_time_samples > 0 ? (completed_count / time()) * (total_cycle_time_s / cycle_time_samples) : 0.0));
 	log_file.println("    Avg cycle (s): " + (cycle_time_samples > 0 ? total_cycle_time_s / cycle_time_samples : Double.NaN));
 	log_file.println("    Throughput (/h): " + (completed_count * 3600.0 / time()));
+	log_file.println("    Main conveyor occupancy end: " + main_conveyor_occupancy_end);
+	log_file.println("    Storage conveyor occupancy end: " + storage_conveyor_occupancy_end);
+	log_file.println("    Empty pallets completed: " + empty_pallets_completed);
+	log_file.println("    Loose items created: " + loose_items_created);
+	log_file.println("    Batches created: " + batches_created);
+	diagnostic_log_file.println();
+	diagnostic_log_file.println("ITERATION #" + iteration);
+	diagnostic_log_file.println(diagnostic_trace);
 }]]></DestroyCode>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -159,7 +175,7 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
+						<Type><![CDATA[int]]></Type>
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -174,7 +190,7 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
+						<Type><![CDATA[int]]></Type>
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -204,9 +220,129 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100001</Id>
+					<Name><![CDATA[empty_pallets_completed]]></Name>
+					<X>20</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100002</Id>
+					<Name><![CDATA[loose_items_created]]></Name>
+					<X>20</X><Y>470</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100003</Id>
+					<Name><![CDATA[batches_created]]></Name>
+					<X>20</X><Y>490</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100004</Id>
+					<Name><![CDATA[main_conveyor_occupancy_end]]></Name>
+					<X>20</X><Y>510</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100005</Id>
+					<Name><![CDATA[storage_conveyor_occupancy_end]]></Name>
+					<X>20</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100006</Id>
+					<Name><![CDATA[diagnostic_trace_limit]]></Name>
+					<X>20</X><Y>550</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[50]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100007</Id>
+					<Name><![CDATA[diagnostic_trace_count]]></Name>
+					<X>20</X><Y>570</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000100008</Id>
+					<Name><![CDATA[diagnostic_trace]]></Name>
+					<X>20</X><Y>590</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -968,6 +1104,32 @@ return random_service_times
     ? triangular(mean_s * (1.0 - spread), mean_s * (1.0 + spread), mean_s)
     : mean_s;]]></Body>
 				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[void]]></ReturnType>
+					<Id>1903000100009</Id>
+					<Name><![CDATA[recordDiagnosticEvent]]></Name>
+					<X>230</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[event_name]]></Name>
+						<Type><![CDATA[String]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[details]]></Name>
+						<Type><![CDATA[String]]></Type>
+					</Parameter>
+					<Body><![CDATA[if (diagnostic_trace_count >= diagnostic_trace_limit) {
+	return;
+}
+diagnostic_trace += "t=" + time() + ",event=" + event_name
+	+ (details == null || details.isEmpty() ? "" : "," + details)
+	+ "\n";
+diagnostic_trace_count++;]]></Body>
+				</Function>
 			</Functions>
 			<Connectivity>
 				<TextFile>
@@ -1001,6 +1163,24 @@ return random_service_times
 					<ResourceReference>
 						<PackageName><![CDATA[model_3]]></PackageName>
 						<ClassName><![CDATA[log_file_stochastic.txt]]></ClassName>
+					</ResourceReference>
+					<FileMode>WRITE_APPEND</FileMode>
+					<CharsetName>null</CharsetName>
+					<Separators></Separators>
+				</TextFile>
+				<TextFile>
+					<Id>1903000100010</Id>
+					<Name><![CDATA[diagnostic_log_file]]></Name>
+					<X>340</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<FileType>FILE</FileType>
+					<Url><![CDATA[]]></Url>
+					<ResourceReference>
+						<PackageName><![CDATA[model_3]]></PackageName>
+						<ClassName><![CDATA[model_6_diagnostic_trace.txt]]></ClassName>
 					</ResourceReference>
 					<FileMode>WRITE_APPEND</FileMode>
 					<CharsetName>null</CharsetName>
@@ -1255,7 +1435,8 @@ return random_service_times
 								<Code><![CDATA[Pallet p = (Pallet)agent;
 total_cycle_time_s += time() - p.cycle_start_time;
 cycle_time_samples++;
-completed_count++;]]></Code>
+completed_count++;
+recordDiagnosticEvent("completed_pallet_sink_enter", "cycle_time_s=" + (time() - p.cycle_start_time));]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -1807,6 +1988,9 @@ created_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[main_conveyor_occupancy_end++;]]></Code>
+							</Value>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -1995,6 +2179,9 @@ created_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[main_conveyor_occupancy_end = Math.max(0, main_conveyor_occupancy_end - 1);]]></Code>
+							</Value>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -2178,9 +2365,16 @@ created_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onAdd]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[main_conveyor_occupancy_end = Math.max(0, main_conveyor_occupancy_end - 1);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[batches_created++;
+recordDiagnosticEvent("batch_released", "batches_created=" + batches_created);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -2677,6 +2871,10 @@ created_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[main_conveyor_occupancy_end = Math.max(0, main_conveyor_occupancy_end - 1);
+storage_conveyor_occupancy_end++;]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -2732,6 +2930,11 @@ created_count++;]]></Code>
 					<Parameters>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[empty_pallets_completed++;
+storage_conveyor_occupancy_end = Math.max(0, storage_conveyor_occupancy_end - 1);
+recordDiagnosticEvent("empty_pallet_sink_enter", "storage_occ=" + storage_conveyor_occupancy_end);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[destroyEntity]]></Name>
@@ -2829,6 +3032,9 @@ created_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[main_conveyor_occupancy_end++;]]></Code>
+							</Value>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -2947,6 +3153,9 @@ created_count++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[main_conveyor_occupancy_end++;]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
@@ -3424,6 +3633,9 @@ created_count++;]]></Code>
 									<Code><![CDATA[Random rnd = new Random();
 Pallet pallet = (Pallet)agent;
 int itemsCount = rnd.nextInt(pallet.current_nof_items) + 1;
+recordDiagnosticEvent("unbatch_started", "current_nof_items=" + pallet.current_nof_items);
+loose_items_created += itemsCount;
+recordDiagnosticEvent("loose_items_injected", "items_count=" + itemsCount);
 looseItemSource.inject(itemsCount);
 ]]></Code>
 								</Value>
@@ -4748,6 +4960,12 @@ looseItemSource.inject(itemsCount);
 		<Resource>
 			<Id>1903000000014</Id>
 			<Path><![CDATA[log_file_stochastic.txt]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1903000100011</Id>
+			<Path><![CDATA[model_6_diagnostic_trace.txt]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>

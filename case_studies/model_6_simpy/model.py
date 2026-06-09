@@ -41,6 +41,7 @@ class Model6SimModel:
         self.empty_pallets_completed = 0
         self.loose_items_created = 0
         self._loaded_pallet_counter = 0
+        self.diagnostic_events: list[str] = []
 
         self.markup = create_model6_markup(
             self.env,
@@ -76,6 +77,7 @@ class Model6SimModel:
             name="conveyLoadedPalletToExit",
             source_position=self.markup.batch_transfer_point,
             target_conveyor=self.conveyor,
+            enforce_source_position_headway=True,
         )
         self.batch = BatchBlock(
             self.env,
@@ -84,6 +86,7 @@ class Model6SimModel:
             next_block=self.convey_loaded_pallet_to_exit,
             name="batch",
             permanent=True,
+            on_exit=self._on_batch_exit,
         )
         self.convey_items_to_batch_station = ConveyBlock(
             self.env,
@@ -92,6 +95,7 @@ class Model6SimModel:
             name="conveyItemsToBatchStation",
             source_position=self.markup.unbatch_transfer_point,
             target_station=self.markup.batch_station,
+            enforce_source_position_headway=True,
         )
         self.item_conveyor_enter = ConveyorEnterBlock(
             self.env,
@@ -99,6 +103,7 @@ class Model6SimModel:
             next_block=self.convey_items_to_batch_station,
             name="itemConveyorEnter",
             position=self.markup.unbatch_transfer_point,
+            enforce_position_headway=True,
         )
         self.loose_item_source = Source(
             self.env,
@@ -125,7 +130,10 @@ class Model6SimModel:
             name="coveyEmptyPalletToStorage",
             source_position=self.markup.unbatch_transfer_point,
             target_conveyor=self.storage_conveyor,
-            remove_from_conveyor_on_exit=True,
+            remove_from_conveyor_on_exit=(
+                self.params.empty_pallet_remove_from_storage_conveyor
+            ),
+            enforce_source_position_headway=True,
         )
         self.convey_pallet_to_unbatch_station = ConveyBlock(
             self.env,
@@ -197,12 +205,23 @@ class Model6SimModel:
 
     def _on_unbatch_station_started(self, pallet: Pallet) -> None:
         current_nof_items = int(pallet.attributes.get("current_nof_items", 1))
+        self._record_diagnostic_event(
+            "unbatch_started",
+            pallet,
+            current_nof_items=current_nof_items,
+        )
         items_count = self.unbatch_rng.randint(1, max(1, current_nof_items))
         self.loose_items_created += items_count
+        self._record_diagnostic_event(
+            "loose_items_injected",
+            pallet,
+            items_count=items_count,
+        )
         self.loose_item_source.inject(items_count)
 
-    def _on_empty_pallet_enter(self, _pallet: Pallet) -> None:
+    def _on_empty_pallet_enter(self, pallet: Pallet) -> None:
         self.empty_pallets_completed += 1
+        self._record_diagnostic_event("empty_pallet_sink_enter", pallet)
 
     def _new_loaded_pallet(self, originals: list[Pallet]) -> Pallet:
         self._loaded_pallet_counter += 1
@@ -216,9 +235,35 @@ class Model6SimModel:
             },
         )
 
+    def _on_batch_exit(self, pallet: Pallet) -> None:
+        self._record_diagnostic_event(
+            "batch_released",
+            pallet,
+            batched_item_count=pallet.attributes.get("batched_item_count", ""),
+        )
+
     def _on_completed_pallet_enter(self, pallet: Pallet) -> None:
         cycle_start = float(pallet.attributes.get("cycle_start_time", pallet.created_at))
+        self._record_diagnostic_event("completed_pallet_sink_enter", pallet)
         self.stats.record_completed(self.env.now - cycle_start)
+
+    def _record_diagnostic_event(
+        self,
+        event: str,
+        pallet: Pallet | None = None,
+        **details: object,
+    ) -> None:
+        if len(self.diagnostic_events) >= self.params.diagnostic_trace_limit:
+            return
+        parts = [f"t={self.env.now:.6f}", f"event={event}"]
+        if pallet is not None:
+            parts.append(f"pallet_id={pallet.id}")
+            entity_type = pallet.attributes.get("entity_type")
+            if entity_type is not None:
+                parts.append(f"entity_type={entity_type}")
+        for key, value in details.items():
+            parts.append(f"{key}={value}")
+        self.diagnostic_events.append(",".join(parts))
 
     def run(self, until: Optional[float] = None) -> SimulationStats:
         self.inbound_pallet_source.start()
@@ -237,5 +282,8 @@ class Model6SimModel:
             f"avg_cycle={self.stats.avg_time_in_system:.2f}s "
             f"throughput={throughput_per_hour:.2f}/h "
             f"main_occ={self.conveyor.occupancy} "
-            f"storage_occ={self.storage_conveyor.occupancy}"
+            f"storage_occ={self.storage_conveyor.occupancy} "
+            f"empty_pallets={self.empty_pallets_completed} "
+            f"loose_items={self.loose_items_created} "
+            f"batches={self.batch.batches_created}"
         )
