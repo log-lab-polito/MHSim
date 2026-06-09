@@ -18,9 +18,11 @@ from .movement import Position3D
 from .conveyor import Conveyor, ConveyorSpur
 from .conveyor import (
     ANYLOGIC_CONVEYOR_LOCATION_KEY,
+    ANYLOGIC_PENDING_STATION_RELEASES_KEY,
     ConveyorLocation,
     PositionOnConveyor,
     ConveyorSimpleStation,
+    PendingStationRelease,
 )
 from .storage_slots import StorageSlotManager, StorageSlot
 from .random_variables import DurationValue, sample_duration_s
@@ -44,6 +46,18 @@ def _resolve_distance(resolver: DistanceResolver, pallet: Pallet) -> Optional[fl
     if callable(resolver):
         return resolver(pallet)
     return resolver
+
+
+def _release_pending_station_releases(pallet: Pallet) -> Generator:
+    releases = pallet.attributes.pop(ANYLOGIC_PENDING_STATION_RELEASES_KEY, [])
+    if not isinstance(releases, list):
+        return
+    for release in releases:
+        if isinstance(release, PendingStationRelease):
+            yield from release.station.release_pending(pallet, release)
+            # AnyLogic's LIFO same-time mode lets newly unblocked station
+            # entrants run before the releasing downstream block continues.
+            yield release.station.env.timeout(0)
 
 
 def _get_assignment(
@@ -307,6 +321,7 @@ class ConveyorEnterBlock(PassThroughBlock):
         position: PositionOnConveyor | None = None,
         offset_m: float = 0.0,
         enforce_position_headway: bool = False,
+        on_at_enter: Optional[Callable[[Pallet], None]] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
@@ -314,6 +329,7 @@ class ConveyorEnterBlock(PassThroughBlock):
         self.position = position
         self.offset_m = offset_m
         self.enforce_position_headway = enforce_position_headway
+        self.on_at_enter = on_at_enter
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
@@ -336,6 +352,8 @@ class ConveyorEnterBlock(PassThroughBlock):
         else:
             yield from self.conveyor.enter()
             self.conveyor.place_agent(pallet, 0.0)
+        if self.on_at_enter is not None:
+            self.on_at_enter(pallet)
         self._record_finish()
         yield from self._forward(pallet)
         self._record_complete()
@@ -358,6 +376,8 @@ class ConveyBlock(PassThroughBlock):
         route_conveyors: tuple[Conveyor, ...] = (),
         remove_from_conveyor_on_exit: bool = False,
         enforce_source_position_headway: bool = False,
+        on_enter: Optional[Callable[[Pallet], None]] = None,
+        on_exit: Optional[Callable[[Pallet], None]] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
@@ -371,10 +391,18 @@ class ConveyBlock(PassThroughBlock):
         self.route_conveyors = route_conveyors
         self.remove_from_conveyor_on_exit = remove_from_conveyor_on_exit
         self.enforce_source_position_headway = enforce_source_position_headway
+        self.on_enter = on_enter
+        self.on_exit = on_exit
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
+        if self.on_enter is not None:
+            self.on_enter(pallet)
         yield from self._convey(pallet)
+        if self.target_station is None:
+            yield from _release_pending_station_releases(pallet)
+        if self.on_exit is not None:
+            self.on_exit(pallet)
         self._record_finish()
         yield from self._forward(pallet)
         self._record_complete()
@@ -418,10 +446,25 @@ class ConveyBlock(PassThroughBlock):
         start_m: float,
         end_m: float,
     ) -> Generator:
-        distance = abs(end_m - start_m)
-        if distance > 0:
-            yield from self._wait_for_positions(pallet, conveyor, start_m, end_m)
-            yield self.env.timeout(conveyor.travel_time_s(distance))
+        cursor_m = start_m
+        network = conveyor.network
+        positions = (
+            network.positions_between(conveyor, start_m, end_m)
+            if network is not None
+            else []
+        )
+        for position in positions:
+            segment_m = abs(position.offset_m - cursor_m)
+            if segment_m > 0:
+                yield self.env.timeout(conveyor.travel_time_s(segment_m))
+            conveyor.move_agent_to(pallet, position.offset_m)
+            yield from position.wait_until_unblocked(self.env)
+            position.leading_edge_enter(pallet)
+            position.trailing_edge_exit(pallet)
+            cursor_m = position.offset_m
+        remaining_m = abs(end_m - cursor_m)
+        if remaining_m > 0:
+            yield self.env.timeout(conveyor.travel_time_s(remaining_m))
         conveyor.move_agent_to(pallet, end_m)
 
     def _convey(self, pallet: Pallet) -> Generator:
@@ -506,10 +549,12 @@ class ConveyorExitBlock(PassThroughBlock):
         conveyor: Conveyor,
         next_block,
         name: str = "conveyor_exit",
+        on_exit: Optional[Callable[[Pallet], None]] = None,
         logger: Optional[CyclicPositionLogger] = None,
     ):
         super().__init__(env=env, next_block=next_block, name=name, logger=logger)
         self.conveyor = conveyor
+        self.on_exit = on_exit
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
@@ -519,6 +564,8 @@ class ConveyorExitBlock(PassThroughBlock):
             conveyor = location.conveyor
         conveyor.leave()
         conveyor.remove_agent(pallet)
+        if self.on_exit is not None:
+            self.on_exit(pallet)
         yield self.env.timeout(0)
         self._record_finish()
         yield from self._forward(pallet)
@@ -553,6 +600,7 @@ class BatchBlock(PassThroughBlock):
 
     def handle(self, pallet: Pallet):
         self._record_enter(pallet)
+        yield from _release_pending_station_releases(pallet)
         location = pallet.attributes.get(ANYLOGIC_CONVEYOR_LOCATION_KEY)
         if isinstance(location, ConveyorLocation):
             location.conveyor.leave()

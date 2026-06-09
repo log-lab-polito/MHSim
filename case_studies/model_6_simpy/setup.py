@@ -34,6 +34,8 @@ def create_model6_markup(
     params: Model6Params,
     *,
     on_unbatch_started=None,
+    on_unbatch_released=None,
+    on_batch_released=None,
 ) -> Model6Markup:
     """Create the AnyLogic Model 6 conveyor network and markup."""
     network = ConveyorNetwork(id="conveyorNetwork")
@@ -83,9 +85,9 @@ def create_model6_markup(
             conveyor=conveyor,
             offset_m=params.batch_transfer_offset_m,
             length_m=params.batch_station_length_m,
-            capacity=params.station_capacity,
+            capacity=params.batch_station_capacity,
             enforce_physical_occupancy=params.station_physical_occupancy,
-            physical_release_delay_s=params.station_physical_release_delay_s,
+            on_released=on_batch_released,
         )
     )
     unbatch_station = network.add_station(
@@ -95,10 +97,10 @@ def create_model6_markup(
             conveyor=conveyor,
             offset_m=params.unbatch_transfer_offset_m,
             length_m=params.unbatch_station_length_m,
-            capacity=params.station_capacity,
+            capacity=params.unbatch_station_capacity,
             enforce_physical_occupancy=params.station_physical_occupancy,
-            physical_release_delay_s=params.station_physical_release_delay_s,
             on_process_started=on_unbatch_started,
+            on_released=on_unbatch_released,
         )
     )
 

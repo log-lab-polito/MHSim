@@ -622,6 +622,18 @@ Compare parameter variation:
 python -m case_studies.model_6_simpy.analysis.compare_parameter_variation_range --view overview
 ```
 
+Compare the diagnostic flow trace:
+
+```bash
+python -m case_studies.model_6_simpy.analysis.compare_flow_trace --run-until 300 --trace-limit 200 --compare-limit 50 --replay
+```
+
+Add SimPy block/station context around the first mismatch:
+
+```bash
+python -m case_studies.model_6_simpy.analysis.compare_flow_trace --run-until 300 --trace-limit 300 --compare-limit 75 --replay --include-debug
+```
+
 Run stochastic replications:
 
 ```bash

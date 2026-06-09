@@ -24,10 +24,13 @@ class Model6Params(SimulationParams):
     service_time_triangular_spread: float = 0.5
 
     # Conveyor network settings.
+    # Parity rule: Model 6 timing params must map to exported AnyLogic fields
+    # or documented AnyLogic defaults. Do not add fitted release/forwarding
+    # delays to force range counts to match.
     conveyor_speed_mps: float = 0.8
     conveyor_gap_m: float = 0.3
     conveyor_item_length_m: float = 1.0
-    conveyor_capacity: int = 10
+    conveyor_capacity: int | None = None
 
     main_conveyor_length_m: float = 30.0
     storage_conveyor_length_m: float = 8.0
@@ -36,9 +39,9 @@ class Model6Params(SimulationParams):
     storage_spur_offset_m: float = 10.0
     batch_transfer_offset_m: float = 25.0
     batch_station_length_m: float = 12.0
-    station_capacity: int = 10
+    unbatch_station_capacity: int = 1
+    batch_station_capacity: int = 10
     station_physical_occupancy: bool = True
-    station_physical_release_delay_s: float | None = None
     empty_pallet_remove_from_storage_conveyor: bool = True
 
     # AnyLogic Batch default is 10 when the block field is omitted.
@@ -67,6 +70,12 @@ class Model6Params(SimulationParams):
             raise ValueError(
                 "max_items_per_pallet must be >= min_items_per_pallet"
             )
+        if self.conveyor_capacity is not None and self.conveyor_capacity <= 0:
+            raise ValueError("conveyor_capacity must be positive or None")
+        if self.unbatch_station_capacity < 0:
+            raise ValueError("unbatch_station_capacity must be >= 0")
+        if self.batch_station_capacity < 0:
+            raise ValueError("batch_station_capacity must be >= 0")
 
     def arrival_rate_per_second(self) -> float:
         return (1.0 / self.arrival_rate_s) if self.arrival_rate_s > 0 else 0.0

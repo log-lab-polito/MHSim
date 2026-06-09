@@ -28,8 +28,8 @@ def _metrics():
         "throughput_per_hour": lambda _ctx, model, stats: (
             (stats.completed / model.env.now) * 3600.0 if model.env.now else 0.0
         ),
-        "main_conveyor_occupancy_end": lambda _ctx, model, _stats: model.conveyor.occupancy,
-        "storage_conveyor_occupancy_end": lambda _ctx, model, _stats: model.storage_conveyor.occupancy,
+        "main_conveyor_occupancy_end": lambda _ctx, model, _stats: model.main_conveyor_occupancy_end,
+        "storage_conveyor_occupancy_end": lambda _ctx, model, _stats: model.storage_conveyor_occupancy_end,
         "empty_pallets_completed": lambda _ctx, model, _stats: model.empty_pallets_completed,
         "loose_items_created": lambda _ctx, model, _stats: model.loose_items_created,
         "batches_created": lambda _ctx, model, _stats: model.batch.batches_created,

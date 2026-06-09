@@ -38,10 +38,13 @@ class Model6SimModel:
         self.item_count_rng = JavaRandom(self.params.item_count_random_seed)
         self.unbatch_rng = JavaRandom(self.params.unbatch_random_seed)
         self.stats = SimulationStats()
+        self.main_conveyor_occupancy_end = 0
+        self.storage_conveyor_occupancy_end = 0
         self.empty_pallets_completed = 0
         self.loose_items_created = 0
         self._loaded_pallet_counter = 0
         self.diagnostic_events: list[str] = []
+        self.debug_events: list[str] = []
         self.rng_events: list[str] = []
         self._item_count_replay = self._replay_iter(self.params.item_count_replay)
         self._unbatch_count_replay = self._replay_iter(self.params.unbatch_count_replay)
@@ -50,6 +53,8 @@ class Model6SimModel:
             self.env,
             self.params,
             on_unbatch_started=self._on_unbatch_station_started,
+            on_unbatch_released=self._on_unbatch_station_released,
+            on_batch_released=self._on_batch_station_released,
         )
         self.conveyor = self.markup.conveyor
         self.storage_conveyor = self.markup.storage_conveyor
@@ -72,6 +77,7 @@ class Model6SimModel:
             conveyor=self.conveyor,
             next_block=self.outbound_pallet_service,
             name="loadedPalletConveyorExit",
+            on_exit=self._on_loaded_pallet_conveyor_exit,
         )
         self.convey_loaded_pallet_to_exit = ConveyBlock(
             self.env,
@@ -81,6 +87,7 @@ class Model6SimModel:
             source_position=self.markup.batch_transfer_point,
             target_conveyor=self.conveyor,
             enforce_source_position_headway=True,
+            on_enter=self._on_loaded_pallet_convey_enter,
         )
         self.batch = BatchBlock(
             self.env,
@@ -89,6 +96,7 @@ class Model6SimModel:
             next_block=self.convey_loaded_pallet_to_exit,
             name="batch",
             permanent=True,
+            on_add=self._on_batch_add,
             on_exit=self._on_batch_exit,
         )
         self.convey_items_to_batch_station = ConveyBlock(
@@ -107,6 +115,7 @@ class Model6SimModel:
             name="itemConveyorEnter",
             position=self.markup.unbatch_transfer_point,
             enforce_position_headway=True,
+            on_at_enter=self._on_item_conveyor_enter,
         )
         self.loose_item_source = Source(
             self.env,
@@ -137,6 +146,7 @@ class Model6SimModel:
                 self.params.empty_pallet_remove_from_storage_conveyor
             ),
             enforce_source_position_headway=True,
+            on_exit=self._on_empty_pallet_transfer_exit,
         )
         self.convey_pallet_to_unbatch_station = ConveyBlock(
             self.env,
@@ -150,6 +160,7 @@ class Model6SimModel:
             conveyor=self.conveyor,
             next_block=self.convey_pallet_to_unbatch_station,
             name="palletConveyorEnter",
+            on_at_enter=self._on_pallet_conveyor_enter,
         )
         self.inbound_pallet_service = ServiceBlock(
             self.env,
@@ -249,9 +260,92 @@ class Model6SimModel:
         )
         self.loose_item_source.inject(items_count)
 
+    def _on_unbatch_station_released(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "unbatch_station_released",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
+    def _on_batch_station_released(self, pallet: Pallet) -> None:
+        self._record_debug_event(
+            "batch_station_released",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
+    def _on_pallet_conveyor_enter(self, pallet: Pallet) -> None:
+        self.main_conveyor_occupancy_end += 1
+        self._record_debug_event(
+            "pallet_conveyor_enter",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+        )
+
+    def _on_item_conveyor_enter(self, pallet: Pallet) -> None:
+        self.main_conveyor_occupancy_end += 1
+        self._record_debug_event(
+            "item_conveyor_enter",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+        )
+
+    def _on_loaded_pallet_convey_enter(self, pallet: Pallet) -> None:
+        self.main_conveyor_occupancy_end += 1
+        self._record_debug_event(
+            "loaded_pallet_convey_enter",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+        )
+
+    def _on_loaded_pallet_conveyor_exit(self, pallet: Pallet) -> None:
+        self.main_conveyor_occupancy_end = max(
+            0,
+            self.main_conveyor_occupancy_end - 1,
+        )
+        self._record_debug_event(
+            "loaded_pallet_conveyor_exit",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+        )
+
+    def _on_batch_add(self, pallet: Pallet, _batch: Pallet | None) -> None:
+        self.main_conveyor_occupancy_end = max(
+            0,
+            self.main_conveyor_occupancy_end - 1,
+        )
+        self._record_debug_event(
+            "batch_add",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+        )
+
+    def _on_empty_pallet_transfer_exit(self, pallet: Pallet) -> None:
+        self.main_conveyor_occupancy_end = max(
+            0,
+            self.main_conveyor_occupancy_end - 1,
+        )
+        self.storage_conveyor_occupancy_end += 1
+        self._record_debug_event(
+            "empty_pallet_transfer_exit",
+            pallet,
+            main_occ=self.main_conveyor_occupancy_end,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
+
     def _on_empty_pallet_enter(self, pallet: Pallet) -> None:
         self.empty_pallets_completed += 1
-        self._record_diagnostic_event("empty_pallet_sink_enter", pallet)
+        self.storage_conveyor_occupancy_end = max(
+            0,
+            self.storage_conveyor_occupancy_end - 1,
+        )
+        self._record_diagnostic_event(
+            "empty_pallet_sink_enter",
+            pallet,
+            storage_occ=self.storage_conveyor_occupancy_end,
+        )
 
     def _new_loaded_pallet(self, originals: list[Pallet]) -> Pallet:
         self._loaded_pallet_counter += 1
@@ -270,12 +364,18 @@ class Model6SimModel:
             "batch_released",
             pallet,
             batched_item_count=pallet.attributes.get("batched_item_count", ""),
+            batches_created=self.batch.batches_created,
         )
 
     def _on_completed_pallet_enter(self, pallet: Pallet) -> None:
         cycle_start = float(pallet.attributes.get("cycle_start_time", pallet.created_at))
-        self._record_diagnostic_event("completed_pallet_sink_enter", pallet)
-        self.stats.record_completed(self.env.now - cycle_start)
+        cycle_time_s = self.env.now - cycle_start
+        self._record_diagnostic_event(
+            "completed_pallet_sink_enter",
+            pallet,
+            cycle_time_s=cycle_time_s,
+        )
+        self.stats.record_completed(cycle_time_s)
 
     def _record_diagnostic_event(
         self,
@@ -294,6 +394,24 @@ class Model6SimModel:
         for key, value in details.items():
             parts.append(f"{key}={value}")
         self.diagnostic_events.append(",".join(parts))
+
+    def _record_debug_event(
+        self,
+        event: str,
+        pallet: Pallet | None = None,
+        **details: object,
+    ) -> None:
+        if len(self.debug_events) >= self.params.diagnostic_trace_limit:
+            return
+        parts = [f"t={self.env.now:.6f}", f"event={event}"]
+        if pallet is not None:
+            parts.append(f"pallet_id={pallet.id}")
+            entity_type = pallet.attributes.get("entity_type")
+            if entity_type is not None:
+                parts.append(f"entity_type={entity_type}")
+        for key, value in details.items():
+            parts.append(f"{key}={value}")
+        self.debug_events.append(",".join(parts))
 
     @staticmethod
     def _replay_iter(values: tuple[int, ...] | None) -> Iterator[int] | None:
@@ -364,8 +482,10 @@ class Model6SimModel:
             f"created={self.stats.created} completed={self.stats.completed} "
             f"avg_cycle={self.stats.avg_time_in_system:.2f}s "
             f"throughput={throughput_per_hour:.2f}/h "
-            f"main_occ={self.conveyor.occupancy} "
-            f"storage_occ={self.storage_conveyor.occupancy} "
+            f"main_occ={self.main_conveyor_occupancy_end} "
+            f"storage_occ={self.storage_conveyor_occupancy_end} "
+            f"physical_main_occ={self.conveyor.occupancy} "
+            f"physical_storage_occ={self.storage_conveyor.occupancy} "
             f"empty_pallets={self.empty_pallets_completed} "
             f"loose_items={self.loose_items_created} "
             f"batches={self.batch.batches_created}"
