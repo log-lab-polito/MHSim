@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from random import Random
-from typing import Optional
+from typing import Iterator, Optional
 
 import simpy
 
@@ -21,6 +20,7 @@ from mhsim.random_variables import (
     make_duration_sampler,
     make_service_time,
 )
+from mhsim.random_streams import JavaRandom
 from mhsim.stats import SimulationStats
 
 from .params import Model6Params
@@ -34,14 +34,17 @@ class Model6SimModel:
 
     def __post_init__(self) -> None:
         self.env = simpy.Environment()
-        self.rng = Random(self.params.random_seed)
-        self.item_count_rng = Random(self.params.item_count_random_seed)
-        self.unbatch_rng = Random(self.params.unbatch_random_seed)
+        self.timing_rng = JavaRandom(self.params.timing_random_seed)
+        self.item_count_rng = JavaRandom(self.params.item_count_random_seed)
+        self.unbatch_rng = JavaRandom(self.params.unbatch_random_seed)
         self.stats = SimulationStats()
         self.empty_pallets_completed = 0
         self.loose_items_created = 0
         self._loaded_pallet_counter = 0
         self.diagnostic_events: list[str] = []
+        self.rng_events: list[str] = []
+        self._item_count_replay = self._replay_iter(self.params.item_count_replay)
+        self._unbatch_count_replay = self._replay_iter(self.params.unbatch_count_replay)
 
         self.markup = create_model6_markup(
             self.env,
@@ -109,7 +112,7 @@ class Model6SimModel:
             self.env,
             params=self.params,
             stats=self.stats,
-            rng=self.rng,
+            rng=self.timing_rng,
             first_block=self.item_conveyor_enter,
             name="looseItemSource",
             entity_factory=self._new_loose_item,
@@ -158,7 +161,7 @@ class Model6SimModel:
             self.env,
             params=self.params,
             stats=self.stats,
-            rng=self.rng,
+            rng=self.timing_rng,
             first_block=self.inbound_pallet_service,
             name="inboundPalletSource",
             interarrival_time_s=self._interarrival_time(),
@@ -168,14 +171,14 @@ class Model6SimModel:
         )
 
     def _service_time(self, mean_s: float, name: str) -> DurationValue:
-        return make_service_time(self.params, self.rng, mean_s, name)
+        return make_service_time(self.params, self.timing_rng, mean_s, name)
 
     def _interarrival_time(self) -> DurationValue | None:
         if not self.params.random_arrival_times:
             return None
         return make_duration_sampler(
             self.params.arrival_rate_s,
-            rng=self.rng,
+            rng=self.timing_rng,
             distribution=self.params.arrival_time_distribution,
             name="inboundPalletSource.interarrival_time_s",
         )
@@ -190,9 +193,21 @@ class Model6SimModel:
     def _on_inbound_pallet_exit(self, pallet: Pallet) -> None:
         pallet.created_at = self.env.now
         pallet.attributes["cycle_start_time"] = self.env.now
-        pallet.attributes["current_nof_items"] = self.item_count_rng.randint(
+        replay_value = self._next_replay_value(
+            "source_item_count",
             self.params.min_items_per_pallet,
             self.params.max_items_per_pallet,
+            self._item_count_replay,
+        )
+        pallet.attributes["current_nof_items"] = (
+            replay_value
+            if replay_value is not None
+            else self._rng_randint(
+                "source_item_count",
+                self.item_count_rng,
+                self.params.min_items_per_pallet,
+                self.params.max_items_per_pallet,
+            )
         )
         self.stats.record_created()
 
@@ -210,7 +225,22 @@ class Model6SimModel:
             pallet,
             current_nof_items=current_nof_items,
         )
-        items_count = self.unbatch_rng.randint(1, max(1, current_nof_items))
+        replay_value = self._next_replay_value(
+            "unbatch_items_count",
+            1,
+            max(1, current_nof_items),
+            self._unbatch_count_replay,
+        )
+        items_count = (
+            replay_value
+            if replay_value is not None
+            else self._rng_randint(
+                "unbatch_items_count",
+                self.unbatch_rng,
+                1,
+                max(1, current_nof_items),
+            )
+        )
         self.loose_items_created += items_count
         self._record_diagnostic_event(
             "loose_items_injected",
@@ -264,6 +294,59 @@ class Model6SimModel:
         for key, value in details.items():
             parts.append(f"{key}={value}")
         self.diagnostic_events.append(",".join(parts))
+
+    @staticmethod
+    def _replay_iter(values: tuple[int, ...] | None) -> Iterator[int] | None:
+        return iter(values) if values is not None else None
+
+    def _next_replay_value(
+        self,
+        event: str,
+        low: int,
+        high: int,
+        replay: Iterator[int] | None,
+    ) -> int | None:
+        if replay is None:
+            return None
+        try:
+            value = int(next(replay))
+        except StopIteration:
+            if self.params.random_replay_strict:
+                raise RuntimeError(f"Replay values exhausted for {event}")
+            return None
+        if not low <= value <= high:
+            raise ValueError(
+                f"Replay value for {event} must be in {low}..{high}, got {value}"
+            )
+        self._record_rng_event(f"replay_{event}", low=low, high=high, value=value)
+        return value
+
+    def _rng_next_double(self, event: str, rng: JavaRandom) -> float:
+        value = rng.next_double()
+        self._record_rng_event(event, value=value)
+        return value
+
+    def _rng_randint(
+        self,
+        event: str,
+        rng: JavaRandom,
+        low: int,
+        high: int,
+    ) -> int:
+        value = rng.randint(low, high)
+        self._record_rng_event(event, low=low, high=high, value=value)
+        return value
+
+    def _record_rng_event(self, event: str, **details: object) -> None:
+        if len(self.rng_events) >= self.params.diagnostic_trace_limit:
+            return
+        parts = [f"t={self.env.now:.6f}", f"event={event}"]
+        for key, value in details.items():
+            if isinstance(value, float):
+                parts.append(f"{key}={value:.17g}")
+            else:
+                parts.append(f"{key}={value}")
+        self.rng_events.append(",".join(parts))
 
     def run(self, until: Optional[float] = None) -> SimulationStats:
         self.inbound_pallet_source.start()

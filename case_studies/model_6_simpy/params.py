@@ -47,11 +47,18 @@ class Model6Params(SimulationParams):
     # Bounded first-N parity event diagnostics.
     diagnostic_trace_limit: int = 50
 
-    # Java new Random() in the .alp is represented explicitly here.
+    # Parity-critical sampled values use separate AnyLogic-mirrored streams so
+    # conveyor event-order differences cannot desynchronize unrelated draws.
     min_items_per_pallet: int = 5
     max_items_per_pallet: int = 20
     item_count_random_seed: int = 101
     unbatch_random_seed: int = 202
+    timing_random_seed: int = 303
+
+    # Optional diagnostic replay of values exported from AnyLogic.
+    item_count_replay: tuple[int, ...] | None = None
+    unbatch_count_replay: tuple[int, ...] | None = None
+    random_replay_strict: bool = True
 
     def __post_init__(self) -> None:
         if self.min_items_per_pallet < 1:

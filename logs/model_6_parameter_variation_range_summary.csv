@@ -1,3 +1,3 @@
 iteration,replications,param_max_items_per_pallet,param_arrival_rate_s,param_conveyor_speed_mps,param_conveyor_gap_m,param_min_items_per_pallet,metric_avg_time_in_system_s,metric_avg_wip,metric_batches_created,metric_completed,metric_created,metric_empty_pallets_completed,metric_loose_items_created,metric_main_conveyor_occupancy_end,metric_storage_conveyor_occupancy_end,metric_throughput_per_hour
-1,2,10,10.0,0.8,0.3,5,1825.5049618322867,66.42809722221199,132,131,361,357,1521,10,1,130.99999999996362
-2,2,20,10.0,0.8,0.3,5,1825.5049618322867,66.42809722221199,132,131,361,357,2408,10,1,130.99999999996362
+1,2,10,10.0,0.8,0.3,5,1839.786450381907,66.9477847222119,131,131,361,357,1517,10,1,130.99999999996362
+2,2,20,10.0,0.8,0.3,5,1825.5049618322867,66.42809722221199,132,131,361,357,2524,10,1,130.99999999996362

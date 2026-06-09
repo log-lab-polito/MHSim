@@ -18,7 +18,11 @@
 		<ActiveObjectClass>
 			<Id>1764169459609</Id>
 			<Name><![CDATA[Main]]></Name>
-			<StartupCode><![CDATA[if (random_arrival_times || random_service_times) {
+			<StartupCode><![CDATA[item_count_rng = new Random(item_count_random_seed);
+unbatch_rng = new Random(unbatch_random_seed);
+timing_rng = new Random(timing_random_seed);
+
+if (random_arrival_times || random_service_times) {
 	stochastic_log_file.println();
 	stochastic_log_file.println("ITERATION #" + iteration + ", REPLICATION #" + replication);
 	stochastic_log_file.println("PARAMETERS");
@@ -29,6 +33,9 @@
 	stochastic_log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
 	stochastic_log_file.println("    Min items per pallet: " + min_items_per_pallet);
 	stochastic_log_file.println("    Max items per pallet: " + max_items_per_pallet);
+	stochastic_log_file.println("    Item count seed: " + item_count_random_seed);
+	stochastic_log_file.println("    Unbatch seed: " + unbatch_random_seed);
+	stochastic_log_file.println("    Timing seed: " + timing_random_seed);
 	stochastic_log_file.println("    Random arrivals: " + random_arrival_times);
 	stochastic_log_file.println("    Random services: " + random_service_times);
 } else {
@@ -42,6 +49,9 @@
 	log_file.println("    Conveyor Gap (m): " + conveyor_gap_m);
 	log_file.println("    Min items per pallet: " + min_items_per_pallet);
 	log_file.println("    Max items per pallet: " + max_items_per_pallet);
+	log_file.println("    Item count seed: " + item_count_random_seed);
+	log_file.println("    Unbatch seed: " + unbatch_random_seed);
+	log_file.println("    Timing seed: " + timing_random_seed);
 }
 ]]></StartupCode>
 			<DestroyCode><![CDATA[if (random_arrival_times || random_service_times) {
@@ -312,7 +322,7 @@
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int]]></Type>
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[50]]></Code>
+							<Code><![CDATA[5000]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -343,6 +353,51 @@
 						<Type><![CDATA[String]]></Type>
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[""]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000200001</Id>
+					<Name><![CDATA[item_count_rng]]></Name>
+					<X>20</X><Y>610</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[Random]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000200002</Id>
+					<Name><![CDATA[unbatch_rng]]></Name>
+					<X>20</X><Y>630</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[Random]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1903000200003</Id>
+					<Name><![CDATA[timing_rng]]></Name>
+					<X>20</X><Y>650</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[Random]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[null]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -631,6 +686,78 @@
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1903000200011</Id>
+					<Name><![CDATA[item_count_random_seed]]></Name>
+					<X>570</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[101]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1903000200012</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100000]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1903000200013</Id>
+					<Name><![CDATA[unbatch_random_seed]]></Name>
+					<X>570</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[202]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1903000200014</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100000]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1903000200015</Id>
+					<Name><![CDATA[timing_random_seed]]></Name>
+					<X>570</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[303]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1903000200016</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100000]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
 						</ParameterEditor>
 					</Properties>                 
@@ -1083,7 +1210,9 @@
 						<Name><![CDATA[mean_s]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[return random_arrival_times ? exponential(1.0 / mean_s) : mean_s;]]></Body>
+					<Body><![CDATA[return random_arrival_times
+	? -Math.log(1.0 - timing_rng.nextDouble()) * mean_s
+	: mean_s;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -1099,10 +1228,18 @@
 						<Name><![CDATA[mean_s]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[double spread = service_time_triangular_spread;
-return random_service_times
-    ? triangular(mean_s * (1.0 - spread), mean_s * (1.0 + spread), mean_s)
-    : mean_s;]]></Body>
+					<Body><![CDATA[if (!random_service_times) {
+	return mean_s;
+}
+double spread = service_time_triangular_spread;
+double low = mean_s * (1.0 - spread);
+double high = mean_s * (1.0 + spread);
+double mode = mean_s;
+double u = timing_rng.nextDouble();
+double c = (mode - low) / (high - low);
+return u <= c
+	? low + Math.sqrt(u * (high - low) * (mode - low))
+	: high - Math.sqrt((1.0 - u) * (high - low) * (high - mode));]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1689,7 +1826,8 @@ recordDiagnosticEvent("completed_pallet_sink_enter", "cycle_time_s=" + (time() -
 								<Code><![CDATA[Pallet p = (Pallet)agent;
 p.cycle_start_time = time();
 p.current_nof_items = min_items_per_pallet
-	+ new Random().nextInt(max_items_per_pallet - min_items_per_pallet + 1);
+	+ item_count_rng.nextInt(max_items_per_pallet - min_items_per_pallet + 1);
+recordDiagnosticEvent("source_item_count", "current_nof_items=" + p.current_nof_items);
 created_count++;]]></Code>
 							</Value>
 						</Parameter>
@@ -3630,9 +3768,8 @@ recordDiagnosticEvent("empty_pallet_sink_enter", "storage_occ=" + storage_convey
 							<Parameter>
 								<Name><![CDATA[onProcessStarted]]></Name>
 								<Value Class="CodeValue">
-									<Code><![CDATA[Random rnd = new Random();
-Pallet pallet = (Pallet)agent;
-int itemsCount = rnd.nextInt(pallet.current_nof_items) + 1;
+									<Code><![CDATA[Pallet pallet = (Pallet)agent;
+int itemsCount = unbatch_rng.nextInt(pallet.current_nof_items) + 1;
 recordDiagnosticEvent("unbatch_started", "current_nof_items=" + pallet.current_nof_items);
 loose_items_created += itemsCount;
 recordDiagnosticEvent("loose_items_injected", "items_count=" + itemsCount);
