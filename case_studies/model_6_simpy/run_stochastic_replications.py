@@ -14,7 +14,7 @@ from .run_parameter_variation import _metrics
 
 
 DEFAULT_RUN_UNTIL_S = 3600.0
-DEFAULT_REPLICATIONS = 50
+DEFAULT_REPLICATIONS = 100
 
 
 def _params(options: StochasticReplicationOptions) -> Model6Params:

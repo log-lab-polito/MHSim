@@ -34,11 +34,22 @@ class Model6SimModel:
 
     def __post_init__(self) -> None:
         self.env = simpy.Environment()
-        self.timing_rng = JavaRandom(self.params.timing_random_seed)
+        self.timing_rng = JavaRandom(
+            self._seed_for_stochastic_replication(
+                self.params.timing_random_seed,
+                enabled=(
+                    self.params.random_arrival_times
+                    or self.params.random_service_times
+                ),
+            )
+        )
         self.item_count_rng = JavaRandom(self.params.item_count_random_seed)
         self.unbatch_rng = JavaRandom(self.params.unbatch_random_seed)
         self.station_process_time_rng = JavaRandom(
-            self.params.station_process_time_random_seed
+            self._seed_for_stochastic_replication(
+                self.params.station_process_time_random_seed,
+                enabled=self.params.random_service_times,
+            )
         )
         self.stats = SimulationStats()
         self.main_conveyor_occupancy_end = 0
@@ -195,6 +206,12 @@ class Model6SimModel:
             on_exit=self._on_inbound_pallet_exit,
             record_created=False,
         )
+
+    def _seed_for_stochastic_replication(self, base_seed: int, *, enabled: bool) -> int:
+        """Perturb stochastic timing streams by replication seed only in stochastic mode."""
+        if not enabled:
+            return base_seed
+        return int(base_seed) + int(self.params.random_seed) - 1
 
     def _service_time(self, mean_s: float, name: str) -> DurationValue:
         return make_service_time(self.params, self.timing_rng, mean_s, name)

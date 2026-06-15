@@ -5221,7 +5221,7 @@ looseItemSource.inject(itemsCount);
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>50</ReplicationPerIteration>
+				<ReplicationPerIteration>100</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>100</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>

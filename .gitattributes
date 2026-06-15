@@ -1,3 +1,6 @@
 anylogic/Model[[:space:]]*/log_file.txt filter=lfs diff=lfs merge=lfs -text
 anylogic/Model[[:space:]]4/log_file.txt filter=lfs diff=lfs merge=lfs -text
 anylogic/Model[[:space:]]4/log_file_stochastic.txt filter=lfs diff=lfs merge=lfs -text
+*_debug_trace.txt filter=lfs diff=lfs merge=lfs -text
+*_flow_debug_trace.txt filter=lfs diff=lfs merge=lfs -text
+*_diagnostic_trace.txt filter=lfs diff=lfs merge=lfs -text

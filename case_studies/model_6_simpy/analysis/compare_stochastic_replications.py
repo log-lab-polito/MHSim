@@ -85,7 +85,7 @@ COMPARISON_SPEC = StochasticComparisonSpec(
     default_anylogic_path="anylogic/Model 6/log_file_stochastic.txt",
     default_simpy_runs_path="logs/model_6_stochastic_replications_runs.csv",
     anylogic_parameter_key_map=ANYLOGIC_PARAMETER_KEY_MAP,
-    default_replications_per_iteration=50,
+    default_replications_per_iteration=100,
     default_expected_iterations=2,
 )
 

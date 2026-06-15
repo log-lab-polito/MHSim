@@ -8,14 +8,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 372
+    Created: 359
     Completed: 59
-    Avg WIP: 30.11795871820179
-    Avg cycle (s): 1837.7059556868887
+    Avg WIP: 29.955868939638886
+    Avg cycle (s): 1827.8157319101692
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 461
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 908
+    Batches created: 60
 
 ITERATION #1, REPLICATION #2
 PARAMETERS
@@ -26,14 +34,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 338
-    Completed: 60
-    Avg WIP: 30.715412536602933
-    Avg cycle (s): 1842.924752196176
-    Throughput (/h): 60.0
+    Created: 340
+    Completed: 59
+    Avg WIP: 29.921169666003696
+    Avg cycle (s): 1825.6984880951406
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 439
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 905
+    Batches created: 60
 
 ITERATION #1, REPLICATION #3
 PARAMETERS
@@ -44,14 +60,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
+    Created: 340
     Completed: 59
-    Avg WIP: 30.289546403360006
-    Avg cycle (s): 1848.17571274739
+    Avg WIP: 30.153590537996095
+    Avg cycle (s): 1839.8801006234903
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 441
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 907
+    Batches created: 60
 
 ITERATION #1, REPLICATION #4
 PARAMETERS
@@ -62,14 +86,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 59
-    Avg WIP: 30.524940628151494
-    Avg cycle (s): 1862.5387501922944
-    Throughput (/h): 59.0
+    Created: 372
+    Completed: 60
+    Avg WIP: 31.08176734493026
+    Avg cycle (s): 1864.9060406958156
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 488
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 920
+    Batches created: 60
 
 ITERATION #1, REPLICATION #5
 PARAMETERS
@@ -80,14 +112,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
-    Completed: 58
-    Avg WIP: 29.413452798019456
-    Avg cycle (s): 1825.6625874632766
-    Throughput (/h): 58.0
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.9516974103378
+    Avg cycle (s): 1827.5611979189164
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 447
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 883
+    Batches created: 59
 
 ITERATION #1, REPLICATION #6
 PARAMETERS
@@ -98,14 +138,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 348
+    Created: 384
     Completed: 59
-    Avg WIP: 30.234798961827664
-    Avg cycle (s): 1844.8351908911793
+    Avg WIP: 30.51214301293528
+    Avg cycle (s): 1861.7578787553728
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 501
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 913
+    Batches created: 59
 
 ITERATION #1, REPLICATION #7
 PARAMETERS
@@ -116,14 +164,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 369
-    Completed: 60
-    Avg WIP: 30.96350822300719
-    Avg cycle (s): 1857.8104933804314
-    Throughput (/h): 60.0
+    Created: 346
+    Completed: 59
+    Avg WIP: 29.880830412326947
+    Avg cycle (s): 1823.237109904695
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 450
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 900
+    Batches created: 59
 
 ITERATION #1, REPLICATION #8
 PARAMETERS
@@ -134,14 +190,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 405
-    Completed: 59
-    Avg WIP: 30.089936481109024
-    Avg cycle (s): 1835.996124271059
-    Throughput (/h): 59.0
+    Created: 361
+    Completed: 58
+    Avg WIP: 29.94599575564369
+    Avg cycle (s): 1858.716977936505
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 505
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 929
+    Batches created: 58
 
 ITERATION #1, REPLICATION #9
 PARAMETERS
@@ -152,14 +216,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 374
+    Created: 357
     Completed: 59
-    Avg WIP: 30.167419132001797
-    Avg cycle (s): 1840.7238792407875
+    Avg WIP: 30.128542838484517
+    Avg cycle (s): 1838.3517664160042
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 452
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 889
+    Batches created: 59
 
 ITERATION #1, REPLICATION #10
 PARAMETERS
@@ -170,14 +242,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 354
-    Completed: 59
-    Avg WIP: 30.10868690069866
-    Avg cycle (s): 1837.1402176697486
-    Throughput (/h): 59.0
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.844158475161134
+    Avg cycle (s): 1850.649508509668
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 486
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 920
+    Batches created: 60
 
 ITERATION #1, REPLICATION #11
 PARAMETERS
@@ -188,14 +268,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 391
+    Created: 372
     Completed: 60
-    Avg WIP: 30.379676920560684
-    Avg cycle (s): 1822.7806152336411
+    Avg WIP: 31.103163120910367
+    Avg cycle (s): 1866.189787254622
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 486
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 920
+    Batches created: 60
 
 ITERATION #1, REPLICATION #12
 PARAMETERS
@@ -206,14 +294,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
+    Created: 368
     Completed: 59
-    Avg WIP: 30.149576246828918
-    Avg cycle (s): 1839.6351608234593
+    Avg WIP: 30.361281348557103
+    Avg cycle (s): 1852.5527602509417
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 496
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 923
+    Batches created: 59
 
 ITERATION #1, REPLICATION #13
 PARAMETERS
@@ -224,14 +320,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 372
+    Created: 341
     Completed: 59
-    Avg WIP: 30.36630063535987
-    Avg cycle (s): 1852.8590218185682
+    Avg WIP: 30.03141526295984
+    Avg cycle (s): 1832.4253380789053
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 438
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 894
+    Batches created: 59
 
 ITERATION #1, REPLICATION #14
 PARAMETERS
@@ -242,14 +346,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 351
+    Created: 357
     Completed: 59
-    Avg WIP: 30.424673951875562
-    Avg cycle (s): 1856.4207835042714
+    Avg WIP: 29.90199942769875
+    Avg cycle (s): 1824.5287786392457
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 468
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 903
+    Batches created: 59
 
 ITERATION #1, REPLICATION #15
 PARAMETERS
@@ -260,14 +372,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
-    Completed: 61
-    Avg WIP: 31.3579327451091
-    Avg cycle (s): 1850.632096432668
-    Throughput (/h): 61.0
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.783790515749327
+    Avg cycle (s): 1847.0274309449596
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 468
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 915
+    Batches created: 60
 
 ITERATION #1, REPLICATION #16
 PARAMETERS
@@ -278,14 +398,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 337
+    Created: 371
     Completed: 59
-    Avg WIP: 29.982751884761676
-    Avg cycle (s): 1829.456047205797
+    Avg WIP: 30.145293662886516
+    Avg cycle (s): 1839.3738506168042
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 463
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 886
+    Batches created: 59
 
 ITERATION #1, REPLICATION #17
 PARAMETERS
@@ -296,14 +424,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 348
-    Completed: 59
-    Avg WIP: 30.275313981919496
-    Avg cycle (s): 1847.307293812037
-    Throughput (/h): 59.0
+    Created: 367
+    Completed: 61
+    Avg WIP: 31.20650955343012
+    Avg cycle (s): 1841.6956457762037
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 464
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 208
+    Loose items created: 917
+    Batches created: 61
 
 ITERATION #1, REPLICATION #18
 PARAMETERS
@@ -314,14 +450,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 386
-    Completed: 60
-    Avg WIP: 30.880733167952695
-    Avg cycle (s): 1852.8439900771616
-    Throughput (/h): 60.0
+    Created: 368
+    Completed: 59
+    Avg WIP: 30.310720299015454
+    Avg cycle (s): 1849.4676792619598
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 483
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 909
+    Batches created: 59
 
 ITERATION #1, REPLICATION #19
 PARAMETERS
@@ -332,14 +476,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 61
-    Avg WIP: 31.61047230966063
-    Avg cycle (s): 1865.5360707340697
-    Throughput (/h): 61.0
+    Created: 359
+    Completed: 59
+    Avg WIP: 29.99757545858679
+    Avg cycle (s): 1830.360536456143
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 467
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 912
+    Batches created: 60
 
 ITERATION #1, REPLICATION #20
 PARAMETERS
@@ -350,14 +502,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 388
-    Completed: 60
-    Avg WIP: 31.027590003623974
-    Avg cycle (s): 1861.6554002174385
-    Throughput (/h): 60.0
+    Created: 341
+    Completed: 59
+    Avg WIP: 30.27267608902978
+    Avg cycle (s): 1847.146337635715
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 434
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 890
+    Batches created: 59
 
 ITERATION #1, REPLICATION #21
 PARAMETERS
@@ -368,14 +528,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
+    Created: 346
     Completed: 59
-    Avg WIP: 30.36752166324517
-    Avg cycle (s): 1852.9335252149594
+    Avg WIP: 29.958887842427266
+    Avg cycle (s): 1827.9999361481043
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 430
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 888
+    Batches created: 60
 
 ITERATION #1, REPLICATION #22
 PARAMETERS
@@ -386,14 +554,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 361
-    Completed: 58
-    Avg WIP: 30.462857140302905
-    Avg cycle (s): 1890.7980293981113
-    Throughput (/h): 58.0
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.05933513662186
+    Avg cycle (s): 1834.1289235904862
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 454
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 888
+    Batches created: 59
 
 ITERATION #1, REPLICATION #23
 PARAMETERS
@@ -404,14 +580,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
-    Completed: 61
-    Avg WIP: 31.36731654602143
-    Avg cycle (s): 1851.1858945192973
-    Throughput (/h): 61.0
+    Created: 352
+    Completed: 60
+    Avg WIP: 30.459775844943962
+    Avg cycle (s): 1827.5865506966377
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 451
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 916
+    Batches created: 61
 
 ITERATION #1, REPLICATION #24
 PARAMETERS
@@ -422,14 +606,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 364
-    Completed: 59
-    Avg WIP: 30.5890567208993
-    Avg cycle (s): 1866.450918563347
-    Throughput (/h): 59.0
+    Created: 361
+    Completed: 60
+    Avg WIP: 30.503997720137516
+    Avg cycle (s): 1830.2398632082509
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 446
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 903
+    Batches created: 61
 
 ITERATION #1, REPLICATION #25
 PARAMETERS
@@ -440,14 +632,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
-    Completed: 60
-    Avg WIP: 30.992999862484435
-    Avg cycle (s): 1859.579991749066
-    Throughput (/h): 60.0
+    Created: 353
+    Completed: 58
+    Avg WIP: 29.623722435567466
+    Avg cycle (s): 1838.7138063455668
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 457
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 896
+    Batches created: 59
 
 ITERATION #1, REPLICATION #26
 PARAMETERS
@@ -458,14 +658,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
-    Completed: 60
-    Avg WIP: 30.784167556011486
-    Avg cycle (s): 1847.0500533606892
-    Throughput (/h): 60.0
+    Created: 356
+    Completed: 59
+    Avg WIP: 30.327868802212876
+    Avg cycle (s): 1850.514028609599
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 474
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 912
+    Batches created: 59
 
 ITERATION #1, REPLICATION #27
 PARAMETERS
@@ -476,14 +684,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 331
+    Created: 345
     Completed: 59
-    Avg WIP: 30.198596782069227
-    Avg cycle (s): 1842.6262443296475
+    Avg WIP: 30.33230211279849
+    Avg cycle (s): 1850.7845356961789
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 476
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 928
+    Batches created: 59
 
 ITERATION #1, REPLICATION #28
 PARAMETERS
@@ -494,14 +710,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 367
+    Created: 371
     Completed: 59
-    Avg WIP: 30.44095806749629
-    Avg cycle (s): 1857.4143905590954
+    Avg WIP: 30.111596008112294
+    Avg cycle (s): 1837.3177225288855
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 500
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 925
+    Batches created: 59
 
 ITERATION #1, REPLICATION #29
 PARAMETERS
@@ -512,14 +736,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 60
-    Avg WIP: 30.807167406316072
-    Avg cycle (s): 1848.4300443789643
-    Throughput (/h): 60.0
+    Created: 352
+    Completed: 61
+    Avg WIP: 31.455172070185363
+    Avg cycle (s): 1856.3708106994638
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 436
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 208
+    Loose items created: 904
+    Batches created: 61
 
 ITERATION #1, REPLICATION #30
 PARAMETERS
@@ -530,14 +762,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 321
+    Created: 353
     Completed: 59
-    Avg WIP: 29.804352368288427
-    Avg cycle (s): 1818.5706529803106
+    Avg WIP: 30.274839878357334
+    Avg cycle (s): 1847.2783654590914
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 468
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 909
+    Batches created: 59
 
 ITERATION #1, REPLICATION #31
 PARAMETERS
@@ -548,14 +788,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 350
-    Completed: 59
-    Avg WIP: 30.208209370067326
-    Avg cycle (s): 1843.212775122752
-    Throughput (/h): 59.0
+    Created: 378
+    Completed: 58
+    Avg WIP: 29.64678622997533
+    Avg cycle (s): 1840.1453522053653
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 500
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 200
+    Loose items created: 904
+    Batches created: 58
 
 ITERATION #1, REPLICATION #32
 PARAMETERS
@@ -566,14 +814,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 405
-    Completed: 60
-    Avg WIP: 31.07627978622808
-    Avg cycle (s): 1864.5767871736848
-    Throughput (/h): 60.0
+    Created: 352
+    Completed: 58
+    Avg WIP: 29.443754379245565
+    Avg cycle (s): 1827.5433752635179
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 448
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 890
+    Batches created: 59
 
 ITERATION #1, REPLICATION #33
 PARAMETERS
@@ -584,14 +840,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 385
+    Created: 357
     Completed: 59
-    Avg WIP: 29.75966397998468
-    Avg cycle (s): 1815.8439038634717
+    Avg WIP: 30.040910508482934
+    Avg cycle (s): 1833.0047089921788
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 451
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 888
+    Batches created: 59
 
 ITERATION #1, REPLICATION #34
 PARAMETERS
@@ -602,14 +866,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 340
+    Created: 357
     Completed: 59
-    Avg WIP: 30.790534875042226
-    Avg cycle (s): 1878.744500850034
+    Avg WIP: 29.99986260729933
+    Avg cycle (s): 1830.5000912928404
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 455
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 890
+    Batches created: 59
 
 ITERATION #1, REPLICATION #35
 PARAMETERS
@@ -620,14 +892,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 371
+    Created: 375
     Completed: 60
-    Avg WIP: 30.992501431256546
-    Avg cycle (s): 1859.5500858753928
+    Avg WIP: 30.882600298058595
+    Avg cycle (s): 1852.9560178835156
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 476
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 908
+    Batches created: 60
 
 ITERATION #1, REPLICATION #36
 PARAMETERS
@@ -638,14 +918,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 407
+    Created: 372
     Completed: 59
-    Avg WIP: 30.371771250806518
-    Avg cycle (s): 1853.1928220831094
+    Avg WIP: 29.90084807730144
+    Avg cycle (s): 1824.458526750596
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 459
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 891
+    Batches created: 60
 
 ITERATION #1, REPLICATION #37
 PARAMETERS
@@ -656,14 +944,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 342
-    Completed: 59
-    Avg WIP: 30.320246715177184
-    Avg cycle (s): 1850.048952112506
-    Throughput (/h): 59.0
+    Created: 348
+    Completed: 60
+    Avg WIP: 30.57818047793814
+    Avg cycle (s): 1834.6908286762884
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 442
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 901
+    Batches created: 60
 
 ITERATION #1, REPLICATION #38
 PARAMETERS
@@ -674,14 +970,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 332
-    Completed: 60
-    Avg WIP: 30.507654528540375
-    Avg cycle (s): 1830.4592717124226
-    Throughput (/h): 60.0
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.22132268659058
+    Avg cycle (s): 1844.0129096902724
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 486
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 924
+    Batches created: 59
 
 ITERATION #1, REPLICATION #39
 PARAMETERS
@@ -692,14 +996,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
     Created: 353
     Completed: 59
-    Avg WIP: 29.856029315763298
-    Avg cycle (s): 1821.7238226567433
+    Avg WIP: 30.67564513847861
+    Avg cycle (s): 1871.7342796359828
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 487
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 927
+    Batches created: 59
 
 ITERATION #1, REPLICATION #40
 PARAMETERS
@@ -710,14 +1022,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 376
-    Completed: 60
-    Avg WIP: 30.387557698687928
-    Avg cycle (s): 1823.2534619212756
-    Throughput (/h): 60.0
+    Created: 356
+    Completed: 59
+    Avg WIP: 30.40868635957878
+    Avg cycle (s): 1855.4452693980272
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 460
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 898
+    Batches created: 59
 
 ITERATION #1, REPLICATION #41
 PARAMETERS
@@ -728,14 +1048,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
-    Completed: 58
-    Avg WIP: 29.724814021803688
-    Avg cycle (s): 1844.9884565257462
-    Throughput (/h): 58.0
+    Created: 342
+    Completed: 60
+    Avg WIP: 30.916805549597647
+    Avg cycle (s): 1855.0083329758588
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 452
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 917
+    Batches created: 60
 
 ITERATION #1, REPLICATION #42
 PARAMETERS
@@ -746,14 +1074,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 58
-    Avg WIP: 29.336893548965175
-    Avg cycle (s): 1820.9106340737005
-    Throughput (/h): 58.0
+    Created: 355
+    Completed: 59
+    Avg WIP: 30.472755973889708
+    Avg cycle (s): 1859.35460179666
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 470
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 912
+    Batches created: 59
 
 ITERATION #1, REPLICATION #43
 PARAMETERS
@@ -764,14 +1100,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
-    Completed: 60
-    Avg WIP: 30.583752774033584
-    Avg cycle (s): 1835.025166442015
-    Throughput (/h): 60.0
+    Created: 338
+    Completed: 59
+    Avg WIP: 30.24620809034541
+    Avg cycle (s): 1845.5313411058214
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 434
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 888
+    Batches created: 59
 
 ITERATION #1, REPLICATION #44
 PARAMETERS
@@ -782,14 +1126,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 385
+    Created: 342
     Completed: 59
-    Avg WIP: 30.736104413532438
-    Avg cycle (s): 1875.4233201477418
+    Avg WIP: 30.17186343153525
+    Avg cycle (s): 1840.9950568394388
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 426
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 886
+    Batches created: 60
 
 ITERATION #1, REPLICATION #45
 PARAMETERS
@@ -800,14 +1152,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 387
-    Completed: 59
-    Avg WIP: 30.11469148611324
-    Avg cycle (s): 1837.5065991526722
-    Throughput (/h): 59.0
+    Created: 361
+    Completed: 60
+    Avg WIP: 30.509120981017578
+    Avg cycle (s): 1830.5472588610546
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 458
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 914
+    Batches created: 61
 
 ITERATION #1, REPLICATION #46
 PARAMETERS
@@ -818,14 +1178,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 345
     Completed: 59
-    Avg WIP: 30.50108232216408
-    Avg cycle (s): 1861.0829891489946
+    Avg WIP: 30.03589595668552
+    Avg cycle (s): 1832.698736340133
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 450
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 899
+    Batches created: 59
 
 ITERATION #1, REPLICATION #47
 PARAMETERS
@@ -836,14 +1204,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 356
-    Completed: 60
-    Avg WIP: 30.5658593974257
-    Avg cycle (s): 1833.951563845542
-    Throughput (/h): 60.0
+    Created: 343
+    Completed: 59
+    Avg WIP: 29.998421883220537
+    Avg cycle (s): 1830.4121827049817
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 436
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 887
+    Batches created: 59
 
 ITERATION #1, REPLICATION #48
 PARAMETERS
@@ -854,14 +1230,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
-    Completed: 60
-    Avg WIP: 30.57874667923638
-    Avg cycle (s): 1834.724800754183
-    Throughput (/h): 60.0
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.91332656686664
+    Avg cycle (s): 1825.2199261138965
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 471
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 918
+    Batches created: 60
 
 ITERATION #1, REPLICATION #49
 PARAMETERS
@@ -872,14 +1256,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 356
+    Created: 360
     Completed: 60
-    Avg WIP: 30.75493234605562
-    Avg cycle (s): 1845.2959407633373
+    Avg WIP: 30.660292926064567
+    Avg cycle (s): 1839.617575563874
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 470
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 916
+    Batches created: 60
 
 ITERATION #1, REPLICATION #50
 PARAMETERS
@@ -890,14 +1282,1322 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 366
+    Completed: 58
+    Avg WIP: 29.560737258961737
+    Avg cycle (s): 1834.8043815907286
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 454
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 200
+    Loose items created: 879
+    Batches created: 59
+
+ITERATION #1, REPLICATION #51
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 342
+    Completed: 60
+    Avg WIP: 30.837467429947235
+    Avg cycle (s): 1850.248045796834
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 475
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 209
+    Loose items created: 943
+    Batches created: 60
+
+ITERATION #1, REPLICATION #52
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 369
+    Completed: 59
+    Avg WIP: 30.111729350921966
+    Avg cycle (s): 1837.3258587003231
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 488
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 913
+    Batches created: 59
+
+ITERATION #1, REPLICATION #53
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.99271499840076
+    Avg cycle (s): 1830.063966004114
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 440
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 887
+    Batches created: 60
+
+ITERATION #1, REPLICATION #54
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 348
+    Completed: 60
+    Avg WIP: 31.16121297796352
+    Avg cycle (s): 1869.6727786778113
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 434
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 891
+    Batches created: 60
+
+ITERATION #1, REPLICATION #55
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 371
+    Completed: 59
+    Avg WIP: 30.343763688460484
+    Avg cycle (s): 1851.483886075555
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 484
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 909
+    Batches created: 59
+
+ITERATION #1, REPLICATION #56
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.070191825516755
+    Avg cycle (s): 1834.791365624751
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 463
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 909
+    Batches created: 60
+
+ITERATION #1, REPLICATION #57
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 354
+    Completed: 58
+    Avg WIP: 29.395116992441544
+    Avg cycle (s): 1824.5245029791304
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 466
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 904
+    Batches created: 59
+
+ITERATION #1, REPLICATION #58
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 368
+    Completed: 59
+    Avg WIP: 30.41873788348942
+    Avg cycle (s): 1856.0585827213881
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 484
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 912
+    Batches created: 59
+
+ITERATION #1, REPLICATION #59
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 325
+    Completed: 59
+    Avg WIP: 29.862153625785872
+    Avg cycle (s): 1822.0975093699853
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 398
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 876
+    Batches created: 60
+
+ITERATION #1, REPLICATION #60
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.078905842896578
+    Avg cycle (s): 1835.32306838013
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 462
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 897
+    Batches created: 59
+
+ITERATION #1, REPLICATION #61
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 388
+    Completed: 59
+    Avg WIP: 30.010522339939353
+    Avg cycle (s): 1831.1505156573162
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 489
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 905
+    Batches created: 60
+
+ITERATION #1, REPLICATION #62
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.65220416991608
+    Avg cycle (s): 1870.3039832491165
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 457
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 898
+    Batches created: 59
+
+ITERATION #1, REPLICATION #63
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 59
+    Avg WIP: 29.969780254319392
+    Avg cycle (s): 1828.6645578906746
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 460
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 906
+    Batches created: 60
+
+ITERATION #1, REPLICATION #64
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.120982282119126
+    Avg cycle (s): 1837.8904443326924
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 468
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 914
+    Batches created: 60
+
+ITERATION #1, REPLICATION #65
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 341
+    Completed: 60
+    Avg WIP: 30.735219970810466
+    Avg cycle (s): 1844.113198248628
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 437
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 900
+    Batches created: 60
+
+ITERATION #1, REPLICATION #66
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.970277455006595
+    Avg cycle (s): 1858.2166473003958
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 445
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 904
+    Batches created: 60
+
+ITERATION #1, REPLICATION #67
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.944451443206216
+    Avg cycle (s): 1856.667086592373
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 445
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 890
+    Batches created: 60
+
+ITERATION #1, REPLICATION #68
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 340
+    Completed: 59
+    Avg WIP: 30.09266855180504
+    Avg cycle (s): 1836.162826889799
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 461
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 916
+    Batches created: 59
+
+ITERATION #1, REPLICATION #69
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 367
+    Completed: 60
+    Avg WIP: 30.564490517486266
+    Avg cycle (s): 1833.869431049176
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 494
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 935
+    Batches created: 60
+
+ITERATION #1, REPLICATION #70
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.734654834807223
+    Avg cycle (s): 1844.0792900884335
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 460
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 906
+    Batches created: 60
+
+ITERATION #1, REPLICATION #71
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.956127024266355
+    Avg cycle (s): 1857.3676214559814
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 444
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 891
+    Batches created: 60
+
+ITERATION #1, REPLICATION #72
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
     Created: 362
+    Completed: 60
+    Avg WIP: 30.480987801605483
+    Avg cycle (s): 1828.859268096329
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 461
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 906
+    Batches created: 60
+
+ITERATION #1, REPLICATION #73
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 341
     Completed: 59
-    Avg WIP: 30.338203082540268
-    Avg cycle (s): 1851.1445948668636
+    Avg WIP: 29.915106818698145
+    Avg cycle (s): 1825.3285516493781
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 456
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 921
+    Batches created: 60
+
+ITERATION #1, REPLICATION #74
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 342
+    Completed: 60
+    Avg WIP: 31.04598912147927
+    Avg cycle (s): 1862.7593472887563
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 436
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 900
+    Batches created: 60
+
+ITERATION #1, REPLICATION #75
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 352
+    Completed: 60
+    Avg WIP: 30.582137776779646
+    Avg cycle (s): 1834.9282666067788
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 436
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 900
+    Batches created: 61
+
+ITERATION #1, REPLICATION #76
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 324
+    Completed: 59
+    Avg WIP: 29.944334222343
+    Avg cycle (s): 1827.111918651437
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 410
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 888
+    Batches created: 60
+
+ITERATION #1, REPLICATION #77
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.48453562156048
+    Avg cycle (s): 1829.0721372936287
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 429
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 888
+    Batches created: 60
+
+ITERATION #1, REPLICATION #78
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.300538916973558
+    Avg cycle (s): 1848.8464423916068
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 470
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 907
+    Batches created: 59
+
+ITERATION #1, REPLICATION #79
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 340
+    Completed: 59
+    Avg WIP: 30.45972987731075
+    Avg cycle (s): 1858.5597891240457
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 452
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 908
+    Batches created: 59
+
+ITERATION #1, REPLICATION #80
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 356
+    Completed: 59
+    Avg WIP: 30.39554593863095
+    Avg cycle (s): 1854.6434810012104
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 468
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 907
+    Batches created: 59
+
+ITERATION #1, REPLICATION #81
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.852332109462562
+    Avg cycle (s): 1851.1399265677537
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 485
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 930
+    Batches created: 60
+
+ITERATION #1, REPLICATION #82
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.932614742430697
+    Avg cycle (s): 1855.9568845458418
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 470
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 915
+    Batches created: 60
+
+ITERATION #1, REPLICATION #83
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.132730270136356
+    Avg cycle (s): 1838.6072707201843
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 445
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 891
+    Batches created: 60
+
+ITERATION #1, REPLICATION #84
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.509366916920175
+    Avg cycle (s): 1861.5884898459767
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 443
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 885
+    Batches created: 59
+
+ITERATION #1, REPLICATION #85
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.828084334856214
+    Avg cycle (s): 1849.6850600913729
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 458
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 907
+    Batches created: 60
+
+ITERATION #1, REPLICATION #86
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.278866431495445
+    Avg cycle (s): 1847.5240534471795
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 468
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 911
+    Batches created: 59
+
+ITERATION #1, REPLICATION #87
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 349
+    Completed: 60
+    Avg WIP: 30.731000546915823
+    Avg cycle (s): 1843.8600328149494
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 455
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 914
+    Batches created: 60
+
+ITERATION #1, REPLICATION #88
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.742653152664122
+    Avg cycle (s): 1844.5591891598474
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 482
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 916
+    Batches created: 60
+
+ITERATION #1, REPLICATION #89
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.40210743884154
+    Avg cycle (s): 1855.0438437259243
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 462
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 908
+    Batches created: 60
+
+ITERATION #1, REPLICATION #90
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 345
+    Completed: 60
+    Avg WIP: 30.800211623423014
+    Avg cycle (s): 1848.0126974053808
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 456
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 920
+    Batches created: 60
+
+ITERATION #1, REPLICATION #91
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.755414623181967
+    Avg cycle (s): 1845.3248773909181
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 460
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 905
+    Batches created: 60
+
+ITERATION #1, REPLICATION #92
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 368
+    Completed: 59
+    Avg WIP: 30.386791452933007
+    Avg cycle (s): 1854.1093089925223
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 488
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 914
+    Batches created: 59
+
+ITERATION #1, REPLICATION #93
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.80173912066291
+    Avg cycle (s): 1848.1043472397746
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 454
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 912
+    Batches created: 60
+
+ITERATION #1, REPLICATION #94
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.697824436207434
+    Avg cycle (s): 1841.869466172446
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 462
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 911
+    Batches created: 60
+
+ITERATION #1, REPLICATION #95
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 334
+    Completed: 60
+    Avg WIP: 30.626361893488568
+    Avg cycle (s): 1837.5817136093142
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 428
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 900
+    Batches created: 60
+
+ITERATION #1, REPLICATION #96
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 336
+    Completed: 59
+    Avg WIP: 30.517500740254732
+    Avg cycle (s): 1862.084790930797
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 452
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 912
+    Batches created: 59
+
+ITERATION #1, REPLICATION #97
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 369
+    Completed: 59
+    Avg WIP: 30.26000225145263
+    Avg cycle (s): 1846.3730187327026
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 463
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 889
+    Batches created: 59
+
+ITERATION #1, REPLICATION #98
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 331
+    Completed: 60
+    Avg WIP: 30.985694270992123
+    Avg cycle (s): 1859.1416562595275
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 432
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 909
+    Batches created: 60
+
+ITERATION #1, REPLICATION #99
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 388
+    Completed: 59
+    Avg WIP: 29.87913537050371
+    Avg cycle (s): 1823.133683623955
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 482
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 898
+    Batches created: 60
+
+ITERATION #1, REPLICATION #100
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 10
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 362
+    Completed: 60
+    Avg WIP: 30.936854696427098
+    Avg cycle (s): 1856.211281785626
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 466
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 909
+    Batches created: 60
 
 ITERATION #2, REPLICATION #1
 PARAMETERS
@@ -908,14 +2608,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
-    Completed: 60
-    Avg WIP: 30.378658462122296
-    Avg cycle (s): 1822.7195077273377
-    Throughput (/h): 60.0
+    Created: 340
+    Completed: 59
+    Avg WIP: 29.879761696580374
+    Avg cycle (s): 1823.1719001303277
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 991
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1449
+    Batches created: 59
 
 ITERATION #2, REPLICATION #2
 PARAMETERS
@@ -926,14 +2634,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 395
-    Completed: 59
-    Avg WIP: 29.803215321272617
-    Avg cycle (s): 1818.501273840363
-    Throughput (/h): 59.0
+    Created: 349
+    Completed: 60
+    Avg WIP: 30.543171074071886
+    Avg cycle (s): 1832.590264444313
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 998
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1453
+    Batches created: 60
 
 ITERATION #2, REPLICATION #3
 PARAMETERS
@@ -944,14 +2660,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 397
+    Created: 374
     Completed: 60
-    Avg WIP: 30.9096098404704
-    Avg cycle (s): 1854.5765904282239
+    Avg WIP: 30.556234145507087
+    Avg cycle (s): 1833.3740487304253
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 969
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1399
+    Batches created: 60
 
 ITERATION #2, REPLICATION #4
 PARAMETERS
@@ -962,14 +2686,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 372
-    Completed: 60
-    Avg WIP: 30.87788346669
-    Avg cycle (s): 1852.6730080014001
-    Throughput (/h): 60.0
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.291410674259428
+    Avg cycle (s): 1848.2894648700667
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1016
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1453
+    Batches created: 59
 
 ITERATION #2, REPLICATION #5
 PARAMETERS
@@ -980,14 +2712,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
+    Created: 341
     Completed: 59
-    Avg WIP: 30.252201580650265
-    Avg cycle (s): 1845.897045598999
+    Avg WIP: 30.27285807141083
+    Avg cycle (s): 1847.1574416454064
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 967
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1420
+    Batches created: 59
 
 ITERATION #2, REPLICATION #6
 PARAMETERS
@@ -998,14 +2738,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 379
+    Created: 324
     Completed: 59
-    Avg WIP: 29.762446211341537
-    Avg cycle (s): 1816.0136671327039
+    Avg WIP: 29.921924471624962
+    Avg cycle (s): 1825.7445440313534
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 969
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1437
+    Batches created: 59
 
 ITERATION #2, REPLICATION #7
 PARAMETERS
@@ -1016,14 +2764,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
     Created: 372
     Completed: 59
-    Avg WIP: 30.013620471170093
-    Avg cycle (s): 1831.3395541730902
+    Avg WIP: 29.98992049080137
+    Avg cycle (s): 1829.8934536760157
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 998
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1430
+    Batches created: 60
 
 ITERATION #2, REPLICATION #8
 PARAMETERS
@@ -1034,14 +2790,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 379
-    Completed: 58
-    Avg WIP: 30.174713018945877
-    Avg cycle (s): 1872.9132218656061
-    Throughput (/h): 58.0
+    Created: 338
+    Completed: 60
+    Avg WIP: 30.837643113783393
+    Avg cycle (s): 1850.2585868270037
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 971
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1439
+    Batches created: 60
 
 ITERATION #2, REPLICATION #9
 PARAMETERS
@@ -1052,14 +2816,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 364
-    Completed: 60
-    Avg WIP: 30.477384517457594
-    Avg cycle (s): 1828.6430710474556
-    Throughput (/h): 60.0
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.16610995853046
+    Avg cycle (s): 1840.643997469655
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 990
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1442
+    Batches created: 60
 
 ITERATION #2, REPLICATION #10
 PARAMETERS
@@ -1070,14 +2842,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
     Created: 361
-    Completed: 59
-    Avg WIP: 30.45321397256557
-    Avg cycle (s): 1858.162208495526
-    Throughput (/h): 59.0
+    Completed: 60
+    Avg WIP: 30.645495816093753
+    Avg cycle (s): 1838.7297489656253
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 979
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 1435
+    Batches created: 61
 
 ITERATION #2, REPLICATION #11
 PARAMETERS
@@ -1088,14 +2868,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 334
-    Completed: 60
-    Avg WIP: 30.920564343308552
-    Avg cycle (s): 1855.233860598513
-    Throughput (/h): 60.0
+    Created: 341
+    Completed: 59
+    Avg WIP: 30.157549927974966
+    Avg cycle (s): 1840.1216905205063
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 977
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1433
+    Batches created: 59
 
 ITERATION #2, REPLICATION #12
 PARAMETERS
@@ -1106,14 +2894,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 379
+    Created: 360
     Completed: 59
-    Avg WIP: 30.098695182480537
-    Avg cycle (s): 1836.5305535072869
+    Avg WIP: 29.97078508795681
+    Avg cycle (s): 1828.7258697736356
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 973
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1417
+    Batches created: 60
 
 ITERATION #2, REPLICATION #13
 PARAMETERS
@@ -1124,14 +2920,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 376
+    Created: 359
     Completed: 60
-    Avg WIP: 30.978022534356473
-    Avg cycle (s): 1858.6813520613885
+    Avg WIP: 30.928489984523605
+    Avg cycle (s): 1855.7093990714163
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 966
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1413
+    Batches created: 60
 
 ITERATION #2, REPLICATION #14
 PARAMETERS
@@ -1142,14 +2946,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 378
-    Completed: 60
-    Avg WIP: 30.871814018776018
-    Avg cycle (s): 1852.308841126561
-    Throughput (/h): 60.0
+    Created: 348
+    Completed: 61
+    Avg WIP: 31.577948079693346
+    Avg cycle (s): 1863.6166079819022
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 967
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1436
+    Batches created: 61
 
 ITERATION #2, REPLICATION #15
 PARAMETERS
@@ -1160,14 +2972,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 365
-    Completed: 59
-    Avg WIP: 30.076125081184244
-    Avg cycle (s): 1835.1533947841233
-    Throughput (/h): 59.0
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.740175117361034
+    Avg cycle (s): 1844.410507041662
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 969
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1428
+    Batches created: 60
 
 ITERATION #2, REPLICATION #16
 PARAMETERS
@@ -1178,14 +2998,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
-    Completed: 58
-    Avg WIP: 29.365276117660933
-    Avg cycle (s): 1822.6723107513683
-    Throughput (/h): 58.0
+    Created: 345
+    Completed: 60
+    Avg WIP: 30.629204659800898
+    Avg cycle (s): 1837.7522795880539
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 958
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1418
+    Batches created: 60
 
 ITERATION #2, REPLICATION #17
 PARAMETERS
@@ -1196,14 +3024,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
+    Created: 357
     Completed: 59
-    Avg WIP: 30.238668702400663
-    Avg cycle (s): 1845.0713106549556
+    Avg WIP: 30.263959498310403
+    Avg cycle (s): 1846.6144778630076
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 961
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1396
+    Batches created: 59
 
 ITERATION #2, REPLICATION #18
 PARAMETERS
@@ -1214,14 +3050,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 350
-    Completed: 60
-    Avg WIP: 30.923084904580563
-    Avg cycle (s): 1855.3850942748338
-    Throughput (/h): 60.0
+    Created: 387
+    Completed: 59
+    Avg WIP: 29.709724714960206
+    Avg cycle (s): 1812.7967622687581
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 976
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1384
+    Batches created: 59
 
 ITERATION #2, REPLICATION #19
 PARAMETERS
@@ -1232,14 +3076,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 356
-    Completed: 60
-    Avg WIP: 30.916314188191233
-    Avg cycle (s): 1854.978851291474
-    Throughput (/h): 60.0
+    Created: 369
+    Completed: 59
+    Avg WIP: 30.20300301700725
+    Avg cycle (s): 1842.8950993428152
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 952
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1377
+    Batches created: 59
 
 ITERATION #2, REPLICATION #20
 PARAMETERS
@@ -1250,14 +3102,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 377
+    Created: 330
     Completed: 60
-    Avg WIP: 30.66918962557225
-    Avg cycle (s): 1840.151377534335
+    Avg WIP: 30.396931057752695
+    Avg cycle (s): 1823.8158634651618
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 952
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1428
+    Batches created: 60
 
 ITERATION #2, REPLICATION #21
 PARAMETERS
@@ -1268,14 +3128,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 381
-    Completed: 59
-    Avg WIP: 30.057930569275552
-    Avg cycle (s): 1834.0432211761351
-    Throughput (/h): 59.0
+    Created: 349
+    Completed: 60
+    Avg WIP: 30.670391720350967
+    Avg cycle (s): 1840.223503221058
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 994
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1453
+    Batches created: 60
 
 ITERATION #2, REPLICATION #22
 PARAMETERS
@@ -1286,14 +3154,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
+    Created: 343
     Completed: 59
-    Avg WIP: 30.42504024189452
-    Avg cycle (s): 1856.4431334037333
+    Avg WIP: 30.061137437040784
+    Avg cycle (s): 1834.2388944635054
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 1004
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1457
+    Batches created: 59
 
 ITERATION #2, REPLICATION #23
 PARAMETERS
@@ -1304,14 +3180,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 354
-    Completed: 59
-    Avg WIP: 30.117622507131838
-    Avg cycle (s): 1837.685441113129
-    Throughput (/h): 59.0
+    Created: 363
+    Completed: 60
+    Avg WIP: 30.47278478854675
+    Avg cycle (s): 1828.367087312805
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 992
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1443
+    Batches created: 61
 
 ITERATION #2, REPLICATION #24
 PARAMETERS
@@ -1322,14 +3206,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 396
+    Created: 346
     Completed: 60
-    Avg WIP: 30.76136521295197
-    Avg cycle (s): 1845.6819127771182
+    Avg WIP: 30.608674542538914
+    Avg cycle (s): 1836.520472552335
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 948
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1407
+    Batches created: 60
 
 ITERATION #2, REPLICATION #25
 PARAMETERS
@@ -1340,14 +3232,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 363
+    Created: 346
     Completed: 60
-    Avg WIP: 30.69424215878378
-    Avg cycle (s): 1841.6545295270269
+    Avg WIP: 30.937376958625062
+    Avg cycle (s): 1856.2426175175037
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 961
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1418
+    Batches created: 60
 
 ITERATION #2, REPLICATION #26
 PARAMETERS
@@ -1358,14 +3258,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 422
-    Completed: 59
-    Avg WIP: 29.93277532532514
-    Avg cycle (s): 1826.4066300198388
-    Throughput (/h): 59.0
+    Created: 340
+    Completed: 60
+    Avg WIP: 30.531390055042596
+    Avg cycle (s): 1831.8834033025557
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 993
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 1460
+    Batches created: 60
 
 ITERATION #2, REPLICATION #27
 PARAMETERS
@@ -1376,14 +3284,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 371
-    Completed: 59
-    Avg WIP: 30.211574682998155
-    Avg cycle (s): 1843.4181162507348
-    Throughput (/h): 59.0
+    Created: 348
+    Completed: 60
+    Avg WIP: 30.75545428559286
+    Avg cycle (s): 1845.3272571355717
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 950
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1409
+    Batches created: 60
 
 ITERATION #2, REPLICATION #28
 PARAMETERS
@@ -1394,14 +3310,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
+    Created: 357
     Completed: 59
-    Avg WIP: 30.39285049897889
-    Avg cycle (s): 1854.479013497017
+    Avg WIP: 30.03608636106
+    Avg cycle (s): 1832.7103542341695
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 1010
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1455
+    Batches created: 60
 
 ITERATION #2, REPLICATION #29
 PARAMETERS
@@ -1412,14 +3336,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
+    Created: 373
     Completed: 60
-    Avg WIP: 30.70071975687941
-    Avg cycle (s): 1842.0431854127646
+    Avg WIP: 30.762221516431516
+    Avg cycle (s): 1845.733290985891
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 965
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1398
+    Batches created: 60
 
 ITERATION #2, REPLICATION #30
 PARAMETERS
@@ -1430,14 +3362,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 404
+    Created: 348
     Completed: 60
-    Avg WIP: 31.080243901277157
-    Avg cycle (s): 1864.8146340766295
+    Avg WIP: 30.689787138487322
+    Avg cycle (s): 1841.3872283092394
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 984
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1443
+    Batches created: 60
 
 ITERATION #2, REPLICATION #31
 PARAMETERS
@@ -1448,14 +3388,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
-    Completed: 60
-    Avg WIP: 30.77441835137747
-    Avg cycle (s): 1846.4651010826483
-    Throughput (/h): 60.0
+    Created: 349
+    Completed: 59
+    Avg WIP: 30.49331906008919
+    Avg cycle (s): 1860.6092985817131
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 988
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 200
+    Loose items created: 1430
+    Batches created: 59
 
 ITERATION #2, REPLICATION #32
 PARAMETERS
@@ -1466,14 +3414,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 372
-    Completed: 61
-    Avg WIP: 31.6985159884058
-    Avg cycle (s): 1870.7320911190307
-    Throughput (/h): 61.0
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.579667266281543
+    Avg cycle (s): 1834.7800359768926
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 973
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1420
+    Batches created: 60
 
 ITERATION #2, REPLICATION #33
 PARAMETERS
@@ -1484,14 +3440,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
+    Created: 353
     Completed: 59
-    Avg WIP: 30.07594864129341
-    Avg cycle (s): 1835.1426289602757
+    Avg WIP: 30.385492874799112
+    Avg cycle (s): 1854.0300737165558
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 959
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1400
+    Batches created: 59
 
 ITERATION #2, REPLICATION #34
 PARAMETERS
@@ -1502,14 +3466,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
-    Completed: 57
-    Avg WIP: 28.901232884099645
-    Avg cycle (s): 1825.3410242589248
-    Throughput (/h): 57.0
+    Created: 331
+    Completed: 60
+    Avg WIP: 30.588229355197765
+    Avg cycle (s): 1835.2937613118659
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 978
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1454
+    Batches created: 60
 
 ITERATION #2, REPLICATION #35
 PARAMETERS
@@ -1520,14 +3492,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 365
-    Completed: 59
-    Avg WIP: 29.777155272797078
-    Avg cycle (s): 1816.911169187618
-    Throughput (/h): 59.0
+    Created: 344
+    Completed: 60
+    Avg WIP: 30.706518033313845
+    Avg cycle (s): 1842.3910819988307
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 988
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1451
+    Batches created: 60
 
 ITERATION #2, REPLICATION #36
 PARAMETERS
@@ -1538,14 +3518,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 358
-    Completed: 59
-    Avg WIP: 29.850959239357774
-    Avg cycle (s): 1821.4144620625082
-    Throughput (/h): 59.0
+    Created: 330
+    Completed: 60
+    Avg WIP: 30.772255289639553
+    Avg cycle (s): 1846.3353173783732
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 986
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1461
+    Batches created: 60
 
 ITERATION #2, REPLICATION #37
 PARAMETERS
@@ -1556,14 +3544,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
+    Created: 333
     Completed: 59
-    Avg WIP: 30.309978321905426
-    Avg cycle (s): 1849.422406082365
+    Avg WIP: 30.041611941440728
+    Avg cycle (s): 1833.0475082912985
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 966
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1426
+    Batches created: 59
 
 ITERATION #2, REPLICATION #38
 PARAMETERS
@@ -1574,14 +3570,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 374
-    Completed: 59
-    Avg WIP: 30.27248983720851
-    Avg cycle (s): 1847.1349731178072
-    Throughput (/h): 59.0
+    Created: 372
+    Completed: 60
+    Avg WIP: 31.20836690461695
+    Avg cycle (s): 1872.502014277017
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 957
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1391
+    Batches created: 60
 
 ITERATION #2, REPLICATION #39
 PARAMETERS
@@ -1592,14 +3596,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 334
+    Created: 360
     Completed: 60
-    Avg WIP: 30.27588397120932
-    Avg cycle (s): 1816.5530382725592
+    Avg WIP: 30.84935740774502
+    Avg cycle (s): 1850.9614444647013
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 991
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1437
+    Batches created: 60
 
 ITERATION #2, REPLICATION #40
 PARAMETERS
@@ -1610,14 +3622,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
     Created: 341
     Completed: 59
-    Avg WIP: 29.714618324158756
-    Avg cycle (s): 1813.0953553723984
+    Avg WIP: 29.781761941972754
+    Avg cycle (s): 1817.192254086473
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 971
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1422
+    Batches created: 59
 
 ITERATION #2, REPLICATION #41
 PARAMETERS
@@ -1628,14 +3648,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 323
-    Completed: 60
-    Avg WIP: 30.25366640566063
-    Avg cycle (s): 1815.219984339638
-    Throughput (/h): 60.0
+    Created: 341
+    Completed: 59
+    Avg WIP: 29.859740698360422
+    Avg cycle (s): 1821.9502798999579
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 953
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1420
+    Batches created: 60
 
 ITERATION #2, REPLICATION #42
 PARAMETERS
@@ -1646,14 +3674,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 367
+    Created: 361
     Completed: 60
-    Avg WIP: 30.93909003382044
-    Avg cycle (s): 1856.3454020292265
+    Avg WIP: 30.56009189087313
+    Avg cycle (s): 1833.6055134523879
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 983
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1428
+    Batches created: 60
 
 ITERATION #2, REPLICATION #43
 PARAMETERS
@@ -1664,14 +3700,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 59
-    Avg WIP: 29.86042102663547
-    Avg cycle (s): 1821.9917914557236
-    Throughput (/h): 59.0
+    Created: 364
+    Completed: 58
+    Avg WIP: 29.453092076741424
+    Avg cycle (s): 1828.1229564873988
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 954
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1382
+    Batches created: 59
 
 ITERATION #2, REPLICATION #44
 PARAMETERS
@@ -1682,14 +3726,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 380
     Completed: 60
-    Avg WIP: 30.987728961581862
-    Avg cycle (s): 1859.2637376949117
+    Avg WIP: 30.562781437557195
+    Avg cycle (s): 1833.7668862534317
     Throughput (/h): 60.0
+    Main conveyor occupancy end: 988
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1425
+    Batches created: 61
 
 ITERATION #2, REPLICATION #45
 PARAMETERS
@@ -1700,14 +3752,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 402
-    Completed: 59
-    Avg WIP: 29.716808193526024
-    Avg cycle (s): 1813.2289745202318
-    Throughput (/h): 59.0
+    Created: 342
+    Completed: 60
+    Avg WIP: 30.80042490113358
+    Avg cycle (s): 1848.025494068015
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 977
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1439
+    Batches created: 60
 
 ITERATION #2, REPLICATION #46
 PARAMETERS
@@ -1718,14 +3778,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 334
-    Completed: 60
-    Avg WIP: 30.80130411229839
-    Avg cycle (s): 1848.0782467379033
-    Throughput (/h): 60.0
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.152979801662706
+    Avg cycle (s): 1839.8428353556903
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 987
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1426
+    Batches created: 59
 
 ITERATION #2, REPLICATION #47
 PARAMETERS
@@ -1736,14 +3804,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 361
-    Completed: 61
-    Avg WIP: 30.951049334946834
-    Avg cycle (s): 1826.6193050132556
-    Throughput (/h): 61.0
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.94501146658104
+    Avg cycle (s): 1827.1532420286735
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 962
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1399
+    Batches created: 59
 
 ITERATION #2, REPLICATION #48
 PARAMETERS
@@ -1754,14 +3830,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 374
-    Completed: 58
-    Avg WIP: 29.165236470283666
-    Avg cycle (s): 1810.2560567762275
-    Throughput (/h): 58.0
+    Created: 347
+    Completed: 60
+    Avg WIP: 30.614038247692516
+    Avg cycle (s): 1836.842294861551
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 957
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1415
+    Batches created: 60
 
 ITERATION #2, REPLICATION #49
 PARAMETERS
@@ -1772,14 +3856,22 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.56801762709596
-    Avg cycle (s): 1834.0810576257575
-    Throughput (/h): 60.0
+    Created: 352
+    Completed: 61
+    Avg WIP: 31.26149718182469
+    Avg cycle (s): 1844.9408172880144
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 977
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1442
+    Batches created: 61
 
 ITERATION #2, REPLICATION #50
 PARAMETERS
@@ -1790,11 +3882,1319 @@ PARAMETERS
     Conveyor Gap (m): 0.3
     Min items per pallet: 5
     Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 59
+    Avg WIP: 30.121109344832274
+    Avg cycle (s): 1837.8981973117995
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 952
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1414
+    Batches created: 60
+
+ITERATION #2, REPLICATION #51
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 341
+    Completed: 59
+    Avg WIP: 30.096878453052174
+    Avg cycle (s): 1836.4197022201324
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1001
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1452
+    Batches created: 59
+
+ITERATION #2, REPLICATION #52
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 370
+    Completed: 59
+    Avg WIP: 29.81823150613152
+    Avg cycle (s): 1819.4175156283638
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 992
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1423
+    Batches created: 60
+
+ITERATION #2, REPLICATION #53
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 361
+    Completed: 60
+    Avg WIP: 30.75005849024959
+    Avg cycle (s): 1845.0035094149755
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 978
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1423
+    Batches created: 60
+
+ITERATION #2, REPLICATION #54
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 367
+    Completed: 59
+    Avg WIP: 30.24342468178027
+    Avg cycle (s): 1845.3615060069314
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 974
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1400
+    Batches created: 59
+
+ITERATION #2, REPLICATION #55
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 361
+    Completed: 59
+    Avg WIP: 29.79669775035398
+    Avg cycle (s): 1818.1035915470225
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 985
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1429
+    Batches created: 60
+
+ITERATION #2, REPLICATION #56
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 368
+    Completed: 59
+    Avg WIP: 30.001035475365047
+    Avg cycle (s): 1830.5716561239688
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 979
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1407
+    Batches created: 59
+
+ITERATION #2, REPLICATION #57
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
     Random arrivals: true
     Random services: true
 RESULTS
     Created: 360
+    Completed: 60
+    Avg WIP: 30.836227510052666
+    Avg cycle (s): 1850.17365060316
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 980
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1426
+    Batches created: 60
+
+ITERATION #2, REPLICATION #58
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 31.222507648858162
+    Avg cycle (s): 1873.3504589314898
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 971
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1434
+    Batches created: 60
+
+ITERATION #2, REPLICATION #59
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 337
     Completed: 59
-    Avg WIP: 29.88717885972054
-    Avg cycle (s): 1823.6244727965072
+    Avg WIP: 30.303517630369583
+    Avg cycle (s): 1849.0281943954321
     Throughput (/h): 59.0
+    Main conveyor occupancy end: 948
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1403
+    Batches created: 59
+
+ITERATION #2, REPLICATION #60
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 356
+    Completed: 59
+    Avg WIP: 30.626497175870437
+    Avg cycle (s): 1868.735420900569
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 990
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1426
+    Batches created: 59
+
+ITERATION #2, REPLICATION #61
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 364
+    Completed: 60
+    Avg WIP: 30.679168398889825
+    Avg cycle (s): 1840.7501039333895
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 958
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1401
+    Batches created: 60
+
+ITERATION #2, REPLICATION #62
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 362
+    Completed: 60
+    Avg WIP: 30.27675299820973
+    Avg cycle (s): 1816.605179892584
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1000
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1444
+    Batches created: 60
+
+ITERATION #2, REPLICATION #63
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 344
+    Completed: 59
+    Avg WIP: 29.92409430029788
+    Avg cycle (s): 1825.8769403571587
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 960
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1408
+    Batches created: 59
+
+ITERATION #2, REPLICATION #64
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 349
+    Completed: 60
+    Avg WIP: 30.325708987829213
+    Avg cycle (s): 1819.5425392697528
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 976
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1434
+    Batches created: 60
+
+ITERATION #2, REPLICATION #65
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 370
+    Completed: 59
+    Avg WIP: 30.237048250065754
+    Avg cycle (s): 1844.9724355972323
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 983
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1406
+    Batches created: 59
+
+ITERATION #2, REPLICATION #66
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 341
+    Completed: 59
+    Avg WIP: 29.962621935681618
+    Avg cycle (s): 1828.227779126336
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 974
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1437
+    Batches created: 60
+
+ITERATION #2, REPLICATION #67
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 341
+    Completed: 59
+    Avg WIP: 29.647748027001533
+    Avg cycle (s): 1809.0151338509409
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 952
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1415
+    Batches created: 60
+
+ITERATION #2, REPLICATION #68
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 356
+    Completed: 59
+    Avg WIP: 29.886346640434425
+    Avg cycle (s): 1823.5736933146427
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 978
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1414
+    Batches created: 59
+
+ITERATION #2, REPLICATION #69
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.830785403363873
+    Avg cycle (s): 1849.8471242018325
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 980
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1438
+    Batches created: 60
+
+ITERATION #2, REPLICATION #70
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 343
+    Completed: 59
+    Avg WIP: 30.113471605588682
+    Avg cycle (s): 1837.4321657647329
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 915
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1365
+    Batches created: 59
+
+ITERATION #2, REPLICATION #71
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 60
+    Avg WIP: 31.06504307471615
+    Avg cycle (s): 1863.9025844829691
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 974
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1421
+    Batches created: 60
+
+ITERATION #2, REPLICATION #72
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 332
+    Completed: 60
+    Avg WIP: 30.47459646109209
+    Avg cycle (s): 1828.4757876655256
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 958
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1431
+    Batches created: 60
+
+ITERATION #2, REPLICATION #73
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.870579895982008
+    Avg cycle (s): 1852.2347937589204
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 984
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1444
+    Batches created: 60
+
+ITERATION #2, REPLICATION #74
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.221736888588765
+    Avg cycle (s): 1844.0381830325346
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 966
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1404
+    Batches created: 59
+
+ITERATION #2, REPLICATION #75
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 355
+    Completed: 59
+    Avg WIP: 30.469223980656107
+    Avg cycle (s): 1859.1390903451181
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 940
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1379
+    Batches created: 59
+
+ITERATION #2, REPLICATION #76
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 359
+    Completed: 59
+    Avg WIP: 29.97096571041222
+    Avg cycle (s): 1828.7368908048131
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 965
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1399
+    Batches created: 59
+
+ITERATION #2, REPLICATION #77
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.76169141042703
+    Avg cycle (s): 1845.7014846256218
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 943
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1374
+    Batches created: 60
+
+ITERATION #2, REPLICATION #78
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 362
+    Completed: 60
+    Avg WIP: 30.529579988875923
+    Avg cycle (s): 1831.7747993325554
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1003
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1446
+    Batches created: 60
+
+ITERATION #2, REPLICATION #79
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 348
+    Completed: 60
+    Avg WIP: 30.719536117662145
+    Avg cycle (s): 1843.1721670597287
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1004
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1463
+    Batches created: 60
+
+ITERATION #2, REPLICATION #80
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.05827353413068
+    Avg cycle (s): 1834.0641478452617
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 964
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1402
+    Batches created: 59
+
+ITERATION #2, REPLICATION #81
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 343
+    Completed: 59
+    Avg WIP: 29.947337429895168
+    Avg cycle (s): 1827.2951652139423
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1020
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 206
+    Loose items created: 1474
+    Batches created: 59
+
+ITERATION #2, REPLICATION #82
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 344
+    Completed: 59
+    Avg WIP: 29.870030885970593
+    Avg cycle (s): 1822.5781557541377
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 926
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1388
+    Batches created: 60
+
+ITERATION #2, REPLICATION #83
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.747762640071496
+    Avg cycle (s): 1844.8657584042899
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 953
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1411
+    Batches created: 60
+
+ITERATION #2, REPLICATION #84
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.585252031913246
+    Avg cycle (s): 1835.1151219147948
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 974
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1407
+    Batches created: 60
+
+ITERATION #2, REPLICATION #85
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 365
+    Completed: 60
+    Avg WIP: 30.238934419707835
+    Avg cycle (s): 1814.33606518247
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 971
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 205
+    Loose items created: 1424
+    Batches created: 61
+
+ITERATION #2, REPLICATION #86
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 350
+    Completed: 60
+    Avg WIP: 30.256961370211332
+    Avg cycle (s): 1815.41768221268
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 994
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1459
+    Batches created: 61
+
+ITERATION #2, REPLICATION #87
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 60
+    Avg WIP: 30.952284152860834
+    Avg cycle (s): 1857.13704917165
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 972
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1419
+    Batches created: 60
+
+ITERATION #2, REPLICATION #88
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.740070472509146
+    Avg cycle (s): 1844.4042283505487
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 954
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1397
+    Batches created: 60
+
+ITERATION #2, REPLICATION #89
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.91892568024767
+    Avg cycle (s): 1855.1355408148604
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1027
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1470
+    Batches created: 60
+
+ITERATION #2, REPLICATION #90
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.773685186908022
+    Avg cycle (s): 1846.4211112144812
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 938
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1383
+    Batches created: 60
+
+ITERATION #2, REPLICATION #91
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 345
+    Completed: 60
+    Avg WIP: 30.81195012149705
+    Avg cycle (s): 1848.717007289823
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 976
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1438
+    Batches created: 60
+
+ITERATION #2, REPLICATION #92
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.679108185244132
+    Avg cycle (s): 1840.746491114648
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 990
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1421
+    Batches created: 60
+
+ITERATION #2, REPLICATION #93
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.161426052440415
+    Avg cycle (s): 1840.3581998099235
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 931
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 204
+    Loose items created: 1369
+    Batches created: 59
+
+ITERATION #2, REPLICATION #94
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 364
+    Completed: 60
+    Avg WIP: 30.388922855845678
+    Avg cycle (s): 1823.3353713507406
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 980
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 1434
+    Batches created: 61
+
+ITERATION #2, REPLICATION #95
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.251790107253175
+    Avg cycle (s): 1845.8719387476513
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 989
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1428
+    Batches created: 59
+
+ITERATION #2, REPLICATION #96
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.865010750603158
+    Avg cycle (s): 1822.271842409684
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 971
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 201
+    Loose items created: 1405
+    Batches created: 59
+
+ITERATION #2, REPLICATION #97
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.781750824950947
+    Avg cycle (s): 1817.1915757597187
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 941
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 202
+    Loose items created: 1377
+    Batches created: 59
+
+ITERATION #2, REPLICATION #98
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 344
+    Completed: 59
+    Avg WIP: 29.789003364613176
+    Avg cycle (s): 1817.6341036035158
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 965
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1427
+    Batches created: 60
+
+ITERATION #2, REPLICATION #99
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 324
+    Completed: 59
+    Avg WIP: 30.20637510518247
+    Avg cycle (s): 1843.1008538755405
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 968
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 203
+    Loose items created: 1438
+    Batches created: 59
+
+ITERATION #2, REPLICATION #100
+PARAMETERS
+    Arrival rate (s): 10.0
+    Service1 time (s): 10.0
+    Service2 time (s): 8.0
+    Conveyor Speed (m/s): 0.8
+    Conveyor Gap (m): 0.3
+    Min items per pallet: 5
+    Max items per pallet: 20
+    Item count seed: 101
+    Unbatch seed: 202
+    Timing seed: 303
+    Random arrivals: true
+    Random services: true
+RESULTS
+    Created: 363
+    Completed: 61
+    Avg WIP: 31.278950939970485
+    Avg cycle (s): 1845.970875145799
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 1025
+    Storage conveyor occupancy end: 0
+    Empty pallets completed: 207
+    Loose items created: 1480
+    Batches created: 61
