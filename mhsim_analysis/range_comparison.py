@@ -951,6 +951,81 @@ def _build_metric_comparison_row(
     )
 
 
+@dataclass(frozen=True)
+class ParityOffender:
+    """A single matched metric/case whose diff exceeds a regression gate."""
+
+    metric_name: str
+    label: str
+    case: tuple[int | float, ...]
+    anylogic_value: int | float
+    simpy_value: int | float
+    diff: float
+    diff_pct: float | None
+
+
+def collect_parity_offenders(
+    context: ComparisonContext,
+    *,
+    max_abs_diff: float | None = None,
+    max_pct: float | None = None,
+    metric_name_prefix: str | None = None,
+) -> list[ParityOffender]:
+    """Return matched metric/case rows that breach an absolute or percent gate.
+
+    A row is an offender when its absolute diff exceeds ``max_abs_diff`` OR its
+    percent diff exceeds ``max_pct`` (whichever gates are set). ``metric_name_prefix``
+    restricts the scan to metrics whose field name starts with that prefix, e.g.
+    ``"benchmark_"`` to gate only the second-valued movement-timing windows where
+    an absolute-second threshold is well defined. Results are sorted worst-first
+    by absolute diff.
+    """
+    offenders: list[ParityOffender] = []
+    for field_name, label in _comparison_metrics(context):
+        if metric_name_prefix is not None and not field_name.startswith(metric_name_prefix):
+            continue
+        for anylogic, simpy in _matched_rows(context):
+            row = _build_metric_comparison_row(anylogic, simpy, field_name, label)
+            abs_diff = abs(row.diff)
+            abs_pct = abs(row.diff_pct) if row.diff_pct is not None else None
+            over_abs = max_abs_diff is not None and abs_diff > max_abs_diff
+            over_pct = max_pct is not None and abs_pct is not None and abs_pct > max_pct
+            if over_abs or over_pct:
+                offenders.append(
+                    ParityOffender(
+                        metric_name=field_name,
+                        label=label,
+                        case=anylogic.match_key(context.spec),
+                        anylogic_value=row.anylogic_value,
+                        simpy_value=row.simpy_value,
+                        diff=row.diff,
+                        diff_pct=row.diff_pct,
+                    )
+                )
+    offenders.sort(key=lambda item: abs(item.diff), reverse=True)
+    return offenders
+
+
+def format_parity_offenders(
+    offenders: list[ParityOffender],
+    spec: RangeComparisonSpec,
+    *,
+    limit: int | None = None,
+) -> str:
+    """Render parity-gate offenders as a compact text block."""
+    shown = offenders if limit is None else offenders[:limit]
+    lines = [
+        f"  {row.label} [{_format_case(row.case, spec)}]: "
+        f"AnyLogic={_format_value(row.anylogic_value)} "
+        f"SimPy={_format_value(row.simpy_value)} "
+        f"diff={_format_diff(row.diff)} ({_format_percent(row.diff_pct)})"
+        for row in shown
+    ]
+    if limit is not None and len(offenders) > limit:
+        lines.append(f"  ... and {len(offenders) - limit} more")
+    return "\n".join(lines)
+
+
 def _print_metric_row(row: MetricComparisonRow) -> None:
     print(
         f"  {_truncate(row.label, 40):<40} "

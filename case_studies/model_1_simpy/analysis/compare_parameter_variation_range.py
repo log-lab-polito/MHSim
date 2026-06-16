@@ -8,6 +8,7 @@ This comparison focuses on summary metrics and forklift movement benchmarks.
 from __future__ import annotations
 
 import argparse
+import sys
 from dataclasses import replace
 from pathlib import Path
 
@@ -15,6 +16,8 @@ from mhsim_analysis.range_comparison import (
     RangeComparisonSpec,
     RangeRow,
     build_comparison_context as _build_comparison_context,
+    collect_parity_offenders,
+    format_parity_offenders,
     load_simpy_run_rows as _load_simpy_run_rows,
     load_simpy_summary_rows as _load_simpy_summary_rows,
     print_comparison_report,
@@ -296,6 +299,35 @@ def main() -> None:
             "paths and text otherwise."
         ),
     )
+    parser.add_argument(
+        "--fail-over-abs-s",
+        type=float,
+        default=None,
+        help=(
+            "Regression gate: exit non-zero if any benchmark movement-timing "
+            "metric (seconds) diverges from AnyLogic by more than this many "
+            "seconds. Use in CI to catch sub-0.1%% movement-parity regressions."
+        ),
+    )
+    parser.add_argument(
+        "--fail-over-pct",
+        type=float,
+        default=None,
+        help=(
+            "Regression gate: exit non-zero if any gated metric diverges by more "
+            "than this percent. Applies to the same metric scope as "
+            "--gate-metric-prefix."
+        ),
+    )
+    parser.add_argument(
+        "--gate-metric-prefix",
+        default="benchmark_",
+        help=(
+            "Restrict the regression gate to metrics whose field name starts "
+            "with this prefix. Default 'benchmark_' gates only the second-valued "
+            "movement-timing windows; pass an empty string to gate all metrics."
+        ),
+    )
     args = parser.parse_args()
 
     anylogic_rows = parse_anylogic_range_output(args.anylogic)
@@ -329,6 +361,29 @@ def main() -> None:
             metric_name=args.metric,
             top=args.top,
         )
+
+    if args.fail_over_abs_s is not None or args.fail_over_pct is not None:
+        offenders = collect_parity_offenders(
+            context,
+            max_abs_diff=args.fail_over_abs_s,
+            max_pct=args.fail_over_pct,
+            metric_name_prefix=args.gate_metric_prefix or None,
+        )
+        gate_parts = []
+        if args.fail_over_abs_s is not None:
+            gate_parts.append(f"abs>{args.fail_over_abs_s:g}s")
+        if args.fail_over_pct is not None:
+            gate_parts.append(f"pct>{args.fail_over_pct:g}%")
+        scope = args.gate_metric_prefix or "all"
+        gate_desc = " or ".join(gate_parts)
+        if offenders:
+            print(
+                f"\nPARITY GATE FAILED ({gate_desc}, scope='{scope}'): "
+                f"{len(offenders)} offending metric/case row(s):"
+            )
+            print(format_parity_offenders(offenders, context.spec, limit=25))
+            sys.exit(1)
+        print(f"\nPARITY GATE PASSED ({gate_desc}, scope='{scope}').")
 
 
 if __name__ == "__main__":

@@ -254,6 +254,13 @@ def run_simpy_benchmark(
 ) -> SimPyBenchmarkRow:
     params = Model1Params() if base_params is None else replace(base_params)
     params.sim_time = sim_time
+    # The AnyLogic benchmark export (log_file.txt) is the Parameter Variation /
+    # Sensitivity Analysis run, which does NOT carry the Simulation experiment's
+    # before-run A/B relocation code. Mirror the shared range base so the loaded
+    # leg uses the original line-guided A/B geometry instead of the
+    # displacement-relocated geometry; otherwise the loaded leg is timed against
+    # the wrong path and reports spurious diffs of +100% or more.
+    params.apply_displacement_geometry = False
     range_values = _parameter_values_for_anylogic_row(anylogic_row)
     params.arrival_rate_s = range_values.arrival_rate_s
     params.n_forklifts = range_values.n_forklifts

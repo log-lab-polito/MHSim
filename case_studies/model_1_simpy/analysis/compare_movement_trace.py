@@ -4,6 +4,7 @@ import argparse
 import csv
 import math
 import re
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -170,6 +171,126 @@ def max_position_error(
     )
 
 
+def _interpolate_first_position(
+    samples: list[TraceSample],
+    time: float,
+) -> tuple[float, float] | None:
+    """Linearly interpolate the lead position at ``time`` within the trace span.
+
+    Returns None outside the sampled time span. Interpolation (rather than
+    rounding to a shared 0.01 s grid) keeps the per-timestep residual honest
+    when the two traces are sampled on a slightly offset phase.
+    """
+    if not samples:
+        return None
+    if time < samples[0].time or time > samples[-1].time:
+        return None
+    # Samples are emitted in increasing time order; binary search the bracket.
+    lo, hi = 0, len(samples) - 1
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if samples[mid].time < time:
+            lo = mid + 1
+        else:
+            hi = mid
+    if samples[lo].time == time or lo == 0:
+        return _first_position(samples[lo])
+    before = samples[lo - 1]
+    after = samples[lo]
+    span = after.time - before.time
+    if span <= 0:
+        return _first_position(after)
+    frac = (time - before.time) / span
+    bx, by = _first_position(before)
+    ax, ay = _first_position(after)
+    return (bx + (ax - bx) * frac, by + (ay - by) * frac)
+
+
+@dataclass(frozen=True)
+class PositionResidual:
+    time: float
+    anylogic: tuple[float, float]
+    simpy: tuple[float, float]
+    error: float
+
+
+@dataclass(frozen=True)
+class ResidualStats:
+    count: int
+    max_error: float
+    max_error_time: float
+    mean_error: float
+    rms_error: float
+    p95_error: float
+
+
+def position_residual_series(
+    anylogic_samples: list[TraceSample],
+    simpy_samples: list[TraceSample],
+) -> list[PositionResidual]:
+    """Per-timestep lead-forklift position residual, SimPy vs AnyLogic.
+
+    AnyLogic positions are interpolated onto each SimPy sample time that falls
+    within the AnyLogic trace span, so the residual is a true position-vs-time
+    error envelope rather than a single worst-case scalar.
+    """
+    residuals: list[PositionResidual] = []
+    for sample in simpy_samples:
+        anylogic_pos = _interpolate_first_position(anylogic_samples, sample.time)
+        if anylogic_pos is None:
+            continue
+        simpy_pos = _first_position(sample)
+        residuals.append(
+            PositionResidual(
+                time=sample.time,
+                anylogic=anylogic_pos,
+                simpy=simpy_pos,
+                error=_distance(anylogic_pos, simpy_pos),
+            )
+        )
+    return residuals
+
+
+def residual_stats(residuals: list[PositionResidual]) -> ResidualStats | None:
+    if not residuals:
+        return None
+    errors = [r.error for r in residuals]
+    worst = max(residuals, key=lambda r: r.error)
+    ordered = sorted(errors)
+    # Nearest-rank p95.
+    rank = max(0, math.ceil(0.95 * len(ordered)) - 1)
+    return ResidualStats(
+        count=len(errors),
+        max_error=worst.error,
+        max_error_time=worst.time,
+        mean_error=sum(errors) / len(errors),
+        rms_error=math.sqrt(sum(e * e for e in errors) / len(errors)),
+        p95_error=ordered[rank],
+    )
+
+
+def write_residual_csv(path: str | Path, residuals: list[PositionResidual]) -> Path:
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            ["t", "anylogic_x", "anylogic_y", "simpy_x", "simpy_y", "position_error"]
+        )
+        for r in residuals:
+            writer.writerow(
+                [
+                    f"{r.time:.4f}",
+                    f"{r.anylogic[0]:.6f}",
+                    f"{r.anylogic[1]:.6f}",
+                    f"{r.simpy[0]:.6f}",
+                    f"{r.simpy[1]:.6f}",
+                    f"{r.error:.6f}",
+                ]
+            )
+    return output_path
+
+
 def generate_simpy_trace(sim_time: float) -> Path:
     params = Model1Params()
     params.sim_time = sim_time
@@ -315,6 +436,20 @@ def main() -> None:
         default=None,
         help="Optional CSV output path for comparison rows.",
     )
+    parser.add_argument(
+        "--residual-csv",
+        default=None,
+        help="Optional CSV output path for the per-timestep position residual.",
+    )
+    parser.add_argument(
+        "--max-position-error",
+        type=float,
+        default=None,
+        help=(
+            "Regression gate: exit non-zero if the max per-timestep position "
+            "error (presentation units) exceeds this value."
+        ),
+    )
     args = parser.parse_args()
 
     anylogic_path = Path(args.anylogic_trace)
@@ -335,9 +470,40 @@ def main() -> None:
     )
     rows = _rows(anylogic_phases, simpy_phases, max_error, classification)
     print_report(anylogic_path=anylogic_path, simpy_path=simpy_path, rows=rows)
+
+    residuals = position_residual_series(anylogic_samples, simpy_samples)
+    stats = residual_stats(residuals)
+    if stats is not None:
+        print()
+        print("Per-timestep position residual (interpolated onto SimPy samples):")
+        print(
+            f"  samples={stats.count}  max={stats.max_error:.4f} @ t={stats.max_error_time:.2f}s"
+            f"  mean={stats.mean_error:.4f}  rms={stats.rms_error:.4f}"
+            f"  p95={stats.p95_error:.4f}"
+        )
+
     if args.csv:
         output_path = write_csv(args.csv, rows)
         print(f"\nTrace comparison CSV: {output_path}")
+    if args.residual_csv:
+        residual_path = write_residual_csv(args.residual_csv, residuals)
+        print(f"Per-timestep residual CSV: {residual_path}")
+
+    if args.max_position_error is not None:
+        observed = stats.max_error if stats is not None else None
+        if observed is None:
+            print("\nPOSITION-ERROR GATE: no overlapping samples to compare.")
+            sys.exit(1)
+        if observed > args.max_position_error:
+            print(
+                f"\nPOSITION-ERROR GATE FAILED: max residual {observed:.4f} "
+                f"> {args.max_position_error:.4f} (at t={stats.max_error_time:.2f}s)."
+            )
+            sys.exit(1)
+        print(
+            f"\nPOSITION-ERROR GATE PASSED: max residual {observed:.4f} "
+            f"<= {args.max_position_error:.4f}."
+        )
 
 
 if __name__ == "__main__":
