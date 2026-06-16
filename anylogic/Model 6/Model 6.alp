@@ -9,7 +9,7 @@
 	<Id>1764169459606</Id>
 	<Name><![CDATA[Model 6]]></Name>
 	<EngineVersion>6</EngineVersion>
-	<JavaPackageName><![CDATA[model_3]]></JavaPackageName>
+	<JavaPackageName><![CDATA[model_6]]></JavaPackageName>
 	<ModelTimeUnit><![CDATA[Second]]></ModelTimeUnit>
 	<Folders>
 	</Folders>
@@ -824,7 +824,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[palletConveyorEnter]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -834,7 +834,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[inboundPalletService]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -857,7 +857,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[conveyPalletToUnbatchStation]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -867,7 +867,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[palletConveyorEnter]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -890,7 +890,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[outboundPalletService]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -900,7 +900,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[loadedPalletConveyorExit]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -923,7 +923,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[batch]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -933,7 +933,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[conveyItemsToBatchStation]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -956,7 +956,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[completedPalletSink]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -966,7 +966,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[outboundPalletService]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -989,7 +989,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[coveyEmptyPalletToStorage]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -999,7 +999,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[conveyPalletToUnbatchStation]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1022,7 +1022,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[emptyPalletSink]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -1032,7 +1032,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[coveyEmptyPalletToStorage]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1055,7 +1055,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[conveyItemsToBatchStation]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -1065,7 +1065,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[itemConveyorEnter]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1088,7 +1088,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[itemConveyorEnter]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -1098,7 +1098,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[looseItemSource]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1121,7 +1121,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[batch]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -1131,7 +1131,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[out]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[conveyLoadedPalletToExit]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1154,7 +1154,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[conveyLoadedPalletToExit]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -1164,7 +1164,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[out]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[loadedPalletConveyorExit]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1187,7 +1187,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[inboundPalletSource]]></ItemName>
 					</SourceEmbeddedObjectReference>
@@ -1197,7 +1197,7 @@ if (random_arrival_times || random_service_times) {
 						<ItemName><![CDATA[out]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[inboundPalletService]]></ItemName>
 					</TargetEmbeddedObjectReference>
@@ -1357,7 +1357,7 @@ flow_debug_trace_count++;]]></Body>
 					<FileType>FILE</FileType>
 					<Url><![CDATA[]]></Url>
 					<ResourceReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[log_file.txt]]></ClassName>
 					</ResourceReference>
 					<FileMode>WRITE_APPEND</FileMode>
@@ -1375,7 +1375,7 @@ flow_debug_trace_count++;]]></Body>
 					<FileType>FILE</FileType>
 					<Url><![CDATA[]]></Url>
 					<ResourceReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[log_file_stochastic.txt]]></ClassName>
 					</ResourceReference>
 					<FileMode>WRITE_APPEND</FileMode>
@@ -1393,7 +1393,7 @@ flow_debug_trace_count++;]]></Body>
 					<FileType>FILE</FileType>
 					<Url><![CDATA[]]></Url>
 					<ResourceReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[model_6_diagnostic_trace.txt]]></ClassName>
 					</ResourceReference>
 					<FileMode>WRITE_APPEND</FileMode>
@@ -1411,7 +1411,7 @@ flow_debug_trace_count++;]]></Body>
 					<FileType>FILE</FileType>
 					<Url><![CDATA[]]></Url>
 					<ResourceReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[model_6_flow_debug_trace.txt]]></ClassName>
 					</ResourceReference>
 					<FileMode>WRITE_APPEND</FileMode>
@@ -1834,12 +1834,12 @@ recordDiagnosticEvent("completed_pallet_sink_enter", "cycle_time_s=" + (time() -
 								<EntityEmbeddedObject>
 									<Id>1764169439978</Id>
 									<ActiveObjectClass>
-										<PackageName><![CDATA[model_3]]></PackageName>
+										<PackageName><![CDATA[model_6]]></PackageName>
 										<ClassName><![CDATA[Pallet]]></ClassName>
 									</ActiveObjectClass>
 									<GenericParameterSubstitute>
 										<GenericParameterSubstituteReference>
-											<PackageName><![CDATA[model_3]]></PackageName>
+											<PackageName><![CDATA[model_6]]></PackageName>
 											<ClassName><![CDATA[Pallet]]></ClassName>
 											<ItemName><![CDATA[1764171403260]]></ItemName>
 										</GenericParameterSubstituteReference>
@@ -2489,12 +2489,12 @@ recordFlowDebugEvent("loaded_pallet_conveyor_exit",
 								<EntityEmbeddedObject>
 									<Id>1780491096091</Id>
 									<ActiveObjectClass>
-										<PackageName><![CDATA[model_3]]></PackageName>
+										<PackageName><![CDATA[model_6]]></PackageName>
 										<ClassName><![CDATA[Pallet]]></ClassName>
 									</ActiveObjectClass>
 									<GenericParameterSubstitute>
 										<GenericParameterSubstituteReference>
-											<PackageName><![CDATA[model_3]]></PackageName>
+											<PackageName><![CDATA[model_6]]></PackageName>
 											<ClassName><![CDATA[Pallet]]></ClassName>
 											<ItemName><![CDATA[1764171403260]]></ItemName>
 										</GenericParameterSubstituteReference>
@@ -2761,12 +2761,12 @@ recordFlowDebugEvent("batch_released", "batches_created=" + batches_created);]]>
 								<EntityEmbeddedObject>
 									<Id>1780490695661</Id>
 									<ActiveObjectClass>
-										<PackageName><![CDATA[model_3]]></PackageName>
+										<PackageName><![CDATA[model_6]]></PackageName>
 										<ClassName><![CDATA[Item]]></ClassName>
 									</ActiveObjectClass>
 									<GenericParameterSubstitute>
 										<GenericParameterSubstituteReference>
-											<PackageName><![CDATA[model_3]]></PackageName>
+											<PackageName><![CDATA[model_6]]></PackageName>
 											<ClassName><![CDATA[Item]]></ClassName>
 											<ItemName><![CDATA[1780490221902]]></ItemName>
 										</GenericParameterSubstituteReference>
@@ -4518,7 +4518,7 @@ looseItemSource.inject(itemsCount);
 					<X>0</X><Y>0</Y><Z>0</Z>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<ResourceReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[3d/pallet.dae]]></ClassName>
 					</ResourceReference>
 					<ColorTable>
@@ -4684,7 +4684,7 @@ looseItemSource.inject(itemsCount);
 					<X>0</X><Y>0</Y><Z>0</Z>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<ResourceReference>
-						<PackageName><![CDATA[model_3]]></PackageName>
+						<PackageName><![CDATA[model_6]]></PackageName>
 						<ClassName><![CDATA[3d/box_1_closed.dae]]></ClassName>
 					</ResourceReference>
 					<ColorTable>
@@ -4788,7 +4788,7 @@ looseItemSource.inject(itemsCount);
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-12490271</Color>
-					<Text><![CDATA[Model 3]]></Text>
+					<Text><![CDATA[Model 6]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>24</Size>
@@ -4857,7 +4857,7 @@ looseItemSource.inject(itemsCount);
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<Title><![CDATA[Model 3 : Simulation]]></Title>
+				<Title><![CDATA[Model 6 : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>true</ShowDeveloperPanelOnStart>
 				<RealTimeScale>10.0</RealTimeScale>
@@ -5032,7 +5032,7 @@ looseItemSource.inject(itemsCount);
 			</ModelTimeProperties>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
-				<Title><![CDATA[Model 3 : SensitivityAnalysis]]></Title>
+				<Title><![CDATA[Model 6 : SensitivityAnalysis]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 			</PresentationProperties>
@@ -5214,7 +5214,7 @@ looseItemSource.inject(itemsCount);
 			</ModelTimeProperties>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
-				<Title><![CDATA[Model 3 : StochasticAnalysis]]></Title>
+				<Title><![CDATA[Model 6 : StochasticAnalysis]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 			</PresentationProperties>
