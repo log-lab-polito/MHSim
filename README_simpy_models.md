@@ -33,16 +33,22 @@ Run commands from the repository root. Activate `.venv` first, or replace `pytho
 
 ## Prerequisites
 
-Install core dependencies:
+Dependencies can be installed either as an editable package (via `mhsim/pyproject.toml`)
+or from the pinned requirements files. Both paths install the same underlying packages.
+
+**Option A — editable install (recommended).** Installs `mhsim` as a package so `import mhsim`
+resolves from anywhere, not just the repo root:
 
 ```bash
-python -m pip install -r mhsim/core_requirements.txt
+python -m pip install -e mhsim/           # core (simpy)
+python -m pip install -e "mhsim/[anim]"   # also add animation extras (numpy, matplotlib)
 ```
 
-For animation scripts, also install:
+**Option B — requirements files.** Installs only the dependencies, not the `mhsim` package:
 
 ```bash
-python -m pip install -r mhsim/anim_requirements.txt
+python -m pip install -r mhsim/core_requirements.txt   # core (simpy)
+python -m pip install -r mhsim/anim_requirements.txt   # also add animation extras (numpy, matplotlib)
 ```
 
 ## Model 1
