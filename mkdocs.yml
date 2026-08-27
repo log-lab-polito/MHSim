@@ -1,0 +1,76 @@
+site_name: MHSim
+site_description: Discrete-event simulation primitives for material handling and warehouse logistics
+docs_dir: docs_src          # not docs/ — that directory holds local, untracked working notes
+use_directory_urls: false
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-night, name: Dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-sunny, name: Light mode }
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            docstring_section_style: table
+            show_signature_annotations: true
+            separate_signature: true
+            show_root_heading: true
+            show_source: true
+            members_order: source
+            filters: ["!^_"]
+            heading_level: 2
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Conventions: conventions.md
+  - API reference:
+      - Core types:
+          - params: api/params.md
+          - pallet: api/pallet.md
+          - movement: api/movement.md
+          - spatial: api/spatial.md
+      - Process blocks:
+          - blocks: api/blocks.md
+          - forklift: api/forklift.md
+          - conveyor: api/conveyor.md
+      - Movement control:
+          - routing: api/routing.md
+          - traffic: api/traffic.md
+          - storage_slots: api/storage_slots.md
+      - Randomness:
+          - random_variables: api/random_variables.md
+          - random_streams: api/random_streams.md
+      - Results:
+          - stats: api/stats.md
+          - reporting: api/reporting.md
+          - cyclic_position_logger: api/cyclic_position_logger.md
+      - Experiments:
+          - experiments: api/experiments.md
+          - stochastic_replications: api/stochastic_replications.md

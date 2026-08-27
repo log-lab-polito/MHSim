@@ -1,5 +1,4 @@
-"""
-Movement simulation module for 3D forklift movement.
+"""Movement simulation module for 3D forklift movement.
 
 Handles horizontal movement (with acceleration/deceleration/constant speed)
 and vertical movement (load lift/lower at constant speed).
@@ -290,7 +289,20 @@ class AcceleratingInterpolator:
     Implements realistic movement: accelerate -> cruise -> decelerate
     """
 
-    def __init__(self, start: Position3D, end: Position3D, horizontal_movement: HorizontalMovement):
+    def __init__(
+        self,
+        start: Position3D,
+        end: Position3D,
+        horizontal_movement: HorizontalMovement,
+    ) -> None:
+        """Solve the speed profile for one straight leg between two points.
+
+        Args:
+            start: Leg origin.
+            end: Leg destination. Only the XY distance is used; elevation is
+                handled separately by `VerticalMovement`.
+            horizontal_movement: Speed and acceleration limits to solve against.
+        """
         self.start = start
         self.end = end
         self.horiz = horizontal_movement

@@ -1,5 +1,4 @@
-"""
-Refactored Forklift and ForkliftFleet for 3D movement simulation.
+"""Refactored Forklift and ForkliftFleet for 3D movement simulation.
 
 Forklifts are now independent agents with their own movement profiles.
 ForkliftFleet manages a collection of independent Forklift instances.
@@ -10,7 +9,7 @@ from __future__ import annotations
 import simpy
 import math
 from dataclasses import dataclass, field
-from typing import Optional, Generator, Callable
+from typing import Any, Optional, Generator, Callable
 from enum import Enum
 
 from .movement import (
@@ -45,11 +44,30 @@ class LiftProfile:
     lowering_speed: float
 
     def height_for_level(self, shelf_level: int) -> float:
+        """Height of a shelf level above the floor.
+
+        Args:
+            shelf_level: Zero-based level index. Ground level and any
+                negative value give zero height.
+
+        Returns:
+            Height in metres.
+        """
         if shelf_level <= 0:
             return 0.0
         return shelf_level * self.shelf_height
 
     def lift_cycle_time(self, shelf_level: int) -> float:
+        """Time to raise the forks to a level and lower them again.
+
+        Args:
+            shelf_level: Zero-based level index.
+
+        Returns:
+            Combined raise and lower time in seconds. A speed of zero
+            contributes nothing rather than raising, so an unconfigured
+            profile yields zero instead of dividing by zero.
+        """
         height = self.height_for_level(shelf_level)
         up = height / self.elevation_speed if self.elevation_speed > 0 else 0.0
         down = height / self.lowering_speed if self.lowering_speed > 0 else 0.0
@@ -119,7 +137,7 @@ class Forklift:
     _traffic_wait_reason: Optional[str] = field(default=None, init=False, repr=False)
     _traffic_wait_started_at: Optional[float] = field(default=None, init=False, repr=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Initialize forklift process."""
         if self.home_position is None:
             self.home_position = self.position
@@ -1007,6 +1025,26 @@ class Forklift:
         yield from self._move_direct_to(target, update_interval)
 
     def estimate_travel_time(self, start: Position3D, end: Position3D) -> float:
+        """Predict travel time between two points without moving.
+
+        Used for slot-selection cost functions, so candidate slots can be
+        ranked before a forklift is dispatched.
+
+        Args:
+            start: Origin.
+            end: Destination.
+
+        Returns:
+            Estimated time in seconds. Horizontal and vertical motion overlap,
+            so the result is the larger of the two rather than their sum.
+            Horizontal distance follows the routed path where a path network
+            exists, and straight-line XY distance otherwise.
+
+        Raises:
+            RuntimeError: If a path network exists but no route connects the
+                two points, since silently travelling off-path would break
+                parity.
+        """
         if self._has_path_network():
             route = self.router.route_between_nodes(
                 start,
@@ -1037,6 +1075,15 @@ class Forklift:
         return max(horizontal_time, vertical_time)
 
     def lift_cycle_time(self, shelf_level: int) -> float:
+        """Time to raise and lower the forks for a shelf level.
+
+        Args:
+            shelf_level: Zero-based level index.
+
+        Returns:
+            Cycle time in seconds, or `0.0` for a forklift with no lift
+            profile configured.
+        """
         if not self.lift_profile:
             return 0.0
         return self.lift_profile.lift_cycle_time(shelf_level)
@@ -1150,9 +1197,24 @@ class ForkliftFleet:
         avoid_collisions: bool = False,
         stats: Optional[object] = None,
         traffic_debug_enabled: bool = False,
-        **kwargs
-    ):
-        """Initialize ForkliftFleet."""
+        **kwargs: Any,
+    ) -> None:
+        """Create a fleet and its shared seize resource and traffic controller.
+
+        Args:
+            env: SimPy environment.
+            count: Initial capacity of the seize resource. Forklifts are added
+                separately with `add_forklift`.
+            name: Fleet name, used in log lines.
+            home_position: Shared home position pushed to every member.
+            charging_station: Shared charging station pushed to every member.
+            min_distance_to_obstacle_m: Minimum following gap in metres.
+            avoid_collisions: Enable node and edge reservation.
+            stats: Statistics object receiving traffic-wait records.
+            traffic_debug_enabled: Record every traffic decision for debugging.
+            **kwargs: Accepted and ignored, so callers may forward a shared
+                configuration mapping that carries extra keys.
+        """
         self.env = env
         self.forklifts = []
         self._available_forklifts = []
@@ -1191,11 +1253,22 @@ class ForkliftFleet:
         )
 
     def set_home_position(self, position: Optional[Position3D]) -> None:
+        """Set the fleet home point and push it to every member.
+
+        Args:
+            position: Shared home position, or `None` to clear it. Overwrites
+                any per-forklift home already set.
+        """
         self.home_position = position
         for fl in self.forklifts:
             fl.home_position = position
 
     def set_charging_station(self, station: Optional[ChargingStation]) -> None:
+        """Set the fleet charging station and push it to every member.
+
+        Args:
+            station: Shared charging station, or `None` to clear it.
+        """
         self.charging_station = station
         for fl in self.forklifts:
             fl.charging_station = station
@@ -1290,6 +1363,16 @@ class ForkliftFleet:
         return len(self.resource.queue)
 
     def resolve_home_position(self, forklift: Forklift) -> Optional[Position3D]:
+        """Decide where a forklift should return to after a task.
+
+        Args:
+            forklift: The forklift about to return home.
+
+        Returns:
+            The fleet home position when one is set, otherwise the forklift's
+            own, or `None` if neither is configured. The fleet setting wins,
+            so a fleet-wide home overrides per-unit values.
+        """
         return self.home_position if self.home_position is not None else forklift.home_position
 
     def run_post_task_policy(
@@ -1338,6 +1421,11 @@ class ForkliftFleet:
 
     @property
     def busy_time_s(self) -> float:
+        """Total seconds the fleet has spent seized, across all forklifts.
+
+        Includes time accrued by tasks still in progress, so the value is
+        meaningful mid-run and not only at the end.
+        """
         total = self._completed_busy_time_s
         for busy_started_at in self._busy_since_by_forklift.values():
             total += max(0.0, self.env.now - busy_started_at)
@@ -1345,6 +1433,11 @@ class ForkliftFleet:
 
     @property
     def return_home_time_s(self) -> float:
+        """Total seconds the fleet has spent travelling home after tasks.
+
+        Includes returns still under way. Counted separately from
+        `busy_time_s` because return travel is not chargeable work.
+        """
         total = self._completed_return_home_time_s
         for return_started_at in self._returning_home_since_by_forklift.values():
             total += max(0.0, self.env.now - return_started_at)
@@ -1352,6 +1445,16 @@ class ForkliftFleet:
 
     @property
     def utilization(self) -> float:
+        """Fraction of available fleet time spent busy, in `[0, 1]`.
+
+        Computed as busy time over fleet size times elapsed simulation time.
+        Returns `0.0` before the run starts or for an empty fleet.
+
+        Parity:
+            Return-home travel is excluded, matching how AnyLogic reports
+            transporter utilisation. Including it would inflate the figure
+            relative to the reference model.
+        """
         forklift_count = self.count_total()
         if forklift_count <= 0 or self.env.now <= 0:
             return 0.0
@@ -1388,22 +1491,50 @@ def create_forklift_fleet(
     stats: Optional[object] = None,
     traffic_debug_enabled: bool = False,
 ) -> ForkliftFleet:
-    """
-    Factory function to create a fleet of identical forklifts.
+    """Factory function to create a fleet of identical forklifts.
 
     Args:
-        env: SimPy environment
-        count: Number of forklifts in fleet
-        movement_profile: Movement profile for all forklifts
-        lift_profile: Lift profile for shelf operations (optional)
-        router: Explicit Router instance shared across the fleet. It may have
-            an empty path network, but it must be provided.
-        home_position: Starting position for all forklifts
-        charging_station: Optional charging station assigned to each forklift
-        name_prefix: Prefix for forklift IDs
+        env: SimPy environment.
+        count: Number of forklifts in the fleet.
+        movement_profile: Movement profile applied to every forklift.
+        lift_profile: Lift profile for shelf operations.
+        router: Router shared across the fleet. It may have an empty path
+            network, but it must be provided.
+        home_position: Starting position for all forklifts. Defaults to the
+            origin.
+        charging_station: Charging station assigned to each forklift.
+        turn_radius: Turn radius in metres used when routing.
+        routed_motion_mode: Either `analytical`, which solves each leg
+            in closed form, or the line-guided mode, which steps position
+            forward on a fixed timestep.
+        line_guided_update_timestep_s: Position update interval in seconds for
+            the line-guided mode. Ignored by the analytical mode.
+        route_calc_delay_s: Delay in seconds charged before a route is
+            followed, modelling route computation.
+        resume_delay_s: Delay in seconds before resuming after a traffic stop.
+        discharge_per_meter: Battery state of charge consumed per metre
+            travelled. Zero disables battery modelling entirely.
+        charge_rate_per_second: State of charge recovered per second while
+            charging.
+        charge_when_below: State of charge at or below which a forklift seeks
+            the charging station.
+        charge_until: State of charge at which charging stops.
+        initial_battery_soc: State of charge each forklift starts with, in
+            `[0, 1]`.
+        name_prefix: Prefix for generated forklift identifiers.
+        min_distance_to_obstacle_m: Minimum following gap in metres enforced
+            by the traffic controller.
+        avoid_collisions: Enable node and edge reservation, so forklifts wait
+            rather than passing through each other.
+        stats: Statistics object receiving traffic-wait records.
+        traffic_debug_enabled: Record every traffic allow and block decision.
 
     Returns:
-        ForkliftFleet with initialized forklifts
+        A fleet of `count` identically configured forklifts, all sharing
+        one router and traffic controller.
+
+    Raises:
+        ValueError: If no `router` is given.
     """
     if home_position is None:
         home_position = Position3D(0, 0, 0)

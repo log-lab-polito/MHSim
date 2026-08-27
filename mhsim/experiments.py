@@ -1,3 +1,5 @@
+"""Ranged parameter-variation experiments with replications and CSV export."""
+
 from __future__ import annotations
 
 import copy
@@ -60,6 +62,17 @@ class RangeParameter:
     include_stop: bool = True
 
     def values(self) -> list[int | float]:
+        """Expand the range into the concrete values to sweep.
+
+        Returns:
+            Every value from `start` towards `stop` in `step`
+            increments, including `stop` itself when `include_stop`
+            is set and it falls on the grid.
+
+        Raises:
+            ValueError: If `step` is zero, or its sign disagrees with the
+                direction from `start` to `stop`.
+        """
         if self.step == 0:
             raise ValueError(f"Range parameter '{self.name}' cannot use step=0")
 
@@ -117,6 +130,15 @@ class ChoiceParameter:
     values_list: Sequence[Any]
 
     def values(self) -> list[Any]:
+        """Return the explicit values to sweep.
+
+        Returns:
+            A copy of `values_list`, so callers cannot mutate the parameter.
+
+        Raises:
+            ValueError: If the list is empty, which would silently collapse
+                the whole sweep to nothing.
+        """
         values = list(self.values_list)
         if not values:
             raise ValueError(f"Choice parameter '{self.name}' must define at least one value")
@@ -125,8 +147,7 @@ class ChoiceParameter:
 
 @dataclass(frozen=True)
 class RangeVariation:
-    """
-    Cartesian-product parameter variation, similar to AnyLogic's ranged mode.
+    """Cartesian-product parameter variation, similar to AnyLogic's ranged mode.
 
     `fixed_parameters` may use constants, iteration-indexed sequences, or callables
     that receive `ExperimentIterationContext`.
@@ -136,6 +157,18 @@ class RangeVariation:
     fixed_parameters: Mapping[str, Any] = field(default_factory=dict)
 
     def build_iterations(self, base_params: Any) -> list[dict[str, Any]]:
+        """Expand the variation into one parameter mapping per design point.
+
+        Args:
+            base_params: Baseline parameters, passed to any callable in
+                `fixed_parameters` through the iteration context.
+
+        Returns:
+            One mapping of parameter name to value per combination, in
+            Cartesian-product order with the last parameter varying fastest.
+            A variation with no parameters yields a single empty iteration
+            rather than none, so replication-only campaigns work unchanged.
+        """
         dimensions = [(parameter.name, parameter.values()) for parameter in self.parameters]
         combinations = (
             product(*(values for _, values in dimensions))
@@ -162,6 +195,20 @@ class RangeVariation:
 
 @dataclass(frozen=True)
 class ParameterVariationRun:
+    """One completed model run and the metrics collected from it.
+
+    Attributes:
+        iteration_index: Zero-based design-point index.
+        iteration_number: One-based design point, as reported in output.
+        replication_index: Zero-based replication within the design point.
+        replication_number: One-based replication, as reported in output.
+        run_index: Zero-based index across the whole campaign.
+        run_number: One-based index across the whole campaign.
+        seed: Seed used, or `None` when the model was not seeded.
+        parameter_values: Parameter values in force for this run.
+        metrics: Collected metric values, keyed by metric name.
+    """
+
     iteration_index: int
     iteration_number: int
     replication_index: int
@@ -173,6 +220,14 @@ class ParameterVariationRun:
     metrics: Mapping[str, Any]
 
     def to_row(self) -> dict[str, Any]:
+        """Flatten the run into one CSV row.
+
+        Returns:
+            A mapping with `iteration`, `replication`,
+            `run_number`, and `seed`, followed by parameters prefixed
+            `param_` and metrics prefixed `metric_`. The prefixes keep
+            a parameter and a metric of the same name from colliding.
+        """
         row: dict[str, Any] = {
             "iteration": self.iteration_number,
             "replication": self.replication_number,
@@ -210,22 +265,48 @@ class _WorkerRunTask:
 
 @dataclass
 class ParameterVariationResult:
+    """All runs of a completed campaign, with rollups and CSV export.
+
+    Attributes:
+        experiment_name: Identifier recorded alongside the results.
+        runs: Every completed run, in execution order.
+        compact_numeric_summary: When set, numeric metrics that are constant
+            across replications collapse to a single column instead of
+            mean, min, and max.
+    """
+
     experiment_name: str | None
     runs: list[ParameterVariationRun]
     compact_numeric_summary: bool = False
 
     @property
     def total_iterations(self) -> int:
+        """Number of distinct design points that produced at least one run."""
         return len({run.iteration_index for run in self.runs})
 
     @property
     def total_runs(self) -> int:
+        """Total completed runs across every design point and replication."""
         return len(self.runs)
 
     def run_rows(self) -> list[dict[str, Any]]:
+        """Flatten every run into CSV rows, one row per replication.
+
+        Returns:
+            One row per run, in execution order.
+        """
         return [run.to_row() for run in self.runs]
 
     def iteration_rows(self) -> list[dict[str, Any]]:
+        """Aggregate runs into one row per design point.
+
+        Returns:
+            One row per design point in iteration order. Numeric metrics are
+            summarised as mean, min, and max across replications; metrics that
+            are constant across replications, or single-valued, collapse to
+            one column. Non-numeric metrics are carried through only when they
+            agree across replications.
+        """
         grouped: dict[int, list[ParameterVariationRun]] = {}
         for run in self.runs:
             grouped.setdefault(run.iteration_index, []).append(run)
@@ -267,11 +348,27 @@ class ParameterVariationResult:
         return rows
 
     def write_run_csv(self, output_path: str | Path) -> Path:
+        """Write the per-replication rows to CSV.
+
+        Args:
+            output_path: Destination file. Parent directories are created.
+
+        Returns:
+            The resolved output path.
+        """
         output = Path(output_path)
         _write_rows_csv(output, self.run_rows())
         return output
 
     def write_summary_csv(self, output_path: str | Path) -> Path:
+        """Write the aggregated per-design-point rows to CSV.
+
+        Args:
+            output_path: Destination file. Parent directories are created.
+
+        Returns:
+            The resolved output path.
+        """
         output = Path(output_path)
         _write_rows_csv(output, self.iteration_rows())
         return output
@@ -279,8 +376,7 @@ class ParameterVariationResult:
 
 @dataclass
 class ParameterVariationExperiment:
-    """
-    Reusable runner for SimPy-style models with AnyLogic-inspired parameter variation.
+    """Reusable runner for SimPy-style models with AnyLogic-inspired parameter variation.
 
     Supports:
     - ranged/cartesian iteration definitions
@@ -288,6 +384,42 @@ class ParameterVariationExperiment:
     - deterministic (`fixed`) or non-reproducible (`random`) seed assignment
     - per-run metric collection
     - CSV export via the returned `ParameterVariationResult`
+
+    A model only has to accept `params` and expose `run()`:
+
+        >>> import simpy
+        >>> from dataclasses import dataclass
+        >>> from mhsim import SimulationParams, SimulationStats
+        >>> from mhsim.experiments import (
+        ...     ParameterVariationExperiment,
+        ...     RangeParameter,
+        ...     RangeVariation,
+        ...     stats_attr_metric,
+        ... )
+        >>> @dataclass
+        ... class Params(SimulationParams):
+        ...     batch: int = 1
+        >>> class Model:
+        ...     def __init__(self, params):
+        ...         self.params = params
+        ...         self.env = simpy.Environment()
+        ...         self.stats = SimulationStats()
+        ...     def run(self):
+        ...         self.stats.record_created(self.params.batch)
+        ...         return self.stats
+        >>> experiment = ParameterVariationExperiment(
+        ...     base_params=Params(),
+        ...     variation=RangeVariation(
+        ...         parameters=[RangeParameter(name="batch", start=1, stop=3, step=1)],
+        ...     ),
+        ...     model_cls=Model,
+        ...     metrics={"created": stats_attr_metric("created")},
+        ... )
+        >>> result = experiment.run()
+        >>> result.total_iterations, result.total_runs
+        (3, 3)
+        >>> [run.metrics["created"] for run in result.runs]
+        [1, 2, 3]
     """
 
     base_params: Any
@@ -306,6 +438,14 @@ class ParameterVariationExperiment:
     workers: int = 1
 
     def __post_init__(self) -> None:
+        """Validate the configuration before any run is attempted.
+
+        Raises:
+            ValueError: If neither or both of `model_cls` and
+                `model_factory` are given, if `replications` is below
+                one, if `random_seed_mode` is not `fixed` or
+                `random`, or if `workers` is below one.
+        """
         if self.model_cls is None and self.model_factory is None:
             raise ValueError("Provide either model_cls or model_factory")
         if self.model_cls is not None and self.model_factory is not None:
@@ -318,6 +458,16 @@ class ParameterVariationExperiment:
             raise ValueError("workers must be >= 1")
 
     def run(self, *, verbose: bool = False) -> ParameterVariationResult:
+        """Execute every design point and replication.
+
+        Args:
+            verbose: Print per-iteration progress to stdout while running.
+
+        Returns:
+            A `ParameterVariationResult` holding every completed run.
+            Results are ordered deterministically by run number even when
+            `workers` is above one and runs finish out of order.
+        """
         run_specs = self._build_run_specs()
         total_iterations = len({spec.iteration_index for spec in run_specs})
         if self.workers > 1:
@@ -603,6 +753,20 @@ def attribute_metric(
     source: str = "model",
     transform: Callable[[Any], Any] | None = None,
 ) -> MetricCollector:
+    """Build a collector reading a dotted attribute path off the model or stats.
+
+    Args:
+        path: Dotted attribute path, for example `fleet.utilization`.
+        source: Either `model` or `stats`, selecting the root object.
+        transform: Optional post-processing applied to the resolved value,
+            for instance a unit conversion.
+
+    Returns:
+        A collector callable suitable for an experiment's metrics mapping.
+
+    Raises:
+        ValueError: If `source` is neither `model` nor `stats`.
+    """
     if source not in {"model", "stats"}:
         raise ValueError("source must be 'model' or 'stats'")
 
@@ -621,6 +785,16 @@ def model_attr_metric(
     *,
     transform: Callable[[Any], Any] | None = None,
 ) -> MetricCollector:
+    """Build a collector reading a dotted attribute path off the model.
+
+    Args:
+        path: Dotted attribute path relative to the model.
+        transform: Optional post-processing applied to the resolved value.
+
+    Returns:
+        A collector callable. Shorthand for `attribute_metric` with
+        `source="model"`.
+    """
     return attribute_metric(path, source="model", transform=transform)
 
 
@@ -629,6 +803,16 @@ def stats_attr_metric(
     *,
     transform: Callable[[Any], Any] | None = None,
 ) -> MetricCollector:
+    """Build a collector reading a dotted attribute path off the stats object.
+
+    Args:
+        path: Dotted attribute path relative to the stats object.
+        transform: Optional post-processing applied to the resolved value.
+
+    Returns:
+        A collector callable. Shorthand for `attribute_metric` with
+        `source="stats"`.
+    """
     return attribute_metric(path, source="stats", transform=transform)
 
 
@@ -637,6 +821,18 @@ def throughput_per_hour_metric(
     completed_path: str = "completed",
     sim_time_path: str = "params.sim_time",
 ) -> MetricCollector:
+    """Build a collector reporting completed entities per hour.
+
+    Args:
+        completed_path: Dotted path to the completion count on the stats
+            object.
+        sim_time_path: Dotted path to the run length in seconds on the model.
+
+    Returns:
+        A collector returning throughput per hour, or `0.0` when the
+        simulated time is zero, so a model that never ran reports nothing
+        rather than dividing by zero.
+    """
     def collector(_: ExperimentRunContext, model: Any, stats: Any) -> float:
         completed = _resolve_path(stats, completed_path)
         sim_time = _resolve_path(model, sim_time_path)

@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mhsim"
+version = "0.1.0"
+description = "Discrete-event simulation primitives for material handling and warehouse logistics"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Daniel Piassi" }]
+dependencies = [
+    "simpy>=4.1.1",
+]
+# No `readme` field: README.md is UTF-16 LE and would upload as mojibake.
+# Add a UTF-8 README.pypi.md alongside this field if the package is ever published.
+
+[project.optional-dependencies]
+# Downstream animation/plot scripts; the mhsim library itself does not import these.
+anim = [
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+]
+docs = [
+    "mkdocs>=1.6,<2.0",   # 2.0 removes the plugin system mkdocstrings needs
+    "mkdocs-material>=9.5,<10",
+    "mkdocstrings[python]>=0.24",
+]
+dev = [
+    "ruff>=0.5",
+    "interrogate>=1.7",
+    "griffe>=1.0",
+    "pytest>=8",
+]
+
+[tool.setuptools]
+packages = ["mhsim"]
+
+[tool.ruff.lint]
+extend-select = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]
+"case_studies/*" = ["D"]
+"mhsim_analysis/*" = ["D"]
+
+[tool.interrogate]
+fail-under = 100
+ignore-private = true       # dunder-mangled names
+ignore-semiprivate = true   # single-underscore helpers, matching ruff's D rules
+ignore-magic = true
+ignore-nested-functions = true
+ignore-module = false
+exclude = ["tests", "case_studies", "mhsim_analysis", ".venv", "build", "dist"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "mhsim"]
+addopts = "--doctest-modules"

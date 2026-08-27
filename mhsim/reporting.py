@@ -1,3 +1,5 @@
+"""Console and CSV reporting helpers shared by the case-study run scripts."""
+
 from __future__ import annotations
 
 import csv
@@ -16,6 +18,18 @@ DEFAULT_BLOCK_MAPPING = [
 
 
 def resolve_model_storage_level(model: Any) -> int | float | None:
+    """Read a model's end-of-run storage level, whatever shape it exposes.
+
+    Tries `model.get_storage_level()` first, then `model.storage.level`,
+    so warehouse models with a computed level and those holding a plain SimPy
+    container both work without the caller knowing which.
+
+    Args:
+        model: A model instance, duck-typed.
+
+    Returns:
+        The storage level, or `None` if the model does not track one.
+    """
     getter = getattr(model, "get_storage_level", None)
     if callable(getter):
         return getter()
@@ -28,6 +42,21 @@ def resolve_model_storage_level(model: Any) -> int | float | None:
 
 
 def build_forklift_movement_benchmark_rows(stats: Any) -> list[dict[str, Any]]:
+    """Flatten forklift movement summaries into printable, writable rows.
+
+    Args:
+        stats: A stats object. Must expose `forklift_movement_summaries()`
+            to produce anything; may also expose
+            `forklift_movement_benchmark_labels` to override or extend the
+            shared labels.
+
+    Returns:
+        One row per metric that collected samples, each with `metric_key`,
+        `metric`, `count`, `avg_s`, `min_s`, `max_s`, and
+        `std_dev_s`. Known metrics come first in label order, then any
+        model-specific ones. Returns an empty list for stats that do not track
+        movement phases, so callers need not branch on model type.
+    """
     summaries_fn = getattr(stats, "forklift_movement_summaries", None)
     if not callable(summaries_fn):
         return []
@@ -76,6 +105,15 @@ def build_forklift_movement_benchmark_rows(stats: Any) -> list[dict[str, Any]]:
 
 
 def print_forklift_movement_benchmarks(stats: Any) -> None:
+    """Print the forklift movement benchmark table to stdout.
+
+    Prints nothing at all when no samples were collected, rather than an empty
+    table.
+
+    Args:
+        stats: A stats object, as accepted by
+            `build_forklift_movement_benchmark_rows`.
+    """
     rows = build_forklift_movement_benchmark_rows(stats)
     if not rows:
         return
@@ -94,6 +132,13 @@ def print_forklift_movement_benchmarks(stats: Any) -> None:
 
 
 def print_traffic_wait_summary(stats: Any) -> None:
+    """Print accumulated traffic waits to stdout, one row per reason.
+
+    Prints nothing when the model recorded no waits.
+
+    Args:
+        stats: A stats object exposing `traffic_wait_summaries()`.
+    """
     summaries_fn = getattr(stats, "traffic_wait_summaries", None)
     if not callable(summaries_fn):
         return
@@ -115,6 +160,17 @@ def write_forklift_movement_benchmark_csv(
     stats: Any,
     output_path: str | Path,
 ) -> Path:
+    """Write the forklift movement benchmarks to a CSV file.
+
+    Args:
+        stats: A stats object, as accepted by
+            `build_forklift_movement_benchmark_rows`.
+        output_path: Destination file. Parent directories are created.
+
+    Returns:
+        The resolved output path. A stats object with no movement samples
+        still produces a valid header-only file.
+    """
     rows = build_forklift_movement_benchmark_rows(stats)
     output = Path(output_path)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -148,7 +204,31 @@ def run_model_and_print_summary(
     include_avg_wip: bool = False,
     storage_level_label: str = "Storage level at end",
     **model_kwargs: Any,
-):
+) -> tuple[Any, Any]:
+    """Construct a model, run it, and print the standard console summary.
+
+    This is the shared body of the case-study `run_model` entry points, so
+    every model reports the same core metrics in the same order.
+
+    Args:
+        model_cls: Model class to instantiate.
+        params: Parameter record passed to the model.
+        model_label: Name shown in the summary header.
+        console_logging: Forwarded to the model to enable per-event tracing.
+        include_forklift_benchmarks: Also print the movement-phase table.
+        include_forklift_utilization: Also print `model.fleet.utilization`,
+            skipped silently if the model has no fleet.
+        include_in_flight: Also print entities created but not yet completed.
+        include_avg_wip: Also print average work in progress, derived from
+            Little's law as average time in system times throughput.
+        storage_level_label: Caption for the storage level line, which is
+            omitted entirely when the model tracks no storage.
+        **model_kwargs: Extra keyword arguments forwarded to `model_cls`.
+
+    Returns:
+        A `(stats, model)` tuple, so callers can write CSVs or run further
+        comparisons against the same run.
+    """
     model = model_cls(
         params=params,
         console_logging=console_logging,

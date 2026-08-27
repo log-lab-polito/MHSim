@@ -13,6 +13,21 @@ DurationValue = float | DurationSampler
 
 
 def sample_duration_s(value: DurationValue, *, name: str = "duration") -> float:
+    """Resolve a duration value to a concrete, validated number of seconds.
+
+    Args:
+        value: Either a fixed duration in seconds or a zero-argument sampler
+            returning one.
+        name: Label used in the error message when validation fails.
+
+    Returns:
+        The resolved duration in seconds.
+
+    Raises:
+        ValueError: If the resolved duration is not strictly positive. Sampled
+            distributions can legitimately return zero or negative draws, so
+            this is checked on every call rather than only at construction.
+    """
     duration_s = value() if callable(value) else value
     duration_s = float(duration_s)
     if duration_s <= 0:
@@ -28,6 +43,29 @@ def make_duration_sampler(
     triangular_spread: float = 0.5,
     name: str = "duration",
 ) -> DurationSampler:
+    """Build a sampler drawing durations from the named distribution.
+
+    Args:
+        mean_s: Mean duration in seconds. Must be strictly positive.
+        rng: Random source the returned sampler draws from. Pass a
+            `mhsim.random_streams.JavaRandom` for AnyLogic seed parity.
+        distribution: One of `deterministic`, `exponential`, or
+            `triangular`.
+        triangular_spread: Half-width of the triangular support as a fraction
+            of the mean, so `0.5` gives a symmetric range of
+            `[0.5 * mean_s, 1.5 * mean_s]` with the mode at the mean. Must be
+            in `[0, 1)`. Ignored by the other distributions.
+        name: Label used in error messages.
+
+    Returns:
+        A zero-argument callable returning one duration in seconds. The
+        `deterministic` case returns the mean unchanged and never
+        consults `rng`.
+
+    Raises:
+        ValueError: If `mean_s` is not positive, if `triangular_spread`
+            falls outside `[0, 1)`, or if `distribution` is not recognised.
+    """
     mean_s = float(mean_s)
     if mean_s <= 0:
         raise ValueError(f"{name} mean must be positive, got {mean_s}")
@@ -56,7 +94,26 @@ def make_duration_sampler(
 
 
 def make_service_time(params: Any, rng: Random, mean_s: float, name: str) -> DurationValue:
-    """Return a fixed or sampled service time based on params randomization settings."""
+    """Resolve a service duration from a model's randomisation settings.
+
+    Args:
+        params: Simulation parameters. Read for `random_service_times`,
+            `service_time_distribution`, and
+            `service_time_triangular_spread`.
+        rng: Random source used when sampling. Unused in deterministic mode.
+        mean_s: Mean service duration in seconds.
+        name: Block or model label, used to build the sampler's error-message
+            prefix.
+
+    Returns:
+        `mean_s` unchanged when `params.random_service_times` is false,
+        otherwise a sampler built by `make_duration_sampler`.
+
+    Parity:
+        Returning the bare float rather than a constant sampler keeps
+        deterministic runs bit-identical to the AnyLogic reference, which draws
+        no random numbers at all when service times are fixed.
+    """
     if not params.random_service_times:
         return mean_s
     return make_duration_sampler(

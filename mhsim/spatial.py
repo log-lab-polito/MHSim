@@ -1,5 +1,4 @@
-"""
-Spatial nodes module for warehouse layout.
+"""Spatial nodes module for warehouse layout.
 
 Defines various node types for storage areas, picking zones, and shelves.
 """
@@ -29,6 +28,11 @@ class PointNode(Node):
     """A single point in 3D space."""
 
     def get_access_point(self) -> Position3D:
+        """Return the node position itself, since a point has no extent.
+
+        Returns:
+            The node's own coordinate.
+        """
         return self.position
 
 

@@ -38,7 +38,21 @@ class PathTrafficController:
         min_distance_to_obstacle_m: float = 1.0,
         avoid_collisions: bool = False,
         debug_enabled: bool = False,
-    ):
+    ) -> None:
+        """Configure the traffic policy for a fleet sharing one path network.
+
+        Args:
+            min_distance_to_obstacle_m: Minimum gap in metres a follower keeps
+                behind the forklift ahead of it on the same directed edge.
+                Negative values are clamped to zero.
+            avoid_collisions: When true, forklifts reserve nodes and edges
+                before entering them and wait when a reservation is refused.
+                When false, occupancy is still tracked but never blocks
+                movement, which is the deterministic-parity default.
+            debug_enabled: Record every allow and block decision into
+                `debug_events`. Off by default because the log grows with
+                every movement step.
+        """
         self.min_distance_to_obstacle_m = max(0.0, min_distance_to_obstacle_m)
         self.avoid_collisions = avoid_collisions
         self.debug_enabled = debug_enabled

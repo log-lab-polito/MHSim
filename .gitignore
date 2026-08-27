@@ -69,3 +69,5 @@ htmlcov/
 # Anylogic temporary files
 *.autosave
 *.lck
+# MkDocs build output
+site/

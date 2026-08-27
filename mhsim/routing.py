@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 
 from .movement import Position3D
 from .spatial import Path, WarehouseLayout
@@ -72,15 +72,48 @@ class Route:
     raw_distance: float = 0.0
     motion_segments: List[RouteMotionSegment] = field(default_factory=list)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Position3D]:
         """Iterate through waypoints."""
         return iter(self.waypoints)
 
 
 class Router:
-    """Build path-guided routes over the designed warehouse network."""
+    """Build path-guided routes over the designed warehouse network.
 
-    def __init__(self, layout: WarehouseLayout):
+    Routes follow the layout's paths rather than travelling in straight lines,
+    so the distance reported is the distance actually driven:
+
+        >>> from mhsim.movement import Position3D
+        >>> from mhsim.spatial import WarehouseLayout, PointNode, Path
+        >>> a = Position3D(0.0, 0.0, 0.0)
+        >>> b = Position3D(10.0, 0.0, 0.0)
+        >>> c = Position3D(10.0, 5.0, 0.0)
+        >>> layout = WarehouseLayout(
+        ...     inbound_area=PointNode(id="in", position=a),
+        ...     outbound_area=PointNode(id="out", position=c),
+        ...     paths=[Path(id="aisle", waypoints=[a, b, c])],
+        ... )
+        >>> route = Router(layout).route_between_nodes(a, c)
+        >>> route.total_distance
+        15.0
+        >>> len(route.waypoints)
+        3
+
+    The straight-line distance from `a` to `c` is about 11.2 m; the route is
+    15.0 m because it goes around the corner at `b`.
+    """
+
+    def __init__(self, layout: WarehouseLayout) -> None:
+        """Build the routing graph from a layout's path network.
+
+        The graph is constructed once here, so paths added to the layout
+        afterwards are not picked up.
+
+        Args:
+            layout: Warehouse layout. Only its `paths` are read; nodes are
+                derived from path endpoints, keyed by XY position rounded to
+                the millimetre so that coincident endpoints merge.
+        """
         self.layout = layout
         self._node_positions: Dict[str, Position3D] = {}
         self._adj: Dict[str, List[Tuple[str, float, Optional[str]]]] = {}
@@ -326,9 +359,23 @@ class Router:
         preferred_path_id: Optional[str] = None,
         turn_radius: float = 0.0,
     ) -> Route:
-        """
-        Create a route strictly along predefined paths using shortest-path over
-        the path graph. Start/end are projected to nearest graph nodes.
+        """Create a route that follows the designed path network.
+
+        Uses a shortest-path search over the path graph. The start and end
+        points are projected onto the nearest graph nodes, so callers may pass
+        arbitrary coordinates.
+
+        Args:
+            start: Origin coordinate.
+            end: Destination coordinate.
+            preferred_path_id: Path to favour when several connect the two
+                points.
+            turn_radius: Turn radius in metres. A positive value inserts arc
+                segments between straight legs instead of point turns.
+
+        Returns:
+            The routed path. When the layout defines no paths, a direct
+            two-waypoint route is returned instead.
         """
         if not self._node_positions or not self._adj:
             self._build_graph()
