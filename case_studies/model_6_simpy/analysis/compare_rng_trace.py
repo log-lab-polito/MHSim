@@ -7,10 +7,13 @@ import argparse
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, TypeVar
 
 from case_studies.model_6_simpy.model import Model6SimModel
 from case_studies.model_6_simpy.params import Model6Params
+
+
+_BlockT = TypeVar("_BlockT")
 
 
 @dataclass(frozen=True)
@@ -25,47 +28,157 @@ class AnyLogicIterationTrace:
     source_item_counts: list[int]
 
 
-def parse_anylogic_trace(path: str | Path) -> dict[int, AnyLogicIterationTrace]:
-    sections: dict[int, list[list[int | None]]] = {}
-    source_counts: dict[int, list[int]] = {}
-    current_iteration: int | None = None
+@dataclass(frozen=True)
+class TraceBlockKey:
+    """Identifies one ``ITERATION`` block inside an AnyLogic trace file.
+
+    ``replication`` is ``None`` for the deterministic single-run block and an
+    integer for the per-replication blocks a stochastic experiment appends to
+    the same file.
+    """
+
+    iteration: int
+    replication: int | None
+
+    def label(self) -> str:
+        if self.replication is None:
+            return f"ITERATION #{self.iteration}"
+        return f"ITERATION #{self.iteration}, REPLICATION #{self.replication}"
+
+
+# A stochastic experiment appends "ITERATION #1, REPLICATION #7" headers next to
+# the deterministic "ITERATION #1" block. Anchor the pattern so the two forms
+# stay distinguishable instead of collapsing onto the same iteration key.
+_ITERATION_HEADER_RE = re.compile(
+    r"^ITERATION #(?P<iteration>\d+)"
+    r"(?:\s*,\s*REPLICATION #(?P<replication>\d+))?\s*$"
+)
+
+
+def parse_iteration_header(line: str) -> TraceBlockKey | None:
+    """Return the block key for an ``ITERATION`` header, or ``None`` for a data line.
+
+    Raises on a line that opens a block but does not match either known header
+    form, so an unexpected trace layout fails loudly instead of being folded
+    into whichever block came before it.
+    """
+    if not line.startswith("ITERATION"):
+        return None
+    header = _ITERATION_HEADER_RE.match(line)
+    if header is None:
+        raise ValueError(f"Unrecognized iteration header: {line!r}")
+    replication = header.group("replication")
+    return TraceBlockKey(
+        iteration=int(header.group("iteration")),
+        replication=int(replication) if replication is not None else None,
+    )
+
+
+def select_iteration_blocks(
+    blocks: dict[TraceBlockKey, _BlockT],
+    *,
+    path: str | Path,
+    replication: int | None,
+) -> dict[int, _BlockT]:
+    """Pick one block per iteration, keyed by iteration number.
+
+    ``replication=None`` selects the deterministic blocks, which are the ones a
+    single SimPy comparison run mirrors.
+    """
+    selected = {
+        key.iteration: block
+        for key, block in blocks.items()
+        if key.replication == replication
+    }
+    if selected:
+        return selected
+    if not blocks:
+        raise ValueError(f"No ITERATION blocks found in trace: {path}")
+    available = sorted(
+        {key.replication for key in blocks if key.replication is not None}
+    )
+    if replication is None:
+        raise ValueError(
+            f"Trace {path} has no deterministic ITERATION block; it contains "
+            f"only {len(available)} replication blocks. Re-export the "
+            "deterministic run, or pass --replication to compare against one "
+            "of them."
+        )
+    shown = ", ".join(str(value) for value in available[:10])
+    suffix = " ..." if len(available) > 10 else ""
+    raise ValueError(
+        f"Trace {path} has no REPLICATION #{replication} block. "
+        f"Available replications: {shown}{suffix}"
+    )
+
+
+def parse_anylogic_trace_blocks(
+    path: str | Path,
+) -> dict[TraceBlockKey, AnyLogicIterationTrace]:
+    """Parse every iteration and replication block in an AnyLogic trace file."""
+    sections: dict[TraceBlockKey, list[list[int | None]]] = {}
+    source_counts: dict[TraceBlockKey, list[int]] = {}
+    current_key: TraceBlockKey | None = None
     for line in Path(path).read_text().splitlines():
-        iteration_match = re.match(r"ITERATION #(\d+)", line)
-        if iteration_match:
-            current_iteration = int(iteration_match.group(1))
-            sections[current_iteration] = []
-            source_counts[current_iteration] = []
+        block_key = parse_iteration_header(line)
+        if block_key is not None:
+            current_key = block_key
+            if current_key in sections:
+                raise ValueError(
+                    f"Trace contains more than one {current_key.label()} block. "
+                    "Regenerate the trace so each block appears once."
+                )
+            sections[current_key] = []
+            source_counts[current_key] = []
             continue
-        if current_iteration is None:
+        if current_key is None:
             continue
         if "event=source_item_count" in line:
-            source_counts[current_iteration].append(
+            source_counts[current_key].append(
                 _extract_int(line, "current_nof_items")
             )
         elif "event=unbatch_started" in line:
             value = _extract_int(line, "current_nof_items")
-            sections[current_iteration].append([value, None])
+            sections[current_key].append([value, None])
         elif "event=loose_items_injected" in line:
-            if not sections[current_iteration]:
+            if not sections[current_key]:
                 raise ValueError(
                     f"loose_items_injected appeared before unbatch_started: {line}"
                 )
-            sections[current_iteration][-1][1] = _extract_int(line, "items_count")
+            sections[current_key][-1][1] = _extract_int(line, "items_count")
 
-    parsed: dict[int, AnyLogicIterationTrace] = {}
-    for iteration, pairs in sections.items():
+    parsed: dict[TraceBlockKey, AnyLogicIterationTrace] = {}
+    for key, pairs in sections.items():
         parsed_pairs = [
             SamplePair(current_nof_items=int(current), items_count=int(items))
             for current, items in pairs
             if current is not None and items is not None
         ]
-        parsed[iteration] = AnyLogicIterationTrace(
+        parsed[key] = AnyLogicIterationTrace(
             pairs=parsed_pairs,
-            source_item_counts=source_counts.get(iteration) or [
+            source_item_counts=source_counts.get(key) or [
                 pair.current_nof_items for pair in parsed_pairs
             ],
         )
     return parsed
+
+
+def parse_anylogic_trace(
+    path: str | Path,
+    *,
+    replication: int | None = None,
+) -> dict[int, AnyLogicIterationTrace]:
+    """Select one block per iteration, keyed by iteration number.
+
+    ``replication=None`` selects the deterministic blocks, which are the ones
+    the SimPy comparison run mirrors. Passing an integer selects that
+    replication instead, for inspecting a specific stochastic run.
+    """
+    return select_iteration_blocks(
+        parse_anylogic_trace_blocks(path),
+        path=path,
+        replication=replication,
+    )
 
 
 def _extract_int(line: str, name: str) -> int:
@@ -214,13 +327,25 @@ def main() -> None:
         help="Comma-separated max_items_per_pallet values by iteration.",
     )
     parser.add_argument(
+        "--replication",
+        type=int,
+        default=None,
+        help=(
+            "Compare against this stochastic REPLICATION block instead of the "
+            "deterministic ITERATION block."
+        ),
+    )
+    parser.add_argument(
         "--replay",
         action="store_true",
         help="Force SimPy to replay AnyLogic sampled values for a same-randoms smoke check.",
     )
     args = parser.parse_args()
 
-    anylogic_sections = parse_anylogic_trace(args.anylogic)
+    anylogic_sections = parse_anylogic_trace(
+        args.anylogic,
+        replication=args.replication,
+    )
     max_items_by_iteration = {
         index + 1: int(value)
         for index, value in enumerate(args.max_items.split(","))
@@ -229,6 +354,12 @@ def main() -> None:
 
     print("\n--- Model 6 RNG Trace Comparison ---")
     print(f"AnyLogic trace: {args.anylogic}")
+    block_label = (
+        "deterministic ITERATION blocks"
+        if args.replication is None
+        else f"REPLICATION #{args.replication} blocks"
+    )
+    print(f"Comparing against: {block_label}")
     print(f"Replay mode: {args.replay}")
 
     for iteration in sorted(anylogic_sections):

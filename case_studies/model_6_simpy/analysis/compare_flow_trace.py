@@ -10,7 +10,10 @@ from pathlib import Path
 from typing import Iterable
 
 from case_studies.model_6_simpy.analysis.compare_rng_trace import (
+    TraceBlockKey,
     parse_anylogic_trace as parse_anylogic_rng_trace,
+    parse_iteration_header,
+    select_iteration_blocks,
 )
 from case_studies.model_6_simpy.model import Model6SimModel
 from case_studies.model_6_simpy.params import Model6Params
@@ -56,26 +59,32 @@ class FlowEvent:
     line: str
 
 
-def parse_anylogic_flow_trace(
+def parse_anylogic_flow_trace_blocks(
     path: str | Path,
     *,
     events: Iterable[str] = TRACE_EVENTS,
-) -> dict[int, list[FlowEvent]]:
+) -> dict[TraceBlockKey, list[FlowEvent]]:
+    """Parse every iteration and replication block in an AnyLogic flow trace."""
     wanted = set(events)
-    sections: dict[int, list[FlowEvent]] = {}
-    current_iteration: int | None = None
+    sections: dict[TraceBlockKey, list[FlowEvent]] = {}
+    current_key: TraceBlockKey | None = None
     for line in Path(path).read_text().splitlines():
-        iteration_match = re.match(r"ITERATION #(\d+)", line)
-        if iteration_match:
-            current_iteration = int(iteration_match.group(1))
-            sections[current_iteration] = []
+        block_key = parse_iteration_header(line)
+        if block_key is not None:
+            current_key = block_key
+            if current_key in sections:
+                raise ValueError(
+                    f"Trace contains more than one {current_key.label()} block. "
+                    "Regenerate the trace so each block appears once."
+                )
+            sections[current_key] = []
             continue
-        if current_iteration is None:
+        if current_key is None:
             continue
         event = _extract_field(line, "event")
         if event not in wanted:
             continue
-        sections[current_iteration].append(
+        sections[current_key].append(
             FlowEvent(
                 time_s=float(_extract_field(line, "t")),
                 event=event,
@@ -83,6 +92,20 @@ def parse_anylogic_flow_trace(
             )
         )
     return sections
+
+
+def parse_anylogic_flow_trace(
+    path: str | Path,
+    *,
+    events: Iterable[str] = TRACE_EVENTS,
+    replication: int | None = None,
+) -> dict[int, list[FlowEvent]]:
+    """Select one flow-trace block per iteration, keyed by iteration number."""
+    return select_iteration_blocks(
+        parse_anylogic_flow_trace_blocks(path, events=events),
+        path=path,
+        replication=replication,
+    )
 
 
 def run_simpy_flow_trace(
@@ -311,6 +334,15 @@ def main() -> None:
         default="all",
         help="Debug context filter: all or comma-separated SimPy debug event names.",
     )
+    parser.add_argument(
+        "--replication",
+        type=int,
+        default=None,
+        help=(
+            "Compare against this stochastic REPLICATION block instead of the "
+            "deterministic ITERATION block."
+        ),
+    )
     parser.add_argument("--debug-limit", type=int, default=20)
     parser.add_argument("--time-tolerance", type=float, default=1e-6)
     args = parser.parse_args()
@@ -327,8 +359,15 @@ def main() -> None:
     )
 
     rng_trace_path = args.rng_anylogic or args.anylogic
-    anylogic_flow_sections = parse_anylogic_flow_trace(args.anylogic, events=events)
-    anylogic_rng_sections = parse_anylogic_rng_trace(rng_trace_path)
+    anylogic_flow_sections = parse_anylogic_flow_trace(
+        args.anylogic,
+        events=events,
+        replication=args.replication,
+    )
+    anylogic_rng_sections = parse_anylogic_rng_trace(
+        rng_trace_path,
+        replication=args.replication,
+    )
     max_items_by_iteration = {
         index + 1: int(value)
         for index, value in enumerate(args.max_items.split(","))
@@ -339,6 +378,12 @@ def main() -> None:
     print(f"AnyLogic trace: {args.anylogic}")
     if rng_trace_path != args.anylogic:
         print(f"AnyLogic RNG trace: {rng_trace_path}")
+    block_label = (
+        "deterministic ITERATION blocks"
+        if args.replication is None
+        else f"REPLICATION #{args.replication} blocks"
+    )
+    print(f"Comparing against: {block_label}")
     print(f"Replay mode: {args.replay}")
     print(f"Events: {', '.join(events)}")
 
