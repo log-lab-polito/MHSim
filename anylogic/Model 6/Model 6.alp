@@ -191,7 +191,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -206,7 +206,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -236,7 +236,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -251,7 +251,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -266,7 +266,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -281,7 +281,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -296,7 +296,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -311,7 +311,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -326,7 +326,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[5000]]></Code>
 						</InitialValue>
@@ -356,7 +356,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[String]]></Type>
+						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[""]]></Code>
 						</InitialValue>
@@ -371,7 +371,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[5000]]></Code>
 						</InitialValue>
@@ -386,7 +386,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>
+						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
@@ -401,7 +401,7 @@ if (random_arrival_times || random_service_times) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[String]]></Type>
+						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[""]]></Code>
 						</InitialValue>
@@ -410,13 +410,13 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000200001</Id>
 					<Name><![CDATA[item_count_rng]]></Name>
-					<X>20</X><Y>610</Y>
+					<X>20</X><Y>670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[Random]]></Type>
+						<Type><![CDATA[Random]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[null]]></Code>
 						</InitialValue>
@@ -425,13 +425,13 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000200002</Id>
 					<Name><![CDATA[unbatch_rng]]></Name>
-					<X>20</X><Y>630</Y>
+					<X>20</X><Y>690</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[Random]]></Type>
+						<Type><![CDATA[Random]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[null]]></Code>
 						</InitialValue>
@@ -440,13 +440,13 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000200003</Id>
 					<Name><![CDATA[timing_rng]]></Name>
-					<X>20</X><Y>650</Y>
+					<X>20</X><Y>710</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[Random]]></Type>
+						<Type><![CDATA[Random]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[null]]></Code>
 						</InitialValue>
@@ -1323,7 +1323,7 @@ diagnostic_trace_count++;]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1903000100023</Id>
 					<Name><![CDATA[recordFlowDebugEvent]]></Name>
-					<X>230</X><Y>600</Y>
+					<X>230</X><Y>580</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4853,6 +4853,15 @@ looseItemSource.inject(itemsCount);
 				<Parameter>
 					<ParameterName><![CDATA[replication]]></ParameterName>
 				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[item_count_random_seed]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[unbatch_random_seed]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[timing_random_seed]]></ParameterName>
+				</Parameter>
 			</Parameters>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
@@ -4923,6 +4932,15 @@ looseItemSource.inject(itemsCount);
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1903000000017</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1903000200011</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1903000200013</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1903000200015</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1764170457865</Id>
@@ -5023,6 +5041,18 @@ looseItemSource.inject(itemsCount);
 					<Code><![CDATA[10]]></Code>
 				</Step>
 			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1903000200011</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1903000200013</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1903000200015</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1764115200000]]></InitialDate>	
@@ -5099,6 +5129,15 @@ looseItemSource.inject(itemsCount);
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1903000000017</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1903000200011</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1903000200013</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1903000200015</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1764170457865</Id>
@@ -5204,6 +5243,18 @@ looseItemSource.inject(itemsCount);
 				<Step Class="CodeValue">
 					<Code><![CDATA[10]]></Code>
 				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1903000200011</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1903000200013</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1903000200015</Id>
+				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
