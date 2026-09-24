@@ -71,3 +71,6 @@ htmlcov/
 *.lck
 # MkDocs build output
 site/
+
+# Per-run scratch logs written by run_model and the trace comparisons
+logs/simpy_model*.txt
