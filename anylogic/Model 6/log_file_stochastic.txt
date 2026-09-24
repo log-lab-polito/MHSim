@@ -14,16 +14,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 59
-    Avg WIP: 30.269223807149316
-    Avg cycle (s): 1846.9356899277548
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 452
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.948062522123955
+    Avg cycle (s): 1856.8837513274373
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 448
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 901
-    Batches created: 59
+    Loose items created: 893
+    Batches created: 60
 
 ITERATION #1, REPLICATION #2
 PARAMETERS
@@ -40,16 +40,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.70690735145672
-    Avg cycle (s): 1842.4144410874032
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 425
+    Created: 352
+    Completed: 61
+    Avg WIP: 31.448691606226724
+    Avg cycle (s): 1855.98835708879
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 448
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 884
-    Batches created: 60
+    Empty pallets completed: 208
+    Loose items created: 915
+    Batches created: 61
 
 ITERATION #1, REPLICATION #3
 PARAMETERS
@@ -66,16 +66,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 387
+    Created: 357
     Completed: 59
-    Avg WIP: 30.11437235837914
-    Avg cycle (s): 1837.4871269519474
+    Avg WIP: 30.295824497126777
+    Avg cycle (s): 1848.558782875532
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 452
+    Main conveyor occupancy end: 477
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 870
-    Batches created: 60
+    Empty pallets completed: 204
+    Loose items created: 915
+    Batches created: 59
 
 ITERATION #1, REPLICATION #4
 PARAMETERS
@@ -93,15 +93,15 @@ PARAMETERS
     Random services: true
 RESULTS
     Created: 357
-    Completed: 60
-    Avg WIP: 31.18385399424083
-    Avg cycle (s): 1871.0312396544498
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 460
+    Completed: 59
+    Avg WIP: 29.960455202883445
+    Avg cycle (s): 1828.0955717013626
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 462
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 907
-    Batches created: 60
+    Loose items created: 899
+    Batches created: 59
 
 ITERATION #1, REPLICATION #5
 PARAMETERS
@@ -118,15 +118,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
-    Completed: 60
-    Avg WIP: 30.99320047910128
-    Avg cycle (s): 1859.5920287460767
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 451
+    Created: 358
+    Completed: 59
+    Avg WIP: 30.065294774737794
+    Avg cycle (s): 1834.4925625263736
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 438
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 898
+    Loose items created: 885
     Batches created: 60
 
 ITERATION #1, REPLICATION #6
@@ -144,15 +144,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 333
+    Created: 343
     Completed: 59
-    Avg WIP: 30.33800807236756
-    Avg cycle (s): 1851.1326959410715
+    Avg WIP: 29.895732109288563
+    Avg cycle (s): 1824.1463659904884
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 474
+    Main conveyor occupancy end: 444
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 935
+    Empty pallets completed: 205
+    Loose items created: 896
     Batches created: 59
 
 ITERATION #1, REPLICATION #7
@@ -170,16 +170,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
-    Completed: 59
-    Avg WIP: 30.46332348514519
-    Avg cycle (s): 1858.7790601105537
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 481
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.752269451359446
+    Avg cycle (s): 1845.1361670815668
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 460
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 924
-    Batches created: 59
+    Empty pallets completed: 204
+    Loose items created: 905
+    Batches created: 60
 
 ITERATION #1, REPLICATION #8
 PARAMETERS
@@ -196,16 +196,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 373
-    Completed: 60
-    Avg WIP: 30.754632284081566
-    Avg cycle (s): 1845.277937044894
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 477
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.303450079333533
+    Avg cycle (s): 1849.0240726373002
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 471
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 911
-    Batches created: 60
+    Empty pallets completed: 204
+    Loose items created: 909
+    Batches created: 59
 
 ITERATION #1, REPLICATION #9
 PARAMETERS
@@ -222,16 +222,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 355
+    Created: 342
     Completed: 59
-    Avg WIP: 30.324209535471685
-    Avg cycle (s): 1850.2907513169162
+    Avg WIP: 29.99470602851539
+    Avg cycle (s): 1830.1854525873796
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 450
+    Main conveyor occupancy end: 424
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 892
-    Batches created: 59
+    Empty pallets completed: 202
+    Loose items created: 885
+    Batches created: 60
 
 ITERATION #1, REPLICATION #10
 PARAMETERS
@@ -248,16 +248,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 330
     Completed: 60
-    Avg WIP: 30.527641418174277
-    Avg cycle (s): 1831.6584850904567
+    Avg WIP: 30.323177137655012
+    Avg cycle (s): 1819.3906282593007
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 464
+    Main conveyor occupancy end: 415
     Storage conveyor occupancy end: 0
     Empty pallets completed: 206
-    Loose items created: 924
-    Batches created: 60
+    Loose items created: 900
+    Batches created: 61
 
 ITERATION #1, REPLICATION #11
 PARAMETERS
@@ -274,15 +274,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 371
     Completed: 59
-    Avg WIP: 29.972019095897544
-    Avg cycle (s): 1828.8011651734093
+    Avg WIP: 30.266666291538407
+    Avg cycle (s): 1846.779638127767
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 444
+    Main conveyor occupancy end: 514
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 891
+    Empty pallets completed: 205
+    Loose items created: 948
     Batches created: 60
 
 ITERATION #1, REPLICATION #12
@@ -300,15 +300,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
+    Created: 357
     Completed: 59
-    Avg WIP: 30.406274077450828
-    Avg cycle (s): 1855.2980793020843
+    Avg WIP: 30.19038584961656
+    Avg cycle (s): 1842.1252382816883
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 448
+    Main conveyor occupancy end: 473
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 898
+    Empty pallets completed: 203
+    Loose items created: 911
     Batches created: 59
 
 ITERATION #1, REPLICATION #13
@@ -326,15 +326,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 340
-    Completed: 60
-    Avg WIP: 30.966851726141805
-    Avg cycle (s): 1858.0111035685084
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 421
+    Created: 344
+    Completed: 59
+    Avg WIP: 29.796830333893265
+    Avg cycle (s): 1818.1116813900974
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 450
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 888
+    Empty pallets completed: 205
+    Loose items created: 912
     Batches created: 60
 
 ITERATION #1, REPLICATION #14
@@ -352,15 +352,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 333
     Completed: 59
-    Avg WIP: 30.280482567161975
-    Avg cycle (s): 1847.6226651149677
+    Avg WIP: 30.531494318210722
+    Avg cycle (s): 1862.9386363653998
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 438
+    Main conveyor occupancy end: 463
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 889
+    Empty pallets completed: 203
+    Loose items created: 923
     Batches created: 59
 
 ITERATION #1, REPLICATION #15
@@ -378,16 +378,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.616686013964365
-    Avg cycle (s): 1837.001160837862
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 462
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.4612492524579
+    Avg cycle (s): 1858.6524967601429
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 454
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 907
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 890
+    Batches created: 59
 
 ITERATION #1, REPLICATION #16
 PARAMETERS
@@ -404,16 +404,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 348
-    Completed: 58
-    Avg WIP: 29.791769956788887
-    Avg cycle (s): 1849.1443421455172
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 452
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.757609428226584
+    Avg cycle (s): 1845.456565693595
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 462
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 200
-    Loose items created: 885
-    Batches created: 58
+    Empty pallets completed: 203
+    Loose items created: 893
+    Batches created: 60
 
 ITERATION #1, REPLICATION #17
 PARAMETERS
@@ -430,15 +430,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
-    Completed: 60
-    Avg WIP: 30.932012360692834
-    Avg cycle (s): 1855.92074164157
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 476
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.297387952903478
+    Avg cycle (s): 1848.6541801771612
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 478
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 921
+    Empty pallets completed: 205
+    Loose items created: 926
     Batches created: 60
 
 ITERATION #1, REPLICATION #18
@@ -458,13 +458,13 @@ PARAMETERS
 RESULTS
     Created: 341
     Completed: 59
-    Avg WIP: 30.515478741266406
-    Avg cycle (s): 1861.96141472134
+    Avg WIP: 30.45207515815923
+    Avg cycle (s): 1858.0927215148001
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 478
+    Main conveyor occupancy end: 437
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 937
+    Empty pallets completed: 202
+    Loose items created: 890
     Batches created: 59
 
 ITERATION #1, REPLICATION #19
@@ -482,16 +482,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.790968784741015
-    Avg cycle (s): 1847.458127084461
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 452
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.28535523836633
+    Avg cycle (s): 1847.9199806460808
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 447
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 897
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 887
+    Batches created: 59
 
 ITERATION #1, REPLICATION #20
 PARAMETERS
@@ -508,16 +508,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 379
-    Completed: 61
-    Avg WIP: 31.5885600965864
-    Avg cycle (s): 1864.2428909460823
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 471
+    Created: 365
+    Completed: 58
+    Avg WIP: 29.476074816923397
+    Avg cycle (s): 1829.5494713952453
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 485
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 910
-    Batches created: 61
+    Empty pallets completed: 201
+    Loose items created: 913
+    Batches created: 59
 
 ITERATION #1, REPLICATION #21
 PARAMETERS
@@ -534,16 +534,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 384
+    Created: 357
     Completed: 59
-    Avg WIP: 30.394887878212025
-    Avg cycle (s): 1854.6033281620894
+    Avg WIP: 29.831882838680443
+    Avg cycle (s): 1820.2504782923659
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 497
+    Main conveyor occupancy end: 447
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 907
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 895
+    Batches created: 60
 
 ITERATION #1, REPLICATION #22
 PARAMETERS
@@ -560,16 +560,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 358
-    Completed: 60
-    Avg WIP: 31.088133352034856
-    Avg cycle (s): 1865.2880011220914
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 453
+    Created: 355
+    Completed: 59
+    Avg WIP: 30.485123680842023
+    Avg cycle (s): 1860.109241542903
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 483
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 899
-    Batches created: 60
+    Loose items created: 923
+    Batches created: 59
 
 ITERATION #1, REPLICATION #23
 PARAMETERS
@@ -586,15 +586,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
+    Created: 360
     Completed: 60
-    Avg WIP: 30.704966608913228
-    Avg cycle (s): 1842.2979965347938
+    Avg WIP: 31.039978097746364
+    Avg cycle (s): 1862.3986858647818
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 451
+    Main conveyor occupancy end: 477
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 911
+    Empty pallets completed: 204
+    Loose items created: 921
     Batches created: 60
 
 ITERATION #1, REPLICATION #24
@@ -612,15 +612,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 337
+    Created: 356
     Completed: 59
-    Avg WIP: 30.603747426728436
-    Avg cycle (s): 1867.3473006139384
+    Avg WIP: 30.346604790023992
+    Avg cycle (s): 1851.6572414251925
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 453
+    Main conveyor occupancy end: 459
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 910
+    Empty pallets completed: 203
+    Loose items created: 898
     Batches created: 59
 
 ITERATION #1, REPLICATION #25
@@ -638,15 +638,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 358
+    Created: 357
     Completed: 59
-    Avg WIP: 29.88937608393291
-    Avg cycle (s): 1823.7585407145502
+    Avg WIP: 29.882530304642792
+    Avg cycle (s): 1823.3408321476957
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 452
+    Main conveyor occupancy end: 453
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 899
+    Empty pallets completed: 206
+    Loose items created: 902
     Batches created: 60
 
 ITERATION #1, REPLICATION #26
@@ -664,16 +664,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 364
-    Completed: 58
-    Avg WIP: 29.554493828959327
-    Avg cycle (s): 1834.4168583491996
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 487
+    Created: 359
+    Completed: 59
+    Avg WIP: 29.93809931405712
+    Avg cycle (s): 1826.7314835695868
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 467
     Storage conveyor occupancy end: 0
     Empty pallets completed: 202
-    Loose items created: 916
-    Batches created: 59
+    Loose items created: 912
+    Batches created: 60
 
 ITERATION #1, REPLICATION #27
 PARAMETERS
@@ -692,14 +692,14 @@ PARAMETERS
 RESULTS
     Created: 357
     Completed: 59
-    Avg WIP: 30.099195778607886
-    Avg cycle (s): 1836.5610983557353
+    Avg WIP: 29.901359053169102
+    Avg cycle (s): 1824.4897049391316
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 473
+    Main conveyor occupancy end: 460
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 908
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 907
+    Batches created: 60
 
 ITERATION #1, REPLICATION #28
 PARAMETERS
@@ -716,16 +716,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 367
-    Completed: 59
-    Avg WIP: 30.37133541082881
-    Avg cycle (s): 1853.1662284573508
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 480
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.95938609949052
+    Avg cycle (s): 1857.563165969431
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 458
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 906
-    Batches created: 59
+    Empty pallets completed: 204
+    Loose items created: 905
+    Batches created: 60
 
 ITERATION #1, REPLICATION #29
 PARAMETERS
@@ -742,15 +742,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
-    Completed: 59
-    Avg WIP: 30.264667319465776
-    Avg cycle (s): 1846.6576669504539
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 457
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.686228958290936
+    Avg cycle (s): 1841.1737374974562
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 470
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 904
+    Empty pallets completed: 205
+    Loose items created: 902
     Batches created: 60
 
 ITERATION #1, REPLICATION #30
@@ -768,16 +768,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 350
-    Completed: 58
-    Avg WIP: 29.9931612047778
-    Avg cycle (s): 1861.6444885724152
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 459
+    Created: 349
+    Completed: 60
+    Avg WIP: 30.63103342399153
+    Avg cycle (s): 1837.8620054394917
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 442
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 891
-    Batches created: 58
+    Empty pallets completed: 206
+    Loose items created: 900
+    Batches created: 60
 
 ITERATION #1, REPLICATION #31
 PARAMETERS
@@ -794,16 +794,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 367
-    Completed: 61
-    Avg WIP: 31.66228907954503
-    Avg cycle (s): 1868.5941096124934
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 464
+    Created: 355
+    Completed: 60
+    Avg WIP: 31.00848270411113
+    Avg cycle (s): 1860.5089622466678
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 450
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 208
-    Loose items created: 917
-    Batches created: 61
+    Empty pallets completed: 204
+    Loose items created: 901
+    Batches created: 60
 
 ITERATION #1, REPLICATION #32
 PARAMETERS
@@ -820,15 +820,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
+    Created: 382
     Completed: 59
-    Avg WIP: 30.34761903412896
-    Avg cycle (s): 1851.7191275061737
+    Avg WIP: 30.492554623219856
+    Avg cycle (s): 1860.5626549761266
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 471
+    Main conveyor occupancy end: 487
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 899
+    Empty pallets completed: 203
+    Loose items created: 900
     Batches created: 59
 
 ITERATION #1, REPLICATION #33
@@ -846,16 +846,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
-    Completed: 59
-    Avg WIP: 30.297027549897795
-    Avg cycle (s): 1848.632189485289
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 449
+    Created: 361
+    Completed: 60
+    Avg WIP: 30.560630186659814
+    Avg cycle (s): 1833.637811199589
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 453
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 873
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 898
+    Batches created: 60
 
 ITERATION #1, REPLICATION #34
 PARAMETERS
@@ -872,15 +872,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 59
-    Avg WIP: 30.09874888816752
-    Avg cycle (s): 1836.5338304644588
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 487
+    Created: 354
+    Completed: 58
+    Avg WIP: 29.365406214248626
+    Avg cycle (s): 1822.6803857119837
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 463
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 925
+    Empty pallets completed: 204
+    Loose items created: 903
     Batches created: 59
 
 ITERATION #1, REPLICATION #35
@@ -898,15 +898,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
+    Created: 369
     Completed: 59
-    Avg WIP: 30.122029175841462
-    Avg cycle (s): 1837.9543225937161
+    Avg WIP: 30.346083036807872
+    Avg cycle (s): 1851.6254056357345
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 482
+    Main conveyor occupancy end: 500
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 906
+    Empty pallets completed: 202
+    Loose items created: 924
     Batches created: 59
 
 ITERATION #1, REPLICATION #36
@@ -924,16 +924,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 59
-    Avg WIP: 30.008838875888884
-    Avg cycle (s): 1831.0477958169488
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 452
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.67648149816651
+    Avg cycle (s): 1840.5888898899907
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 429
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 888
-    Batches created: 59
+    Empty pallets completed: 204
+    Loose items created: 874
+    Batches created: 60
 
 ITERATION #1, REPLICATION #37
 PARAMETERS
@@ -950,16 +950,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 363
-    Completed: 61
-    Avg WIP: 31.278196268222107
-    Avg cycle (s): 1845.9263371409766
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 442
+    Created: 355
+    Completed: 59
+    Avg WIP: 30.29709871576235
+    Avg cycle (s): 1848.636531809228
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 479
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 896
-    Batches created: 61
+    Empty pallets completed: 203
+    Loose items created: 919
+    Batches created: 59
 
 ITERATION #1, REPLICATION #38
 PARAMETERS
@@ -976,15 +976,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 360
     Completed: 60
-    Avg WIP: 30.878517927516274
-    Avg cycle (s): 1852.7110756509765
+    Avg WIP: 30.646167729498043
+    Avg cycle (s): 1838.7700637698827
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 470
+    Main conveyor occupancy end: 459
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 930
+    Empty pallets completed: 205
+    Loose items created: 905
     Batches created: 60
 
 ITERATION #1, REPLICATION #39
@@ -1002,15 +1002,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 330
-    Completed: 59
-    Avg WIP: 30.088238281884255
-    Avg cycle (s): 1835.8925053353103
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 432
+    Created: 357
+    Completed: 60
+    Avg WIP: 31.256518093644626
+    Avg cycle (s): 1875.3910856186776
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 479
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 907
+    Empty pallets completed: 205
+    Loose items created: 927
     Batches created: 60
 
 ITERATION #1, REPLICATION #40
@@ -1028,16 +1028,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 342
+    Created: 337
     Completed: 59
-    Avg WIP: 30.00544442629
-    Avg cycle (s): 1830.8406768583727
+    Avg WIP: 30.19442977592468
+    Avg cycle (s): 1842.3719863276074
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 444
+    Main conveyor occupancy end: 430
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 908
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 888
+    Batches created: 59
 
 ITERATION #1, REPLICATION #41
 PARAMETERS
@@ -1054,15 +1054,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
+    Created: 357
     Completed: 59
-    Avg WIP: 30.385464431987675
-    Avg cycle (s): 1854.0283382229766
+    Avg WIP: 29.94253296902381
+    Avg cycle (s): 1827.0020116692492
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 477
+    Main conveyor occupancy end: 461
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 901
+    Loose items created: 898
     Batches created: 59
 
 ITERATION #1, REPLICATION #42
@@ -1080,15 +1080,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 335
-    Completed: 58
-    Avg WIP: 29.56797705425907
-    Avg cycle (s): 1835.2537481953907
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 450
+    Created: 345
+    Completed: 59
+    Avg WIP: 30.15064461604929
+    Avg cycle (s): 1839.7003494538549
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 480
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 909
+    Loose items created: 931
     Batches created: 59
 
 ITERATION #1, REPLICATION #43
@@ -1106,16 +1106,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
-    Completed: 59
-    Avg WIP: 30.176726894439
-    Avg cycle (s): 1841.2918105081421
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 448
+    Created: 373
+    Completed: 60
+    Avg WIP: 30.835200569013242
+    Avg cycle (s): 1850.1120341407945
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 499
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 904
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 932
+    Batches created: 60
 
 ITERATION #1, REPLICATION #44
 PARAMETERS
@@ -1132,16 +1132,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 373
-    Completed: 60
-    Avg WIP: 30.909142928855008
-    Avg cycle (s): 1854.5485757313006
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 466
+    Created: 369
+    Completed: 59
+    Avg WIP: 29.992113944876607
+    Avg cycle (s): 1830.0272915517928
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 478
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 896
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 904
+    Batches created: 59
 
 ITERATION #1, REPLICATION #45
 PARAMETERS
@@ -1158,16 +1158,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.648687275873836
-    Avg cycle (s): 1838.9212365524302
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 474
+    Created: 366
+    Completed: 59
+    Avg WIP: 30.29203560843601
+    Avg cycle (s): 1848.3275964469428
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 460
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 921
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 886
+    Batches created: 59
 
 ITERATION #1, REPLICATION #46
 PARAMETERS
@@ -1184,15 +1184,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 324
     Completed: 59
-    Avg WIP: 30.283132719103207
-    Avg cycle (s): 1847.7843693012126
+    Avg WIP: 29.870843079392706
+    Avg cycle (s): 1822.6277133188769
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 443
+    Main conveyor occupancy end: 416
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 904
+    Empty pallets completed: 205
+    Loose items created: 897
     Batches created: 60
 
 ITERATION #1, REPLICATION #47
@@ -1210,15 +1210,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.915237492596656
-    Avg cycle (s): 1854.9142495557994
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 433
+    Created: 343
+    Completed: 59
+    Avg WIP: 30.19073621006746
+    Avg cycle (s): 1842.1466162075058
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 449
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 891
+    Loose items created: 911
     Batches created: 60
 
 ITERATION #1, REPLICATION #48
@@ -1236,15 +1236,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 350
     Completed: 60
-    Avg WIP: 31.18452445293897
-    Avg cycle (s): 1871.0714671763383
+    Avg WIP: 31.154335063649043
+    Avg cycle (s): 1869.2601038189425
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 478
+    Main conveyor occupancy end: 450
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 924
+    Empty pallets completed: 207
+    Loose items created: 908
     Batches created: 60
 
 ITERATION #1, REPLICATION #49
@@ -1262,16 +1262,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 59
-    Avg WIP: 30.365129339977223
-    Avg cycle (s): 1852.7875529477626
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 462
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.866655814102632
+    Avg cycle (s): 1851.999348846158
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 461
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 899
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 907
+    Batches created: 60
 
 ITERATION #1, REPLICATION #50
 PARAMETERS
@@ -1288,16 +1288,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
-    Completed: 60
-    Avg WIP: 30.743931062678566
-    Avg cycle (s): 1844.635863760714
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 460
+    Created: 341
+    Completed: 59
+    Avg WIP: 30.13852811084908
+    Avg cycle (s): 1838.961037272147
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 440
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 906
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 892
+    Batches created: 59
 
 ITERATION #1, REPLICATION #51
 PARAMETERS
@@ -1314,15 +1314,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 335
+    Created: 353
     Completed: 59
-    Avg WIP: 29.949499795531082
-    Avg cycle (s): 1827.427106167998
+    Avg WIP: 30.306923543566306
+    Avg cycle (s): 1849.2360128277744
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 443
+    Main conveyor occupancy end: 447
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 904
+    Empty pallets completed: 202
+    Loose items created: 886
     Batches created: 59
 
 ITERATION #1, REPLICATION #52
@@ -1340,15 +1340,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 341
     Completed: 59
-    Avg WIP: 30.102802798156574
-    Avg cycle (s): 1836.7811876841297
+    Avg WIP: 30.024515489047772
+    Avg cycle (s): 1832.0043349249486
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 476
+    Main conveyor occupancy end: 453
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 922
+    Empty pallets completed: 205
+    Loose items created: 918
     Batches created: 60
 
 ITERATION #1, REPLICATION #53
@@ -1366,16 +1366,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
+    Created: 357
     Completed: 59
-    Avg WIP: 30.099929851922393
-    Avg cycle (s): 1836.6058892698409
+    Avg WIP: 30.140122610973563
+    Avg cycle (s): 1839.0583288051664
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 451
+    Main conveyor occupancy end: 462
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 909
-    Batches created: 60
+    Empty pallets completed: 206
+    Loose items created: 901
+    Batches created: 59
 
 ITERATION #1, REPLICATION #54
 PARAMETERS
@@ -1392,15 +1392,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 343
+    Created: 335
     Completed: 59
-    Avg WIP: 30.345019186703617
-    Avg cycle (s): 1851.5604927480172
+    Avg WIP: 30.219289533796264
+    Avg cycle (s): 1843.8888529096023
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 435
+    Main conveyor occupancy end: 445
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 886
+    Empty pallets completed: 204
+    Loose items created: 906
     Batches created: 59
 
 ITERATION #1, REPLICATION #55
@@ -1418,16 +1418,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 356
-    Completed: 59
-    Avg WIP: 30.264150377284324
-    Avg cycle (s): 1846.6261247156535
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 475
+    Created: 346
+    Completed: 60
+    Avg WIP: 31.166978474858123
+    Avg cycle (s): 1870.0187084914874
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 452
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
+    Empty pallets completed: 204
     Loose items created: 914
-    Batches created: 59
+    Batches created: 60
 
 ITERATION #1, REPLICATION #56
 PARAMETERS
@@ -1444,15 +1444,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
+    Created: 355
     Completed: 59
-    Avg WIP: 30.05262532060397
-    Avg cycle (s): 1833.7195110876996
+    Avg WIP: 30.06847955677224
+    Avg cycle (s): 1834.6868882098313
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 459
+    Main conveyor occupancy end: 464
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 886
+    Empty pallets completed: 204
+    Loose items created: 905
     Batches created: 59
 
 ITERATION #1, REPLICATION #57
@@ -1470,15 +1470,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 59
-    Avg WIP: 30.26373502219369
-    Avg cycle (s): 1846.600781015208
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 471
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.902434716092568
+    Avg cycle (s): 1854.1460829655541
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 420
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 918
+    Empty pallets completed: 203
+    Loose items created: 881
     Batches created: 60
 
 ITERATION #1, REPLICATION #58
@@ -1496,15 +1496,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 349
-    Completed: 58
-    Avg WIP: 29.73301174828052
-    Avg cycle (s): 1845.4972809277565
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 444
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.926522419584465
+    Avg cycle (s): 1826.0250967882046
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 448
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 888
+    Empty pallets completed: 204
+    Loose items created: 885
     Batches created: 59
 
 ITERATION #1, REPLICATION #59
@@ -1522,16 +1522,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
-    Completed: 60
-    Avg WIP: 31.201242946336826
-    Avg cycle (s): 1872.0745767802096
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 434
+    Created: 381
+    Completed: 58
+    Avg WIP: 29.716402351896125
+    Avg cycle (s): 1844.4663528763112
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 514
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 898
-    Batches created: 60
+    Empty pallets completed: 200
+    Loose items created: 914
+    Batches created: 58
 
 ITERATION #1, REPLICATION #60
 PARAMETERS
@@ -1548,16 +1548,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
-    Completed: 59
-    Avg WIP: 30.325840413893747
-    Avg cycle (s): 1850.3902625426692
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 455
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.421480482421646
+    Avg cycle (s): 1825.2888289452987
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 420
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 895
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 893
+    Batches created: 61
 
 ITERATION #1, REPLICATION #61
 PARAMETERS
@@ -1574,15 +1574,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 341
     Completed: 60
-    Avg WIP: 31.219640595697804
-    Avg cycle (s): 1873.1784357418683
+    Avg WIP: 30.96328985530676
+    Avg cycle (s): 1857.7973913184055
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 442
+    Main conveyor occupancy end: 428
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 902
+    Loose items created: 891
     Batches created: 60
 
 ITERATION #1, REPLICATION #62
@@ -1600,16 +1600,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 350
-    Completed: 60
-    Avg WIP: 30.718476617329163
-    Avg cycle (s): 1843.1085970397498
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 466
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.37844204648101
+    Avg cycle (s): 1853.5998536835868
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 473
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 934
-    Batches created: 61
+    Empty pallets completed: 205
+    Loose items created: 921
+    Batches created: 60
 
 ITERATION #1, REPLICATION #63
 PARAMETERS
@@ -1626,15 +1626,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 330
     Completed: 60
-    Avg WIP: 30.997895205281285
-    Avg cycle (s): 1859.8737123168771
+    Avg WIP: 30.810893876761753
+    Avg cycle (s): 1848.6536326057053
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 432
+    Main conveyor occupancy end: 435
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 891
+    Empty pallets completed: 206
+    Loose items created: 913
     Batches created: 60
 
 ITERATION #1, REPLICATION #64
@@ -1652,16 +1652,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 352
-    Completed: 59
-    Avg WIP: 30.31212171674368
-    Avg cycle (s): 1849.5531894962244
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 460
+    Created: 347
+    Completed: 60
+    Avg WIP: 30.809357793250697
+    Avg cycle (s): 1848.561467595042
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 466
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 904
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 926
+    Batches created: 60
 
 ITERATION #1, REPLICATION #65
 PARAMETERS
@@ -1678,16 +1678,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 331
-    Completed: 60
-    Avg WIP: 30.608573566633194
-    Avg cycle (s): 1836.5144139979916
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 413
+    Created: 337
+    Completed: 59
+    Avg WIP: 30.055177596972317
+    Avg cycle (s): 1833.8752432050903
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 449
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 900
-    Batches created: 61
+    Empty pallets completed: 203
+    Loose items created: 907
+    Batches created: 59
 
 ITERATION #1, REPLICATION #66
 PARAMETERS
@@ -1704,15 +1704,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 361
+    Created: 349
     Completed: 60
-    Avg WIP: 30.37919248270352
-    Avg cycle (s): 1822.7515489622112
+    Avg WIP: 30.641948907872898
+    Avg cycle (s): 1838.5169344723738
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 455
+    Main conveyor occupancy end: 445
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 901
+    Empty pallets completed: 205
+    Loose items created: 902
     Batches created: 60
 
 ITERATION #1, REPLICATION #67
@@ -1730,15 +1730,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 59
-    Avg WIP: 30.088473860348312
-    Avg cycle (s): 1835.9068796144732
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 437
+    Created: 342
+    Completed: 60
+    Avg WIP: 31.089325229027697
+    Avg cycle (s): 1865.3595137416619
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 465
     Storage conveyor occupancy end: 0
     Empty pallets completed: 205
-    Loose items created: 897
+    Loose items created: 929
     Batches created: 60
 
 ITERATION #1, REPLICATION #68
@@ -1756,16 +1756,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 364
-    Completed: 59
-    Avg WIP: 30.465675371425395
-    Avg cycle (s): 1858.9225650361257
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 474
+    Created: 361
+    Completed: 60
+    Avg WIP: 30.609080445108145
+    Avg cycle (s): 1836.5448267064887
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 456
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 902
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 901
+    Batches created: 60
 
 ITERATION #1, REPLICATION #69
 PARAMETERS
@@ -1782,16 +1782,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 356
-    Completed: 59
-    Avg WIP: 30.162800679052673
-    Avg cycle (s): 1840.4420753320273
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 489
+    Created: 362
+    Completed: 60
+    Avg WIP: 30.993825847981128
+    Avg cycle (s): 1859.6295508788678
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 476
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 926
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 919
+    Batches created: 60
 
 ITERATION #1, REPLICATION #70
 PARAMETERS
@@ -1808,15 +1808,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 347
     Completed: 60
-    Avg WIP: 30.817935224237026
-    Avg cycle (s): 1849.0761134542215
+    Avg WIP: 30.837246753452174
+    Avg cycle (s): 1850.2348052071304
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 454
+    Main conveyor occupancy end: 466
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 917
+    Empty pallets completed: 207
+    Loose items created: 927
     Batches created: 60
 
 ITERATION #1, REPLICATION #71
@@ -1834,16 +1834,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
-    Completed: 58
-    Avg WIP: 29.722681907649896
-    Avg cycle (s): 1844.8561184058556
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 469
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.247267517637944
+    Avg cycle (s): 1845.5959841270608
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 443
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 200
-    Loose items created: 888
-    Batches created: 58
+    Empty pallets completed: 202
+    Loose items created: 879
+    Batches created: 59
 
 ITERATION #1, REPLICATION #72
 PARAMETERS
@@ -1860,15 +1860,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 343
-    Completed: 59
-    Avg WIP: 29.93129522243177
-    Avg cycle (s): 1826.3163186568536
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 436
+    Created: 373
+    Completed: 60
+    Avg WIP: 31.169205577935532
+    Avg cycle (s): 1870.1523346761319
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 489
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 896
+    Empty pallets completed: 206
+    Loose items created: 923
     Batches created: 60
 
 ITERATION #1, REPLICATION #73
@@ -1886,15 +1886,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 358
+    Created: 361
     Completed: 60
-    Avg WIP: 30.92778998485159
-    Avg cycle (s): 1855.6673990910954
+    Avg WIP: 30.73577428791754
+    Avg cycle (s): 1844.1464572750524
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 450
+    Main conveyor occupancy end: 490
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 897
+    Empty pallets completed: 207
+    Loose items created: 937
     Batches created: 60
 
 ITERATION #1, REPLICATION #74
@@ -1912,16 +1912,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 353
     Completed: 60
-    Avg WIP: 30.753205260240964
-    Avg cycle (s): 1845.1923156144578
+    Avg WIP: 30.554769209866883
+    Avg cycle (s): 1833.286152592013
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 473
+    Main conveyor occupancy end: 449
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 917
-    Batches created: 60
+    Empty pallets completed: 207
+    Loose items created: 913
+    Batches created: 61
 
 ITERATION #1, REPLICATION #75
 PARAMETERS
@@ -1938,15 +1938,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
+    Created: 324
     Completed: 59
-    Avg WIP: 30.305772990958133
-    Avg cycle (s): 1849.1658096177841
+    Avg WIP: 30.144303639896098
+    Avg cycle (s): 1839.313442434338
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 496
+    Main conveyor occupancy end: 435
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 922
+    Empty pallets completed: 204
+    Loose items created: 905
     Batches created: 59
 
 ITERATION #1, REPLICATION #76
@@ -1964,15 +1964,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 357
     Completed: 59
-    Avg WIP: 30.141997067418522
-    Avg cycle (s): 1839.1727024187571
+    Avg WIP: 29.945045844415926
+    Avg cycle (s): 1827.1553396592767
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 440
+    Main conveyor occupancy end: 463
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 900
+    Empty pallets completed: 205
+    Loose items created: 911
     Batches created: 60
 
 ITERATION #1, REPLICATION #77
@@ -1991,14 +1991,14 @@ PARAMETERS
     Random services: true
 RESULTS
     Created: 364
-    Completed: 59
-    Avg WIP: 30.20504862320716
-    Avg cycle (s): 1843.019915992301
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 467
+    Completed: 60
+    Avg WIP: 30.696764432594488
+    Avg cycle (s): 1841.8058659556693
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 479
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 908
+    Loose items created: 921
     Batches created: 60
 
 ITERATION #1, REPLICATION #78
@@ -2016,15 +2016,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 351
-    Completed: 58
-    Avg WIP: 29.607563006788702
-    Avg cycle (s): 1837.7108073179195
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 491
+    Created: 337
+    Completed: 59
+    Avg WIP: 30.122111238043086
+    Avg cycle (s): 1837.9593297789
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 441
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 933
+    Loose items created: 898
     Batches created: 59
 
 ITERATION #1, REPLICATION #79
@@ -2042,15 +2042,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
+    Created: 343
     Completed: 59
-    Avg WIP: 30.256663451814827
-    Avg cycle (s): 1846.1692953649724
+    Avg WIP: 30.031796900012676
+    Avg cycle (s): 1832.4486244075529
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 455
+    Main conveyor occupancy end: 453
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 894
+    Empty pallets completed: 203
+    Loose items created: 905
     Batches created: 59
 
 ITERATION #1, REPLICATION #80
@@ -2068,15 +2068,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 383
     Completed: 59
-    Avg WIP: 30.246191946974513
-    Avg cycle (s): 1845.5303560865802
+    Avg WIP: 30.45543631494049
+    Avg cycle (s): 1858.297809047216
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 450
+    Main conveyor occupancy end: 505
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 888
+    Empty pallets completed: 202
+    Loose items created: 916
     Batches created: 59
 
 ITERATION #1, REPLICATION #81
@@ -2094,16 +2094,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
-    Completed: 60
-    Avg WIP: 30.68312459313035
-    Avg cycle (s): 1840.987475587821
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 447
+    Created: 368
+    Completed: 58
+    Avg WIP: 29.601325639364983
+    Avg cycle (s): 1837.3236603743783
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 469
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 906
-    Batches created: 60
+    Empty pallets completed: 200
+    Loose items created: 892
+    Batches created: 59
 
 ITERATION #1, REPLICATION #82
 PARAMETERS
@@ -2120,16 +2120,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
+    Created: 366
     Completed: 59
-    Avg WIP: 30.13573419653852
-    Avg cycle (s): 1838.7905611447231
+    Avg WIP: 30.51081139263719
+    Avg cycle (s): 1861.6766273473538
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 502
+    Main conveyor occupancy end: 474
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 936
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 902
+    Batches created: 59
 
 ITERATION #1, REPLICATION #83
 PARAMETERS
@@ -2146,16 +2146,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.739865995862747
-    Avg cycle (s): 1844.391959751765
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 472
+    Created: 352
+    Completed: 58
+    Avg WIP: 29.480119101989228
+    Avg cycle (s): 1829.8004959855384
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 445
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 918
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 878
+    Batches created: 58
 
 ITERATION #1, REPLICATION #84
 PARAMETERS
@@ -2172,16 +2172,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 371
+    Created: 352
     Completed: 59
-    Avg WIP: 30.098636170363406
-    Avg cycle (s): 1836.5269527679366
+    Avg WIP: 30.262812237542803
+    Avg cycle (s): 1846.5444755110861
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 472
+    Main conveyor occupancy end: 451
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 907
-    Batches created: 60
+    Empty pallets completed: 201
+    Loose items created: 893
+    Batches created: 59
 
 ITERATION #1, REPLICATION #85
 PARAMETERS
@@ -2198,16 +2198,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 361
-    Completed: 58
-    Avg WIP: 29.528735036988937
-    Avg cycle (s): 1832.8180367786238
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 478
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.65150126485259
+    Avg cycle (s): 1839.0900758911555
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 471
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 200
-    Loose items created: 897
-    Batches created: 58
+    Empty pallets completed: 207
+    Loose items created: 919
+    Batches created: 60
 
 ITERATION #1, REPLICATION #86
 PARAMETERS
@@ -2224,16 +2224,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 377
-    Completed: 60
-    Avg WIP: 30.719040821166978
-    Avg cycle (s): 1843.1424492700187
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 485
+    Created: 366
+    Completed: 59
+    Avg WIP: 30.219798404888675
+    Avg cycle (s): 1843.9199026711733
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 492
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 918
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 921
+    Batches created: 59
 
 ITERATION #1, REPLICATION #87
 PARAMETERS
@@ -2250,15 +2250,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 341
     Completed: 59
-    Avg WIP: 30.093513968429853
-    Avg cycle (s): 1836.2144116330078
+    Avg WIP: 30.339719374755404
+    Avg cycle (s): 1851.237114391855
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 483
+    Main conveyor occupancy end: 442
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 919
+    Loose items created: 895
     Batches created: 59
 
 ITERATION #1, REPLICATION #88
@@ -2276,16 +2276,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 344
-    Completed: 59
-    Avg WIP: 30.351260542203924
-    Avg cycle (s): 1851.9413212192223
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 438
+    Created: 332
+    Completed: 58
+    Avg WIP: 29.357306557419985
+    Avg cycle (s): 1822.1776483915853
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 434
     Storage conveyor occupancy end: 0
     Empty pallets completed: 202
-    Loose items created: 896
-    Batches created: 60
+    Loose items created: 895
+    Batches created: 59
 
 ITERATION #1, REPLICATION #89
 PARAMETERS
@@ -2304,13 +2304,13 @@ PARAMETERS
 RESULTS
     Created: 373
     Completed: 60
-    Avg WIP: 30.970731755758493
-    Avg cycle (s): 1858.2439053455096
+    Avg WIP: 30.747589602498508
+    Avg cycle (s): 1844.8553761499104
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 493
+    Main conveyor occupancy end: 473
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 923
+    Empty pallets completed: 204
+    Loose items created: 904
     Batches created: 60
 
 ITERATION #1, REPLICATION #90
@@ -2328,15 +2328,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 358
-    Completed: 59
-    Avg WIP: 29.870614163548023
-    Avg cycle (s): 1822.6137455724215
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 455
+    Created: 357
+    Completed: 60
+    Avg WIP: 31.28131307009383
+    Avg cycle (s): 1876.87878420563
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 454
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 903
+    Empty pallets completed: 204
+    Loose items created: 901
     Batches created: 60
 
 ITERATION #1, REPLICATION #91
@@ -2354,15 +2354,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 349
-    Completed: 60
-    Avg WIP: 30.717699597251936
-    Avg cycle (s): 1843.0619758351163
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 447
+    Created: 372
+    Completed: 59
+    Avg WIP: 29.876831832863303
+    Avg cycle (s): 1822.9931287848794
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 491
     Storage conveyor occupancy end: 0
     Empty pallets completed: 206
-    Loose items created: 906
+    Loose items created: 926
     Batches created: 60
 
 ITERATION #1, REPLICATION #92
@@ -2380,15 +2380,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 354
+    Created: 343
     Completed: 59
-    Avg WIP: 30.50548234942199
-    Avg cycle (s): 1861.3514653884602
+    Avg WIP: 30.067487321434655
+    Avg cycle (s): 1834.6263450366907
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 477
+    Main conveyor occupancy end: 440
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 918
+    Loose items created: 893
     Batches created: 59
 
 ITERATION #1, REPLICATION #93
@@ -2406,16 +2406,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 366
+    Created: 341
     Completed: 59
-    Avg WIP: 30.477298856388725
-    Avg cycle (s): 1859.6317946271085
+    Avg WIP: 29.96386490449797
+    Avg cycle (s): 1828.3036212914014
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 484
+    Main conveyor occupancy end: 443
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 912
-    Batches created: 59
+    Empty pallets completed: 203
+    Loose items created: 906
+    Batches created: 60
 
 ITERATION #1, REPLICATION #94
 PARAMETERS
@@ -2432,16 +2432,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 340
-    Completed: 59
-    Avg WIP: 30.206725098001304
-    Avg cycle (s): 1843.122209369571
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 454
+    Created: 365
+    Completed: 61
+    Avg WIP: 31.419265286324894
+    Avg cycle (s): 1854.2517218158953
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 466
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 910
-    Batches created: 59
+    Empty pallets completed: 207
+    Loose items created: 919
+    Batches created: 61
 
 ITERATION #1, REPLICATION #95
 PARAMETERS
@@ -2458,15 +2458,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 59
-    Avg WIP: 30.343033540377178
-    Avg cycle (s): 1851.4393346670818
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 463
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.685258195805403
+    Avg cycle (s): 1841.1154917483243
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 450
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 910
+    Loose items created: 894
     Batches created: 60
 
 ITERATION #1, REPLICATION #96
@@ -2484,15 +2484,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
-    Completed: 59
-    Avg WIP: 30.112096114081286
-    Avg cycle (s): 1837.3482374693665
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 436
+    Created: 357
+    Completed: 60
+    Avg WIP: 31.136188432343097
+    Avg cycle (s): 1868.1713059405859
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 477
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 893
+    Empty pallets completed: 206
+    Loose items created: 926
     Batches created: 60
 
 ITERATION #1, REPLICATION #97
@@ -2510,16 +2510,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 353
-    Completed: 59
-    Avg WIP: 30.5718744607007
-    Avg cycle (s): 1865.402509466483
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 484
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.884939657011824
+    Avg cycle (s): 1853.0963794207094
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 482
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 924
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 928
+    Batches created: 60
 
 ITERATION #1, REPLICATION #98
 PARAMETERS
@@ -2536,16 +2536,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 366
-    Completed: 59
-    Avg WIP: 30.398051868780914
-    Avg cycle (s): 1854.7963852137505
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 480
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.570563542145603
+    Avg cycle (s): 1834.2338125287363
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 465
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 908
-    Batches created: 59
+    Empty pallets completed: 207
+    Loose items created: 912
+    Batches created: 60
 
 ITERATION #1, REPLICATION #99
 PARAMETERS
@@ -2562,15 +2562,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 352
+    Created: 333
     Completed: 59
-    Avg WIP: 30.204771136782743
-    Avg cycle (s): 1843.002984617252
+    Avg WIP: 29.99045198854974
+    Avg cycle (s): 1829.9258840471027
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 446
+    Main conveyor occupancy end: 430
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 890
+    Empty pallets completed: 204
+    Loose items created: 892
     Batches created: 59
 
 ITERATION #1, REPLICATION #100
@@ -2588,16 +2588,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 388
-    Completed: 59
-    Avg WIP: 29.995483149270303
-    Avg cycle (s): 1830.2328701249676
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 497
+    Created: 381
+    Completed: 58
+    Avg WIP: 29.766836981052688
+    Avg cycle (s): 1847.5967781343047
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 501
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 913
-    Batches created: 60
+    Empty pallets completed: 199
+    Loose items created: 901
+    Batches created: 58
 
 ITERATION #2, REPLICATION #1
 PARAMETERS
@@ -2614,15 +2614,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 355
-    Completed: 61
-    Avg WIP: 30.908001037462427
-    Avg cycle (s): 1824.0787497518807
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 990
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.737729013781376
+    Avg cycle (s): 1844.2637408268827
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 995
     Storage conveyor occupancy end: 0
     Empty pallets completed: 208
-    Loose items created: 1454
+    Loose items created: 1453
     Batches created: 61
 
 ITERATION #2, REPLICATION #2
@@ -2640,16 +2640,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 366
-    Completed: 58
-    Avg WIP: 29.389827655401476
-    Avg cycle (s): 1824.1961993007812
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 928
+    Created: 394
+    Completed: 59
+    Avg WIP: 29.918848447704413
+    Avg cycle (s): 1825.5568544362013
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1021
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 1356
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 1433
+    Batches created: 60
 
 ITERATION #2, REPLICATION #3
 PARAMETERS
@@ -2666,15 +2666,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
+    Created: 349
     Completed: 60
-    Avg WIP: 30.741180595753264
-    Avg cycle (s): 1844.470835745196
+    Avg WIP: 30.452491757208737
+    Avg cycle (s): 1827.1495054325242
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 984
+    Main conveyor occupancy end: 974
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1431
+    Empty pallets completed: 207
+    Loose items created: 1433
     Batches created: 60
 
 ITERATION #2, REPLICATION #4
@@ -2692,15 +2692,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 360
     Completed: 60
-    Avg WIP: 30.86329407419687
-    Avg cycle (s): 1851.7976444518122
+    Avg WIP: 31.06646893838783
+    Avg cycle (s): 1863.9881363032698
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 971
+    Main conveyor occupancy end: 1018
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 1429
+    Loose items created: 1462
     Batches created: 60
 
 ITERATION #2, REPLICATION #5
@@ -2718,16 +2718,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 374
-    Completed: 60
-    Avg WIP: 30.704143802293732
-    Avg cycle (s): 1842.2486281376239
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 965
+    Created: 355
+    Completed: 59
+    Avg WIP: 30.11250978598167
+    Avg cycle (s): 1837.3734784666779
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1018
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1396
-    Batches created: 60
+    Loose items created: 1459
+    Batches created: 59
 
 ITERATION #2, REPLICATION #6
 PARAMETERS
@@ -2744,15 +2744,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
+    Created: 373
     Completed: 60
-    Avg WIP: 30.85663279278012
-    Avg cycle (s): 1851.3979675668072
+    Avg WIP: 30.97947457894614
+    Avg cycle (s): 1858.7684747367684
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 993
+    Main conveyor occupancy end: 995
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1440
+    Loose items created: 1427
     Batches created: 60
 
 ITERATION #2, REPLICATION #7
@@ -2770,15 +2770,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 348
+    Created: 359
     Completed: 60
-    Avg WIP: 30.649829714502342
-    Avg cycle (s): 1838.9897828701405
+    Avg WIP: 30.68052044405191
+    Avg cycle (s): 1840.8312266431146
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 1021
+    Main conveyor occupancy end: 968
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 1482
+    Empty pallets completed: 203
+    Loose items created: 1414
     Batches created: 60
 
 ITERATION #2, REPLICATION #8
@@ -2796,16 +2796,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 353
     Completed: 59
-    Avg WIP: 29.74002044680537
-    Avg cycle (s): 1814.6453153982936
+    Avg WIP: 30.214946648322137
+    Avg cycle (s): 1843.6238632874522
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 970
+    Main conveyor occupancy end: 986
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1417
-    Batches created: 60
+    Empty pallets completed: 201
+    Loose items created: 1424
+    Batches created: 59
 
 ITERATION #2, REPLICATION #9
 PARAMETERS
@@ -2822,15 +2822,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.635500203651823
-    Avg cycle (s): 1838.1300122191094
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 981
+    Created: 345
+    Completed: 59
+    Avg WIP: 29.877554465472034
+    Avg cycle (s): 1823.0372216220223
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 932
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1441
+    Empty pallets completed: 202
+    Loose items created: 1390
     Batches created: 60
 
 ITERATION #2, REPLICATION #10
@@ -2848,16 +2848,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
+    Created: 357
     Completed: 59
-    Avg WIP: 30.063029239865056
-    Avg cycle (s): 1834.3543265002406
+    Avg WIP: 30.057018047919893
+    Avg cycle (s): 1833.9875419069763
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 971
+    Main conveyor occupancy end: 948
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
     Loose items created: 1394
-    Batches created: 59
+    Batches created: 60
 
 ITERATION #2, REPLICATION #11
 PARAMETERS
@@ -2874,16 +2874,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 355
-    Completed: 59
-    Avg WIP: 30.234728476781108
-    Avg cycle (s): 1844.8308901086775
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 963
+    Created: 341
+    Completed: 60
+    Avg WIP: 31.03060843310119
+    Avg cycle (s): 1861.8365059860714
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1001
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1404
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 1466
+    Batches created: 60
 
 ITERATION #2, REPLICATION #12
 PARAMETERS
@@ -2900,16 +2900,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 368
-    Completed: 59
-    Avg WIP: 30.01293893944391
-    Avg cycle (s): 1831.297969186408
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 983
+    Created: 364
+    Completed: 60
+    Avg WIP: 30.561706380573924
+    Avg cycle (s): 1833.7023828344354
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 987
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1409
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 1439
+    Batches created: 61
 
 ITERATION #2, REPLICATION #13
 PARAMETERS
@@ -2926,15 +2926,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 338
+    Created: 378
     Completed: 60
-    Avg WIP: 30.53081129221487
-    Avg cycle (s): 1831.8486775328922
+    Avg WIP: 30.504232044925395
+    Avg cycle (s): 1830.2539226955237
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 997
+    Main conveyor occupancy end: 1007
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1464
+    Empty pallets completed: 206
+    Loose items created: 1436
     Batches created: 60
 
 ITERATION #2, REPLICATION #14
@@ -2952,16 +2952,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.528783659130607
-    Avg cycle (s): 1831.7270195478363
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 963
+    Created: 337
+    Completed: 59
+    Avg WIP: 29.926967747972824
+    Avg cycle (s): 1826.052269367833
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 947
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1422
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1405
+    Batches created: 59
 
 ITERATION #2, REPLICATION #15
 PARAMETERS
@@ -2978,16 +2978,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 352
-    Completed: 59
-    Avg WIP: 30.214488514148307
-    Avg cycle (s): 1843.5959093378626
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 976
+    Created: 357
+    Completed: 60
+    Avg WIP: 30.91413313118197
+    Avg cycle (s): 1854.8479878709181
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 996
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1420
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 1445
+    Batches created: 60
 
 ITERATION #2, REPLICATION #16
 PARAMETERS
@@ -3004,15 +3004,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
+    Created: 349
     Completed: 60
-    Avg WIP: 30.948977165354677
-    Avg cycle (s): 1856.9386299212806
+    Avg WIP: 30.81378221167547
+    Avg cycle (s): 1848.8269327005282
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 951
+    Main conveyor occupancy end: 956
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1398
+    Empty pallets completed: 206
+    Loose items created: 1414
     Batches created: 60
 
 ITERATION #2, REPLICATION #17
@@ -3030,15 +3030,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.754827659851532
-    Avg cycle (s): 1845.289659591092
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 979
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.975967444469333
+    Avg cycle (s): 1829.0420813574506
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 948
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 1443
+    Empty pallets completed: 201
+    Loose items created: 1391
     Batches created: 60
 
 ITERATION #2, REPLICATION #18
@@ -3056,15 +3056,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 387
-    Completed: 59
-    Avg WIP: 30.138578745645138
-    Avg cycle (s): 1838.9641268529235
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 997
+    Created: 378
+    Completed: 60
+    Avg WIP: 30.920030303898624
+    Avg cycle (s): 1855.2018182339175
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 967
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1413
+    Empty pallets completed: 205
+    Loose items created: 1395
     Batches created: 60
 
 ITERATION #2, REPLICATION #19
@@ -3082,16 +3082,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 365
-    Completed: 59
-    Avg WIP: 30.375520044964464
-    Avg cycle (s): 1853.4215620656282
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 972
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.663670423291652
+    Avg cycle (s): 1839.8202253974991
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 960
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1402
-    Batches created: 59
+    Loose items created: 1420
+    Batches created: 60
 
 ITERATION #2, REPLICATION #20
 PARAMETERS
@@ -3108,16 +3108,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 356
     Completed: 59
-    Avg WIP: 29.989117290039665
-    Avg cycle (s): 1829.8444448159794
+    Avg WIP: 30.05716998610842
+    Avg cycle (s): 1833.9968127117
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 996
+    Main conveyor occupancy end: 945
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1443
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 1384
+    Batches created: 59
 
 ITERATION #2, REPLICATION #21
 PARAMETERS
@@ -3134,16 +3134,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 373
-    Completed: 60
-    Avg WIP: 31.18366736504124
-    Avg cycle (s): 1871.0200419024745
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 1002
+    Created: 369
+    Completed: 59
+    Avg WIP: 30.278573492287236
+    Avg cycle (s): 1847.5061791904075
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 948
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 1438
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 1374
+    Batches created: 59
 
 ITERATION #2, REPLICATION #22
 PARAMETERS
@@ -3160,16 +3160,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
-    Completed: 59
-    Avg WIP: 30.31789530359096
-    Avg cycle (s): 1849.9054761513125
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 959
+    Created: 347
+    Completed: 60
+    Avg WIP: 30.925270202880423
+    Avg cycle (s): 1855.5162121728254
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 984
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 1411
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 1443
+    Batches created: 60
 
 ITERATION #2, REPLICATION #23
 PARAMETERS
@@ -3186,16 +3186,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 386
-    Completed: 59
-    Avg WIP: 29.965255161174113
-    Avg cycle (s): 1828.3884505123185
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 979
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.949256151150134
+    Avg cycle (s): 1856.9553690690082
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 961
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1391
-    Batches created: 59
+    Empty pallets completed: 204
+    Loose items created: 1408
+    Batches created: 60
 
 ITERATION #2, REPLICATION #24
 PARAMETERS
@@ -3212,16 +3212,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 331
-    Completed: 58
-    Avg WIP: 29.388217872919476
-    Avg cycle (s): 1824.0962817674158
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 954
+    Created: 376
+    Completed: 60
+    Avg WIP: 30.52929564528465
+    Avg cycle (s): 1831.7577387170788
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 969
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1406
-    Batches created: 58
+    Empty pallets completed: 205
+    Loose items created: 1401
+    Batches created: 60
 
 ITERATION #2, REPLICATION #25
 PARAMETERS
@@ -3238,15 +3238,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 336
+    Created: 333
     Completed: 59
-    Avg WIP: 30.341245217993826
-    Avg cycle (s): 1851.3302166911485
+    Avg WIP: 30.15010142014316
+    Avg cycle (s): 1839.6672052968706
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 963
+    Main conveyor occupancy end: 928
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 1421
+    Empty pallets completed: 202
+    Loose items created: 1387
     Batches created: 59
 
 ITERATION #2, REPLICATION #26
@@ -3264,15 +3264,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 361
     Completed: 59
-    Avg WIP: 29.92860071754949
-    Avg cycle (s): 1826.1519081894603
+    Avg WIP: 29.87187936748368
+    Avg cycle (s): 1822.690944456631
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 979
+    Main conveyor occupancy end: 970
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1424
+    Empty pallets completed: 205
+    Loose items created: 1415
     Batches created: 60
 
 ITERATION #2, REPLICATION #27
@@ -3290,16 +3290,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 356
+    Created: 357
     Completed: 59
-    Avg WIP: 30.046757647145746
-    Avg cycle (s): 1833.3614835546555
+    Avg WIP: 29.877659082750554
+    Avg cycle (s): 1823.0436050491862
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 951
+    Main conveyor occupancy end: 1000
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 1389
-    Batches created: 59
+    Loose items created: 1445
+    Batches created: 60
 
 ITERATION #2, REPLICATION #28
 PARAMETERS
@@ -3316,16 +3316,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 363
-    Completed: 60
-    Avg WIP: 30.467919270247712
-    Avg cycle (s): 1828.0751562148628
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 1016
+    Created: 335
+    Completed: 59
+    Avg WIP: 30.442621402387253
+    Avg cycle (s): 1857.515882179561
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 979
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 209
-    Loose items created: 1474
-    Batches created: 61
+    Empty pallets completed: 203
+    Loose items created: 1439
+    Batches created: 59
 
 ITERATION #2, REPLICATION #29
 PARAMETERS
@@ -3342,15 +3342,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 367
+    Created: 355
     Completed: 59
-    Avg WIP: 30.126147904051574
-    Avg cycle (s): 1838.2056348234858
+    Avg WIP: 30.404721154930193
+    Avg cycle (s): 1855.203324707605
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 1018
+    Main conveyor occupancy end: 954
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1445
+    Empty pallets completed: 202
+    Loose items created: 1393
     Batches created: 59
 
 ITERATION #2, REPLICATION #30
@@ -3368,16 +3368,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 349
-    Completed: 61
-    Avg WIP: 31.464199715056125
-    Avg cycle (s): 1856.903589741017
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 988
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.180593744287286
+    Avg cycle (s): 1841.5277538887156
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 999
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 1458
-    Batches created: 61
+    Empty pallets completed: 203
+    Loose items created: 1437
+    Batches created: 59
 
 ITERATION #2, REPLICATION #31
 PARAMETERS
@@ -3394,15 +3394,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 374
     Completed: 59
-    Avg WIP: 29.60400736555789
-    Avg cycle (s): 1806.3462121357356
+    Avg WIP: 29.75225369849721
+    Avg cycle (s): 1815.391751094745
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 988
+    Main conveyor occupancy end: 998
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1448
+    Empty pallets completed: 206
+    Loose items created: 1432
     Batches created: 60
 
 ITERATION #2, REPLICATION #32
@@ -3420,16 +3420,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 326
-    Completed: 60
-    Avg WIP: 30.479242220838035
-    Avg cycle (s): 1828.754533250282
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 946
+    Created: 333
+    Completed: 59
+    Avg WIP: 30.323282799035223
+    Avg cycle (s): 1850.2342046868948
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 941
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1435
-    Batches created: 61
+    Empty pallets completed: 202
+    Loose items created: 1400
+    Batches created: 59
 
 ITERATION #2, REPLICATION #33
 PARAMETERS
@@ -3446,15 +3446,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 340
+    Created: 350
     Completed: 59
-    Avg WIP: 30.216334527018812
-    Avg cycle (s): 1843.708547411317
+    Avg WIP: 30.349105641514218
+    Avg cycle (s): 1851.8098357534097
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 962
+    Main conveyor occupancy end: 984
     Storage conveyor occupancy end: 0
     Empty pallets completed: 202
-    Loose items created: 1418
+    Loose items created: 1428
     Batches created: 59
 
 ITERATION #2, REPLICATION #34
@@ -3472,16 +3472,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 342
-    Completed: 59
-    Avg WIP: 29.983705475021598
-    Avg cycle (s): 1829.514232374199
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 969
+    Created: 345
+    Completed: 61
+    Avg WIP: 31.430702104932053
+    Avg cycle (s): 1854.9266816025472
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 961
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1422
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 1433
+    Batches created: 61
 
 ITERATION #2, REPLICATION #35
 PARAMETERS
@@ -3498,15 +3498,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 367
     Completed: 60
-    Avg WIP: 31.068391313085538
-    Avg cycle (s): 1864.1034787851322
+    Avg WIP: 30.33646721883207
+    Avg cycle (s): 1820.1880331299242
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 1027
+    Main conveyor occupancy end: 1015
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1473
+    Empty pallets completed: 206
+    Loose items created: 1457
     Batches created: 60
 
 ITERATION #2, REPLICATION #36
@@ -3524,16 +3524,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 370
-    Completed: 59
-    Avg WIP: 30.038874297829967
-    Avg cycle (s): 1832.880465630303
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 1003
+    Created: 373
+    Completed: 60
+    Avg WIP: 31.094094661063664
+    Avg cycle (s): 1865.64567966382
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 977
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1425
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 1409
+    Batches created: 60
 
 ITERATION #2, REPLICATION #37
 PARAMETERS
@@ -3550,15 +3550,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
-    Completed: 60
-    Avg WIP: 30.60529287689389
-    Avg cycle (s): 1836.3175726136335
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 969
+    Created: 344
+    Completed: 59
+    Avg WIP: 29.868343845908942
+    Avg cycle (s): 1822.4752177164776
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 966
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1427
+    Empty pallets completed: 203
+    Loose items created: 1425
     Batches created: 60
 
 ITERATION #2, REPLICATION #38
@@ -3576,16 +3576,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 324
-    Completed: 59
-    Avg WIP: 29.775365747954417
-    Avg cycle (s): 1816.8019778412863
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 982
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.74291322202787
+    Avg cycle (s): 1844.5747933216721
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 991
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1452
-    Batches created: 59
+    Loose items created: 1438
+    Batches created: 60
 
 ITERATION #2, REPLICATION #39
 PARAMETERS
@@ -3602,16 +3602,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 361
-    Completed: 58
-    Avg WIP: 29.938470030850198
-    Avg cycle (s): 1858.2498639838054
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 965
+    Created: 372
+    Completed: 59
+    Avg WIP: 29.927700338202143
+    Avg cycle (s): 1826.0969697886053
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 987
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 201
-    Loose items created: 1386
-    Batches created: 58
+    Empty pallets completed: 204
+    Loose items created: 1420
+    Batches created: 60
 
 ITERATION #2, REPLICATION #40
 PARAMETERS
@@ -3628,15 +3628,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 59
-    Avg WIP: 29.761138162122947
-    Avg cycle (s): 1815.933853960044
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 1007
+    Created: 349
+    Completed: 60
+    Avg WIP: 30.49432338309009
+    Avg cycle (s): 1829.6594029854054
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 985
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1464
+    Empty pallets completed: 205
+    Loose items created: 1442
     Batches created: 60
 
 ITERATION #2, REPLICATION #41
@@ -3654,16 +3654,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.458930670238658
-    Avg cycle (s): 1827.5358402143195
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 959
+    Created: 331
+    Completed: 61
+    Avg WIP: 31.35241622983045
+    Avg cycle (s): 1850.306531596551
+    Throughput (/h): 61.0
+    Main conveyor occupancy end: 984
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1420
-    Batches created: 60
+    Empty pallets completed: 206
+    Loose items created: 1470
+    Batches created: 61
 
 ITERATION #2, REPLICATION #42
 PARAMETERS
@@ -3680,16 +3680,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
+    Created: 338
     Completed: 59
-    Avg WIP: 30.14209360801242
-    Avg cycle (s): 1839.1785930312662
+    Avg WIP: 30.270912612303093
+    Avg cycle (s): 1847.0387356659512
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 922
+    Main conveyor occupancy end: 975
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1369
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1431
+    Batches created: 59
 
 ITERATION #2, REPLICATION #43
 PARAMETERS
@@ -3706,16 +3706,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 352
-    Completed: 61
-    Avg WIP: 31.365719198180994
-    Avg cycle (s): 1851.0916248106814
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 968
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.697836882804243
+    Avg cycle (s): 1841.8702129682547
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 982
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 1435
-    Batches created: 61
+    Empty pallets completed: 205
+    Loose items created: 1443
+    Batches created: 60
 
 ITERATION #2, REPLICATION #44
 PARAMETERS
@@ -3732,15 +3732,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 349
+    Created: 344
     Completed: 60
-    Avg WIP: 30.705337014020344
-    Avg cycle (s): 1842.3202208412206
+    Avg WIP: 30.624552743806504
+    Avg cycle (s): 1837.4731646283904
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 981
+    Main conveyor occupancy end: 968
     Storage conveyor occupancy end: 0
     Empty pallets completed: 205
-    Loose items created: 1438
+    Loose items created: 1432
     Batches created: 60
 
 ITERATION #2, REPLICATION #45
@@ -3758,16 +3758,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
-    Completed: 59
-    Avg WIP: 30.218092233583203
-    Avg cycle (s): 1843.8157973033817
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 996
+    Created: 377
+    Completed: 60
+    Avg WIP: 31.02449565108685
+    Avg cycle (s): 1861.469739065211
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1024
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1450
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 1455
+    Batches created: 60
 
 ITERATION #2, REPLICATION #46
 PARAMETERS
@@ -3784,16 +3784,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 379
     Completed: 60
-    Avg WIP: 30.893064570176293
-    Avg cycle (s): 1853.5838742105775
+    Avg WIP: 30.43602112777464
+    Avg cycle (s): 1826.1612676664786
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 955
+    Main conveyor occupancy end: 984
     Storage conveyor occupancy end: 0
     Empty pallets completed: 205
-    Loose items created: 1401
-    Batches created: 60
+    Loose items created: 1421
+    Batches created: 61
 
 ITERATION #2, REPLICATION #47
 PARAMETERS
@@ -3810,15 +3810,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 31.021419503737707
-    Avg cycle (s): 1861.2851702242624
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 959
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.099754361383646
+    Avg cycle (s): 1836.5951813725612
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 967
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1418
+    Empty pallets completed: 205
+    Loose items created: 1415
     Batches created: 60
 
 ITERATION #2, REPLICATION #48
@@ -3836,15 +3836,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 361
     Completed: 60
-    Avg WIP: 30.550031382470948
-    Avg cycle (s): 1833.001882948257
+    Avg WIP: 30.79040746398131
+    Avg cycle (s): 1847.4244478388787
     Throughput (/h): 60.0
     Main conveyor occupancy end: 966
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1424
+    Empty pallets completed: 203
+    Loose items created: 1409
     Batches created: 60
 
 ITERATION #2, REPLICATION #49
@@ -3862,16 +3862,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 347
-    Completed: 60
-    Avg WIP: 30.57916602901963
-    Avg cycle (s): 1834.7499617411777
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 1012
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.30026430744354
+    Avg cycle (s): 1848.8296865558768
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 972
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1472
-    Batches created: 60
+    Empty pallets completed: 204
+    Loose items created: 1411
+    Batches created: 59
 
 ITERATION #2, REPLICATION #50
 PARAMETERS
@@ -3888,15 +3888,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.71357465289833
-    Avg cycle (s): 1842.8144791738998
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 976
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.056825732539096
+    Avg cycle (s): 1833.975807409165
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 987
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1422
+    Empty pallets completed: 201
+    Loose items created: 1431
     Batches created: 60
 
 ITERATION #2, REPLICATION #51
@@ -3914,16 +3914,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 368
     Completed: 59
-    Avg WIP: 29.69463743261093
-    Avg cycle (s): 1811.8761823288023
+    Avg WIP: 30.17420025918193
+    Avg cycle (s): 1841.1376429331347
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 963
+    Main conveyor occupancy end: 962
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1423
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1388
+    Batches created: 59
 
 ITERATION #2, REPLICATION #52
 PARAMETERS
@@ -3940,16 +3940,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 364
-    Completed: 60
-    Avg WIP: 30.56873727187144
-    Avg cycle (s): 1834.1242363122865
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 977
+    Created: 341
+    Completed: 59
+    Avg WIP: 30.020106933073286
+    Avg cycle (s): 1831.7353382892172
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1024
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1420
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 1477
+    Batches created: 59
 
 ITERATION #2, REPLICATION #53
 PARAMETERS
@@ -3966,16 +3966,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.813991501801322
-    Avg cycle (s): 1848.8394901080794
-    Throughput (/h): 60.0
+    Created: 387
+    Completed: 59
+    Avg WIP: 30.326945812077945
+    Avg cycle (s): 1850.4577105674678
+    Throughput (/h): 59.0
     Main conveyor occupancy end: 999
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1444
-    Batches created: 60
+    Loose items created: 1407
+    Batches created: 59
 
 ITERATION #2, REPLICATION #54
 PARAMETERS
@@ -3992,16 +3992,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 358
-    Completed: 60
-    Avg WIP: 30.65509333499574
-    Avg cycle (s): 1839.3056000997444
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 993
+    Created: 367
+    Completed: 59
+    Avg WIP: 30.16591723058973
+    Avg cycle (s): 1840.6322377986953
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 966
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1441
-    Batches created: 60
+    Empty pallets completed: 201
+    Loose items created: 1391
+    Batches created: 59
 
 ITERATION #2, REPLICATION #55
 PARAMETERS
@@ -4020,13 +4020,13 @@ PARAMETERS
 RESULTS
     Created: 349
     Completed: 60
-    Avg WIP: 30.572824212108515
-    Avg cycle (s): 1834.3694527265109
+    Avg WIP: 30.311814280561446
+    Avg cycle (s): 1818.7088568336867
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 954
+    Main conveyor occupancy end: 972
     Storage conveyor occupancy end: 0
     Empty pallets completed: 205
-    Loose items created: 1421
+    Loose items created: 1438
     Batches created: 61
 
 ITERATION #2, REPLICATION #56
@@ -4044,15 +4044,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 353
     Completed: 59
-    Avg WIP: 30.01059221560272
-    Avg cycle (s): 1831.154779257115
+    Avg WIP: 30.196885200500542
+    Avg cycle (s): 1842.5218088441006
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 1013
+    Main conveyor occupancy end: 983
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1452
+    Empty pallets completed: 202
+    Loose items created: 1424
     Batches created: 59
 
 ITERATION #2, REPLICATION #57
@@ -4070,16 +4070,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
-    Completed: 59
-    Avg WIP: 30.07618975246647
-    Avg cycle (s): 1835.1573408284623
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 982
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.71785368069705
+    Avg cycle (s): 1843.071220841823
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 971
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1418
-    Batches created: 59
+    Empty pallets completed: 203
+    Loose items created: 1415
+    Batches created: 60
 
 ITERATION #2, REPLICATION #58
 PARAMETERS
@@ -4096,15 +4096,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 342
+    Created: 361
     Completed: 60
-    Avg WIP: 31.032222918506104
-    Avg cycle (s): 1861.9333751103663
+    Avg WIP: 30.694322838174575
+    Avg cycle (s): 1841.6593702904745
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 961
+    Main conveyor occupancy end: 970
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1423
+    Empty pallets completed: 205
+    Loose items created: 1415
     Batches created: 60
 
 ITERATION #2, REPLICATION #59
@@ -4122,16 +4122,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
-    Completed: 60
-    Avg WIP: 30.48981854063634
-    Avg cycle (s): 1829.3891124381803
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 992
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.57133239752082
+    Avg cycle (s): 1865.369434424999
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1011
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1456
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 1454
+    Batches created: 59
 
 ITERATION #2, REPLICATION #60
 PARAMETERS
@@ -4148,15 +4148,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 374
-    Completed: 59
-    Avg WIP: 30.258276806592125
-    Avg cycle (s): 1846.2677373513836
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 980
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.733073169830522
+    Avg cycle (s): 1843.9843901898314
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1010
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1412
+    Empty pallets completed: 205
+    Loose items created: 1456
     Batches created: 60
 
 ITERATION #2, REPLICATION #61
@@ -4174,15 +4174,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 342
+    Created: 360
     Completed: 60
-    Avg WIP: 30.85018973075382
-    Avg cycle (s): 1851.0113838452291
+    Avg WIP: 30.69769889827526
+    Avg cycle (s): 1841.8619338965157
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 994
+    Main conveyor occupancy end: 1009
     Storage conveyor occupancy end: 0
     Empty pallets completed: 205
-    Loose items created: 1458
+    Loose items created: 1455
     Batches created: 60
 
 ITERATION #2, REPLICATION #62
@@ -4202,13 +4202,13 @@ PARAMETERS
 RESULTS
     Created: 362
     Completed: 60
-    Avg WIP: 30.651054973175054
-    Avg cycle (s): 1839.0632983905032
+    Avg WIP: 30.713748722803633
+    Avg cycle (s): 1842.824923368218
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 1009
+    Main conveyor occupancy end: 1010
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1453
+    Empty pallets completed: 203
+    Loose items created: 1452
     Batches created: 60
 
 ITERATION #2, REPLICATION #63
@@ -4226,16 +4226,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 348
-    Completed: 60
-    Avg WIP: 30.849441622153492
-    Avg cycle (s): 1850.9664973292095
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 984
+    Created: 366
+    Completed: 59
+    Avg WIP: 30.288535704743584
+    Avg cycle (s): 1848.1140430013033
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 992
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1442
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1420
+    Batches created: 59
 
 ITERATION #2, REPLICATION #64
 PARAMETERS
@@ -4252,16 +4252,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 377
-    Completed: 60
-    Avg WIP: 30.749951625745886
-    Avg cycle (s): 1844.9970975447532
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 992
+    Created: 341
+    Completed: 59
+    Avg WIP: 29.711771703740556
+    Avg cycle (s): 1812.9216632790847
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 970
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1422
-    Batches created: 60
+    Loose items created: 1424
+    Batches created: 59
 
 ITERATION #2, REPLICATION #65
 PARAMETERS
@@ -4278,15 +4278,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 316
+    Created: 342
     Completed: 60
-    Avg WIP: 30.456204441467936
-    Avg cycle (s): 1827.372266488076
+    Avg WIP: 30.915836812459137
+    Avg cycle (s): 1854.9502087475482
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 940
+    Main conveyor occupancy end: 976
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1429
+    Loose items created: 1439
     Batches created: 60
 
 ITERATION #2, REPLICATION #66
@@ -4304,15 +4304,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 372
+    Created: 373
     Completed: 60
-    Avg WIP: 30.97582212627037
-    Avg cycle (s): 1858.5493275762221
+    Avg WIP: 30.650285250632813
+    Avg cycle (s): 1839.0171150379688
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 986
+    Main conveyor occupancy end: 965
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 1418
+    Loose items created: 1396
     Batches created: 60
 
 ITERATION #2, REPLICATION #67
@@ -4330,15 +4330,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 369
+    Created: 357
     Completed: 59
-    Avg WIP: 30.3321634319766
-    Avg cycle (s): 1850.7760738155212
+    Avg WIP: 30.014222060016635
+    Avg cycle (s): 1831.3762612891505
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 973
+    Main conveyor occupancy end: 978
     Storage conveyor occupancy end: 0
     Empty pallets completed: 202
-    Loose items created: 1398
+    Loose items created: 1414
     Batches created: 59
 
 ITERATION #2, REPLICATION #68
@@ -4356,15 +4356,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 341
+    Created: 342
     Completed: 59
-    Avg WIP: 30.221924534839463
-    Avg cycle (s): 1844.0496326342723
+    Avg WIP: 29.800063662264066
+    Avg cycle (s): 1818.308969222892
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 968
+    Main conveyor occupancy end: 1002
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1421
+    Empty pallets completed: 204
+    Loose items created: 1455
     Batches created: 59
 
 ITERATION #2, REPLICATION #69
@@ -4382,16 +4382,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 338
-    Completed: 59
-    Avg WIP: 30.354950911524416
-    Avg cycle (s): 1852.1664962964048
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 1018
+    Created: 388
+    Completed: 60
+    Avg WIP: 31.078392294276174
+    Avg cycle (s): 1864.7035376565705
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 1000
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1476
-    Batches created: 59
+    Loose items created: 1416
+    Batches created: 60
 
 ITERATION #2, REPLICATION #70
 PARAMETERS
@@ -4408,15 +4408,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
+    Created: 346
     Completed: 60
-    Avg WIP: 30.81270725093115
-    Avg cycle (s): 1848.762435055869
+    Avg WIP: 30.756927881479182
+    Avg cycle (s): 1845.415672888751
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 955
+    Main conveyor occupancy end: 983
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1399
+    Empty pallets completed: 205
+    Loose items created: 1442
     Batches created: 60
 
 ITERATION #2, REPLICATION #71
@@ -4434,15 +4434,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
-    Completed: 59
-    Avg WIP: 30.0181589019884
-    Avg cycle (s): 1831.6164753755631
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 957
+    Created: 346
+    Completed: 60
+    Avg WIP: 30.607931504477847
+    Avg cycle (s): 1836.4758902686708
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 993
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1417
+    Empty pallets completed: 206
+    Loose items created: 1453
     Batches created: 60
 
 ITERATION #2, REPLICATION #72
@@ -4460,16 +4460,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 343
+    Created: 357
     Completed: 59
-    Avg WIP: 29.614817008626687
-    Avg cycle (s): 1807.0057835772213
+    Avg WIP: 30.09975189835681
+    Avg cycle (s): 1836.595031086178
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 970
+    Main conveyor occupancy end: 1001
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 1432
-    Batches created: 60
+    Loose items created: 1439
+    Batches created: 59
 
 ITERATION #2, REPLICATION #73
 PARAMETERS
@@ -4486,16 +4486,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 357
+    Created: 343
     Completed: 59
-    Avg WIP: 30.05233782783924
-    Avg cycle (s): 1833.7019691562923
+    Avg WIP: 30.19477945685159
+    Avg cycle (s): 1842.3933227909445
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 963
+    Main conveyor occupancy end: 946
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 1408
-    Batches created: 60
+    Loose items created: 1398
+    Batches created: 59
 
 ITERATION #2, REPLICATION #74
 PARAMETERS
@@ -4512,16 +4512,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 381
-    Completed: 60
-    Avg WIP: 30.731798246966402
-    Avg cycle (s): 1843.9078948179842
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 994
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.86121969510047
+    Avg cycle (s): 1822.0405237688421
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 1012
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1429
-    Batches created: 61
+    Empty pallets completed: 204
+    Loose items created: 1459
+    Batches created: 60
 
 ITERATION #2, REPLICATION #75
 PARAMETERS
@@ -4538,15 +4538,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 31.022492175927884
-    Avg cycle (s): 1861.349530555673
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 967
+    Created: 341
+    Completed: 59
+    Avg WIP: 30.118399029344697
+    Avg cycle (s): 1837.7328221295068
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 981
     Storage conveyor occupancy end: 0
     Empty pallets completed: 203
-    Loose items created: 1427
+    Loose items created: 1443
     Batches created: 60
 
 ITERATION #2, REPLICATION #76
@@ -4564,16 +4564,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.515432092773068
-    Avg cycle (s): 1830.9259255663842
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 1024
+    Created: 331
+    Completed: 58
+    Avg WIP: 29.403042153942977
+    Avg cycle (s): 1825.0164095550813
+    Throughput (/h): 58.0
+    Main conveyor occupancy end: 965
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1471
-    Batches created: 60
+    Empty pallets completed: 201
+    Loose items created: 1424
+    Batches created: 59
 
 ITERATION #2, REPLICATION #77
 PARAMETERS
@@ -4590,16 +4590,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.89604481410105
-    Avg cycle (s): 1853.762688846063
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 943
+    Created: 357
+    Completed: 59
+    Avg WIP: 30.034483905925526
+    Avg cycle (s): 1832.6125773107099
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 984
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1401
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1421
+    Batches created: 59
 
 ITERATION #2, REPLICATION #78
 PARAMETERS
@@ -4616,16 +4616,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 332
-    Completed: 58
-    Avg WIP: 29.186361140364337
-    Avg cycle (s): 1811.567243195028
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 961
+    Created: 347
+    Completed: 60
+    Avg WIP: 30.56302693704399
+    Avg cycle (s): 1833.7816162226395
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 989
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1423
-    Batches created: 59
+    Empty pallets completed: 206
+    Loose items created: 1449
+    Batches created: 60
 
 ITERATION #2, REPLICATION #79
 PARAMETERS
@@ -4642,16 +4642,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.881477237845967
-    Avg cycle (s): 1852.888634270758
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 970
+    Created: 337
+    Completed: 59
+    Avg WIP: 29.959574821143892
+    Avg cycle (s): 1828.0418534935254
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 926
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1415
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1384
+    Batches created: 59
 
 ITERATION #2, REPLICATION #80
 PARAMETERS
@@ -4668,15 +4668,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
+    Created: 374
     Completed: 60
-    Avg WIP: 30.956207279708284
-    Avg cycle (s): 1857.372436782497
+    Avg WIP: 30.85819184029589
+    Avg cycle (s): 1851.4915104177535
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 969
+    Main conveyor occupancy end: 988
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1427
+    Empty pallets completed: 206
+    Loose items created: 1421
     Batches created: 60
 
 ITERATION #2, REPLICATION #81
@@ -4694,16 +4694,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 359
-    Completed: 60
-    Avg WIP: 30.68029823412398
-    Avg cycle (s): 1840.8178940474388
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 929
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.955905674659732
+    Avg cycle (s): 1827.8179733690683
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 933
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1377
-    Batches created: 60
+    Empty pallets completed: 202
+    Loose items created: 1370
+    Batches created: 59
 
 ITERATION #2, REPLICATION #82
 PARAMETERS
@@ -4720,15 +4720,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 373
+    Created: 360
     Completed: 60
-    Avg WIP: 30.69529891256191
-    Avg cycle (s): 1841.7179347537146
+    Avg WIP: 30.4268527933657
+    Avg cycle (s): 1825.611167601942
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 985
+    Main conveyor occupancy end: 983
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1415
+    Empty pallets completed: 205
+    Loose items created: 1428
     Batches created: 60
 
 ITERATION #2, REPLICATION #83
@@ -4746,16 +4746,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 342
-    Completed: 59
-    Avg WIP: 30.166321455415908
-    Avg cycle (s): 1840.6569023643603
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 983
+    Created: 341
+    Completed: 60
+    Avg WIP: 30.733397683788013
+    Avg cycle (s): 1844.003861027281
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 977
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1436
-    Batches created: 59
+    Empty pallets completed: 205
+    Loose items created: 1442
+    Batches created: 60
 
 ITERATION #2, REPLICATION #84
 PARAMETERS
@@ -4774,13 +4774,13 @@ PARAMETERS
 RESULTS
     Created: 357
     Completed: 59
-    Avg WIP: 30.234561419554332
-    Avg cycle (s): 1844.820696786366
+    Avg WIP: 30.151163188989234
+    Avg cycle (s): 1839.7319911925633
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 980
+    Main conveyor occupancy end: 947
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1418
+    Empty pallets completed: 202
+    Loose items created: 1383
     Batches created: 59
 
 ITERATION #2, REPLICATION #85
@@ -4798,16 +4798,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 384
+    Created: 341
     Completed: 59
-    Avg WIP: 30.183703261877984
-    Avg cycle (s): 1841.717487165436
+    Avg WIP: 30.125294186409924
+    Avg cycle (s): 1838.1535435775545
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 999
+    Main conveyor occupancy end: 949
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1410
-    Batches created: 59
+    Empty pallets completed: 204
+    Loose items created: 1412
+    Batches created: 60
 
 ITERATION #2, REPLICATION #86
 PARAMETERS
@@ -4824,16 +4824,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 373
-    Completed: 60
-    Avg WIP: 30.631239156569706
-    Avg cycle (s): 1837.8743493941824
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 997
+    Created: 337
+    Completed: 59
+    Avg WIP: 30.399777482906835
+    Avg cycle (s): 1854.9016769231287
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 959
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1430
-    Batches created: 60
+    Empty pallets completed: 200
+    Loose items created: 1413
+    Batches created: 59
 
 ITERATION #2, REPLICATION #87
 PARAMETERS
@@ -4850,15 +4850,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 362
+    Created: 361
     Completed: 60
-    Avg WIP: 30.849662022011398
-    Avg cycle (s): 1850.979721320684
+    Avg WIP: 30.582234558292157
+    Avg cycle (s): 1834.9340734975294
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 991
+    Main conveyor occupancy end: 989
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 206
-    Loose items created: 1436
+    Empty pallets completed: 204
+    Loose items created: 1433
     Batches created: 60
 
 ITERATION #2, REPLICATION #88
@@ -4876,15 +4876,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 346
-    Completed: 60
-    Avg WIP: 30.727518760908765
-    Avg cycle (s): 1843.651125654526
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 949
+    Created: 343
+    Completed: 59
+    Avg WIP: 30.12233708196958
+    Avg cycle (s): 1837.9731100862793
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 975
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1408
+    Empty pallets completed: 205
+    Loose items created: 1438
     Batches created: 60
 
 ITERATION #2, REPLICATION #89
@@ -4902,16 +4902,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 360
-    Completed: 60
-    Avg WIP: 30.838098659749694
-    Avg cycle (s): 1850.2859195849817
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 968
+    Created: 341
+    Completed: 59
+    Avg WIP: 29.940867941188507
+    Avg cycle (s): 1826.900416750485
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 975
     Storage conveyor occupancy end: 0
     Empty pallets completed: 205
-    Loose items created: 1414
-    Batches created: 60
+    Loose items created: 1429
+    Batches created: 59
 
 ITERATION #2, REPLICATION #90
 PARAMETERS
@@ -4928,15 +4928,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 355
+    Created: 385
     Completed: 59
-    Avg WIP: 30.139338257483132
-    Avg cycle (s): 1839.010469948123
+    Avg WIP: 30.462398482816646
+    Avg cycle (s): 1858.722619290507
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 993
+    Main conveyor occupancy end: 1034
     Storage conveyor occupancy end: 0
     Empty pallets completed: 204
-    Loose items created: 1434
+    Loose items created: 1444
     Batches created: 59
 
 ITERATION #2, REPLICATION #91
@@ -4954,15 +4954,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 361
-    Completed: 59
-    Avg WIP: 29.974712023154872
-    Avg cycle (s): 1828.9654793789412
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 949
+    Created: 359
+    Completed: 60
+    Avg WIP: 30.88346940169372
+    Avg cycle (s): 1853.0081641016232
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 960
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1393
+    Empty pallets completed: 206
+    Loose items created: 1409
     Batches created: 60
 
 ITERATION #2, REPLICATION #92
@@ -4980,16 +4980,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 345
+    Created: 338
     Completed: 59
-    Avg WIP: 29.852475200036015
-    Avg cycle (s): 1821.5069613581295
+    Avg WIP: 30.113411691214456
+    Avg cycle (s): 1837.4285099724073
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 944
+    Main conveyor occupancy end: 958
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1403
-    Batches created: 60
+    Empty pallets completed: 203
+    Loose items created: 1415
+    Batches created: 59
 
 ITERATION #2, REPLICATION #93
 PARAMETERS
@@ -5006,16 +5006,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 352
-    Completed: 61
-    Avg WIP: 31.44885494720022
-    Avg cycle (s): 1855.9979968839473
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 980
+    Created: 357
+    Completed: 59
+    Avg WIP: 29.9988643284732
+    Avg cycle (s): 1830.4391793644663
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 954
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 208
-    Loose items created: 1448
-    Batches created: 61
+    Empty pallets completed: 205
+    Loose items created: 1402
+    Batches created: 60
 
 ITERATION #2, REPLICATION #94
 PARAMETERS
@@ -5032,16 +5032,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 363
-    Completed: 58
-    Avg WIP: 29.402553562197735
-    Avg cycle (s): 1824.9860831708938
-    Throughput (/h): 58.0
-    Main conveyor occupancy end: 967
+    Created: 360
+    Completed: 60
+    Avg WIP: 30.68063352423647
+    Avg cycle (s): 1840.8380114541883
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 978
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1386
-    Batches created: 58
+    Empty pallets completed: 206
+    Loose items created: 1425
+    Batches created: 60
 
 ITERATION #2, REPLICATION #95
 PARAMETERS
@@ -5058,15 +5058,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 387
+    Created: 364
     Completed: 59
-    Avg WIP: 30.17049579576313
-    Avg cycle (s): 1840.9116078770721
+    Avg WIP: 30.44126915314025
+    Avg cycle (s): 1857.433372056015
     Throughput (/h): 59.0
-    Main conveyor occupancy end: 999
+    Main conveyor occupancy end: 959
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 203
-    Loose items created: 1406
+    Empty pallets completed: 204
+    Loose items created: 1390
     Batches created: 59
 
 ITERATION #2, REPLICATION #96
@@ -5084,16 +5084,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 378
-    Completed: 61
-    Avg WIP: 31.803309598149504
-    Avg cycle (s): 1876.9166320219379
-    Throughput (/h): 61.0
-    Main conveyor occupancy end: 984
+    Created: 356
+    Completed: 60
+    Avg WIP: 30.949793162865937
+    Avg cycle (s): 1856.9875897719562
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 942
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 207
-    Loose items created: 1424
-    Batches created: 61
+    Empty pallets completed: 203
+    Loose items created: 1390
+    Batches created: 60
 
 ITERATION #2, REPLICATION #97
 PARAMETERS
@@ -5110,15 +5110,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 348
-    Completed: 60
-    Avg WIP: 30.447976612299417
-    Avg cycle (s): 1826.8785967379652
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 973
+    Created: 359
+    Completed: 59
+    Avg WIP: 29.842494898257883
+    Avg cycle (s): 1820.8979937920062
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 972
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 205
-    Loose items created: 1431
+    Empty pallets completed: 203
+    Loose items created: 1418
     Batches created: 60
 
 ITERATION #2, REPLICATION #98
@@ -5136,15 +5136,15 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 343
-    Completed: 59
-    Avg WIP: 30.05530790858492
-    Avg cycle (s): 1833.8831944221304
-    Throughput (/h): 59.0
-    Main conveyor occupancy end: 961
+    Created: 347
+    Completed: 60
+    Avg WIP: 30.66376970199477
+    Avg cycle (s): 1839.8261821196863
+    Throughput (/h): 60.0
+    Main conveyor occupancy end: 971
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 202
-    Loose items created: 1421
+    Empty pallets completed: 204
+    Loose items created: 1429
     Batches created: 60
 
 ITERATION #2, REPLICATION #99
@@ -5162,16 +5162,16 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 373
+    Created: 350
     Completed: 60
-    Avg WIP: 30.703040056037974
-    Avg cycle (s): 1842.1824033622784
+    Avg WIP: 30.418155143116792
+    Avg cycle (s): 1825.0893085870075
     Throughput (/h): 60.0
-    Main conveyor occupancy end: 973
+    Main conveyor occupancy end: 961
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1405
-    Batches created: 60
+    Empty pallets completed: 206
+    Loose items created: 1427
+    Batches created: 61
 
 ITERATION #2, REPLICATION #100
 PARAMETERS
@@ -5188,13 +5188,13 @@ PARAMETERS
     Random arrivals: true
     Random services: true
 RESULTS
-    Created: 344
-    Completed: 60
-    Avg WIP: 30.64179059857998
-    Avg cycle (s): 1838.5074359147989
-    Throughput (/h): 60.0
-    Main conveyor occupancy end: 988
+    Created: 353
+    Completed: 59
+    Avg WIP: 30.465295402252938
+    Avg cycle (s): 1858.8993804764502
+    Throughput (/h): 59.0
+    Main conveyor occupancy end: 931
     Storage conveyor occupancy end: 0
-    Empty pallets completed: 204
-    Loose items created: 1450
-    Batches created: 60
+    Empty pallets completed: 201
+    Loose items created: 1370
+    Batches created: 59

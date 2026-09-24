@@ -660,6 +660,89 @@ logs/model_6_stochastic_replications_summary.csv
 logs/model_6_stochastic_comparison.csv
 ```
 
+## Full Regeneration
+
+`scripts/regenerate.py` drives a complete rerun of both sides. The AnyLogic side
+stays manual: the installed edition is AnyLogic 8 PLE, which ships no headless
+runner and no standalone-export plugin, so every experiment has to be started in
+the IDE. The script automates the file handling around those runs and the whole
+SimPy side.
+
+Every `TextFile` in the `.alp` models is `WRITE_APPEND`, and the range parser
+turns each `ITERATION #n` block it finds into a row. Running an experiment on
+top of a stale export therefore duplicates iterations silently. Always truncate
+before a run:
+
+```bash
+python -m scripts.regenerate anylogic-prepare --model 4 --target range
+```
+
+The command refuses to truncate an export that has uncommitted changes, since
+git would then hold no recoverable copy. It prints the experiment to run and the
+model settings to apply.
+
+Two exports are written as `log_file.txt` and have to be renamed afterwards, so
+they must be produced **before** the range export of the same model. `capture`
+restores `log_file.txt` from git so the range run that follows starts from a
+clean file:
+
+```bash
+python -m scripts.regenerate anylogic-capture --model 4 --target trace
+```
+
+Per model the order is:
+
+1. `movement` (Model 1) or `trace` (Model 4), if the model has one: prepare, run
+   the **Simulation** experiment, capture.
+2. `range`: prepare, run **SensitivityAnalysis**.
+3. `stochastic`: prepare, run **StochasticAnalysis**.
+
+Model 6 has one extra wrinkle: it writes `model_6_diagnostic_trace.txt` and
+`model_6_flow_debug_trace.txt` from both branches of its `DestroyCode`, so
+`SensitivityAnalysis` appends 2 deterministic blocks and `StochasticAnalysis`
+appends 200 replication blocks. A complete export is one of each in that order,
+202 blocks total, so truncate both files *before the range run*:
+
+```bash
+python -m scripts.regenerate anylogic-prepare --model 6 --target diagnostic
+python -m scripts.regenerate anylogic-prepare --model 6 --target flow-debug
+```
+
+Each experiment already carries its own parameter grid, replication count, and
+stop time, so almost nothing has to be set by hand. The one exception is Model
+4's `trace_enabled` variable on `Main`, which defaults to `true`: set it to
+`false` for the range and stochastic runs, otherwise iteration 1 appends about
+50k `TRACE` rows to the export.
+
+Expected export sizes, derived from the experiment definitions:
+
+| Model | SensitivityAnalysis | StochasticAnalysis |
+|---|---|---|
+| 1 | 64 | 64 x 50 = 3200 |
+| 2 | 36 | 36 x 50 = 1800 |
+| 3 | 64 | 64 x 50 = 3200 |
+| 4 | 64 | 64 x 50 = 3200 |
+| 5 | 36 | 36 x 50 = 1800 |
+| 6 | 2 | 2 x 100 = 200 |
+
+Check every export for size and duplicate iterations before comparing:
+
+```bash
+python -m scripts.regenerate anylogic-verify
+```
+
+Run the SimPy side, then the comparisons:
+
+```bash
+python -m scripts.regenerate simpy --models all
+python -m scripts.regenerate compare --models all
+```
+
+Useful flags: `--models 1 4`, `--tier core|trace`, `--only <substring>`,
+`--skip-slow`, `--dry-run`, `--continue-on-error`, and `--log-dir` (defaults to a
+timestamped directory under `logs/`). Each step writes its own log file there.
+The stochastic replication steps dominate the runtime.
+
 ## Shared CLI Notes
 
 Range comparison scripts commonly support:
