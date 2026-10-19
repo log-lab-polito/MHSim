@@ -7,6 +7,8 @@ all spatial elements, movement profiles, and forklift fleets.
 
 from __future__ import annotations
 
+import math
+
 import simpy
 from typing import Optional
 
@@ -28,6 +30,12 @@ from mhsim.spatial import (
 from mhsim.forklift import ForkliftFleet, LiftProfile, create_forklift_fleet
 from mhsim.routing import NodeJunction, Router
 from .params import Model5Params
+
+
+# AnyLogic places transporters 25 px apart along the home area's centre line from
+# (245, 280) px. The probes confirm the first three spots; the fourth is
+# extrapolated (docs/forklift_rules/R9).
+MODEL5_HOME_SPOTS = [Position3D(24.5 + 2.5 * i, 28.0, 0.0) for i in range(4)]
 
 
 class WarehouseBuilder:
@@ -299,16 +307,13 @@ def create_warehouse_with_standard_config(
                 Position3D(43, 40.5, 0),
             ],
         )
-        # Home: AnyLogic drives straight across the home area from the forklift's home
-        # point (245, 280) px to path4's start on the area edge (290, 300) px, then along
-        # path4 into node4 (290, 355) px.
-        .add_path(
-            "home_area",
-            [
-                Position3D(24.5, 28, 0),
-                Position3D(29, 30, 0),
-            ],
-        )
+        # Home: AnyLogic gives each forklift its own spot in the home area, 25 px apart from
+        # (245, 280) px (R9), and drives straight across the area from it to path4's start
+        # on the area edge (290, 300) px, then along path4 into node4 (290, 355) px.
+        .add_path("home_area", [MODEL5_HOME_SPOTS[0], Position3D(29, 30, 0)])
+        .add_path("home_area_1", [MODEL5_HOME_SPOTS[1], Position3D(29, 30, 0)])
+        .add_path("home_area_2", [MODEL5_HOME_SPOTS[2], Position3D(29, 30, 0)])
+        .add_path("home_area_3", [MODEL5_HOME_SPOTS[3], Position3D(29, 30, 0)])
         .add_path(
             "path4",
             [
@@ -327,6 +332,7 @@ def create_warehouse_with_standard_config(
         lowering_speed=params.forklift_lowering_speed,
         cargo_height=params.forklift_cargo_height_m,
         rack_approach_m=params.rack_approach_m,
+        rack_approach_heading_rad=math.radians(params.rack_approach_heading_deg),
         rack_reach_m=params.rack_reach_m,
         rack_handling_speed=params.rack_handling_speed_mps,
     )
@@ -347,12 +353,13 @@ def create_warehouse_with_standard_config(
             (23.0, 45.3): NodeJunction(path_end_offset_m=0.0),
             (29.0, 30.0): NodeJunction(path_end_offset_m=0.0),
         },
-        # The home-area crossing lies inside AnyLogic's home node (R3).
-        node_crossing_paths={"home_area"},
+        # The home-area crossings lie inside AnyLogic's home node (R3).
+        node_crossing_paths={"home_area", "home_area_1", "home_area_2", "home_area_3"},
     )
 
-    # Create forklift fleet at the AnyLogic home point (245, 280) px.
-    forklift_start_position = Position3D(24.5, 28, 0)
+    if params.n_forklifts > len(MODEL5_HOME_SPOTS):
+        raise ValueError(f"Model 5 has home spots for {len(MODEL5_HOME_SPOTS)} forklifts")
+    forklift_start_position = MODEL5_HOME_SPOTS[0]
     fleet = create_forklift_fleet(
         env=env,
         count=params.n_forklifts,
@@ -360,6 +367,7 @@ def create_warehouse_with_standard_config(
         lift_profile=lift_profile,
         router=router,
         home_position=forklift_start_position,
+        home_positions=MODEL5_HOME_SPOTS[: params.n_forklifts],
         turn_radius=params.forklift_turn_radius,
         routed_motion_mode=params.forklift_routed_motion_mode,
         line_guided_update_timestep_s=params.forklift_line_guided_update_timestep_s,
@@ -367,6 +375,7 @@ def create_warehouse_with_standard_config(
         resume_delay_s=params.forklift_resume_delay_s,
         min_distance_to_obstacle_m=params.forklift_min_distance_to_obstacle_m,
         avoid_collisions=params.forklift_avoid_collisions,
+        line_guided_traffic=params.forklift_line_guided_traffic,
         stats=stats,
         name_prefix="fl",
     )

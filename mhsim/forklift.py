@@ -9,7 +9,7 @@ from __future__ import annotations
 import simpy
 import math
 from dataclasses import dataclass, field, replace
-from typing import Any, Optional, Generator, Callable
+from typing import Any, Optional, Generator, Callable, Sequence
 from enum import Enum
 
 from .movement import (
@@ -21,7 +21,7 @@ from .movement import (
 )
 from .routing import Route, RouteMotionSegment, RouteStep, Router
 from .pallet import Pallet
-from .traffic import PathTrafficController
+from .traffic import LineGuidedTraffic, PathTrafficController
 
 POSITION_TOLERANCE_M = 0.01
 # AnyLogic plans each movement to rest 2 * ARRIVAL_TOLERANCE_M beyond its target and reports
@@ -54,6 +54,10 @@ class LiftProfile:
     rack_approach_m: float = 0.0
     rack_reach_m: float = 0.0
     rack_handling_speed: float = 0.0
+    # Direction from the path exit into the rack (radians). During the transfer the
+    # transporter stands `rack_approach_m` that way, which is where its own vision looks
+    # from (R8); None keeps it at the path exit.
+    rack_approach_heading_rad: Optional[float] = None
 
     def height_for_level(self, shelf_level: int) -> float:
         """Height of a shelf level above the floor.
@@ -164,6 +168,8 @@ class Forklift:
     current_load: Optional[Pallet] = None
     router: Optional[Router] = None
     traffic_controller: Optional[PathTrafficController] = None
+    # R8: AnyLogic-style vision interaction shared by the fleet (None: no interaction).
+    vision_traffic: Optional[LineGuidedTraffic] = None
     stats: Optional[object] = None
     turn_radius: float = 0.5
     routed_motion_mode: str = "analytical"
@@ -188,6 +194,9 @@ class Forklift:
     # R3: the wrap-up trip home that a seize may take over, and the motion state it leaves.
     wrap_up_process: Optional[simpy.Process] = field(default=None, init=False, repr=False)
     _carried_motion: Optional[_CarriedMotion] = field(default=None, init=False, repr=False)
+    # Where the forklift actually rests after a routed movement: ARRIVAL_TOLERANCE_M past
+    # its target along the final heading (R1). Dispatch measures distance from here (R9).
+    rest_position: Optional[Position3D] = field(default=None, init=False, repr=False)
 
     def __post_init__(self) -> None:
         """Initialize forklift process."""
@@ -563,10 +572,34 @@ class Forklift:
 
     @staticmethod
     def _next_controller_update_time(now: float, update_timestep: float) -> float:
-        """Return the next global controller tick after ``now``."""
+        """Return the next global controller tick after ``now``.
+
+        A ``now`` within 1e-9 s of a tick counts as that tick, so floating-point drift
+        cannot schedule the same tick twice.
+        """
         if update_timestep <= 0.0:
             return now
-        return (math.floor(now / update_timestep) + 1.0) * update_timestep
+        return (math.floor((now + 1.0e-9) / update_timestep) + 1.0) * update_timestep
+
+    @staticmethod
+    def _overshoot_position(target: Position3D, motion_segments: list) -> Position3D:
+        """``target`` moved ARRIVAL_TOLERANCE_M along the heading of the last motion segment."""
+        if not motion_segments:
+            return target
+        last = motion_segments[-1]
+        if last.kind == "arc" and last.center is not None and last.radius > 0:
+            angle = last.start_angle_rad + last.sweep_angle_rad
+            heading = angle + math.copysign(math.pi / 2.0, last.sweep_angle_rad)
+        else:
+            dx, dy = last.end.x - last.start.x, last.end.y - last.start.y
+            if math.hypot(dx, dy) <= 1e-12:
+                return target
+            heading = math.atan2(dy, dx)
+        return Position3D(
+            target.x + ARRIVAL_TOLERANCE_M * math.cos(heading),
+            target.y + ARRIVAL_TOLERANCE_M * math.sin(heading),
+            target.z,
+        )
 
     def _move_along_route(
         self,
@@ -642,6 +675,11 @@ class Forklift:
         use_line_guided_controller = (
             routed_motion_mode == "anylogic_line_guided" and (has_corner or cruises)
         )
+        # R8: with interaction every movement runs on the controller, so that other
+        # transporters can stop or slow it on its updates.
+        vision = self.vision_traffic if routed_motion_mode == "anylogic_line_guided" else None
+        if vision is not None:
+            use_line_guided_controller = True
         use_analytical_topup = not use_line_guided_controller
 
         # Reviewed invariants for parity-sensitive routed motion:
@@ -690,14 +728,22 @@ class Forklift:
         current_speed = max(0.0, initial_speed)
         move_started_at = self.env.now
         slice_state: Optional[tuple[float, ...]] = None
+        first_controller_update = True
+        self.rest_position = None
+        if vision is not None:
+            vision.begin_move(
+                self, motion_segments, arrival_distance, plan_distance, self.env.now, current_speed
+            )
         line_guided_acceleration = 0.0
         line_guided_speed_limit = 0.0
         next_line_guided_update_at = self.env.now
-        line_guided_boundary_distances = (
-            self._line_guided_route_boundary_distances(route)
-            if use_line_guided_controller
-            else []
-        )
+        if not use_line_guided_controller:
+            line_guided_boundary_distances = []
+        elif getattr(self.router, "junctions", None):
+            # AnyLogic updates where a path starts or ends (R8).
+            line_guided_boundary_distances = self.router.path_boundaries(route)
+        else:
+            line_guided_boundary_distances = self._line_guided_route_boundary_distances(route)
         next_line_guided_boundary_index = 0
         current_segment_index = 0
         active_segment: Optional[RouteMotionSegment] = None
@@ -710,21 +756,32 @@ class Forklift:
         current_z = start_pos.z
         current_xy = Position3D(start_pos.x, start_pos.y, 0)
 
-        def recompute_line_guided_profile() -> None:
-            nonlocal line_guided_acceleration, line_guided_speed_limit
+        def recompute_line_guided_profile(tick: bool = False) -> None:
+            nonlocal line_guided_acceleration, line_guided_speed_limit, current_speed
+
+            if vision is not None:
+                vision.report(self, self.env.now, horizontal_distance, current_speed)
+                current_speed, line_guided_acceleration, line_guided_speed_limit = vision.decide(
+                    self, self.env.now, tick
+                )
+                return
 
             horizontal = self.movement_profile.horizontal
             max_speed = max(0.0, horizontal.max_speed)
             acceleration = max(0.0, horizontal.acceleration)
             deceleration = max(0.0, horizontal.deceleration)
-            route_remaining = max(0.0, plan_distance - horizontal_distance)
             stopping_distance = (
                 distance_to_speed(current_speed, -deceleration, 0.0)
                 if deceleration > 0.0
                 else math.inf
             )
+            # Brake once the stopping distance reaches the distance left to the arrival
+            # point (D + ε); the profile then comes to rest just past it (R1, R8).
+            to_arrival = max(0.0, arrival_distance - horizontal_distance)
             line_guided_speed_limit = (
-                0.0 if stopping_distance > route_remaining else max_speed
+                0.0
+                if current_speed > 0.0 and stopping_distance >= to_arrival - 1e-12
+                else max_speed
             )
             if current_speed > line_guided_speed_limit:
                 line_guided_acceleration = -deceleration
@@ -740,7 +797,8 @@ class Forklift:
                     update_timestep = max(1e-9, line_guided_update_timestep_s)
                     current_controller_time = self.env.now
                     if current_controller_time >= next_line_guided_update_at - 1e-9:
-                        recompute_line_guided_profile()
+                        recompute_line_guided_profile(tick=not first_controller_update)
+                        first_controller_update = False
                         next_line_guided_update_at = self._next_controller_update_time(
                             current_controller_time,
                             update_timestep,
@@ -1053,7 +1111,7 @@ class Forklift:
                                 next_line_guided_boundary_index += 1
                                 crossed_route_boundary = True
                             if crossed_route_boundary:
-                                recompute_line_guided_profile()
+                                recompute_line_guided_profile(tick=False)
 
                 if vertical_total_distance > 0:
                     delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
@@ -1102,6 +1160,8 @@ class Forklift:
             else:
                 travelled, speed = horizontal_distance, current_speed
             travelled = max(0.0, min(travelled, total_distance))
+            if vision is not None:
+                vision.interrupt(self, now, travelled, speed)
             self._capture_interrupted_motion(route, motion_segments, travelled, speed, current_z)
             self._finish_traffic_wait()
             if traffic is not None:
@@ -1110,6 +1170,9 @@ class Forklift:
             raise
 
         self.position = Position3D(target.x, target.y, target.z)
+        self.rest_position = self._overshoot_position(target, motion_segments)
+        if vision is not None:
+            vision.arrive(self, self.env.now, processing=self.is_reserved)
 
         self._finish_traffic_wait()
         if traffic is not None:
@@ -1167,9 +1230,15 @@ class Forklift:
         A direct route that starts in the current direction of travel is used as it is;
         otherwise the forklift first runs on to the end of its current path step, turns
         there, and the route continues from that node. Inside a node (a path the router
-        lists as a node crossing) the forklift turns at once, keeping its speed.
+        lists as a node crossing) the forklift turns at once, keeping its speed; inside a
+        node with a radius it heads straight for the point where its next path leaves it.
         """
         position = Position3D(self.position.x, self.position.y, 0)
+        if carried.in_node and getattr(self.router, "junctions", None):
+            # Straight to where the next path leaves the node.
+            exit_route = self.router.node_exit_route(position, target, turn_radius=turn_radius)
+            if exit_route is not None:
+                return exit_route
         direct = self.router.route_between_nodes(
             position, target, carried.step.path_id, turn_radius=turn_radius
         )
@@ -1182,6 +1251,9 @@ class Forklift:
             if dx * carried.heading[0] + dy * carried.heading[1] > 0.0:
                 return direct
         node = carried.step.end
+        u_turn = self._path_end_u_turn(carried, position, target, turn_radius)
+        if u_turn is not None:
+            return u_turn
         lead = position.distance_xy(node)
         rest = self.router.route_between_nodes(
             node, target, carried.step.path_id, turn_radius=turn_radius
@@ -1221,6 +1293,59 @@ class Forklift:
             total_distance=lead + rest.total_distance,
             steps=[lead_step] + list(rest.steps),
             raw_distance=lead + rest.raw_distance,
+            motion_segments=[lead_segment] + shifted,
+        )
+
+    def _path_end_u_turn(
+        self,
+        carried: _CarriedMotion,
+        position: Position3D,
+        target: Position3D,
+        turn_radius: float,
+    ) -> Optional[Route]:
+        """Turn back where the current path meets a node with a radius (R3).
+
+        When the new route leaves that node along the same path, AnyLogic turns the
+        transporter round on the node's edge instead of driving into the node.
+        """
+        junctions = getattr(self.router, "junctions", None)
+        if not junctions:
+            return None
+        step = carried.step
+        offset = self.router._path_end_offset(step.end, step.start)
+        if not offset or step.length <= offset + 1e-9:
+            return None
+        rest = self.router.route_between_nodes(step.end, target, turn_radius=turn_radius)
+        if not rest.steps or rest.steps[0].end.distance_xy(step.start) > 1e-6:
+            return None
+        ux, uy = (step.end.x - step.start.x) / step.length, (step.end.y - step.start.y) / step.length
+        path_end = Position3D(step.end.x - ux * offset, step.end.y - uy * offset, 0)
+        lead = position.distance_xy(path_end)
+        back = self.router.node_exit_route(path_end, target, turn_radius=turn_radius)
+        if back is None:
+            return None
+        back_segments = [segment for segment in back.motion_segments if segment.length > 1e-12]
+        lead_step = replace(step, start=position, end=path_end, length=lead)
+        lead_segment = RouteMotionSegment(
+            kind="straight",
+            start=position,
+            end=path_end,
+            length=lead,
+            step_index=0,
+            start_progress_m=0.0,
+            end_progress_m=lead,
+        )
+        shifted = [
+            replace(segment, step_index=segment.step_index + 1)
+            if segment.step_index is not None
+            else segment
+            for segment in back_segments
+        ]
+        return Route(
+            waypoints=[position] + list(back.waypoints[1:]),
+            total_distance=lead + back.total_distance,
+            steps=[lead_step] + list(back.steps),
+            raw_distance=lead + back.raw_distance,
             motion_segments=[lead_segment] + shifted,
         )
 
@@ -1405,6 +1530,8 @@ class Forklift:
 
         should_notify_dwell = on_dwell_start is not None or on_dwell_end is not None
         if dwell_time_s > 0 or should_notify_dwell:
+            if self.vision_traffic is not None:
+                self.vision_traffic.set_processing(self)
             if dwell_status is not None:
                 self.status = dwell_status
             if on_dwell_start is not None:
@@ -1433,28 +1560,55 @@ class Forklift:
         on_dwell_start: Optional[Callable[[float], None]] = None,
         on_dwell_end: Optional[Callable[[float], None]] = None,
         movement_overrides: Optional[ForkliftMovementOverrides] = None,
+        bay: Optional[simpy.Resource] = None,
     ) -> Generator:
         """Drive to a bay's path exit, then store or retrieve a pallet there (R5).
 
-        The forklift stays on the path; the rack transfer itself takes
-        `LiftProfile.rack_transfer_time`.
+        With ``bay`` given, the forklift first waits at the path exit until no other
+        forklift is in that bay's rack (`StorageSlotManager.bay_access`).
+
+        The rack transfer itself takes `LiftProfile.rack_transfer_time`. AnyLogic moves
+        the forklift into the rack for it, out of the other transporters' sight (R8); MHSim
+        keeps it at the path exit and hides it from their vision.
         """
         if target_pos is not None and self.position != target_pos:
             yield from self.move_to(target_pos, movement_overrides=movement_overrides)
-        if dwell_status is not None:
-            self.status = dwell_status
-        if on_dwell_start is not None:
-            on_dwell_start(self.env.now)
-        duration = (
-            self.lift_profile.rack_transfer_time(shelf_level, storing)
-            if self.lift_profile
-            else 0.0
-        )
-        yield self.env.timeout(duration)
-        if on_dwell_end is not None:
-            on_dwell_end(self.env.now)
-        if dwell_status is not None and self.status == dwell_status:
-            self.status = ForkliftStatus.IDLE
+        request = None
+        if bay is not None:
+            # Waiting at the path exit: seen by the others, not updated (R8).
+            if self.vision_traffic is not None:
+                self.vision_traffic.set_processing(self)
+            request = bay.request()
+            yield request
+        try:
+            if self.vision_traffic is not None:
+                pose = None
+                heading = self.lift_profile.rack_approach_heading_rad if self.lift_profile else None
+                if heading is not None:
+                    reach = self.lift_profile.rack_approach_m
+                    pose = (
+                        self.position.x + reach * math.cos(heading),
+                        self.position.y + reach * math.sin(heading),
+                        heading,
+                    )
+                self.vision_traffic.set_processing(self, visible=False, pose=pose)
+            if dwell_status is not None:
+                self.status = dwell_status
+            if on_dwell_start is not None:
+                on_dwell_start(self.env.now)
+            duration = (
+                self.lift_profile.rack_transfer_time(shelf_level, storing)
+                if self.lift_profile
+                else 0.0
+            )
+            yield self.env.timeout(duration)
+            if on_dwell_end is not None:
+                on_dwell_end(self.env.now)
+            if dwell_status is not None and self.status == dwell_status:
+                self.status = ForkliftStatus.IDLE
+        finally:
+            if request is not None:
+                bay.release(request)
 
     def elevate(self, height_change: float) -> Generator:
         """Move load up/down by height_change meters."""
@@ -1501,6 +1655,7 @@ class ForkliftFleet:
         avoid_collisions: bool = False,
         stats: Optional[object] = None,
         traffic_debug_enabled: bool = False,
+        line_guided_traffic: bool = False,
         **kwargs: Any,
     ) -> None:
         """Create a fleet and its shared seize resource and traffic controller.
@@ -1516,6 +1671,9 @@ class ForkliftFleet:
             avoid_collisions: Enable node and edge reservation.
             stats: Statistics object receiving traffic-wait records.
             traffic_debug_enabled: Record every traffic decision for debugging.
+            line_guided_traffic: Let forklifts see, slow down for, stop for and
+                pass each other the way AnyLogic's line-guided transporters do
+                (docs/forklift_rules/R8_line_guided_traffic.md).
             **kwargs: Accepted and ignored, so callers may forward a shared
                 configuration mapping that carries extra keys.
         """
@@ -1546,6 +1704,11 @@ class ForkliftFleet:
                 debug_enabled=traffic_debug_enabled,
             )
             if avoid_collisions
+            else None
+        )
+        self.vision_traffic: Optional[LineGuidedTraffic] = (
+            LineGuidedTraffic(min_distance_to_obstacle_m=min_distance_to_obstacle_m)
+            if line_guided_traffic
             else None
         )
 
@@ -1589,6 +1752,9 @@ class ForkliftFleet:
             forklift.charging_station = self.charging_station
         if forklift.traffic_controller is None:
             forklift.traffic_controller = self.traffic_controller
+        if self.vision_traffic is not None:
+            forklift.vision_traffic = self.vision_traffic
+            self.vision_traffic.register(forklift)
         if forklift.stats is None:
             forklift.stats = self.stats
         # Preserve PriorityResource so request(priority=...) works.
@@ -1603,12 +1769,23 @@ class ForkliftFleet:
         if near_position is None:
             return self._available_forklifts.pop(0)
 
+        # R9: the free forklift nearest to the request in a straight line, measured from
+        # where it actually is (on its way home, or resting past its last target); ties go
+        # to the earliest-created forklift.
+        def cost(forklift: Forklift) -> tuple[float, int]:
+            where = None
+            if self.vision_traffic is not None:
+                where = self.vision_traffic.position_of(forklift, self.env.now)
+            if where is None:
+                where = forklift.rest_position or forklift.position
+            return where.sqr_distance_xy(near_position), self.forklifts.index(forklift)
+
         best_idx = 0
-        best_cost = self._available_forklifts[0].position.sqr_distance_xy(near_position)
+        best_cost = cost(self._available_forklifts[0])
         for i in range(1, len(self._available_forklifts)):
-            cost = self._available_forklifts[i].position.sqr_distance_xy(near_position)
-            if cost < best_cost:
-                best_cost = cost
+            cost_i = cost(self._available_forklifts[i])
+            if cost_i < best_cost:
+                best_cost = cost_i
                 best_idx = i
         return self._available_forklifts.pop(best_idx)
 
@@ -1623,6 +1800,10 @@ class ForkliftFleet:
 
         req = self.resource.request(priority=priority)
         yield req
+        # The reference experiments run simultaneous events last-scheduled first, so a
+        # forklift released at this same instant (its release was scheduled after the
+        # event that raised this request) is free before the dispatch decision (R9).
+        yield self.env.timeout(0)
 
         forklift = self._select_available_forklift(near_position=near_position)
         while forklift is None:
@@ -1632,6 +1813,10 @@ class ForkliftFleet:
 
         forklift.is_reserved = True
         self._active_assignments[forklift.id] = req
+        if self.vision_traffic is not None and getattr(forklift, "_fresh_vision_on_seize", False):
+            # R8: released after a delivery and seized again in place.
+            self.vision_traffic.clear_vision(forklift)
+        forklift._fresh_vision_on_seize = False
         # A forklift taken over on its way home stays in the busy period that its
         # wrap-up started (R2, R3).
         self._busy_since_by_forklift.setdefault(forklift.id, self.env.now)
@@ -1674,6 +1859,9 @@ class ForkliftFleet:
         if forklift.status != ForkliftStatus.MAINTENANCE:
             forklift.status = ForkliftStatus.IDLE
         self._available_forklifts.append(forklift)
+        if self.vision_traffic is not None:
+            self.vision_traffic.set_idle(forklift)
+        forklift._fresh_vision_on_seize = not go_home
         if go_home:
             forklift.wrap_up_process = self.env.process(self._wrap_up(forklift))
         self.resource.release(assignment.request)
@@ -1815,6 +2003,8 @@ def create_forklift_fleet(
     avoid_collisions: bool = False,
     stats: Optional[object] = None,
     traffic_debug_enabled: bool = False,
+    line_guided_traffic: bool = False,
+    home_positions: Optional[Sequence[Position3D]] = None,
 ) -> ForkliftFleet:
     """Factory function to create a fleet of identical forklifts.
 
@@ -1853,6 +2043,11 @@ def create_forklift_fleet(
             rather than passing through each other.
         stats: Statistics object receiving traffic-wait records.
         traffic_debug_enabled: Record every traffic allow and block decision.
+        line_guided_traffic: AnyLogic-style vision interaction between the
+            forklifts (docs/forklift_rules/R8_line_guided_traffic.md).
+        home_positions: One home per forklift, in creation order, where each
+            starts and returns to, as AnyLogic spreads transporters over an
+            area home node. Overrides `home_position`.
 
     Returns:
         A fleet of `count` identically configured forklifts, all sharing
@@ -1865,17 +2060,21 @@ def create_forklift_fleet(
         home_position = Position3D(0, 0, 0)
     if router is None:
         raise ValueError("create_forklift_fleet requires an explicit Router")
+    if home_positions is not None and len(home_positions) < count:
+        raise ValueError(f"home_positions has {len(home_positions)} entries for {count} forklifts")
 
     fleet = ForkliftFleet(
         env,
         count=count,
         name=f"{name_prefix}_fleet",
-        home_position=home_position,
+        # Per-forklift homes must not be overridden by a fleet-wide one.
+        home_position=None if home_positions is not None else home_position,
         charging_station=charging_station,
         min_distance_to_obstacle_m=min_distance_to_obstacle_m,
         avoid_collisions=avoid_collisions,
         stats=stats,
         traffic_debug_enabled=traffic_debug_enabled,
+        line_guided_traffic=line_guided_traffic,
     )
 
     for i in range(count):
@@ -1884,7 +2083,7 @@ def create_forklift_fleet(
             env=env,
             movement_profile=movement_profile,
             lift_profile=lift_profile,
-            position=home_position,
+            position=home_positions[i] if home_positions is not None else home_position,
             router=router,
             traffic_controller=fleet.traffic_controller,
             stats=stats,
@@ -1893,7 +2092,7 @@ def create_forklift_fleet(
             line_guided_update_timestep_s=line_guided_update_timestep_s,
             route_calc_delay_s=route_calc_delay_s,
             resume_delay_s=resume_delay_s,
-            home_position=home_position,
+            home_position=home_positions[i] if home_positions is not None else home_position,
             charging_station=charging_station,
             battery_soc=initial_battery_soc,
             discharge_per_meter=discharge_per_meter,

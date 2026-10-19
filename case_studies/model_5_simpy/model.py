@@ -42,14 +42,17 @@ class Model5SimModel:
             self.env, capacity=self.params.storage_capacity, init=0
         )
 
-        if self.fleet.forklifts:
-            home_position = self.fleet.forklifts[0].position
-        else:
-            home_position = self.layout.forklifts_home.get_access_point()
-        if hasattr(self.fleet, "set_home_position"):
-            self.fleet.set_home_position(home_position)
-        else:
-            self.fleet.home_position = home_position
+        homes = {(f.home_position.x, f.home_position.y) for f in self.fleet.forklifts if f.home_position}
+        if len(homes) <= 1:
+            # One shared home; with per-forklift home spots (R9) each keeps its own.
+            if self.fleet.forklifts:
+                home_position = self.fleet.forklifts[0].position
+            else:
+                home_position = self.layout.forklifts_home.get_access_point()
+            if hasattr(self.fleet, "set_home_position"):
+                self.fleet.set_home_position(home_position)
+            else:
+                self.fleet.home_position = home_position
         self.fleet.return_home_policy = self.params.forklift_return_home_policy
 
         self.sink = Sink(self.env, self.stats, name="sink", logger=self.logger)

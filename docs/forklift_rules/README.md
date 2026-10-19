@@ -14,5 +14,7 @@ ids refer to the project's parity ledger; probe runs are produced with
 | [R5](R5_rack_handling_and_slots.md) | B1d | Time at the rack and the choice of cell |
 | [R6](R6_model1_node_c_geometry.md) | H2 | Model 1's return route passes through node C's centre |
 | [R7](R7_line_guided_straight_routes.md) | H4 | Which routes follow the line-guided controller |
+| [R8](R8_line_guided_traffic.md) | B1f | How line-guided transporters see, slow for, stop for and pass each other |
+| [R9](R9_dispatch.md) | B1g | Which transporter a request gets, and where transporters park |
 
 Constants carry their source. None is fitted to make a comparison pass.

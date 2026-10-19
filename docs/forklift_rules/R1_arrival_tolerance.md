@@ -19,9 +19,11 @@ For a straight move from rest under a symmetric or trapezoidal profile the durat
 
     T = T_stop(D + 2ε) − √(2ε / d)
 
-where `T_stop(L)` is the usual rest-to-rest time over L. For a cornered line-guided move the
-controller takes its braking decisions against the planned remaining distance (D + 2ε minus the
-distance travelled), and the move ends after D + ε of travel.
+where `T_stop(L)` is the usual rest-to-rest time over L. A line-guided move (R7) brakes at the
+first controller update where its stopping distance v²/(2d) has reached the distance left to
+D + ε, and the move ends after D + ε of travel. Comparing against D + 2ε instead differs only
+when an update falls within ε of the braking point. The two- and three-forklift Model 5 probes
+have such a case: at 1053.0 s exactly 0.5 m was left to D + ε at 1 m/s, and AnyLogic braked.
 
 ## Source of ε
 

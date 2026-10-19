@@ -1492,6 +1492,7 @@ class StoreBlock(PassThroughBlock):
                 dwell_status=ForkliftStatus.UNLOADING,
                 on_dwell_start=mark_unload_start,
                 on_dwell_end=mark_unload_end,
+                bay=self.slot_manager.bay_access(self.env, storage_slot),
             )
             fl.current_load = None
             self.slot_manager.complete_store(storage_slot)
@@ -1636,6 +1637,7 @@ class RetrieveBlock(PassThroughBlock):
                 dwell_status=ForkliftStatus.LOADING,
                 on_dwell_start=mark_load_start,
                 on_dwell_end=mark_load_end,
+                bay=self.slot_manager.bay_access(self.env, storage_slot),
             )
             fl.current_load = pallet
             self.slot_manager.complete_retrieve(storage_slot)

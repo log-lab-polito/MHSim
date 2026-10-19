@@ -52,6 +52,9 @@ class Model2Params(SimulationParams):
     forklift_resume_delay_s: float = 0.0
     forklift_min_distance_to_obstacle_m: float = 1.0
     forklift_avoid_collisions: bool = False
+    # AnyLogic transporters see, slow down for, stop for and pass each other even with
+    # TransporterControl avoidCollisions = false (docs/forklift_rules/R8).
+    forklift_line_guided_traffic: bool = True
     # AnyLogic Model 2 releases the transporter and returns it to its home
     # location when no other task is waiting (the default wrap-up). The 48 s
     # probes are saturated, so they cannot distinguish this from staying put.

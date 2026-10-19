@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from .movement import Position3D
@@ -280,6 +280,88 @@ class Router:
     @staticmethod
     def _right_normal(direction: tuple[float, float]) -> tuple[float, float]:
         return (direction[1], -direction[0])
+
+    def _path_end_offset(self, vertex: Position3D, neighbour: Position3D) -> Optional[float]:
+        """Distance from a junction's centre at which the path towards ``neighbour`` ends."""
+        junction = self.junctions.get(self._key(vertex))
+        if junction is None:
+            return None
+        if self._key(neighbour) in set(junction.centre_attached):
+            return 0.0
+        return junction.path_end_offset_m
+
+    def node_exit_route(self, position: Position3D, target: Position3D, turn_radius: float = 0.0) -> Optional[Route]:
+        """Route for a transporter re-dispatched inside a node with a radius (R3).
+
+        AnyLogic drives straight from where the transporter is to the point where the
+        route's first path leaves the node, then follows the route from there. Returns
+        None when ``position`` is not inside such a node.
+        """
+        node = None
+        for key, junction in self.junctions.items():
+            centre = Position3D(key[0], key[1], 0)
+            if junction.path_end_offset_m > 0 and position.distance_xy(centre) <= junction.path_end_offset_m + 1e-6:
+                node = centre
+                break
+        if node is None:
+            return None
+        rest = self.route_between_nodes(node, target, turn_radius=turn_radius)
+        if not rest.steps or not rest.motion_segments:
+            return None
+        first_step, first = rest.steps[0], rest.motion_segments[0]
+        offset = self._path_end_offset(first_step.start, first_step.end) or 0.0
+        if first.kind != "straight" or first.step_index != 0 or first.length <= offset + 1e-9:
+            return None
+        if first.start.distance_xy(node) > 1e-6:
+            return None
+        ux, uy = (first.end.x - first.start.x) / first.length, (first.end.y - first.start.y) / first.length
+        exit_point = Position3D(node.x + ux * offset, node.y + uy * offset, 0)
+        lead = position.distance_xy(exit_point)
+        segments = [
+            RouteMotionSegment(kind="straight", start=position, end=exit_point, length=lead),
+            replace(first, start=exit_point, length=first.length - offset, start_progress_m=first.start_progress_m + offset),
+        ] + list(rest.motion_segments[1:])
+        return Route(
+            waypoints=[position, exit_point] + list(rest.waypoints[1:]),
+            total_distance=lead + rest.total_distance - offset,
+            steps=list(rest.steps),
+            raw_distance=lead + rest.raw_distance - offset,
+            motion_segments=segments,
+        )
+
+    def path_boundaries(self, route: Route, epsilon_m: float = 1.0e-4) -> List[float]:
+        """Route distances at which a path starts or ends, i.e. where AnyLogic's route
+        movement switches between a path and a node and the line-guided controller
+        updates the transporter (docs/forklift_rules/R8). Vertices without junction data
+        count as zero-radius nodes."""
+        if not route.steps or not route.motion_segments:
+            return []
+        marks: List[float] = []
+        cumulative = 0.0
+        last_step = len(route.steps) - 1
+        for segment in route.motion_segments:
+            if segment.kind == "straight" and segment.step_index is not None:
+                index = segment.step_index
+                step = route.steps[index]
+                points = []
+                offset = self._path_end_offset(step.start, step.end)
+                if index > 0:
+                    points.append(offset if offset is not None else 0.0)
+                elif offset:
+                    # The route leaves its origin node where the first path starts.
+                    points.append(offset)
+                offset = self._path_end_offset(step.end, step.start)
+                if index < last_step:
+                    points.append(step.length - (offset if offset is not None else 0.0))
+                elif offset:
+                    # The last path ends where the route enters its destination node.
+                    points.append(step.length - offset)
+                for progress in points:
+                    local = min(max(progress, segment.start_progress_m), segment.end_progress_m) - segment.start_progress_m
+                    marks.append(cumulative + local + epsilon_m)
+            cumulative += segment.length
+        total = route.total_distance
+        return sorted({round(m, 12) for m in marks if epsilon_m < m < total - 1e-9})
 
     def _arc(
         self,

@@ -55,10 +55,15 @@ class Model5Params(SimulationParams):
     rack_approach_m: float = 1.5
     rack_reach_m: float = 2.2
     rack_handling_speed_mps: float = 10.0
+    # The rack lies on the +y side of its aisle: the transporter backs 1.5 m that way (R5).
+    rack_approach_heading_deg: float = 90.0
     forklift_route_calc_delay_s: float = 0.0  # s - delay for route calculation
     forklift_resume_delay_s: float = 0.0  # s - delay to resume movement
     forklift_min_distance_to_obstacle_m: float = 1.0  # m - AnyLogic default
-    forklift_avoid_collisions: bool = False  # AnyLogic TransporterControl option
+    forklift_avoid_collisions: bool = False
+    # AnyLogic transporters see, slow down for, stop for and pass each other even with
+    # TransporterControl avoidCollisions = false (docs/forklift_rules/R8).
+    forklift_line_guided_traffic: bool = True  # AnyLogic TransporterControl option
     # Forklift return-home policy: "stay", "always", or "idle" (no queued tasks)
     forklift_return_home_policy: str = "idle"
 

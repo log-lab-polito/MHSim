@@ -10,8 +10,11 @@
    travel, turns there, and then follows the route from that node to the new destination.
 3. Inside a node (for example while crossing the home area from the home point to the edge
    where a path starts) the transporter instead turns at once and heads for the exit it needs,
-   keeping its speed.
-4. Busy time continues without a gap: the wrap-up and the new task are one busy period.
+   keeping its speed. Inside a point node with a radius it drives straight from where it is to
+   the point where the route's first path leaves the node.
+4. When the route from that end node leaves along the same path, the transporter turns round
+   where the path meets the node's edge and does not enter the node.
+5. Busy time continues without a gap: the wrap-up and the new task are one busy period.
 
 ## Evidence
 
@@ -26,6 +29,13 @@ Inside the home node (seizes at t = 606 s and 894 s at (288.654, 299.402) and (2
 293.448) px), the forklift reached the home-node exit (290, 300) after 0.1474 m and 1.6132 m,
 i.e. straight back along its crossing at 1 m/s.
 
+Two-forklift Model 5 probe (96 s arrivals): seized at t = 318 s on node4's arc at (293.187,
+352.320) px, the forklift reached path5's start (280, 355) px after 1.3458 m, the straight-line
+distance, at 1 m/s. Seized at t = 459.17 s on the aisle path at x = 315.57 px heading for
+node4, it ran on to node4's edge (300, 355) px and entered and left the node at the same instant
+(460.7275 s), back along the same path to the rack.
+
 ## Not yet observed
 
-Re-dispatch at a speed below the maximum, and inside a point-node connector.
+Re-dispatch at a speed below the maximum, and a turn onto a different path at a node with a
+radius after running on to the path end.

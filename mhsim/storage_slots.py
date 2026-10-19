@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, List, Optional, Literal
+from typing import Callable, Dict, List, Optional, Literal, Tuple
+
+import simpy
 
 from .movement import Position3D
 from .spatial import Storage
@@ -78,6 +80,7 @@ class StorageSlotManager:
         self._reserved_retrieve: set[StorageSlot] = set()
         self.store_policy = store_policy.upper()
         self.retrieve_policy = retrieve_policy.upper()
+        self._bay_access: Dict[Tuple[float, float], simpy.Resource] = {}
         if self.store_policy not in ("FIRST", "BEST", "LOWEST"):
             raise ValueError(f"Unsupported store_policy: {store_policy}")
         if self.retrieve_policy not in ("FIFO", "LIFO", "BEST"):
@@ -139,6 +142,18 @@ class StorageSlotManager:
         slot = source.pop()
         reserved.add(slot)
         return slot
+
+    def bay_access(self, env: simpy.Environment, slot: StorageSlot) -> simpy.Resource:
+        """The bay a slot is served from takes one rack transfer at a time (R5).
+
+        AnyLogic makes a transporter that reaches the bay while another is in the rack
+        wait at the path exit until that one comes out; transfers go first come, first
+        served. Slots sharing a ground position share the bay.
+        """
+        key = (round(slot.ground_pos.x, 6), round(slot.ground_pos.y, 6))
+        if key not in self._bay_access:
+            self._bay_access[key] = simpy.Resource(env, capacity=1)
+        return self._bay_access[key]
 
     def reserve_for_store(
         self,

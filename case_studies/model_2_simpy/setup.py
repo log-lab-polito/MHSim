@@ -142,13 +142,14 @@ def create_model2_warehouse(
         lowering_speed=params.forklift_lowering_speed,
     )
 
-    # AnyLogic point nodes (docs/forklift_rules/R6): node4, node5 and node6 have a 10 px
+    # AnyLogic point nodes (docs/forklift_rules/R6): the rack node, node4, node5 and node6 have a 10 px
     # radius with every path ending on the boundary (1 m arcs); node and node1 have zero
     # radius (sharp turns). The home-area crossing lies inside the home node (R3).
     router = Router(
         layout,
         junctions={
             (29.0, 35.5): NodeJunction(path_end_offset_m=1.0),
+            (29.0, 40.5): NodeJunction(path_end_offset_m=1.0),
             (23.0, 40.5): NodeJunction(path_end_offset_m=1.0),
             (35.0, 40.5): NodeJunction(path_end_offset_m=1.0),
             (35.0, 35.5): NodeJunction(path_end_offset_m=0.0),
@@ -173,6 +174,7 @@ def create_model2_warehouse(
         resume_delay_s=params.forklift_resume_delay_s,
         min_distance_to_obstacle_m=params.forklift_min_distance_to_obstacle_m,
         avoid_collisions=params.forklift_avoid_collisions,
+        line_guided_traffic=params.forklift_line_guided_traffic,
         stats=stats,
         name_prefix="fl",
     )
