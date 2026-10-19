@@ -25,7 +25,8 @@ class Model5Params(SimulationParams):
     # Storage / transport
     storage_capacity: int = 60
     n_forklifts: int = 1  # Single forklift working
-    storage_store_policy: str = "BEST"  # FIRST or BEST
+    # AnyLogic Store fills bay 0 from its lowest free shelf (docs/forklift_rules/R5).
+    storage_store_policy: str = "LOWEST"  # FIRST, BEST or LOWEST
     storage_retrieve_policy: str = "FIFO"  # FIFO, LIFO, or BEST
     # Forklift request priorities (lower = higher priority)
     forklift_store_priority: int = 1
@@ -42,6 +43,18 @@ class Model5Params(SimulationParams):
     forklift_elevation_speed: float = 0.2  # m/s - used by STORE
     forklift_lowering_speed: float = 0.2  # m/s - used by RETRIEVE
     forklift_turn_radius: float = 0.5  # m - rounded corner radius on path-guided routes
+    # AnyLogic path-guided transporters use the line-guided controller on every route;
+    # with R1 MHSim's controller matches it to 1e-6 s on Model 1's probe legs.
+    forklift_routed_motion_mode: str = "anylogic_line_guided"
+    forklift_line_guided_update_timestep_s: float = 0.5
+    # Rack transfer at a bay's path exit (docs/forklift_rules/R5). The Forklift agent is
+    # 1 m tall and its initial speed is 10 m/s in the .alp; it drives 1.5 m from the path
+    # exit to the aisle centreline and back, and reaches 2.2 m (half the aisle plus half
+    # the 2.4 m cell depth) across. Matches the probe to 3e-12 s on all six cases.
+    forklift_cargo_height_m: float = 1.0
+    rack_approach_m: float = 1.5
+    rack_reach_m: float = 2.2
+    rack_handling_speed_mps: float = 10.0
     forklift_route_calc_delay_s: float = 0.0  # s - delay for route calculation
     forklift_resume_delay_s: float = 0.0  # s - delay to resume movement
     forklift_min_distance_to_obstacle_m: float = 1.0  # m - AnyLogic default

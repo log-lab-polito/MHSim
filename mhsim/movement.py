@@ -182,6 +182,92 @@ class HorizontalMovement:
         """Calculate time to travel a given distance with optimal speed profile."""
         return self.solve_profile(distance).travel_time
 
+    def _profile_from_speed(
+        self, distance: float, initial_speed: float
+    ) -> tuple[float, float, float, float, float]:
+        """Phases of the fastest profile from ``initial_speed`` to rest at ``distance``.
+
+        Returns:
+            ``(v0, peak_speed, accel_time, cruise_time, decel_time)``.
+        """
+        a, d, vmax = self.acceleration, self.deceleration, self.max_speed
+        v0 = max(0.0, initial_speed)
+        if vmax > 0.0:
+            v0 = min(v0, vmax)
+        if d <= 0.0:
+            speed = vmax if vmax > 0.0 else v0
+            return v0, speed, 0.0, (distance / speed if speed > 0.0 else math.inf), 0.0
+        braking = v0 * v0 / (2.0 * d)
+        if braking >= distance:
+            return v0, v0, 0.0, 0.0, v0 / d
+        if a <= 0.0:
+            cruise = (distance - braking) / v0 if v0 > 0.0 else math.inf
+            return v0, v0, 0.0, cruise, v0 / d
+        to_max = (vmax * vmax - v0 * v0) / (2.0 * a)
+        from_max = vmax * vmax / (2.0 * d)
+        if to_max + from_max <= distance:
+            return v0, vmax, (vmax - v0) / a, (distance - to_max - from_max) / vmax, vmax / d
+        peak = math.sqrt((distance + v0 * v0 / (2.0 * a)) / (1.0 / (2.0 * a) + 1.0 / (2.0 * d)))
+        return v0, peak, (peak - v0) / a, 0.0, peak / d
+
+    def state_at(
+        self, distance: float, time_s: float, initial_speed: float = 0.0
+    ) -> tuple[float, float]:
+        """Distance travelled and speed ``time_s`` into the profile to rest at ``distance``.
+
+        Args:
+            distance: Planned distance to come to rest, in metres.
+            time_s: Time since the profile started, in seconds.
+            initial_speed: Speed when the profile started, in m/s.
+
+        Returns:
+            ``(distance_m, speed_mps)``.
+        """
+        v0, peak, t_acc, t_cruise, t_dec = self._profile_from_speed(distance, initial_speed)
+        t = max(0.0, time_s)
+        if t <= t_acc:
+            return v0 * t + 0.5 * self.acceleration * t * t, v0 + self.acceleration * t
+        s_acc = v0 * t_acc + 0.5 * self.acceleration * t_acc * t_acc
+        if t <= t_acc + t_cruise:
+            return s_acc + peak * (t - t_acc), peak
+        s_cruise = s_acc + peak * t_cruise
+        e = min(t - t_acc - t_cruise, t_dec)
+        return (
+            min(distance, s_cruise + peak * e - 0.5 * self.deceleration * e * e),
+            max(0.0, peak - self.deceleration * e),
+        )
+
+    def arrival_time(self, distance: float, overshoot: float, initial_speed: float = 0.0) -> float:
+        """Time to cover ``distance`` on a profile planned to rest ``overshoot`` further on.
+
+        AnyLogic plans every movement to come to rest beyond its target and reports the
+        destination as reached while still braking (``docs/forklift_rules/R1_arrival_tolerance.md``).
+
+        Args:
+            distance: Distance travelled until arrival, in metres.
+            overshoot: Planned distance still left at arrival, in metres.
+            initial_speed: Speed at the start of the movement, in m/s (R3 re-dispatch).
+
+        Returns:
+            Arrival time in seconds from the start of the movement.
+        """
+        plan = distance + max(0.0, overshoot)
+        _, peak, t_acc, t_cruise, t_dec = self._profile_from_speed(plan, initial_speed)
+        total = t_acc + t_cruise + t_dec
+        if overshoot <= 0.0:
+            return total
+        d = self.deceleration
+        if d > 0.0 and overshoot <= peak * peak / (2.0 * d):
+            return total - math.sqrt(2.0 * overshoot / d)
+        low, high = 0.0, total
+        for _ in range(100):
+            mid = 0.5 * (low + high)
+            if self.state_at(plan, mid, initial_speed)[0] < distance:
+                low = mid
+            else:
+                high = mid
+        return high
+
     def solve_profile(self, distance: float) -> HorizontalTravelProfile:
         """Solve the triangular/trapezoidal profile for a distance."""
         if distance <= 0:

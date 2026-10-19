@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import simpy
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Optional, Generator, Callable
 from enum import Enum
 
@@ -24,6 +24,10 @@ from .pallet import Pallet
 from .traffic import PathTrafficController
 
 POSITION_TOLERANCE_M = 0.01
+# AnyLogic plans each movement to rest 2 * ARRIVAL_TOLERANCE_M beyond its target and reports
+# the destination reached after D + ARRIVAL_TOLERANCE_M of travel
+# (docs/forklift_rules/R1_arrival_tolerance.md). Measured on the Model 1 probe, not fitted.
+ARRIVAL_TOLERANCE_M = 1.0e-4
 
 
 class ForkliftStatus(Enum):
@@ -42,6 +46,14 @@ class LiftProfile:
     shelf_height: float
     elevation_speed: float
     lowering_speed: float
+    # AnyLogic rack transfer (docs/forklift_rules/R5_rack_handling_and_slots.md): at a
+    # bay's path exit the transporter drives `rack_approach_m` into the aisle and back
+    # and reaches `rack_reach_m` across it at `rack_handling_speed`, while the pallet
+    # moves between the cargo height (store) or the floor (retrieve) and the shelf.
+    cargo_height: float = 0.0
+    rack_approach_m: float = 0.0
+    rack_reach_m: float = 0.0
+    rack_handling_speed: float = 0.0
 
     def height_for_level(self, shelf_level: int) -> float:
         """Height of a shelf level above the floor.
@@ -73,6 +85,32 @@ class LiftProfile:
         down = height / self.lowering_speed if self.lowering_speed > 0 else 0.0
         return up + down
 
+    def rack_transfer_time(self, shelf_level: int, storing: bool) -> float:
+        """Time at a bay's path exit to store a pallet in, or retrieve it from, a level (R5).
+
+        Args:
+            shelf_level: Zero-based level index.
+            storing: `True` for a store (pallet raised from the cargo height to the
+                shelf), `False` for a retrieve (pallet lowered from the shelf to the
+                floor).
+
+        Returns:
+            Handling plus vertical transfer time in seconds.
+        """
+        handling = (
+            (2.0 * self.rack_approach_m + self.rack_reach_m) / self.rack_handling_speed
+            if self.rack_handling_speed > 0
+            else 0.0
+        )
+        height = self.height_for_level(shelf_level)
+        if storing:
+            speed = self.elevation_speed
+            change = abs(height - self.cargo_height)
+        else:
+            speed = self.lowering_speed
+            change = height
+        return handling + (change / speed if speed > 0 else 0.0)
+
 
 @dataclass(frozen=True)
 class ForkliftMovementOverrides:
@@ -95,6 +133,17 @@ class ForkliftAssignment:
     """A specific transporter assignment returned by ForkliftFleet.seize()."""
     request: object
     forklift: Forklift
+
+
+@dataclass(frozen=True)
+class _CarriedMotion:
+    """Motion state left by a movement that a re-dispatch interrupted (R3)."""
+
+    step: RouteStep
+    speed: float
+    heading: tuple[float, float]
+    captured_at: float
+    in_node: bool = False
 
 
 @dataclass
@@ -136,6 +185,9 @@ class Forklift:
     is_reserved: bool = False
     _traffic_wait_reason: Optional[str] = field(default=None, init=False, repr=False)
     _traffic_wait_started_at: Optional[float] = field(default=None, init=False, repr=False)
+    # R3: the wrap-up trip home that a seize may take over, and the motion state it leaves.
+    wrap_up_process: Optional[simpy.Process] = field(default=None, init=False, repr=False)
+    _carried_motion: Optional[_CarriedMotion] = field(default=None, init=False, repr=False)
 
     def __post_init__(self) -> None:
         """Initialize forklift process."""
@@ -324,8 +376,13 @@ class Forklift:
         dt: float,
         route_remaining_m: float,
         available_distance_m: float,
+        braking_distance_m: Optional[float] = None,
     ) -> tuple[float, float, float]:
         """Compute horizontal motion for the current tick.
+
+        ``braking_distance_m`` is the distance the speed profile must come to rest
+        within; it defaults to the distance that may be covered, and is longer when
+        the movement is planned past its target (R1).
 
         Returns:
             Tuple of (distance_m, end_speed_mps, elapsed_time_s).
@@ -347,9 +404,15 @@ class Forklift:
         if max_speed <= 0 or dt <= 0:
             return 0.0, 0.0, 0.0
 
+        braking_distance = (
+            effective_distance
+            if braking_distance_m is None
+            else max(effective_distance, braking_distance_m)
+        )
+
         def next_speed_for_interval(interval_s: float) -> float:
             stop_speed_limit = (
-                math.sqrt(max(0.0, 2.0 * deceleration * effective_distance))
+                math.sqrt(max(0.0, 2.0 * deceleration * braking_distance))
                 if deceleration > 0
                 else max_speed
             )
@@ -510,8 +573,14 @@ class Forklift:
         route: Route,
         update_interval: float = 0.05,
         movement_overrides: Optional[ForkliftMovementOverrides] = None,
+        initial_speed: float = 0.0,
     ) -> Generator:
-        """Move along routed path steps with shared traffic control."""
+        """Move along routed path steps with shared traffic control.
+
+        ``initial_speed`` is the speed carried over from an interrupted movement (R3).
+        A ``simpy.Interrupt`` stops the movement where the forklift is and records its
+        position, speed and current path step for the next movement.
+        """
         if len(route.waypoints) < 2:
             yield self.env.timeout(0)
             return
@@ -540,6 +609,12 @@ class Forklift:
         target = route.waypoints[-1]
         height_change = target.z - start_pos.z
         total_distance = route.total_distance
+        # R1: plan the profile to rest 2 * eps past the target; arrival after D + eps.
+        if total_distance > 1e-9:
+            arrival_distance = total_distance + ARRIVAL_TOLERANCE_M
+            plan_distance = total_distance + 2.0 * ARRIVAL_TOLERANCE_M
+        else:
+            arrival_distance = plan_distance = total_distance
         routed_motion_mode = (
             self.routed_motion_mode
             if movement_overrides is None
@@ -554,8 +629,18 @@ class Forklift:
         )
 
         has_corner = self._route_has_corner(route.steps)
+        # R7 (docs/forklift_rules/R7_line_guided_straight_routes.md): AnyLogic's
+        # line-guided controller decides braking on its 0.5 s cadence on cornered
+        # routes and on straight routes whose profile reaches the speed limit; a
+        # straight route that never cruises follows the closed-form profile.
+        # The nominal distance decides, so R1's 2e-4 m overshoot cannot tip a leg
+        # that just reaches the speed limit.
+        _, cruise_speed, _, cruise_time, _ = self.movement_profile.horizontal._profile_from_speed(
+            total_distance, initial_speed
+        )
+        cruises = total_distance > 1e-9 and cruise_time * cruise_speed > 1e-6
         use_line_guided_controller = (
-            routed_motion_mode == "anylogic_line_guided" and has_corner
+            routed_motion_mode == "anylogic_line_guided" and (has_corner or cruises)
         )
         use_analytical_topup = not use_line_guided_controller
 
@@ -573,8 +658,10 @@ class Forklift:
         # closed-form triangular/trapezoidal profile, so keep the analytical
         # top-up there and only use the controller cadence for cornered routes.
         if total_distance > 1e-9 and use_analytical_topup:
-            analytical_horizontal_time = self.movement_profile.horizontal.travel_time(
-                total_distance
+            analytical_horizontal_time = self.movement_profile.horizontal.arrival_time(
+                arrival_distance,
+                plan_distance - arrival_distance,
+                initial_speed,
             )
         else:
             analytical_horizontal_time = 0.0
@@ -600,7 +687,9 @@ class Forklift:
             return
 
         traffic = self.traffic_controller
-        current_speed = 0.0
+        current_speed = max(0.0, initial_speed)
+        move_started_at = self.env.now
+        slice_state: Optional[tuple[float, ...]] = None
         line_guided_acceleration = 0.0
         line_guided_speed_limit = 0.0
         next_line_guided_update_at = self.env.now
@@ -628,7 +717,7 @@ class Forklift:
             max_speed = max(0.0, horizontal.max_speed)
             acceleration = max(0.0, horizontal.acceleration)
             deceleration = max(0.0, horizontal.deceleration)
-            route_remaining = max(0.0, total_distance - horizontal_distance)
+            route_remaining = max(0.0, plan_distance - horizontal_distance)
             stopping_distance = (
                 distance_to_speed(current_speed, -deceleration, 0.0)
                 if deceleration > 0.0
@@ -644,324 +733,381 @@ class Forklift:
             else:
                 line_guided_acceleration = 0.0
 
-        while horizontal_distance < total_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
-            dt = max(update_interval, 1e-3)
-            if use_line_guided_controller:
-                update_timestep = max(1e-9, line_guided_update_timestep_s)
-                current_controller_time = self.env.now
-                if current_controller_time >= next_line_guided_update_at - 1e-9:
-                    recompute_line_guided_profile()
-                    next_line_guided_update_at = self._next_controller_update_time(
-                        current_controller_time,
-                        update_timestep,
-                    )
-                dt = min(dt, max(1e-9, next_line_guided_update_at - current_controller_time))
-
-            if active_segment is None and current_segment_index < len(motion_segments):
-                next_segment = motion_segments[current_segment_index]
-                wait_reason = None
-                if next_segment.kind == "straight" and next_segment.step_index is not None:
-                    next_step = route.steps[next_segment.step_index]
-                    following_step = (
-                        route.steps[next_segment.step_index + 1]
-                        if next_segment.step_index + 1 < len(route.steps)
-                        else None
-                    )
-                    if traffic is not None:
-                        wait_reason = traffic.try_enter_edge(self.id, next_step, following_step)
-                if wait_reason is not None:
-                    if occupied_node_id is not None and traffic is not None:
-                        traffic.leave_node(self.id, occupied_node_id)
-                        occupied_node_id = None
-                        occupied_node_release_step_index = None
-                        occupied_node_release_progress = None
-                    self._start_traffic_wait(wait_reason)
-                    current_speed = 0.0
-                    yield self.env.timeout(dt)
-                else:
-                    yield from self._resume_after_traffic_wait()
-                    active_segment = next_segment
-                    segment_progress = 0.0
-                    if (
-                        occupied_node_id is not None
-                        and traffic is not None
-                        and next_segment.kind == "straight"
-                    ):
-                        clearance_distance = min(
-                            next_segment.length,
-                            max(0.0, traffic.min_distance_to_obstacle_m),
+        try:
+            while horizontal_distance < arrival_distance - 1e-9 or vertical_distance < vertical_total_distance - 1e-9:
+                dt = max(update_interval, 1e-3)
+                if use_line_guided_controller:
+                    update_timestep = max(1e-9, line_guided_update_timestep_s)
+                    current_controller_time = self.env.now
+                    if current_controller_time >= next_line_guided_update_at - 1e-9:
+                        recompute_line_guided_profile()
+                        next_line_guided_update_at = self._next_controller_update_time(
+                            current_controller_time,
+                            update_timestep,
                         )
-                        if clearance_distance <= 1e-9:
+                    dt = min(dt, max(1e-9, next_line_guided_update_at - current_controller_time))
+
+                if active_segment is None and current_segment_index < len(motion_segments):
+                    next_segment = motion_segments[current_segment_index]
+                    wait_reason = None
+                    if next_segment.kind == "straight" and next_segment.step_index is not None:
+                        next_step = route.steps[next_segment.step_index]
+                        following_step = (
+                            route.steps[next_segment.step_index + 1]
+                            if next_segment.step_index + 1 < len(route.steps)
+                            else None
+                        )
+                        if traffic is not None:
+                            wait_reason = traffic.try_enter_edge(self.id, next_step, following_step)
+                    if wait_reason is not None:
+                        if occupied_node_id is not None and traffic is not None:
                             traffic.leave_node(self.id, occupied_node_id)
                             occupied_node_id = None
                             occupied_node_release_step_index = None
                             occupied_node_release_progress = None
-                        else:
-                            occupied_node_release_step_index = next_segment.step_index
-                            occupied_node_release_progress = (
-                                next_segment.start_progress_m + clearance_distance
+                        self._start_traffic_wait(wait_reason)
+                        current_speed = 0.0
+                        yield self.env.timeout(dt)
+                    else:
+                        yield from self._resume_after_traffic_wait()
+                        active_segment = next_segment
+                        segment_progress = 0.0
+                        if (
+                            occupied_node_id is not None
+                            and traffic is not None
+                            and next_segment.kind == "straight"
+                        ):
+                            clearance_distance = min(
+                                next_segment.length,
+                                max(0.0, traffic.min_distance_to_obstacle_m),
                             )
-                # No simulation time passes when we simply activate the next
-                # routed segment, so vertical movement must not advance here.
-                if wait_reason is not None and vertical_total_distance > 0:
-                    delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
-                    vertical_distance += delta_z
-                    direction = 1.0 if height_change >= 0 else -1.0
-                    current_z = start_pos.z + direction * vertical_distance
-                self.position = Position3D(current_xy.x, current_xy.y, current_z)
-                continue
+                            if clearance_distance <= 1e-9:
+                                traffic.leave_node(self.id, occupied_node_id)
+                                occupied_node_id = None
+                                occupied_node_release_step_index = None
+                                occupied_node_release_progress = None
+                            else:
+                                occupied_node_release_step_index = next_segment.step_index
+                                occupied_node_release_progress = (
+                                    next_segment.start_progress_m + clearance_distance
+                                )
+                    # No simulation time passes when we simply activate the next
+                    # routed segment, so vertical movement must not advance here.
+                    if wait_reason is not None and vertical_total_distance > 0:
+                        delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
+                        vertical_distance += delta_z
+                        direction = 1.0 if height_change >= 0 else -1.0
+                        current_z = start_pos.z + direction * vertical_distance
+                    self.position = Position3D(current_xy.x, current_xy.y, current_z)
+                    continue
 
-            route_remaining = max(0.0, total_distance - horizontal_distance)
-            if route_remaining <= 1e-9:
-                current_xy = Position3D(target.x, target.y, 0)
-                current_speed = 0.0
-                yield self.env.timeout(dt)
-            else:
-                available_distance = route_remaining
-                wait_reason = None
-                if (
-                    traffic is not None
-                    and active_segment is not None
-                    and active_segment.kind == "straight"
-                    and active_segment.step_index is not None
-                ):
-                    active_step = route.steps[active_segment.step_index]
-                    requested_distance = route_remaining
-                    allowance = traffic.available_distance(
-                        self.id,
-                        active_step,
-                        active_segment.start_progress_m + segment_progress,
-                        requested_distance,
-                    )
-                    available_distance = allowance.allowed_distance_m
-                    wait_reason = allowance.wait_reason
-
-                if use_line_guided_controller:
-                    while (
-                        next_line_guided_boundary_index < len(line_guided_boundary_distances)
-                        and line_guided_boundary_distances[next_line_guided_boundary_index]
-                        <= horizontal_distance + 1e-9
-                    ):
-                        next_line_guided_boundary_index += 1
-                    if next_line_guided_boundary_index < len(line_guided_boundary_distances):
-                        # AnyLogic schedules a route-boundary controller update
-                        # just after the current RouteData movement ends. Keep
-                        # the shared controller clock intact, but stop this
-                        # slice exactly at that boundary so the immediate
-                        # profile rebuild sees the same remaining route.
-                        distance_to_boundary = (
-                            line_guided_boundary_distances[next_line_guided_boundary_index]
-                            - horizontal_distance
-                        )
-                        if distance_to_boundary > 1e-9:
-                            available_distance = min(available_distance, distance_to_boundary)
-                    move_distance, next_speed, move_time = self._compute_line_guided_horizontal_motion(
-                        current_speed=current_speed,
-                        dt=dt,
-                        route_remaining_m=route_remaining,
-                        available_distance_m=available_distance,
-                        profile_acceleration=line_guided_acceleration,
-                        profile_speed_limit=line_guided_speed_limit,
-                    )
-                else:
-                    move_distance, next_speed, move_time = self._compute_horizontal_motion(
-                        current_speed=current_speed,
-                        dt=dt,
-                        route_remaining_m=route_remaining,
-                        available_distance_m=available_distance,
-                    )
-
-                if move_distance <= 1e-9 and wait_reason is not None:
-                    self._start_traffic_wait(wait_reason)
+                route_remaining = max(0.0, arrival_distance - horizontal_distance)
+                if route_remaining <= 1e-9:
+                    current_xy = Position3D(target.x, target.y, 0)
                     current_speed = 0.0
                     yield self.env.timeout(dt)
                 else:
-                    yield from self._resume_after_traffic_wait()
-                    if move_time <= 1e-9 and move_distance > 1e-9:
-                        move_time = dt
-                    yield self.env.timeout(move_time)
-                    motion_time_elapsed += move_time
-                    dt = move_time
-                    current_speed = next_speed
-                    remaining_move = move_distance
-                    blocked_reason: Optional[str] = None
+                    available_distance = route_remaining
+                    wait_reason = None
+                    if (
+                        traffic is not None
+                        and active_segment is not None
+                        and active_segment.kind == "straight"
+                        and active_segment.step_index is not None
+                    ):
+                        active_step = route.steps[active_segment.step_index]
+                        requested_distance = route_remaining
+                        allowance = traffic.available_distance(
+                            self.id,
+                            active_step,
+                            active_segment.start_progress_m + segment_progress,
+                            requested_distance,
+                        )
+                        available_distance = allowance.allowed_distance_m
+                        wait_reason = allowance.wait_reason
 
-                    while remaining_move > 1e-9 and horizontal_distance < total_distance - 1e-9:
-                        if active_segment is None:
-                            if current_segment_index >= len(motion_segments):
-                                break
-                            next_segment = motion_segments[current_segment_index]
-                            if next_segment.kind == "straight" and next_segment.step_index is not None:
-                                next_step = route.steps[next_segment.step_index]
-                                following_step = (
-                                    route.steps[next_segment.step_index + 1]
-                                    if next_segment.step_index + 1 < len(route.steps)
-                                    else None
-                                )
-                                if traffic is not None:
-                                    blocked_reason = traffic.try_enter_edge(
-                                        self.id,
-                                        next_step,
-                                        following_step,
+                    if use_line_guided_controller:
+                        while (
+                            next_line_guided_boundary_index < len(line_guided_boundary_distances)
+                            and line_guided_boundary_distances[next_line_guided_boundary_index]
+                            <= horizontal_distance + 1e-9
+                        ):
+                            next_line_guided_boundary_index += 1
+                        if next_line_guided_boundary_index < len(line_guided_boundary_distances):
+                            # AnyLogic schedules a route-boundary controller update
+                            # just after the current RouteData movement ends. Keep
+                            # the shared controller clock intact, but stop this
+                            # slice exactly at that boundary so the immediate
+                            # profile rebuild sees the same remaining route.
+                            distance_to_boundary = (
+                                line_guided_boundary_distances[next_line_guided_boundary_index]
+                                - horizontal_distance
+                            )
+                            if distance_to_boundary > 1e-9:
+                                available_distance = min(available_distance, distance_to_boundary)
+                        move_distance, next_speed, move_time = self._compute_line_guided_horizontal_motion(
+                            current_speed=current_speed,
+                            dt=dt,
+                            route_remaining_m=route_remaining,
+                            available_distance_m=available_distance,
+                            profile_acceleration=line_guided_acceleration,
+                            profile_speed_limit=line_guided_speed_limit,
+                        )
+                    else:
+                        move_distance, next_speed, move_time = self._compute_horizontal_motion(
+                            current_speed=current_speed,
+                            dt=dt,
+                            route_remaining_m=route_remaining,
+                            available_distance_m=available_distance,
+                            braking_distance_m=(
+                                plan_distance - horizontal_distance
+                                if available_distance >= route_remaining - 1e-9
+                                else None
+                            ),
+                        )
+
+                    if move_distance <= 1e-9 and wait_reason is not None:
+                        self._start_traffic_wait(wait_reason)
+                        current_speed = 0.0
+                        yield self.env.timeout(dt)
+                    else:
+                        yield from self._resume_after_traffic_wait()
+                        if move_time <= 1e-9 and move_distance > 1e-9:
+                            move_time = dt
+                        slice_state = (
+                            self.env.now,
+                            current_speed,
+                            horizontal_distance,
+                            line_guided_acceleration,
+                            line_guided_speed_limit,
+                            route_remaining,
+                            available_distance,
+                        )
+                        yield self.env.timeout(move_time)
+                        slice_state = None
+                        motion_time_elapsed += move_time
+                        dt = move_time
+                        current_speed = next_speed
+                        remaining_move = move_distance
+                        blocked_reason: Optional[str] = None
+
+                        while remaining_move > 1e-9 and horizontal_distance < arrival_distance - 1e-9:
+                            if active_segment is None:
+                                if current_segment_index >= len(motion_segments):
+                                    # R1: the last eps of travel lies past the geometric target;
+                                    # the reported position stays at the target.
+                                    overshoot = min(remaining_move, arrival_distance - horizontal_distance)
+                                    horizontal_distance += overshoot
+                                    remaining_move -= overshoot
+                                    break
+                                next_segment = motion_segments[current_segment_index]
+                                if next_segment.kind == "straight" and next_segment.step_index is not None:
+                                    next_step = route.steps[next_segment.step_index]
+                                    following_step = (
+                                        route.steps[next_segment.step_index + 1]
+                                        if next_segment.step_index + 1 < len(route.steps)
+                                        else None
                                     )
-                                    if blocked_reason is not None:
+                                    if traffic is not None:
+                                        blocked_reason = traffic.try_enter_edge(
+                                            self.id,
+                                            next_step,
+                                            following_step,
+                                        )
+                                        if blocked_reason is not None:
+                                            if occupied_node_id is not None:
+                                                traffic.leave_node(self.id, occupied_node_id)
+                                                occupied_node_id = None
+                                                occupied_node_release_step_index = None
+                                                occupied_node_release_progress = None
+                                            break
+                                active_segment = next_segment
+                                segment_progress = 0.0
+                                if (
+                                    occupied_node_id is not None
+                                    and traffic is not None
+                                    and next_segment.kind == "straight"
+                                ):
+                                    clearance_distance = min(
+                                        next_segment.length,
+                                        max(0.0, traffic.min_distance_to_obstacle_m),
+                                    )
+                                    if clearance_distance <= 1e-9:
+                                        traffic.leave_node(self.id, occupied_node_id)
+                                        occupied_node_id = None
+                                        occupied_node_release_step_index = None
+                                        occupied_node_release_progress = None
+                                    else:
+                                        occupied_node_release_step_index = next_segment.step_index
+                                        occupied_node_release_progress = (
+                                            next_segment.start_progress_m + clearance_distance
+                                        )
+
+                            step_allowance = remaining_move
+                            if (
+                                traffic is not None
+                                and active_segment is not None
+                                and active_segment.kind == "straight"
+                                and active_segment.step_index is not None
+                            ):
+                                active_step = route.steps[active_segment.step_index]
+                                allowance = traffic.available_distance(
+                                    self.id,
+                                    active_step,
+                                    active_segment.start_progress_m + segment_progress,
+                                    remaining_move,
+                                )
+                                step_allowance = allowance.allowed_distance_m
+                                if step_allowance <= 1e-9:
+                                    blocked_reason = allowance.wait_reason
+                                    break
+
+                            if active_segment is None:
+                                break
+                            step_remaining = max(0.0, active_segment.length - segment_progress)
+                            travel = min(remaining_move, step_allowance, step_remaining)
+                            if travel <= 1e-9:
+                                break
+
+                            segment_progress += travel
+                            horizontal_distance += travel
+                            remaining_move -= travel
+                            current_xy = self._motion_segment_position(active_segment, segment_progress)
+                            if (
+                                traffic is not None
+                                and active_segment.kind == "straight"
+                                and active_segment.step_index is not None
+                            ):
+                                active_step = route.steps[active_segment.step_index]
+                                raw_progress = active_segment.start_progress_m + segment_progress
+                                traffic.update_progress(self.id, active_step, raw_progress)
+                                if (
+                                    occupied_node_id is not None
+                                    and occupied_node_release_step_index == active_segment.step_index
+                                    and occupied_node_release_progress is not None
+                                    and raw_progress >= occupied_node_release_progress - 1e-9
+                                ):
+                                    traffic.leave_node(self.id, occupied_node_id)
+                                    occupied_node_id = None
+                                    occupied_node_release_step_index = None
+                                    occupied_node_release_progress = None
+
+                            if segment_progress >= active_segment.length - 1e-9:
+                                if active_segment.kind == "straight":
+                                    if traffic is not None and active_segment.step_index is not None:
+                                        active_step = route.steps[active_segment.step_index]
                                         if occupied_node_id is not None:
                                             traffic.leave_node(self.id, occupied_node_id)
                                             occupied_node_id = None
                                             occupied_node_release_step_index = None
                                             occupied_node_release_progress = None
-                                        break
-                            active_segment = next_segment
-                            segment_progress = 0.0
-                            if (
-                                occupied_node_id is not None
-                                and traffic is not None
-                                and next_segment.kind == "straight"
-                            ):
-                                clearance_distance = min(
-                                    next_segment.length,
-                                    max(0.0, traffic.min_distance_to_obstacle_m),
-                                )
-                                if clearance_distance <= 1e-9:
-                                    traffic.leave_node(self.id, occupied_node_id)
-                                    occupied_node_id = None
-                                    occupied_node_release_step_index = None
-                                    occupied_node_release_progress = None
-                                else:
-                                    occupied_node_release_step_index = next_segment.step_index
-                                    occupied_node_release_progress = (
-                                        next_segment.start_progress_m + clearance_distance
-                                    )
-
-                        step_allowance = remaining_move
-                        if (
-                            traffic is not None
-                            and active_segment is not None
-                            and active_segment.kind == "straight"
-                            and active_segment.step_index is not None
-                        ):
-                            active_step = route.steps[active_segment.step_index]
-                            allowance = traffic.available_distance(
-                                self.id,
-                                active_step,
-                                active_segment.start_progress_m + segment_progress,
-                                remaining_move,
-                            )
-                            step_allowance = allowance.allowed_distance_m
-                            if step_allowance <= 1e-9:
-                                blocked_reason = allowance.wait_reason
-                                break
-
-                        if active_segment is None:
-                            break
-                        step_remaining = max(0.0, active_segment.length - segment_progress)
-                        travel = min(remaining_move, step_allowance, step_remaining)
-                        if travel <= 1e-9:
-                            break
-
-                        segment_progress += travel
-                        horizontal_distance += travel
-                        remaining_move -= travel
-                        current_xy = self._motion_segment_position(active_segment, segment_progress)
-                        if (
-                            traffic is not None
-                            and active_segment.kind == "straight"
-                            and active_segment.step_index is not None
-                        ):
-                            active_step = route.steps[active_segment.step_index]
-                            raw_progress = active_segment.start_progress_m + segment_progress
-                            traffic.update_progress(self.id, active_step, raw_progress)
-                            if (
-                                occupied_node_id is not None
-                                and occupied_node_release_step_index == active_segment.step_index
-                                and occupied_node_release_progress is not None
-                                and raw_progress >= occupied_node_release_progress - 1e-9
-                            ):
-                                traffic.leave_node(self.id, occupied_node_id)
-                                occupied_node_id = None
-                                occupied_node_release_step_index = None
-                                occupied_node_release_progress = None
-
-                        if segment_progress >= active_segment.length - 1e-9:
-                            if active_segment.kind == "straight":
-                                if traffic is not None and active_segment.step_index is not None:
-                                    active_step = route.steps[active_segment.step_index]
-                                    if occupied_node_id is not None:
-                                        traffic.leave_node(self.id, occupied_node_id)
-                                        occupied_node_id = None
+                                        blocked_reason = traffic.enter_node(self.id, active_step.end_node_id)
+                                        if blocked_reason is not None:
+                                            backed_off_progress = max(0.0, active_segment.length - 1e-6)
+                                            rollback = max(0.0, segment_progress - backed_off_progress)
+                                            horizontal_distance -= rollback
+                                            remaining_move += rollback
+                                            segment_progress = backed_off_progress
+                                            traffic.update_progress(
+                                                self.id,
+                                                active_step,
+                                                active_segment.start_progress_m + segment_progress,
+                                            )
+                                            current_xy = self._motion_segment_position(active_segment, segment_progress)
+                                            break
+                                        traffic.leave_edge(self.id, active_step)
+                                        occupied_node_id = active_step.end_node_id
                                         occupied_node_release_step_index = None
                                         occupied_node_release_progress = None
-                                    blocked_reason = traffic.enter_node(self.id, active_step.end_node_id)
-                                    if blocked_reason is not None:
-                                        backed_off_progress = max(0.0, active_segment.length - 1e-6)
-                                        rollback = max(0.0, segment_progress - backed_off_progress)
-                                        horizontal_distance -= rollback
-                                        remaining_move += rollback
-                                        segment_progress = backed_off_progress
-                                        traffic.update_progress(
-                                            self.id,
-                                            active_step,
-                                            active_segment.start_progress_m + segment_progress,
-                                        )
-                                        current_xy = self._motion_segment_position(active_segment, segment_progress)
-                                        break
-                                    traffic.leave_edge(self.id, active_step)
-                                    occupied_node_id = active_step.end_node_id
-                                    occupied_node_release_step_index = None
-                                    occupied_node_release_progress = None
 
-                                if blocked_reason is None:
+                                    if blocked_reason is None:
+                                        current_segment_index += 1
+                                        active_segment = None
+                                        segment_progress = 0.0
+
+                                        if (
+                                            current_segment_index >= len(motion_segments)
+                                            and occupied_node_id is not None
+                                            and traffic is not None
+                                        ):
+                                            traffic.leave_node(self.id, occupied_node_id)
+                                            occupied_node_id = None
+                                            occupied_node_release_step_index = None
+                                            occupied_node_release_progress = None
+                                else:
                                     current_segment_index += 1
                                     active_segment = None
                                     segment_progress = 0.0
 
-                                    if (
-                                        current_segment_index >= len(motion_segments)
-                                        and occupied_node_id is not None
-                                        and traffic is not None
-                                    ):
-                                        traffic.leave_node(self.id, occupied_node_id)
-                                        occupied_node_id = None
-                                        occupied_node_release_step_index = None
-                                        occupied_node_release_progress = None
-                            else:
-                                current_segment_index += 1
-                                active_segment = None
-                                segment_progress = 0.0
+                        if blocked_reason is not None:
+                            self._start_traffic_wait(blocked_reason)
+                            current_speed = 0.0
 
-                    if blocked_reason is not None:
-                        self._start_traffic_wait(blocked_reason)
-                        current_speed = 0.0
+                        if use_line_guided_controller:
+                            crossed_route_boundary = False
+                            while (
+                                next_line_guided_boundary_index < len(line_guided_boundary_distances)
+                                and horizontal_distance
+                                >= line_guided_boundary_distances[next_line_guided_boundary_index] - 1e-9
+                            ):
+                                next_line_guided_boundary_index += 1
+                                crossed_route_boundary = True
+                            if crossed_route_boundary:
+                                recompute_line_guided_profile()
 
-                    if use_line_guided_controller:
-                        crossed_route_boundary = False
-                        while (
-                            next_line_guided_boundary_index < len(line_guided_boundary_distances)
-                            and horizontal_distance
-                            >= line_guided_boundary_distances[next_line_guided_boundary_index] - 1e-9
-                        ):
-                            next_line_guided_boundary_index += 1
-                            crossed_route_boundary = True
-                        if crossed_route_boundary:
-                            recompute_line_guided_profile()
+                if vertical_total_distance > 0:
+                    delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
+                    vertical_distance += delta_z
+                    direction = 1.0 if height_change >= 0 else -1.0
+                    current_z = start_pos.z + direction * vertical_distance
+                else:
+                    current_z = target.z
 
-            if vertical_total_distance > 0:
-                delta_z = min(vertical_speed * dt, vertical_total_distance - vertical_distance)
-                vertical_distance += delta_z
-                direction = 1.0 if height_change >= 0 else -1.0
-                current_z = start_pos.z + direction * vertical_distance
+                self.position = Position3D(current_xy.x, current_xy.y, current_z)
+
+            if use_analytical_topup:
+                # Keep position at the last interpolated location during the
+                # top-up; otherwise cyclic traces would show arrival before the
+                # movement event actually finishes.
+                kinematic_remainder = analytical_horizontal_time - motion_time_elapsed
+                if kinematic_remainder > 1e-9:
+                    yield self.env.timeout(kinematic_remainder)
+        except simpy.Interrupt:
+            # R3: a seize took this forklift over mid-trip. Record where it is and how
+            # fast it moves, so the next movement continues from that state.
+            now = self.env.now
+            if use_analytical_topup:
+                travelled, speed = self.movement_profile.horizontal.state_at(
+                    plan_distance, now - move_started_at, initial_speed
+                )
+            elif slice_state is not None:
+                (
+                    slice_started_at,
+                    slice_speed,
+                    slice_distance,
+                    slice_acceleration,
+                    slice_speed_limit,
+                    slice_remaining,
+                    slice_available,
+                ) = slice_state
+                partial, speed, _ = self._compute_line_guided_horizontal_motion(
+                    current_speed=slice_speed,
+                    dt=now - slice_started_at,
+                    route_remaining_m=slice_remaining,
+                    available_distance_m=slice_available,
+                    profile_acceleration=slice_acceleration,
+                    profile_speed_limit=slice_speed_limit,
+                )
+                travelled = slice_distance + partial
             else:
-                current_z = target.z
-
-            self.position = Position3D(current_xy.x, current_xy.y, current_z)
-
-        if use_analytical_topup:
-            # Keep position at the last interpolated location during the
-            # top-up; otherwise cyclic traces would show arrival before the
-            # movement event actually finishes.
-            kinematic_remainder = analytical_horizontal_time - motion_time_elapsed
-            if kinematic_remainder > 1e-9:
-                yield self.env.timeout(kinematic_remainder)
+                travelled, speed = horizontal_distance, current_speed
+            travelled = max(0.0, min(travelled, total_distance))
+            self._capture_interrupted_motion(route, motion_segments, travelled, speed, current_z)
+            self._finish_traffic_wait()
+            if traffic is not None:
+                traffic.release_forklift(self.id)
+            self._consume_battery(travelled)
+            raise
 
         self.position = Position3D(target.x, target.y, target.z)
 
@@ -971,6 +1117,112 @@ class Forklift:
         self._consume_battery(total_distance)
         if self.status == ForkliftStatus.MOVING:
             self.status = ForkliftStatus.IDLE
+
+    def _capture_interrupted_motion(
+        self,
+        route: Route,
+        motion_segments: list[RouteMotionSegment],
+        travelled_m: float,
+        speed: float,
+        z: float,
+    ) -> None:
+        """Place the forklift where an interrupted movement left it and keep its state (R3)."""
+        progress = 0.0
+        step_index = 0
+        position = route.waypoints[-1]
+        heading = (0.0, 0.0)
+        in_node = False
+        for segment in motion_segments:
+            if segment.kind == "straight" and segment.step_index is not None:
+                step_index = segment.step_index
+            if travelled_m <= progress + segment.length + 1e-12:
+                # Turn arcs and node connectors lie inside a node, not on a path.
+                in_node = not (segment.kind == "straight" and segment.step_index is not None)
+                position = segment.position_at(travelled_m - progress)
+                dx = segment.end.x - segment.start.x
+                dy = segment.end.y - segment.start.y
+                norm = math.hypot(dx, dy)
+                if norm > 1e-12:
+                    heading = (dx / norm, dy / norm)
+                break
+            progress += segment.length
+        self.position = Position3D(position.x, position.y, z)
+        self._carried_motion = _CarriedMotion(
+            step=route.steps[step_index],
+            speed=max(0.0, speed),
+            heading=heading,
+            captured_at=self.env.now,
+            in_node=in_node,
+        )
+
+    def _continuation_route(
+        self,
+        carried: _CarriedMotion,
+        target: Position3D,
+        turn_radius: float,
+    ) -> Route:
+        """Route for a forklift taken over while moving (R3).
+
+        AnyLogic neither stops nor reverses a moving transporter in the middle of a path.
+        A direct route that starts in the current direction of travel is used as it is;
+        otherwise the forklift first runs on to the end of its current path step, turns
+        there, and the route continues from that node. Inside a node (a path the router
+        lists as a node crossing) the forklift turns at once, keeping its speed.
+        """
+        position = Position3D(self.position.x, self.position.y, 0)
+        direct = self.router.route_between_nodes(
+            position, target, carried.step.path_id, turn_radius=turn_radius
+        )
+        if carried.in_node or carried.step.path_id in getattr(self.router, "node_crossing_paths", ()):
+            return direct
+        if direct.motion_segments:
+            first = direct.motion_segments[0]
+            dx = first.end.x - first.start.x
+            dy = first.end.y - first.start.y
+            if dx * carried.heading[0] + dy * carried.heading[1] > 0.0:
+                return direct
+        node = carried.step.end
+        lead = position.distance_xy(node)
+        rest = self.router.route_between_nodes(
+            node, target, carried.step.path_id, turn_radius=turn_radius
+        )
+        if lead <= 1e-9:
+            return rest
+        rest_segments = list(rest.motion_segments) or [
+            RouteMotionSegment(
+                kind="straight",
+                start=step.start,
+                end=step.end,
+                length=step.length,
+                step_index=index,
+                start_progress_m=0.0,
+                end_progress_m=step.length,
+            )
+            for index, step in enumerate(rest.steps)
+        ]
+        lead_step = replace(carried.step, start=position, length=lead)
+        lead_segment = RouteMotionSegment(
+            kind="straight",
+            start=position,
+            end=node,
+            length=lead,
+            step_index=0,
+            start_progress_m=0.0,
+            end_progress_m=lead,
+        )
+        shifted = [
+            replace(segment, step_index=segment.step_index + 1)
+            if segment.step_index is not None
+            else segment
+            for segment in rest_segments
+        ]
+        return Route(
+            waypoints=[position] + list(rest.waypoints),
+            total_distance=lead + rest.total_distance,
+            steps=[lead_step] + list(rest.steps),
+            raw_distance=lead + rest.raw_distance,
+            motion_segments=[lead_segment] + shifted,
+        )
 
     def move_to(
         self,
@@ -984,6 +1236,26 @@ class Forklift:
         When a path network is available, all horizontal movement is routed
         over that network. Only pure vertical moves bypass path routing.
         """
+        carried, self._carried_motion = self._carried_motion, None
+        if (
+            carried is not None
+            and carried.captured_at == self.env.now
+            and carried.speed > 1e-9
+            and self._has_path_network()
+        ):
+            turn_radius = (
+                self.turn_radius
+                if movement_overrides is None or movement_overrides.turn_radius is None
+                else movement_overrides.turn_radius
+            )
+            yield from self._move_along_route(
+                self._continuation_route(carried, target, turn_radius),
+                update_interval,
+                movement_overrides=movement_overrides,
+                initial_speed=carried.speed,
+            )
+            return
+
         # Avoid any routing/resume delays if we're already at the target.
         if self.position.distance_to(target) < POSITION_TOLERANCE_M:
             yield self.env.timeout(0)
@@ -1151,6 +1423,38 @@ class Forklift:
                 update_interval=update_interval,
                 movement_overrides=movement_overrides,
             )
+
+    def rack_transfer(
+        self,
+        target_pos: Optional[Position3D],
+        shelf_level: int,
+        storing: bool,
+        dwell_status: Optional[ForkliftStatus] = None,
+        on_dwell_start: Optional[Callable[[float], None]] = None,
+        on_dwell_end: Optional[Callable[[float], None]] = None,
+        movement_overrides: Optional[ForkliftMovementOverrides] = None,
+    ) -> Generator:
+        """Drive to a bay's path exit, then store or retrieve a pallet there (R5).
+
+        The forklift stays on the path; the rack transfer itself takes
+        `LiftProfile.rack_transfer_time`.
+        """
+        if target_pos is not None and self.position != target_pos:
+            yield from self.move_to(target_pos, movement_overrides=movement_overrides)
+        if dwell_status is not None:
+            self.status = dwell_status
+        if on_dwell_start is not None:
+            on_dwell_start(self.env.now)
+        duration = (
+            self.lift_profile.rack_transfer_time(shelf_level, storing)
+            if self.lift_profile
+            else 0.0
+        )
+        yield self.env.timeout(duration)
+        if on_dwell_end is not None:
+            on_dwell_end(self.env.now)
+        if dwell_status is not None and self.status == dwell_status:
+            self.status = ForkliftStatus.IDLE
 
     def elevate(self, height_change: float) -> Generator:
         """Move load up/down by height_change meters."""
@@ -1328,19 +1632,41 @@ class ForkliftFleet:
 
         forklift.is_reserved = True
         self._active_assignments[forklift.id] = req
-        self._busy_since_by_forklift[forklift.id] = self.env.now
+        # A forklift taken over on its way home stays in the busy period that its
+        # wrap-up started (R2, R3).
+        self._busy_since_by_forklift.setdefault(forklift.id, self.env.now)
+        wrap_up = forklift.wrap_up_process
+        if wrap_up is not None and wrap_up.is_alive:
+            wrap_up.interrupt("redispatch")
+            yield wrap_up
         return ForkliftAssignment(request=req, forklift=forklift)
 
-    def release(self, assignment: Optional[ForkliftAssignment]) -> None:
-        """Release a previously seized transporter."""
+    def release(
+        self,
+        assignment: Optional[ForkliftAssignment],
+        wrap_up: bool = False,
+    ) -> None:
+        """Release a previously seized transporter.
+
+        The material item is free as soon as this returns (R2). With ``wrap_up`` the
+        fleet's return-home policy may send the forklift home as a wrap-up task: it stays
+        busy for utilisation until it arrives, but the next seize request takes it over
+        mid-trip (R3).
+
+        Args:
+            assignment: Assignment returned by `seize`. `None` is ignored.
+            wrap_up: Apply the fleet's return-home policy after the release.
+        """
         if assignment is None:
             return
         forklift = assignment.forklift
         if self._active_assignments.pop(forklift.id, None) is None:
             return
-        busy_started_at = self._busy_since_by_forklift.pop(forklift.id, None)
-        if busy_started_at is not None:
-            self._completed_busy_time_s += max(0.0, self.env.now - busy_started_at)
+        go_home = wrap_up and self._should_return_home(forklift)
+        if not go_home:
+            busy_started_at = self._busy_since_by_forklift.pop(forklift.id, None)
+            if busy_started_at is not None:
+                self._completed_busy_time_s += max(0.0, self.env.now - busy_started_at)
         forklift.is_reserved = False
         if self.traffic_controller is not None:
             self.traffic_controller.release_forklift(forklift.id)
@@ -1348,6 +1674,8 @@ class ForkliftFleet:
         if forklift.status != ForkliftStatus.MAINTENANCE:
             forklift.status = ForkliftStatus.IDLE
         self._available_forklifts.append(forklift)
+        if go_home:
+            forklift.wrap_up_process = self.env.process(self._wrap_up(forklift))
         self.resource.release(assignment.request)
 
     def get_available_forklift(self) -> Optional[Forklift]:
@@ -1375,45 +1703,42 @@ class ForkliftFleet:
         """
         return self.home_position if self.home_position is not None else forklift.home_position
 
-    def run_post_task_policy(
-        self,
-        forklift: Forklift,
-    ) -> Generator:
-        """Apply AnyLogic-style transporter wrap-up behavior after a task.
-
-        AnyLogic's ``ReleaseTransporter`` sends the material item downstream as
-        soon as unloading finishes, then drives the transporter home as a
-        ResourcePool wrap-up task. That wrap-up task still has
-        ``USAGE_BUSY`` by default, so MHSim keeps the assignment busy until
-        this generator finishes while exposing return-home time separately for
-        parity diagnostics.
-        """
-        return_policy = self.return_home_policy
+    def _should_return_home(self, forklift: Forklift) -> bool:
+        """Whether the return-home policy sends ``forklift`` home after a release (R2)."""
         home_pos = self.resolve_home_position(forklift)
-        if home_pos is not None and return_policy != "stay":
-            should_return = return_policy == "always"
-            if return_policy == "idle":
-                should_return = self.waiting_requests_count == 0
-            if (
-                should_return
-                and forklift.position.distance_xy(home_pos) > POSITION_TOLERANCE_M
-            ):
-                self._returning_home_since_by_forklift[forklift.id] = self.env.now
-                try:
-                    yield from forklift.move_to(home_pos)
-                finally:
-                    return_started_at = self._returning_home_since_by_forklift.pop(
-                        forklift.id,
-                        None,
-                    )
-                    if return_started_at is not None:
-                        self._completed_return_home_time_s += max(
-                            0.0,
-                            self.env.now - return_started_at,
-                        )
+        if home_pos is None or self.return_home_policy == "stay":
+            return False
+        if self.return_home_policy == "idle" and self.waiting_requests_count > 0:
+            return False
+        return forklift.position.distance_xy(home_pos) > POSITION_TOLERANCE_M
 
-        if forklift.needs_charging():
-            yield from forklift.charge_if_needed()
+    def _wrap_up(self, forklift: Forklift) -> Generator:
+        """Drive a released forklift home as an AnyLogic-style wrap-up task (R2, R3).
+
+        AnyLogic's ``ReleaseTransporter`` lets the material item go at release and sends
+        the transporter home as a ResourcePool wrap-up task whose usage state is busy by
+        default. A new seize request terminates the wrap-up and takes the forklift over
+        where it is; `seize` interrupts this process for that.
+        """
+        home_pos = self.resolve_home_position(forklift)
+        self._returning_home_since_by_forklift[forklift.id] = self.env.now
+        arrived = False
+        try:
+            yield from forklift.move_to(home_pos)
+            arrived = True
+        except simpy.Interrupt:
+            pass
+        finally:
+            return_started_at = self._returning_home_since_by_forklift.pop(forklift.id, None)
+            if return_started_at is not None:
+                self._completed_return_home_time_s += max(0.0, self.env.now - return_started_at)
+            forklift.wrap_up_process = None
+        if arrived and forklift.id not in self._active_assignments:
+            busy_started_at = self._busy_since_by_forklift.pop(forklift.id, None)
+            if busy_started_at is not None:
+                self._completed_busy_time_s += max(0.0, self.env.now - busy_started_at)
+            if forklift.needs_charging():
+                yield from forklift.charge_if_needed()
 
     def count_total(self) -> int:
         """Get total number of forklifts."""
@@ -1421,10 +1746,11 @@ class ForkliftFleet:
 
     @property
     def busy_time_s(self) -> float:
-        """Total seconds the fleet has spent seized, across all forklifts.
+        """Total seconds the fleet has spent busy, across all forklifts.
 
-        Includes time accrued by tasks still in progress, so the value is
-        meaningful mid-run and not only at the end.
+        Busy runs from a seize to the release, or to the end of the wrap-up trip home
+        that follows it (R2). Includes time accrued by tasks still in progress, so the
+        value is meaningful mid-run and not only at the end.
         """
         total = self._completed_busy_time_s
         for busy_started_at in self._busy_since_by_forklift.values():
@@ -1433,10 +1759,10 @@ class ForkliftFleet:
 
     @property
     def return_home_time_s(self) -> float:
-        """Total seconds the fleet has spent travelling home after tasks.
+        """Total seconds the fleet has spent on wrap-up trips home.
 
-        Includes returns still under way. Counted separately from
-        `busy_time_s` because return travel is not chargeable work.
+        A diagnostic: these seconds are also part of `busy_time_s`, as in AnyLogic,
+        whose wrap-up usage state is busy. Includes trips still under way.
         """
         total = self._completed_return_home_time_s
         for return_started_at in self._returning_home_since_by_forklift.values():
@@ -1451,9 +1777,8 @@ class ForkliftFleet:
         Returns `0.0` before the run starts or for an empty fleet.
 
         Parity:
-            Return-home travel is excluded, matching how AnyLogic reports
-            transporter utilisation. Including it would inflate the figure
-            relative to the reference model.
+            Wrap-up trips home are included, matching AnyLogic, whose
+            ResourcePool wrap-up usage state is busy by default.
         """
         forklift_count = self.count_total()
         if forklift_count <= 0 or self.env.now <= 0:

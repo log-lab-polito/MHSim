@@ -150,10 +150,6 @@ def _seize_forklift(
     return assignment
 
 
-def _run_fleet_post_task(fleet: ForkliftFleet, forklift: Forklift) -> Generator:
-    yield from fleet.run_post_task_policy(forklift)
-
-
 def _record_forklift_movement_duration(
     stats: Optional[object],
     metric_name: str,
@@ -1056,8 +1052,8 @@ class ReleaseTransporterBlock(PassThroughBlock):
             next_block: Downstream block.
             name: Block name.
             assignment_key: Pallet attribute the assignment was stored under.
-            apply_post_task_policy: Run the fleet's wrap-up behaviour, such as
-                returning home, before releasing.
+            apply_post_task_policy: Let the fleet's wrap-up behaviour, such as
+                returning home, run after the release (R2).
             strict: Raise when the pallet holds no assignment. Set false for
                 flows where a release is optional.
             logger: Optional event logger.
@@ -1075,7 +1071,7 @@ class ReleaseTransporterBlock(PassThroughBlock):
             pallet: Arriving pallet.
 
         Yields:
-            SimPy events while the post-task policy runs.
+            SimPy events while forwarding the pallet.
 
         Raises:
             RuntimeError: If `strict` is set and the pallet holds no
@@ -1090,10 +1086,7 @@ class ReleaseTransporterBlock(PassThroughBlock):
                     f"Pallet {pallet.id} has no transporter assignment to release"
                 )
         else:
-            fl = assignment.forklift
-            if self.apply_post_task_policy:
-                yield from _run_fleet_post_task(self.fleet, fl)
-            self.fleet.release(assignment)
+            self.fleet.release(assignment, wrap_up=self.apply_post_task_policy)
 
         self._record_finish()
         yield from self._forward(pallet)
@@ -1141,9 +1134,9 @@ class MoveByTransporterBlock(PassThroughBlock):
             assignment_key: Pallet attribute holding an existing assignment.
             auto_seize_if_missing: Seize a transporter when the pallet does not
                 already carry one, rather than failing.
-            apply_post_task_policy_if_auto_seized: Run the fleet wrap-up policy
-                after releasing a transporter this block seized itself. Has no
-                effect on a transporter seized upstream.
+            apply_post_task_policy_if_auto_seized: Let the fleet wrap-up policy
+                run after releasing a transporter this block seized itself (R2).
+                Has no effect on a transporter seized upstream.
             stats: Statistics object receiving movement-phase timings. Without it
                 no benchmarks are recorded.
             benchmark_prefix: Prefix for benchmark metric names, lower-cased.
@@ -1232,7 +1225,6 @@ class MoveByTransporterBlock(PassThroughBlock):
         self._record_enter(pallet)
 
         enter_at = self.env.now
-        downstream_process: Optional[simpy.Process] = None
         pickup = _resolve_position(self.pickup_pos, pallet)
         assignment = _get_assignment(pallet, assignment_key=self.assignment_key)
         auto_seized = assignment is None
@@ -1249,6 +1241,7 @@ class MoveByTransporterBlock(PassThroughBlock):
             )
             seize_at = self.env.now
 
+        completed = False
         try:
             fl = assignment.forklift
             load_started_at = seize_at
@@ -1325,25 +1318,18 @@ class MoveByTransporterBlock(PassThroughBlock):
                 release_at=release_at,
             )
 
-            # AnyLogic's MoveByTransporter releases the item flow as soon as the
-            # unload completes. The transporter's idle return-home behavior is a
-            # post-task concern and must not inflate pallet cycle time.
-            if (
-                auto_seized
-                and self.apply_post_task_policy_if_auto_seized
-                and self.next_block is not None
-            ):
-                downstream_process = self.env.process(self.next_block.handle(pallet))
-
-            if auto_seized and self.apply_post_task_policy_if_auto_seized:
-                yield from _run_fleet_post_task(self.fleet, fl)
+            completed = True
         finally:
+            # AnyLogic's MoveByTransporter releases the transporter and the item flow
+            # as soon as the unload completes; the trip home is a fleet wrap-up (R2).
             if auto_seized:
-                self.fleet.release(assignment)
+                self.fleet.release(
+                    assignment,
+                    wrap_up=completed and self.apply_post_task_policy_if_auto_seized,
+                )
 
         self._record_finish()
-        if downstream_process is None:
-            yield from self._forward(pallet)
+        yield from self._forward(pallet)
         self._record_complete()
 
 
@@ -1427,6 +1413,7 @@ class StoreBlock(PassThroughBlock):
         load_finished_at = seize_at
         unload_started_at = seize_at
         unload_finished_at = seize_at
+        completed = False
         try:
             storage_slot: StorageSlot | None = None
             while storage_slot is None:
@@ -1497,10 +1484,11 @@ class StoreBlock(PassThroughBlock):
             )
             fl.current_load = pallet
 
-            # Unload at storage (with elevation to shelf level)
-            yield from fl.perform_lift(
+            # Put the pallet into the cell from the bay's path exit (R5)
+            yield from fl.rack_transfer(
                 storage_slot.ground_pos,
                 storage_slot.level,
+                storing=True,
                 dwell_status=ForkliftStatus.UNLOADING,
                 on_dwell_start=mark_unload_start,
                 on_dwell_end=mark_unload_end,
@@ -1508,7 +1496,6 @@ class StoreBlock(PassThroughBlock):
             fl.current_load = None
             self.slot_manager.complete_store(storage_slot)
 
-            yield from _run_fleet_post_task(self.fleet, fl)
             release_at = self.env.now
             _record_forklift_movement_duration(
                 self.stats,
@@ -1534,8 +1521,10 @@ class StoreBlock(PassThroughBlock):
                 load_finished_at,
                 release_at,
             )
+            completed = True
         finally:
-            self.fleet.release(assignment)
+            # R2: release at once; the trip home is a fleet wrap-up.
+            self.fleet.release(assignment, wrap_up=completed)
 
         self._record_finish()
         yield self.storage.put(1)
@@ -1617,6 +1606,7 @@ class RetrieveBlock(PassThroughBlock):
         load_finished_at = seize_at
         unload_started_at = seize_at
         unload_finished_at = seize_at
+        completed = False
         try:
             storage_slot: StorageSlot | None = None
             while storage_slot is None:
@@ -1638,10 +1628,11 @@ class RetrieveBlock(PassThroughBlock):
                 nonlocal load_finished_at
                 load_finished_at = timestamp
 
-            # Load at storage (with elevation to shelf level)
-            yield from fl.perform_lift(
+            # Take the pallet out of the cell from the bay's path exit (R5)
+            yield from fl.rack_transfer(
                 storage_slot.ground_pos,
                 storage_slot.level,
+                storing=False,
                 dwell_status=ForkliftStatus.LOADING,
                 on_dwell_start=mark_load_start,
                 on_dwell_end=mark_load_end,
@@ -1667,8 +1658,6 @@ class RetrieveBlock(PassThroughBlock):
                 on_dwell_end=mark_unload_end,
             )
             fl.current_load = None
-
-            yield from _run_fleet_post_task(self.fleet, fl)
             release_at = self.env.now
             _record_forklift_movement_duration(
                 self.stats,
@@ -1724,8 +1713,10 @@ class RetrieveBlock(PassThroughBlock):
                 unload_finished_at,
                 release_at,
             )
+            completed = True
         finally:
-            self.fleet.release(assignment)
+            # R2: release at once; the trip home is a fleet wrap-up.
+            self.fleet.release(assignment, wrap_up=completed)
 
         self._record_finish()
         yield from self._forward(pallet)

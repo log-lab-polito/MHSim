@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple
 
 from .movement import Position3D
 from .spatial import Path, WarehouseLayout
@@ -62,6 +62,21 @@ class RouteMotionSegment:
         )
 
 
+@dataclass(frozen=True)
+class NodeJunction:
+    """How paths meet at an AnyLogic point node (docs/forklift_rules/R6).
+
+    AnyLogic drives along each path to where its geometry ends and crosses the node on a
+    connector between the two ends. ``path_end_offset_m`` is the distance from the node
+    centre at which the attached paths end (the node radius when they end on its
+    boundary, 0 for a zero-radius node). ``centre_attached`` lists the neighbouring
+    vertices, as ``(x, y)``, whose path runs into the node centre instead.
+    """
+
+    path_end_offset_m: float
+    centre_attached: Tuple[Tuple[float, float], ...] = ()
+
+
 @dataclass
 class Route:
     """A complete route from start to destination."""
@@ -103,7 +118,12 @@ class Router:
     15.0 m because it goes around the corner at `b`.
     """
 
-    def __init__(self, layout: WarehouseLayout) -> None:
+    def __init__(
+        self,
+        layout: WarehouseLayout,
+        junctions: Optional[Dict[Tuple[float, float], NodeJunction]] = None,
+        node_crossing_paths: Iterable[str] = (),
+    ) -> None:
         """Build the routing graph from a layout's path network.
 
         The graph is constructed once here, so paths added to the layout
@@ -113,8 +133,20 @@ class Router:
             layout: Warehouse layout. Only its `paths` are read; nodes are
                 derived from path endpoints, keyed by XY position rounded to
                 the millimetre so that coincident endpoints merge.
+            junctions: AnyLogic point-node geometry by vertex ``(x, y)``. A turn
+                at a listed vertex follows the node connector rule
+                (docs/forklift_rules/R6) instead of the fleet turn radius.
+            node_crossing_paths: Ids of paths that stand for a crossing inside an
+                AnyLogic node (for example from an area's home point to the edge
+                where a path starts). A forklift re-dispatched there turns at once
+                instead of running on to the path's end (docs/forklift_rules/R3).
         """
         self.layout = layout
+        self.node_crossing_paths = frozenset(node_crossing_paths)
+        self.junctions: Dict[Tuple[float, float], NodeJunction] = {
+            (round(x, 3), round(y, 3)): junction
+            for (x, y), junction in (junctions or {}).items()
+        }
         self._node_positions: Dict[str, Position3D] = {}
         self._adj: Dict[str, List[Tuple[str, float, Optional[str]]]] = {}
         self._build_graph()
@@ -249,6 +281,122 @@ class Router:
     def _right_normal(direction: tuple[float, float]) -> tuple[float, float]:
         return (direction[1], -direction[0])
 
+    def _arc(
+        self,
+        tangent_in: Position3D,
+        tangent_out: Position3D,
+        incoming_dir: tuple[float, float],
+        outgoing_dir: tuple[float, float],
+        radius: float,
+        node_id: Optional[str],
+    ) -> RouteMotionSegment:
+        """Circular arc from ``tangent_in`` to ``tangent_out`` turning between two headings."""
+        cross = incoming_dir[0] * outgoing_dir[1] - incoming_dir[1] * outgoing_dir[0]
+        normal = self._left_normal(incoming_dir) if cross > 0 else self._right_normal(incoming_dir)
+        center = Position3D(
+            tangent_in.x + normal[0] * radius,
+            tangent_in.y + normal[1] * radius,
+            0,
+        )
+        start_angle = math.atan2(tangent_in.y - center.y, tangent_in.x - center.x)
+        end_angle = math.atan2(tangent_out.y - center.y, tangent_out.x - center.x)
+        sweep_angle = end_angle - start_angle
+        if cross > 0 and sweep_angle < 0:
+            sweep_angle += 2 * math.pi
+        elif cross < 0 and sweep_angle > 0:
+            sweep_angle -= 2 * math.pi
+        return RouteMotionSegment(
+            kind="arc",
+            start=tangent_in,
+            end=tangent_out,
+            length=abs(sweep_angle) * radius,
+            node_id=node_id,
+            center=center,
+            radius=radius,
+            start_angle_rad=start_angle,
+            sweep_angle_rad=sweep_angle,
+        )
+
+    @staticmethod
+    def _angle_between(first: tuple[float, float], second: tuple[float, float]) -> float:
+        dot = max(-1.0, min(1.0, first[0] * second[0] + first[1] * second[1]))
+        return math.acos(dot)
+
+    def _junction_connector(
+        self,
+        incoming: RouteStep,
+        outgoing: RouteStep,
+        junction: NodeJunction,
+        incoming_dir: tuple[float, float],
+        outgoing_dir: tuple[float, float],
+    ) -> Optional[tuple[float, float, List[RouteMotionSegment]]]:
+        """Connector across a point node between two path ends (R6, ledger H5).
+
+        Returns ``(incoming end trim, outgoing start trim, segments)``, or ``None`` for a
+        straight crossing or a point turn. With both ends off the centre the connector is
+        one arc tangent to both paths at the nearer end's distance from the corner; with
+        one end at the centre it is an arc, a straight and an arc whose corners lie a fifth
+        of the end-to-end distance in from each end.
+        """
+        turn_angle = self._angle_between(incoming_dir, outgoing_dir)
+        if turn_angle <= 1e-6 or turn_angle >= math.pi - 1e-6:
+            return None
+        attached = set(junction.centre_attached)
+        offset_in = 0.0 if self._key(incoming.start) in attached else junction.path_end_offset_m
+        offset_out = 0.0 if self._key(outgoing.end) in attached else junction.path_end_offset_m
+        offset_in = min(max(0.0, offset_in), max(0.0, incoming.length - 1e-6))
+        offset_out = min(max(0.0, offset_out), max(0.0, outgoing.length - 1e-6))
+        if offset_in <= 1e-9 and offset_out <= 1e-9:
+            return None
+        if offset_in > 1e-9 and offset_out > 1e-9:
+            trim = min(offset_in, offset_out)
+            radius = trim / math.tan(turn_angle / 2.0)
+            tangent_in = self.position_along_step(incoming, incoming.length - trim)
+            tangent_out = self.position_along_step(outgoing, trim)
+            arc = self._arc(tangent_in, tangent_out, incoming_dir, outgoing_dir, radius, incoming.end_node_id)
+            return trim, trim, [arc]
+        path_end = self.position_along_step(incoming, incoming.length - offset_in)
+        path_start = self.position_along_step(outgoing, offset_out)
+        handle = path_end.distance_xy(path_start) / 5.0
+        corner_a = Position3D(path_end.x + incoming_dir[0] * handle, path_end.y + incoming_dir[1] * handle, 0)
+        corner_b = Position3D(path_start.x - outgoing_dir[0] * handle, path_start.y - outgoing_dir[1] * handle, 0)
+        middle_dir = self._unit_direction(corner_a, corner_b)
+        segments: List[RouteMotionSegment] = []
+        for corner, dir_in, dir_out, tangent_in, tangent_out in (
+            (
+                corner_a,
+                incoming_dir,
+                middle_dir,
+                path_end,
+                Position3D(corner_a.x + middle_dir[0] * handle, corner_a.y + middle_dir[1] * handle, 0),
+            ),
+            (
+                corner_b,
+                middle_dir,
+                outgoing_dir,
+                Position3D(corner_b.x - middle_dir[0] * handle, corner_b.y - middle_dir[1] * handle, 0),
+                path_start,
+            ),
+        ):
+            angle = self._angle_between(dir_in, dir_out)
+            if segments:
+                straight_start = segments[-1].end
+                straight_length = straight_start.distance_xy(tangent_in)
+                if straight_length > 1e-9:
+                    segments.append(
+                        RouteMotionSegment(kind="straight", start=straight_start, end=tangent_in, length=straight_length)
+                    )
+            if angle <= 1e-9:
+                segments.append(
+                    RouteMotionSegment(
+                        kind="straight", start=tangent_in, end=tangent_out, length=tangent_in.distance_xy(tangent_out)
+                    )
+                )
+            else:
+                radius = handle / math.tan(angle / 2.0)
+                segments.append(self._arc(tangent_in, tangent_out, dir_in, dir_out, radius, incoming.end_node_id))
+        return offset_in, offset_out, segments
+
     def _build_motion_segments(
         self,
         steps: List[RouteStep],
@@ -259,16 +407,27 @@ class Router:
 
         start_trims = [0.0] * len(steps)
         end_trims = [0.0] * len(steps)
-        arc_segments: list[Optional[RouteMotionSegment]] = [None] * max(0, len(steps) - 1)
+        connectors: list[List[RouteMotionSegment]] = [[] for _ in range(max(0, len(steps) - 1))]
 
         requested_radius = max(0.0, turn_radius)
-        if requested_radius > 0.0:
+        if requested_radius > 0.0 or self.junctions:
             for index in range(len(steps) - 1):
                 incoming = steps[index]
                 outgoing = steps[index + 1]
                 incoming_dir = self._unit_direction(incoming.start, incoming.end)
                 outgoing_dir = self._unit_direction(outgoing.start, outgoing.end)
                 if incoming_dir == (0.0, 0.0) or outgoing_dir == (0.0, 0.0):
+                    continue
+
+                junction = self.junctions.get(self._key(incoming.end))
+                if junction is not None:
+                    connector = self._junction_connector(
+                        incoming, outgoing, junction, incoming_dir, outgoing_dir
+                    )
+                    if connector is not None:
+                        end_trims[index], start_trims[index + 1], connectors[index] = connector
+                    continue
+                if requested_radius <= 0.0:
                     continue
 
                 dot = max(-1.0, min(1.0, incoming_dir[0] * outgoing_dir[0] + incoming_dir[1] * outgoing_dir[1]))
@@ -293,37 +452,18 @@ class Router:
                 effective_radius = trim / tan_half_angle
                 tangent_in = self.position_along_step(incoming, incoming.length - trim)
                 tangent_out = self.position_along_step(outgoing, trim)
-                normal = (
-                    self._left_normal(incoming_dir)
-                    if cross > 0
-                    else self._right_normal(incoming_dir)
-                )
-                center = Position3D(
-                    tangent_in.x + normal[0] * effective_radius,
-                    tangent_in.y + normal[1] * effective_radius,
-                    0,
-                )
-                start_angle = math.atan2(tangent_in.y - center.y, tangent_in.x - center.x)
-                end_angle = math.atan2(tangent_out.y - center.y, tangent_out.x - center.x)
-                sweep_angle = end_angle - start_angle
-                if cross > 0 and sweep_angle < 0:
-                    sweep_angle += 2 * math.pi
-                elif cross < 0 and sweep_angle > 0:
-                    sweep_angle -= 2 * math.pi
-
                 start_trims[index + 1] = trim
                 end_trims[index] = trim
-                arc_segments[index] = RouteMotionSegment(
-                    kind="arc",
-                    start=tangent_in,
-                    end=tangent_out,
-                    length=abs(sweep_angle) * effective_radius,
-                    node_id=incoming.end_node_id,
-                    center=center,
-                    radius=effective_radius,
-                    start_angle_rad=start_angle,
-                    sweep_angle_rad=sweep_angle,
-                )
+                connectors[index] = [
+                    self._arc(
+                        tangent_in,
+                        tangent_out,
+                        incoming_dir,
+                        outgoing_dir,
+                        effective_radius,
+                        incoming.end_node_id,
+                    )
+                ]
 
         motion_segments: List[RouteMotionSegment] = []
         total_distance = 0.0
@@ -344,11 +484,11 @@ class Router:
                 motion_segments.append(segment)
                 total_distance += straight_length
 
-            if index < len(arc_segments):
-                arc_segment = arc_segments[index]
-                if arc_segment is not None and arc_segment.length > 1e-9:
-                    motion_segments.append(arc_segment)
-                    total_distance += arc_segment.length
+            if index < len(connectors):
+                for connector_segment in connectors[index]:
+                    if connector_segment.length > 1e-9:
+                        motion_segments.append(connector_segment)
+                        total_distance += connector_segment.length
 
         return (motion_segments, total_distance)
 

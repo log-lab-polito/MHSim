@@ -11,7 +11,7 @@ from mhsim.movement import (
     Position3D,
     VerticalMovement,
 )
-from mhsim.routing import Router
+from mhsim.routing import NodeJunction, Router
 from mhsim.spatial import Path, PointNode, RectangularNode, Storage, WarehouseLayout
 
 from .params import Model1Params
@@ -102,7 +102,18 @@ def create_model1_warehouse(
         elevation=VerticalMovement(speed=1.0),
     )
 
-    router = Router(layout)
+    # AnyLogic's node C has a 10 px radius: paths `path` and `AC` end on its boundary,
+    # 1 m from the centre, while `CB` starts at the centre itself. The router follows
+    # AnyLogic's in-node connector for that geometry (docs/forklift_rules/R6).
+    router = Router(
+        layout,
+        junctions={
+            (node_c.position.x, node_c.position.y): NodeJunction(
+                path_end_offset_m=1.0,
+                centre_attached=((node_b.position.x, node_b.position.y),),
+            )
+        },
+    )
     fleet = create_forklift_fleet(
         env=env,
         count=params.n_forklifts,

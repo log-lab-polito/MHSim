@@ -11,7 +11,7 @@ from mhsim.movement import (
     Position3D,
     VerticalMovement,
 )
-from mhsim.routing import Router
+from mhsim.routing import NodeJunction, Router
 from mhsim.spatial import Path, PointNode, RectangularNode, Storage, WarehouseLayout
 
 from .params import Model2Params
@@ -38,11 +38,19 @@ def create_model2_warehouse(
     top_right = PointNode("node", Position3D(35, 35.5, 0))
     left_mid = PointNode("node5", Position3D(23, 40.5, 0))
     right_mid = PointNode("node6", Position3D(35, 40.5, 0))
-    bottom_left = PointNode("node3", Position3D(23, 45.3, 0))
-    bottom_right = PointNode("node2", Position3D(35, 45.3, 0))
     home_exit = PointNode("home_exit", Position3D(29, 30, 0))
 
+    # AnyLogic's route finder never uses the bottom loop (path1, path7, path9):
+    # neither the Model 2 nor the Model 5 probe traverses it in 18 000 s, although
+    # it looks shorter between receiving and the rack, so it is left out (ledger H7).
     paths = [
+        Path(
+            "home_area",
+            [
+                Position3D(29, 28, 0),
+                home_exit.get_access_point(),
+            ],
+        ),
         Path(
             "path",
             [
@@ -65,31 +73,10 @@ def create_model2_warehouse(
             ],
         ),
         Path(
-            "path9",
-            [
-                right_mid.get_access_point(),
-                bottom_right.get_access_point(),
-            ],
-        ),
-        Path(
-            "path1",
-            [
-                bottom_right.get_access_point(),
-                bottom_left.get_access_point(),
-            ],
-        ),
-        Path(
             "path3",
             [
                 top_left.get_access_point(),
                 left_mid.get_access_point(),
-            ],
-        ),
-        Path(
-            "path7",
-            [
-                left_mid.get_access_point(),
-                bottom_left.get_access_point(),
             ],
         ),
         Path(
@@ -138,8 +125,6 @@ def create_model2_warehouse(
         top_right,
         left_mid,
         right_mid,
-        bottom_left,
-        bottom_right,
         home_exit,
     ]
 
@@ -157,7 +142,21 @@ def create_model2_warehouse(
         lowering_speed=params.forklift_lowering_speed,
     )
 
-    router = Router(layout)
+    # AnyLogic point nodes (docs/forklift_rules/R6): node4, node5 and node6 have a 10 px
+    # radius with every path ending on the boundary (1 m arcs); node and node1 have zero
+    # radius (sharp turns). The home-area crossing lies inside the home node (R3).
+    router = Router(
+        layout,
+        junctions={
+            (29.0, 35.5): NodeJunction(path_end_offset_m=1.0),
+            (23.0, 40.5): NodeJunction(path_end_offset_m=1.0),
+            (35.0, 40.5): NodeJunction(path_end_offset_m=1.0),
+            (35.0, 35.5): NodeJunction(path_end_offset_m=0.0),
+            (23.0, 35.5): NodeJunction(path_end_offset_m=0.0),
+            (29.0, 30.0): NodeJunction(path_end_offset_m=0.0),
+        },
+        node_crossing_paths={"home_area"},
+    )
     fleet = create_forklift_fleet(
         env=env,
         count=params.n_forklifts,

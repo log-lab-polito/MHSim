@@ -44,7 +44,7 @@ class StorageSlotManager:
     Attributes:
         available_slots: Empty slots free to be reserved for storage.
         occupied_slots: Slots holding a pallet, available for retrieval.
-        store_policy: Either `FIRST` or `BEST`, upper-cased at construction.
+        store_policy: `FIRST`, `BEST` or `LOWEST`, upper-cased at construction.
         retrieve_policy: One of `FIFO`, `LIFO`, or `BEST`,
             upper-cased at construction.
     """
@@ -52,7 +52,7 @@ class StorageSlotManager:
     def __init__(
         self,
         storage: Storage,
-        store_policy: Literal["FIRST", "BEST"] = "FIRST",
+        store_policy: Literal["FIRST", "BEST", "LOWEST"] = "FIRST",
         retrieve_policy: Literal["FIFO", "LIFO", "BEST"] = "LIFO",
     ) -> None:
         """Enumerate every cell in the storage and set the selection policies.
@@ -62,7 +62,9 @@ class StorageSlotManager:
                 Every level and bay of every shelf becomes one `StorageSlot`,
                 all initially available.
             store_policy: `FIRST` takes the lowest-indexed free slot;
-                `BEST` minimises a caller-supplied cost function.
+                `BEST` minimises a caller-supplied cost function; `LOWEST`
+                takes the lowest free level of the first bay with room, as
+                AnyLogic's Store does.
             retrieve_policy: `FIFO` takes the longest-stored pallet,
                 `LIFO` the most recent, and `BEST` minimises a
                 caller-supplied cost function.
@@ -76,7 +78,7 @@ class StorageSlotManager:
         self._reserved_retrieve: set[StorageSlot] = set()
         self.store_policy = store_policy.upper()
         self.retrieve_policy = retrieve_policy.upper()
-        if self.store_policy not in ("FIRST", "BEST"):
+        if self.store_policy not in ("FIRST", "BEST", "LOWEST"):
             raise ValueError(f"Unsupported store_policy: {store_policy}")
         if self.retrieve_policy not in ("FIFO", "LIFO", "BEST"):
             raise ValueError(f"Unsupported retrieve_policy: {retrieve_policy}")
@@ -156,6 +158,14 @@ class StorageSlotManager:
         """
         if self.store_policy == "BEST":
             return self._reserve_best(self.available_slots, self._reserved_store, cost_fn)
+        if self.store_policy == "LOWEST":
+            # AnyLogic Store fills the first bay from its lowest free shelf upwards
+            # (docs/forklift_rules/R5_rack_handling_and_slots.md).
+            return self._reserve_best(
+                self.available_slots,
+                self._reserved_store,
+                lambda slot: (slot.shelf_id, slot.position, slot.level),
+            )
         return self._reserve_first(self.available_slots, self._reserved_store)
 
     def reserve_for_retrieve(

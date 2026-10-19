@@ -64,11 +64,7 @@ class Model2SimModel:
             next_block=self.service2,
             name="moveToOutbound",
             pickup_pos=self.layout.storage_rack.get_access_point(),
-            dropoff_pos=Position3D(
-                self.params.retrieve_dropoff_x,
-                self.params.retrieve_dropoff_y,
-                self.params.retrieve_dropoff_z,
-            ),
+            dropoff_pos=self.layout.outbound_area.get_access_point(),
             loading_time_s=self._service_time(
                 self.params.retrieve_loading_time_s,
                 "moveToOutbound.loading",

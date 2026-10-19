@@ -23,14 +23,21 @@ from case_studies.model_1_simpy.model import Model1SimModel
 from case_studies.model_1_simpy.params import Model1Params
 
 _LOADED_LEG_KEY = "move_loading_finish_to_unloading_start_s"
-# The line-guided controller fires arrival within forklift_line_guided_arrival
-# _tolerance_m of the target while still decelerating, so a straight leg
-# finishes sqrt(2 * tolerance / decel) before a full stop. These fixtures use
-# Range-base geometry: A=50, B=70 -> 20 m straight, line-guided full-stop solve.
-_RANGE_BASE_LOADED_LEG_S = 2.0 * math.sqrt(20.0)  # 8.94427190999916
-# Displacement geometry, disp=100: A=10, B=110 -> 100 m straight = 20 s
-# (accelerate 50 m + decelerate 50 m at a=1, vmax=10).
-_DISPLACEMENT_LOADED_LEG_S = 20.0
+# AnyLogic plans each movement to rest 2 * eps past its target and reports
+# arrival after D + eps (docs/forklift_rules/R1_arrival_tolerance.md), so a
+# straight leg from rest takes 2 * sqrt(D + 2 * eps) - sqrt(2 * eps) at a = 1.
+_EPS = 1.0e-4
+
+
+def _straight_leg_s(distance_m: float) -> float:
+    return 2.0 * math.sqrt(distance_m + 2.0 * _EPS) - math.sqrt(2.0 * _EPS)
+
+
+# Range-base geometry: A=50, B=70 -> 20 m straight; AnyLogic logs 8.930174496 s.
+_RANGE_BASE_LOADED_LEG_S = _straight_leg_s(20.0)  # 8.93017449...
+# Displacement geometry, disp=100: A=10, B=110 -> 100 m straight
+# (accelerate and decelerate 50 m each at a = 1, vmax = 10).
+_DISPLACEMENT_LOADED_LEG_S = _straight_leg_s(100.0)  # 19.98587...
 _ANYLOGIC_LOG = "anylogic/Model 1/log_file.txt"
 
 

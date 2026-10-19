@@ -52,26 +52,21 @@ class Model2Params(SimulationParams):
     forklift_resume_delay_s: float = 0.0
     forklift_min_distance_to_obstacle_m: float = 1.0
     forklift_avoid_collisions: bool = False
-    # AnyLogic Model 2 releases the transporter and returns it to its current
-    # home location when no other tasks are waiting.
+    # AnyLogic Model 2 releases the transporter and returns it to its home
+    # location when no other task is waiting (the default wrap-up). The 48 s
+    # probes are saturated, so they cannot distinguish this from staying put.
     forklift_return_home_policy: str = "idle"
     move_to_storage_apply_post_task_policy: bool = True
     move_to_outbound_apply_post_task_policy: bool = True
+    # Per-leg motion-mode overrides stay available for experiments, but none is
+    # needed: with R1 and R7 the fleet default matches every probed leg (H4).
     move_to_storage_pickup_routed_motion_mode: str | None = None
-    # AnyLogic's store loaded leg aligns with closed-form routed travel, while
-    # pickup approaches still need the line-guided fleet default.
-    move_to_storage_dropoff_routed_motion_mode: str | None = "analytical"
+    move_to_storage_dropoff_routed_motion_mode: str | None = None
     move_to_outbound_pickup_routed_motion_mode: str | None = None
     move_to_outbound_dropoff_routed_motion_mode: str | None = None
 
     # Geometry retained for routed movement semantics.
     shelf_height: float = 1.0
-    # AnyLogic's default retrieve travel target lands slightly before the
-    # visible outbound node. Keep the visible node at x=43 while letting
-    # moveToOutbound use this explicit access point for movement timing.
-    retrieve_dropoff_x: float = 42.61096127528357
-    retrieve_dropoff_y: float = 40.5
-    retrieve_dropoff_z: float = 0.0
 
     def arrival_rate_per_second(self) -> float:
         return (1.0 / self.arrival_rate_s) if self.arrival_rate_s > 0 else 0.0

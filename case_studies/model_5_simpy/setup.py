@@ -26,7 +26,7 @@ from mhsim.spatial import (
     Node,
 )
 from mhsim.forklift import ForkliftFleet, LiftProfile, create_forklift_fleet
-from mhsim.routing import Router
+from mhsim.routing import NodeJunction, Router
 from .params import Model5Params
 
 
@@ -229,17 +229,21 @@ def create_warehouse_with_standard_config(
         # Main areas - matching AnyLogic positions
         .set_inbound_area_point(Position3D(16, 40.5, 0))
         .set_outbound_area_point(Position3D(43, 40.5, 0))
-        .set_forklifts_home(Position3D(24, 26, 0), width=10, depth=4)
+        # AnyLogic home_location_forklifts: (230, 260) px, 120 x 40 px.
+        .set_forklifts_home(Position3D(23, 26, 0), width=12, depth=4)
         # Storage racks - 1 rack, 10 bays × 6 shelves (2.4m depth, 1.0m shelf height)
         # Rack positioned at (290, 405)
+        # Every cell of bay 0 is served from that bay's path exit on the top path,
+        # (335, 355) px (docs/forklift_rules/R4). Storage never needs more than the six
+        # shelves of bay 0 in the reference runs, so the other bays share that exit.
         .add_shelf(
             "rack",
-            Position3D(29, 40.5, 0),
+            Position3D(33.5, 35.5, 0),
             levels=6,
             positions_per_level=10,
             cell_depth=0.24,  # rack depth scaled
             level_height=0.1,  # shelf height scaled
-            position_spacing=0.1,  # bay spacing scaled
+            position_spacing=0.0,
         )
         # Paths - navigation routes connecting nodes (aligned and connected)
         # Top horizontal: 230 → 290 → 350 @ y=355
@@ -295,20 +299,21 @@ def create_warehouse_with_standard_config(
                 Position3D(43, 40.5, 0),
             ],
         )
-        # Home connector: home access (290,280) -> center vertical node (290,355)
+        # Home: AnyLogic drives straight across the home area from the forklift's home
+        # point (245, 280) px to path4's start on the area edge (290, 300) px, then along
+        # path4 into node4 (290, 355) px.
         .add_path(
-            "home_connector",
+            "home_area",
             [
-                Position3D(29, 28, 0),
-                Position3D(29, 35.5, 0),
+                Position3D(24.5, 28, 0),
+                Position3D(29, 30, 0),
             ],
         )
-        # Rack connector: from shelf access to right vertical node
         .add_path(
-            "rack_connector",
+            "path4",
             [
-                Position3D(29, 40.5, 0), # Rack access point (aligned with shelf center)
-                Position3D(35, 40.5, 0), # Shelf center
+                Position3D(29, 30, 0),
+                Position3D(29, 35.5, 0),
             ],
         )
         .build()
@@ -320,13 +325,34 @@ def create_warehouse_with_standard_config(
         shelf_height=params.shelf_height,
         elevation_speed=params.forklift_elevation_speed,
         lowering_speed=params.forklift_lowering_speed,
+        cargo_height=params.forklift_cargo_height_m,
+        rack_approach_m=params.rack_approach_m,
+        rack_reach_m=params.rack_reach_m,
+        rack_handling_speed=params.rack_handling_speed_mps,
     )
 
-    # Create router
-    router = Router(layout)
+    # AnyLogic point nodes (docs/forklift_rules/R6): node4, node5 and node6 have a 10 px
+    # radius with every path ending on the boundary, so turns there are 1 m arcs; node,
+    # node1, node2 and node3 have zero radius, so turns there are sharp, as is the turn
+    # from the home-area crossing onto path4.
+    router = Router(
+        layout,
+        junctions={
+            (29.0, 35.5): NodeJunction(path_end_offset_m=1.0),
+            (23.0, 40.5): NodeJunction(path_end_offset_m=1.0),
+            (35.0, 40.5): NodeJunction(path_end_offset_m=1.0),
+            (35.0, 35.5): NodeJunction(path_end_offset_m=0.0),
+            (23.0, 35.5): NodeJunction(path_end_offset_m=0.0),
+            (35.0, 45.3): NodeJunction(path_end_offset_m=0.0),
+            (23.0, 45.3): NodeJunction(path_end_offset_m=0.0),
+            (29.0, 30.0): NodeJunction(path_end_offset_m=0.0),
+        },
+        # The home-area crossing lies inside AnyLogic's home node (R3).
+        node_crossing_paths={"home_area"},
+    )
 
-    # Create forklift fleet
-    forklift_start_position = Position3D(26.5, 28, 0)
+    # Create forklift fleet at the AnyLogic home point (245, 280) px.
+    forklift_start_position = Position3D(24.5, 28, 0)
     fleet = create_forklift_fleet(
         env=env,
         count=params.n_forklifts,
@@ -335,6 +361,8 @@ def create_warehouse_with_standard_config(
         router=router,
         home_position=forklift_start_position,
         turn_radius=params.forklift_turn_radius,
+        routed_motion_mode=params.forklift_routed_motion_mode,
+        line_guided_update_timestep_s=params.forklift_line_guided_update_timestep_s,
         route_calc_delay_s=params.forklift_route_calc_delay_s,
         resume_delay_s=params.forklift_resume_delay_s,
         min_distance_to_obstacle_m=params.forklift_min_distance_to_obstacle_m,
