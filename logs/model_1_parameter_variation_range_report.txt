@@ -10,24 +10,24 @@ Overview:
   ------------------------------------------------------------------------------------------------------------------------
   Created                                       64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
   Completed                                     64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
-  Avg WIP                                        0      64       0   +0.000234237     +0.08% a=120 f=1 v=10 acc=1 disp=100
-  Avg cycle (s)                                  0      64       0     +0.0140542     +0.08% a=120 f=1 v=10 acc=1 disp=100
+  Avg WIP                                       64       0       0   -1.28328e-12        -0% a=60 f=1 v=10 acc=2 disp=100
+  Avg cycle (s)                                 64       0       0   -7.32037e-11        -0% a=60 f=1 v=10 acc=2 disp=100
   Throughput (/h)                               64       0       0   -1.66622e-11        -0% a=60 f=1 v=10 acc=1 disp=100
-  Forklifts Utilization (%)                      0      32      32    -0.00447006     -1.08% a=60 f=3 v=10 acc=1 disp=100
-  Return-home busy (s)                           0       0      64      -0.282258     -3.88% a=120 f=1 v=10 acc=1 disp=100
-  Implied return-home busy (s)                   0       0      64      -0.282258     -3.88% a=60 f=3 v=10 acc=1 disp=100
-  Move: seize -> loading start [avg]             0      64       0   -7.63244e-05        -0% a=120 f=1 v=10 acc=2 disp=100
-  Move: seize -> loading start [min]             0      64       0   -7.63245e-05        -0% a=60 f=1 v=10 acc=2 disp=100
-  Move: seize -> loading start [max]             0      64       0   -7.63244e-05        -0% a=60 f=1 v=10 acc=2 disp=100
-  Move: seize -> loading start [std]            64       0       0   +8.74457e-11        n/a a=60 f=1 v=10 acc=1 disp=100
+  Forklifts Utilization (%)                     64       0       0   -4.24322e-12        -0% a=60 f=3 v=10 acc=1 disp=100
+  Return-home busy (s)                          64       0       0   -2.03516e-10        -0% a=60 f=3 v=10 acc=1 disp=100
+  Implied return-home busy (s)                  64       0       0   -1.86844e-10        -0% a=60 f=4 v=10 acc=1 disp=100
+  Move: seize -> loading start [avg]            64       0       0   -1.45919e-11        -0% a=120 f=1 v=10 acc=2 disp=100
+  Move: seize -> loading start [min]            64       0       0   -2.31921e-11        -0% a=60 f=1 v=10 acc=2 disp=100
+  Move: seize -> loading start [max]            64       0       0   +5.11591e-12        +0% a=60 f=1 v=10 acc=2 disp=100
+  Move: seize -> loading start [std]            64       0       0   +1.16702e-11        n/a a=60 f=1 v=10 acc=1 disp=100
   Move: loading start -> loading finish...      64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
   Move: loading start -> loading finish...      64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
   Move: loading start -> loading finish...      64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
   Move: loading start -> loading finish...      64       0       0             +0        n/a a=60 f=1 v=10 acc=1 disp=100
-  Move: loading finish -> unloading sta...       0      64       0     +0.0140974     +0.16% a=120 f=1 v=10 acc=1 disp=100
-  Move: loading finish -> unloading sta...       0      64       0     +0.0140974     +0.16% a=60 f=1 v=10 acc=2 disp=100
-  Move: loading finish -> unloading sta...       0      64       0     +0.0140974     +0.16% a=60 f=1 v=10 acc=1 disp=100
-  Move: loading finish -> unloading sta...      64       0       0   -6.77007e-11    -96.27% a=60 f=1 v=10 acc=2 disp=100
+  Move: loading finish -> unloading sta...      64       0       0   -5.87361e-11        -0% a=60 f=1 v=10 acc=2 disp=100
+  Move: loading finish -> unloading sta...      64       0       0   -2.70006e-12        -0% a=60 f=1 v=10 acc=1 disp=100
+  Move: loading finish -> unloading sta...      64       0       0    -1.3722e-10        -0% a=60 f=1 v=10 acc=2 disp=100
+  Move: loading finish -> unloading sta...      64       0       0   -6.76197e-11    -96.15% a=60 f=1 v=10 acc=2 disp=100
   Move: unloading start -> unloading fi...      64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
   Move: unloading start -> unloading fi...      64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
   Move: unloading start -> unloading fi...      64       0       0             +0        +0% a=60 f=1 v=10 acc=1 disp=100
@@ -40,30 +40,30 @@ Overview:
 Status thresholds: MATCH = exact, CLOSE = <1% difference, DIFF = >=1% difference
 
 Top offenders (top 25):
-  Rank  Metric                                         Case                           AnyLogic it  SimPy it  Diff        Diff %  Status
-  ----  ---------------------------------------------  -----------------------------  -----------  --------  ----------  ------  ------
-  1     Move: loading finish -> unloading start [avg]  a=120 f=4 v=20 acc=1 disp=200  60           60        +0.0140974  +0.16%  CLOSE 
-  2     Move: loading finish -> unloading start [avg]  a=120 f=4 v=20 acc=1 disp=100  58           58        +0.0140974  +0.16%  CLOSE 
-  3     Move: loading finish -> unloading start [avg]  a=120 f=4 v=10 acc=1 disp=200  28           28        +0.0140974  +0.16%  CLOSE 
-  4     Move: loading finish -> unloading start [avg]  a=120 f=4 v=10 acc=1 disp=100  26           26        +0.0140974  +0.16%  CLOSE 
-  5     Move: loading finish -> unloading start [avg]  a=120 f=3 v=20 acc=1 disp=200  52           52        +0.0140974  +0.16%  CLOSE 
-  6     Move: loading finish -> unloading start [avg]  a=120 f=3 v=20 acc=1 disp=100  50           50        +0.0140974  +0.16%  CLOSE 
-  7     Move: loading finish -> unloading start [avg]  a=120 f=3 v=10 acc=1 disp=200  20           20        +0.0140974  +0.16%  CLOSE 
-  8     Move: loading finish -> unloading start [avg]  a=120 f=3 v=10 acc=1 disp=100  18           18        +0.0140974  +0.16%  CLOSE 
-  9     Move: loading finish -> unloading start [avg]  a=120 f=2 v=20 acc=1 disp=200  44           44        +0.0140974  +0.16%  CLOSE 
-  10    Move: loading finish -> unloading start [avg]  a=120 f=2 v=20 acc=1 disp=100  42           42        +0.0140974  +0.16%  CLOSE 
-  11    Move: loading finish -> unloading start [avg]  a=120 f=2 v=10 acc=1 disp=200  12           12        +0.0140974  +0.16%  CLOSE 
-  12    Move: loading finish -> unloading start [avg]  a=120 f=2 v=10 acc=1 disp=100  10           10        +0.0140974  +0.16%  CLOSE 
-  13    Move: loading finish -> unloading start [avg]  a=120 f=1 v=20 acc=1 disp=200  36           36        +0.0140974  +0.16%  CLOSE 
-  14    Move: loading finish -> unloading start [avg]  a=120 f=1 v=20 acc=1 disp=100  34           34        +0.0140974  +0.16%  CLOSE 
-  15    Move: loading finish -> unloading start [avg]  a=120 f=1 v=10 acc=1 disp=200  4            4         +0.0140974  +0.16%  CLOSE 
-  16    Move: loading finish -> unloading start [avg]  a=120 f=1 v=10 acc=1 disp=100  2            2         +0.0140974  +0.16%  CLOSE 
-  17    Move: loading finish -> unloading start [avg]  a=60 f=4 v=20 acc=1 disp=200   59           59        +0.0140974  +0.16%  CLOSE 
-  18    Move: loading finish -> unloading start [avg]  a=60 f=4 v=20 acc=1 disp=100   57           57        +0.0140974  +0.16%  CLOSE 
-  19    Move: loading finish -> unloading start [avg]  a=60 f=4 v=10 acc=1 disp=200   27           27        +0.0140974  +0.16%  CLOSE 
-  20    Move: loading finish -> unloading start [avg]  a=60 f=4 v=10 acc=1 disp=100   25           25        +0.0140974  +0.16%  CLOSE 
-  21    Move: loading finish -> unloading start [avg]  a=60 f=3 v=20 acc=1 disp=200   51           51        +0.0140974  +0.16%  CLOSE 
-  22    Move: loading finish -> unloading start [avg]  a=60 f=3 v=20 acc=1 disp=100   49           49        +0.0140974  +0.16%  CLOSE 
-  23    Move: loading finish -> unloading start [avg]  a=60 f=3 v=10 acc=1 disp=200   19           19        +0.0140974  +0.16%  CLOSE 
-  24    Move: loading finish -> unloading start [avg]  a=60 f=3 v=10 acc=1 disp=100   17           17        +0.0140974  +0.16%  CLOSE 
-  25    Move: loading finish -> unloading start [avg]  a=60 f=2 v=20 acc=1 disp=200   43           43        +0.0140974  +0.16%  CLOSE 
+  Rank  Metric                                         Case                           AnyLogic it  SimPy it  Diff          Diff %  Status
+  ----  ---------------------------------------------  -----------------------------  -----------  --------  ------------  ------  ------
+  1     Move: loading finish -> unloading start [avg]  a=60 f=4 v=20 acc=2 disp=200   63           63        -5.87361e-11  -0%     MATCH 
+  2     Move: loading finish -> unloading start [avg]  a=60 f=4 v=20 acc=2 disp=100   61           61        -5.87361e-11  -0%     MATCH 
+  3     Move: loading finish -> unloading start [avg]  a=60 f=4 v=10 acc=2 disp=200   31           31        -5.87361e-11  -0%     MATCH 
+  4     Move: loading finish -> unloading start [avg]  a=60 f=4 v=10 acc=2 disp=100   29           29        -5.87361e-11  -0%     MATCH 
+  5     Move: loading finish -> unloading start [avg]  a=60 f=3 v=20 acc=2 disp=200   55           55        -5.87361e-11  -0%     MATCH 
+  6     Move: loading finish -> unloading start [avg]  a=60 f=3 v=20 acc=2 disp=100   53           53        -5.87361e-11  -0%     MATCH 
+  7     Move: loading finish -> unloading start [avg]  a=60 f=3 v=10 acc=2 disp=200   23           23        -5.87361e-11  -0%     MATCH 
+  8     Move: loading finish -> unloading start [avg]  a=60 f=3 v=10 acc=2 disp=100   21           21        -5.87361e-11  -0%     MATCH 
+  9     Move: loading finish -> unloading start [avg]  a=60 f=2 v=20 acc=2 disp=200   47           47        -5.87361e-11  -0%     MATCH 
+  10    Move: loading finish -> unloading start [avg]  a=60 f=2 v=20 acc=2 disp=100   45           45        -5.87361e-11  -0%     MATCH 
+  11    Move: loading finish -> unloading start [avg]  a=60 f=2 v=10 acc=2 disp=200   15           15        -5.87361e-11  -0%     MATCH 
+  12    Move: loading finish -> unloading start [avg]  a=60 f=2 v=10 acc=2 disp=100   13           13        -5.87361e-11  -0%     MATCH 
+  13    Move: loading finish -> unloading start [avg]  a=60 f=1 v=20 acc=2 disp=200   39           39        -5.87361e-11  -0%     MATCH 
+  14    Move: loading finish -> unloading start [avg]  a=60 f=1 v=20 acc=2 disp=100   37           37        -5.87361e-11  -0%     MATCH 
+  15    Move: loading finish -> unloading start [avg]  a=60 f=1 v=10 acc=2 disp=200   7            7         -5.87361e-11  -0%     MATCH 
+  16    Move: loading finish -> unloading start [avg]  a=60 f=1 v=10 acc=2 disp=100   5            5         -5.87361e-11  -0%     MATCH 
+  17    Move: loading finish -> unloading start [avg]  a=120 f=4 v=20 acc=2 disp=200  64           64        -5.63265e-11  -0%     MATCH 
+  18    Move: loading finish -> unloading start [avg]  a=120 f=4 v=20 acc=2 disp=100  62           62        -5.63265e-11  -0%     MATCH 
+  19    Move: loading finish -> unloading start [avg]  a=120 f=4 v=10 acc=2 disp=200  32           32        -5.63265e-11  -0%     MATCH 
+  20    Move: loading finish -> unloading start [avg]  a=120 f=4 v=10 acc=2 disp=100  30           30        -5.63265e-11  -0%     MATCH 
+  21    Move: loading finish -> unloading start [avg]  a=120 f=3 v=20 acc=2 disp=200  56           56        -5.63265e-11  -0%     MATCH 
+  22    Move: loading finish -> unloading start [avg]  a=120 f=3 v=20 acc=2 disp=100  54           54        -5.63265e-11  -0%     MATCH 
+  23    Move: loading finish -> unloading start [avg]  a=120 f=3 v=10 acc=2 disp=200  24           24        -5.63265e-11  -0%     MATCH 
+  24    Move: loading finish -> unloading start [avg]  a=120 f=3 v=10 acc=2 disp=100  22           22        -5.63265e-11  -0%     MATCH 
+  25    Move: loading finish -> unloading start [avg]  a=120 f=2 v=20 acc=2 disp=200  48           48        -5.63265e-11  -0%     MATCH 

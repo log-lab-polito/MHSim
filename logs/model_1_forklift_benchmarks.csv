@@ -1,7 +1,7 @@
 metric_key,metric,count,avg_s,min_s,max_s,std_dev_s
 move_enter_to_seize_s,Move: enter -> seize,30,0.0,0.0,0.0,0.0
-move_seize_to_loading_start_s,Move: seize -> loading start,30,8.685176605936363,8.685176605783866,8.685176605998777,8.215309724708244e-11
+move_seize_to_loading_start_s,Move: seize -> loading start,30,8.6852198060145,8.685219806007808,8.685219806031228,9.851731186721e-12
 move_loading_duration_s,Move: loading start -> loading finish,30,1.0,1.0,1.0,0.0
-move_loading_finish_to_unloading_start_s,Move: loading finish -> unloading start,30,12.64911064066669,12.649110640662911,12.649110640676213,5.6799516777182565e-12
+move_loading_finish_to_unloading_start_s,Move: loading finish -> unloading start,30,12.635000127780225,12.635000127776493,12.635000127789795,5.7445475804411125e-12
 move_unloading_duration_s,Move: unloading start -> unloading finish,30,1.0,1.0,1.0,0.0
 move_unloading_finish_to_release_s,Move: unloading finish -> release,30,0.0,0.0,0.0,0.0
