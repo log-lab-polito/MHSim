@@ -143,7 +143,7 @@ forklifts_fleet.resetStats();
 			<ScaleRuler>
 				<Id>1764169459612</Id>
 				<Name><![CDATA[scale]]></Name>
-				<X>0</X><Y>-150</Y>
+				<X>710</X><Y>400</Y>
 				<PublicFlag>false</PublicFlag>
 				<PresentationFlag>false</PresentationFlag>
 				<ShowLabel>false</ShowLabel>
@@ -162,7 +162,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="PlainVariable">
 					<Id>1774454020809</Id>
 					<Name><![CDATA[created_count]]></Name>
-					<X>20</X><Y>370</Y>
+					<X>20</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -177,7 +177,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="PlainVariable">
 					<Id>1774454053152</Id>
 					<Name><![CDATA[completed_count]]></Name>
-					<X>20</X><Y>390</Y>
+					<X>20</X><Y>510</Y>
 					<Label><X>11</X><Y>1</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -192,7 +192,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="PlainVariable">
 					<Id>1774454117006</Id>
 					<Name><![CDATA[storage_level]]></Name>
-					<X>20</X><Y>410</Y>
+					<X>20</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -207,7 +207,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="PlainVariable">
 					<Id>1777430000001</Id>
 					<Name><![CDATA[total_cycle_time_s]]></Name>
-					<X>20</X><Y>430</Y>
+					<X>20</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -222,7 +222,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="PlainVariable">
 					<Id>1777430000002</Id>
 					<Name><![CDATA[cycle_time_samples]]></Name>
-					<X>20</X><Y>450</Y>
+					<X>20</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -453,7 +453,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1774541066904</Id>
 					<Name><![CDATA[time_seize_loading_store]]></Name>
-					<X>30</X><Y>640</Y>
+					<X>270</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -468,7 +468,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1774957641934</Id>
 					<Name><![CDATA[time_loading_store]]></Name>
-					<X>30</X><Y>660</Y>
+					<X>270</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -483,7 +483,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1774957656256</Id>
 					<Name><![CDATA[time_loading_unloading_store]]></Name>
-					<X>30</X><Y>680</Y>
+					<X>270</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -498,7 +498,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1774958075797</Id>
 					<Name><![CDATA[time_unloading_store]]></Name>
-					<X>30</X><Y>700</Y>
+					<X>270</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -513,7 +513,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1774958088694</Id>
 					<Name><![CDATA[time_unloading_release_store]]></Name>
-					<X>30</X><Y>720</Y>
+					<X>270</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -528,7 +528,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1776396880968</Id>
 					<Name><![CDATA[time_seize_loading_retrieve]]></Name>
-					<X>244</X><Y>637.6</Y>
+					<X>510</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -543,7 +543,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1776396880981</Id>
 					<Name><![CDATA[time_loading_retrieve]]></Name>
-					<X>244</X><Y>657.6</Y>
+					<X>510</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -558,7 +558,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1776396880987</Id>
 					<Name><![CDATA[time_loading_unloading_retrieve]]></Name>
-					<X>244</X><Y>677.6</Y>
+					<X>510</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -573,7 +573,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1776396880995</Id>
 					<Name><![CDATA[time_unloading_retrieve]]></Name>
-					<X>244</X><Y>697.6</Y>
+					<X>510</X><Y>550</Y>
 					<Label><X>11</X><Y>-2.6</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -588,7 +588,7 @@ forklifts_fleet.resetStats();
 				<Variable Class="CollectionVariable">
 					<Id>1776396881002</Id>
 					<Name><![CDATA[time_unloading_release_retrieve]]></Name>
-					<X>244</X><Y>717.6</Y>
+					<X>510</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -871,7 +871,7 @@ forklifts_fleet.resetStats();
 				<Event>
 					<Id>1765977949169</Id>
 					<Name><![CDATA[inbound_event]]></Name>
-					<X>30</X><Y>120</Y>
+					<X>30</X><Y>380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -903,7 +903,7 @@ forklifts_fleet.resetStats();
 				<Event>
 					<Id>1769441403021</Id>
 					<Name><![CDATA[cyclic_logger]]></Name>
-					<X>80</X><Y>280</Y>
+					<X>150</X><Y>380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -942,7 +942,7 @@ forklifts_fleet.resetStats();
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1902000000011</Id>
 					<Name><![CDATA[interarrivalTime]]></Name>
-					<X>510</X><Y>590</Y>
+					<X>790</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -958,7 +958,7 @@ forklifts_fleet.resetStats();
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1902000000012</Id>
 					<Name><![CDATA[serviceTime]]></Name>
-					<X>510</X><Y>610</Y>
+					<X>790</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -977,7 +977,7 @@ return random_service_times
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1774958738895</Id>
 					<Name><![CDATA[arrayAvg]]></Name>
-					<X>510</X><Y>630</Y>
+					<X>790</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1006,7 +1006,7 @@ return n == 0 ? Double.NaN : sum / n;]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1774959222967</Id>
 					<Name><![CDATA[arrayStats]]></Name>
-					<X>510</X><Y>650</Y>
+					<X>790</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -1057,7 +1057,7 @@ return new double[] { mean, min, max, stdPop, stdSample };
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1774959753078</Id>
 					<Name><![CDATA[logArrayStats]]></Name>
-					<X>510</X><Y>670</Y>
+					<X>790</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -1083,7 +1083,7 @@ log_file.println("      std dev (sample) = " + s[4]);]]></Body>
 				<TextFile>
 					<Id>1769443544133</Id>
 					<Name><![CDATA[log_file]]></Name>
-					<X>60</X><Y>320</Y>
+					<X>30</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1101,7 +1101,7 @@ log_file.println("      std dev (sample) = " + s[4]);]]></Body>
 				<TextFile>
 					<Id>1902000000013</Id>
 					<Name><![CDATA[stochastic_log_file]]></Name>
-					<X>180</X><Y>320</Y>
+					<X>150</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1121,7 +1121,7 @@ log_file.println("      std dev (sample) = " + s[4]);]]></Body>
 				<AgentLink>
 					<Id>1764169459610</Id>
 					<Name><![CDATA[connections]]></Name>
-					<X>50</X><Y>-50</Y>
+					<X>680</X><Y>50</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1345,7 +1345,7 @@ log_file.println("      std dev (sample) = " + s[4]);]]></Body>
 				<EmbeddedObject>
 					<Id>1764172160867</Id>
 					<Name><![CDATA[forklifts_fleet]]></Name>
-					<X>220</X><Y>-50</Y>
+					<X>810</X><Y>60</Y>
 					<Label><X>-20</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2275,7 +2275,7 @@ created_count++;]]></Code>
 				<EmbeddedObject>
 					<Id>1774539231923</Id>
 					<Name><![CDATA[transporterControl]]></Name>
-					<X>360</X><Y>-50</Y>
+					<X>950</X><Y>60</Y>
 					<Label><X>-60</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3179,7 +3179,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Network>
 					<Id>1764172552708</Id>
 					<Name><![CDATA[network]]></Name>
-					<X>0</X><Y>250</Y>
+					<X>30</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3190,7 +3190,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764172552710</Id>
 					<Name><![CDATA[node]]></Name>
-					<X>350</X><Y>355</Y>
+					<X>560</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3210,7 +3210,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764172552712</Id>
 					<Name><![CDATA[node1]]></Name>
-					<X>230</X><Y>355</Y>
+					<X>440</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3230,7 +3230,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172552710" TargetId="1764172574508">
 					<Id>1764172552714</Id>
 					<Name><![CDATA[path]]></Name>
-					<X>350</X><Y>355</Y>
+					<X>560</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3266,7 +3266,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764172552716</Id>
 					<Name><![CDATA[node2]]></Name>
-					<X>350</X><Y>453</Y>
+					<X>560</X><Y>438</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3286,7 +3286,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764172552718</Id>
 					<Name><![CDATA[node3]]></Name>
-					<X>230</X><Y>453</Y>
+					<X>440</X><Y>438</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3306,7 +3306,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172552716" TargetId="1764172552718">
 					<Id>1764172552720</Id>
 					<Name><![CDATA[path1]]></Name>
-					<X>350</X><Y>453</Y>
+					<X>560</X><Y>438</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3342,7 +3342,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172552710" TargetId="1764174140093">
 					<Id>1764172552722</Id>
 					<Name><![CDATA[path2]]></Name>
-					<X>350</X><Y>355</Y>
+					<X>560</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3378,7 +3378,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172552712" TargetId="1764172583068">
 					<Id>1764172552724</Id>
 					<Name><![CDATA[path3]]></Name>
-					<X>230</X><Y>355</Y>
+					<X>440</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3414,7 +3414,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<RectangleNode>
 					<Id>1764172190517</Id>
 					<Name><![CDATA[home_location_forklifts]]></Name>
-					<X>230</X><Y>260</Y>
+					<X>440</X><Y>245</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3518,7 +3518,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Attractor>
 					<Id>1764174235814</Id>
 					<Name><![CDATA[attractor50]]></Name>
-					<X>290</X><Y>280</Y>
+					<X>500</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3530,7 +3530,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Attractor>
 					<Id>1777344220484</Id>
 					<Name><![CDATA[attractor51]]></Name>
-					<X>290</X><Y>280</Y>
+					<X>500</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3542,7 +3542,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Attractor>
 					<Id>1777344223777</Id>
 					<Name><![CDATA[attractor52]]></Name>
-					<X>290</X><Y>280</Y>
+					<X>500</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3554,7 +3554,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Attractor>
 					<Id>1777345162897</Id>
 					<Name><![CDATA[attractor53]]></Name>
-					<X>290</X><Y>280</Y>
+					<X>500</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3566,7 +3566,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Attractor>
 					<Id>1777345181542</Id>
 					<Name><![CDATA[attractor54]]></Name>
-					<X>290</X><Y>280</Y>
+					<X>500</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3578,7 +3578,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Attractor>
 					<Id>1777345184022</Id>
 					<Name><![CDATA[attractor55]]></Name>
-					<X>290</X><Y>280</Y>
+					<X>500</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3612,7 +3612,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172190517" TargetId="1764172574508">
 					<Id>1764172573508</Id>
 					<Name><![CDATA[path4]]></Name>
-					<X>290</X><Y>300</Y>
+					<X>500</X><Y>285</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3648,7 +3648,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764172574508</Id>
 					<Name><![CDATA[node4]]></Name>
-					<X>290</X><Y>355</Y>
+					<X>500</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3668,7 +3668,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172574508" TargetId="1764172552712">
 					<Id>1764172574511</Id>
 					<Name><![CDATA[path5]]></Name>
-					<X>280</X><Y>355</Y>
+					<X>490</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3704,7 +3704,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172583068" TargetId="1765979270521">
 					<Id>1764172581371</Id>
 					<Name><![CDATA[path6]]></Name>
-					<X>220</X><Y>405</Y>
+					<X>430</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3740,7 +3740,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764172583068</Id>
 					<Name><![CDATA[node5]]></Name>
-					<X>230</X><Y>405</Y>
+					<X>440</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3760,7 +3760,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764172583068" TargetId="1764172552718">
 					<Id>1764172583071</Id>
 					<Name><![CDATA[path7]]></Name>
-					<X>230</X><Y>415</Y>
+					<X>440</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3796,7 +3796,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764174140093" TargetId="1764172552716">
 					<Id>1764174140096</Id>
 					<Name><![CDATA[path9]]></Name>
-					<X>350</X><Y>415</Y>
+					<X>560</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3832,7 +3832,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1764174140093</Id>
 					<Name><![CDATA[node6]]></Name>
-					<X>350</X><Y>405</Y>
+					<X>560</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3852,7 +3852,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1764174140093" TargetId="1765979315951">
 					<Id>1764174138610</Id>
 					<Name><![CDATA[path8]]></Name>
-					<X>360</X><Y>405</Y>
+					<X>570</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3888,7 +3888,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1765979270521</Id>
 					<Name><![CDATA[receiving_area]]></Name>
-					<X>160</X><Y>405</Y>
+					<X>370</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3908,7 +3908,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1765979315951</Id>
 					<Name><![CDATA[outbound_area]]></Name>
-					<X>430</X><Y>405</Y>
+					<X>640</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3928,7 +3928,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<PointNode>
 					<Id>1776171678073</Id>
 					<Name><![CDATA[storage_rack]]></Name>
-					<X>290</X><Y>405</Y>
+					<X>500</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3948,7 +3948,7 @@ time_unloading_retrieve.add(f.unloading_finished_time - f.unloading_started_time
 				<Path SourceId="1776171678073" TargetId="1764174140093">
 					<Id>1776171779567</Id>
 					<Name><![CDATA[path11]]></Name>
-					<X>299.9998706018395</X><Y>404.99969542181344</Y>
+					<X>510</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>

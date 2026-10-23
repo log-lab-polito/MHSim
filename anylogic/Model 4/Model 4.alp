@@ -135,7 +135,7 @@ if (trace_enabled && iteration == trace_iteration) {
 			<ScaleRuler>
 				<Id>1764169459612</Id>
 				<Name><![CDATA[scale]]></Name>
-				<X>0</X><Y>-150</Y>
+				<X>500</X><Y>490</Y>
 				<PublicFlag>false</PublicFlag>
 				<PresentationFlag>false</PresentationFlag>
 				<ShowLabel>false</ShowLabel>
@@ -154,7 +154,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000001</Id>
 					<Name><![CDATA[created_count]]></Name>
-					<X>20</X><Y>370</Y>
+					<X>20</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -169,7 +169,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000002</Id>
 					<Name><![CDATA[completed_count]]></Name>
-					<X>20</X><Y>390</Y>
+					<X>20</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -184,7 +184,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000003</Id>
 					<Name><![CDATA[main_completed_count]]></Name>
-					<X>20</X><Y>410</Y>
+					<X>20</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -199,7 +199,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000010</Id>
 					<Name><![CDATA[branch_completed_count]]></Name>
-					<X>20</X><Y>430</Y>
+					<X>20</X><Y>470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -214,7 +214,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000011</Id>
 					<Name><![CDATA[total_cycle_time_s]]></Name>
-					<X>20</X><Y>450</Y>
+					<X>20</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -229,7 +229,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000004</Id>
 					<Name><![CDATA[cycle_time_samples]]></Name>
-					<X>20</X><Y>470</Y>
+					<X>20</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -244,7 +244,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000008</Id>
 					<Name><![CDATA[trace_enabled]]></Name>
-					<X>20</X><Y>490</Y>
+					<X>20</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -259,7 +259,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000009</Id>
 					<Name><![CDATA[trace_iteration]]></Name>
-					<X>20</X><Y>510</Y>
+					<X>20</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -467,7 +467,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="Parameter">
 					<Id>1904000000001</Id>
 					<Name><![CDATA[random_arrival_times]]></Name>
-					<X>390</X><Y>80</Y>
+					<X>560</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -491,7 +491,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="Parameter">
 					<Id>1904000000003</Id>
 					<Name><![CDATA[random_service_times]]></Name>
-					<X>390</X><Y>100</Y>
+					<X>560</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -515,7 +515,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="Parameter">
 					<Id>1904000000005</Id>
 					<Name><![CDATA[service_time_triangular_spread]]></Name>
-					<X>390</X><Y>120</Y>
+					<X>560</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -539,7 +539,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Variable Class="Parameter">
 					<Id>1904000000007</Id>
 					<Name><![CDATA[replication]]></Name>
-					<X>390</X><Y>140</Y>
+					<X>560</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -600,7 +600,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Connector>
 					<Id>1770056131011</Id>
 					<Name><![CDATA[connector3]]></Name>
-					<X>760</X><Y>170</Y>
+					<X>600</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -627,15 +627,14 @@ if (trace_enabled && iteration == trace_iteration) {
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>40</X><Y>0</Y></Point>
-						<Point><X>60</X><Y>0</Y></Point>
-						<Point><X>100</X><Y>0</Y></Point>
+						<Point><X>200</X><Y>0</Y></Point>
+						<Point><X>110</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1773396909827</Id>
 					<Name><![CDATA[connector4]]></Name>
-					<X>440</X><Y>170</Y>
+					<X>280</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -662,13 +661,13 @@ if (trace_enabled && iteration == trace_iteration) {
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-250</X><Y>0</Y></Point>
+						<Point><X>-90</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1773396924147</Id>
 					<Name><![CDATA[connector7]]></Name>
-					<X>720</X><Y>170</Y>
+					<X>560</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -701,7 +700,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<Connector>
 					<Id>1777932096270</Id>
 					<Name><![CDATA[connector]]></Name>
-					<X>290</X><Y>245</Y>
+					<X>200.85700000000003</X><Y>250.094</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -728,13 +727,13 @@ if (trace_enabled && iteration == trace_iteration) {
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>55</X><Y>0</Y></Point>
+						<Point><X>80</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1777935128765</Id>
 					<Name><![CDATA[connector2]]></Name>
-					<X>720</X><Y>170</Y>
+					<X>560</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -761,14 +760,14 @@ if (trace_enabled && iteration == trace_iteration) {
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-35</X><Y>75</Y></Point>
-						<Point><X>-245</X><Y>75</Y></Point>
+						<Point><X>-60</X><Y>80</Y></Point>
+						<Point><X>-130</X><Y>80</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1777935128767</Id>
 					<Name><![CDATA[connector5]]></Name>
-					<X>435</X><Y>245</Y>
+					<X>390.017</X><Y>250.094</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -795,7 +794,7 @@ if (trace_enabled && iteration == trace_iteration) {
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-50</X><Y>0</Y></Point>
+						<Point><X>-70</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 			</Connectors>
@@ -878,7 +877,7 @@ return random_service_times
 				<AgentLink>
 					<Id>1764169459610</Id>
 					<Name><![CDATA[connections]]></Name>
-					<X>50</X><Y>-50</Y>
+					<X>530</X><Y>550</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1123,7 +1122,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<EmbeddedObject>
 					<Id>1764172488819</Id>
 					<Name><![CDATA[sink]]></Name>
-					<X>860</X><Y>160</Y>
+					<X>710</X><Y>160</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1446,7 +1445,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<EmbeddedObject>
 					<Id>1764174330740</Id>
 					<Name><![CDATA[downstreamService]]></Name>
-					<X>720</X><Y>150</Y>
+					<X>560</X><Y>150</Y>
 					<Label><X>-5</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1672,7 +1671,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<EmbeddedObject>
 					<Id>1773396916727</Id>
 					<Name><![CDATA[mainConvey]]></Name>
-					<X>440</X><Y>160</Y>
+					<X>280</X><Y>160</Y>
 					<Label><X>-10</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1820,7 +1819,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<EmbeddedObject>
 					<Id>1777932054662</Id>
 					<Name><![CDATA[branchService]]></Name>
-					<X>345</X><Y>225</Y>
+					<X>280</X><Y>230</Y>
 					<Label><X>-5</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2045,7 +2044,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<EmbeddedObject>
 					<Id>1777932092628</Id>
 					<Name><![CDATA[branchSource]]></Name>
-					<X>260</X><Y>235</Y>
+					<X>170</X><Y>240</Y>
 					<Label><X>-5</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2302,7 +2301,7 @@ if (trace_enabled && iteration == trace_iteration) {
 				<EmbeddedObject>
 					<Id>1777935126580</Id>
 					<Name><![CDATA[branchConvey]]></Name>
-					<X>435</X><Y>235</Y>
+					<X>390</X><Y>240</Y>
 					<Label><X>-10</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>

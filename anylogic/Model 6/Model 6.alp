@@ -166,7 +166,7 @@ if (random_arrival_times || random_service_times) {
 			<ScaleRuler>
 				<Id>1764169459612</Id>
 				<Name><![CDATA[scale]]></Name>
-				<X>0</X><Y>-150</Y>
+				<X>770</X><Y>440</Y>
 				<PublicFlag>false</PublicFlag>
 				<PresentationFlag>false</PresentationFlag>
 				<ShowLabel>false</ShowLabel>
@@ -185,7 +185,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000001</Id>
 					<Name><![CDATA[created_count]]></Name>
-					<X>20</X><Y>370</Y>
+					<X>20</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -200,7 +200,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000002</Id>
 					<Name><![CDATA[completed_count]]></Name>
-					<X>20</X><Y>390</Y>
+					<X>20</X><Y>440</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -215,7 +215,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000003</Id>
 					<Name><![CDATA[total_cycle_time_s]]></Name>
-					<X>20</X><Y>410</Y>
+					<X>20</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -230,7 +230,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1777433000004</Id>
 					<Name><![CDATA[cycle_time_samples]]></Name>
-					<X>20</X><Y>430</Y>
+					<X>20</X><Y>480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -245,7 +245,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100001</Id>
 					<Name><![CDATA[empty_pallets_completed]]></Name>
-					<X>20</X><Y>450</Y>
+					<X>20</X><Y>500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -260,7 +260,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100002</Id>
 					<Name><![CDATA[loose_items_created]]></Name>
-					<X>20</X><Y>470</Y>
+					<X>20</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -275,7 +275,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100003</Id>
 					<Name><![CDATA[batches_created]]></Name>
-					<X>20</X><Y>490</Y>
+					<X>20</X><Y>540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -290,7 +290,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100004</Id>
 					<Name><![CDATA[main_conveyor_occupancy_end]]></Name>
-					<X>20</X><Y>510</Y>
+					<X>20</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -305,7 +305,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100005</Id>
 					<Name><![CDATA[storage_conveyor_occupancy_end]]></Name>
-					<X>20</X><Y>530</Y>
+					<X>20</X><Y>580</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -320,7 +320,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100006</Id>
 					<Name><![CDATA[diagnostic_trace_limit]]></Name>
-					<X>20</X><Y>550</Y>
+					<X>250</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -335,7 +335,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100007</Id>
 					<Name><![CDATA[diagnostic_trace_count]]></Name>
-					<X>20</X><Y>570</Y>
+					<X>250</X><Y>440</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -350,7 +350,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100008</Id>
 					<Name><![CDATA[diagnostic_trace]]></Name>
-					<X>20</X><Y>590</Y>
+					<X>250</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -365,7 +365,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100020</Id>
 					<Name><![CDATA[flow_debug_trace_limit]]></Name>
-					<X>20</X><Y>610</Y>
+					<X>250</X><Y>480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -380,7 +380,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100021</Id>
 					<Name><![CDATA[flow_debug_trace_count]]></Name>
-					<X>20</X><Y>630</Y>
+					<X>250</X><Y>500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -395,7 +395,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000100022</Id>
 					<Name><![CDATA[flow_debug_trace]]></Name>
-					<X>20</X><Y>650</Y>
+					<X>250</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -410,7 +410,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000200001</Id>
 					<Name><![CDATA[item_count_rng]]></Name>
-					<X>20</X><Y>670</Y>
+					<X>250</X><Y>540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -425,7 +425,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000200002</Id>
 					<Name><![CDATA[unbatch_rng]]></Name>
-					<X>20</X><Y>690</Y>
+					<X>250</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -440,7 +440,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="PlainVariable">
 					<Id>1903000200003</Id>
 					<Name><![CDATA[timing_rng]]></Name>
-					<X>20</X><Y>710</Y>
+					<X>250</X><Y>580</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -696,7 +696,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="Parameter">
 					<Id>1903000000015</Id>
 					<Name><![CDATA[min_items_per_pallet]]></Name>
-					<X>570</X><Y>20</Y>
+					<X>600</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -720,7 +720,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="Parameter">
 					<Id>1903000000017</Id>
 					<Name><![CDATA[max_items_per_pallet]]></Name>
-					<X>570</X><Y>40</Y>
+					<X>600</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -744,7 +744,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="Parameter">
 					<Id>1903000200011</Id>
 					<Name><![CDATA[item_count_random_seed]]></Name>
-					<X>570</X><Y>60</Y>
+					<X>600</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -768,7 +768,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="Parameter">
 					<Id>1903000200013</Id>
 					<Name><![CDATA[unbatch_random_seed]]></Name>
-					<X>570</X><Y>80</Y>
+					<X>600</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -792,7 +792,7 @@ if (random_arrival_times || random_service_times) {
 				<Variable Class="Parameter">
 					<Id>1903000200015</Id>
 					<Name><![CDATA[timing_random_seed]]></Name>
-					<X>570</X><Y>100</Y>
+					<X>600</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1216,7 +1216,7 @@ if (random_arrival_times || random_service_times) {
 				<Event>
 					<Id>1765977949169</Id>
 					<Name><![CDATA[inboundPalletArrivalEvent]]></Name>
-					<X>30</X><Y>120</Y>
+					<X>50</X><Y>370</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1252,7 +1252,7 @@ if (random_arrival_times || random_service_times) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1903000000013</Id>
 					<Name><![CDATA[interarrivalTime]]></Name>
-					<X>230</X><Y>520</Y>
+					<X>710</X><Y>500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1270,7 +1270,7 @@ if (random_arrival_times || random_service_times) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1903000000014</Id>
 					<Name><![CDATA[serviceTime]]></Name>
-					<X>230</X><Y>540</Y>
+					<X>710</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1297,7 +1297,7 @@ return u <= c
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1903000100009</Id>
 					<Name><![CDATA[recordDiagnosticEvent]]></Name>
-					<X>230</X><Y>560</Y>
+					<X>710</X><Y>540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1323,7 +1323,7 @@ diagnostic_trace_count++;]]></Body>
 					<ReturnType><![CDATA[void]]></ReturnType>
 					<Id>1903000100023</Id>
 					<Name><![CDATA[recordFlowDebugEvent]]></Name>
-					<X>230</X><Y>580</Y>
+					<X>710</X><Y>560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1349,7 +1349,7 @@ flow_debug_trace_count++;]]></Body>
 				<TextFile>
 					<Id>1773398720914</Id>
 					<Name><![CDATA[log_file]]></Name>
-					<X>100</X><Y>300</Y>
+					<X>60</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1367,7 +1367,7 @@ flow_debug_trace_count++;]]></Body>
 				<TextFile>
 					<Id>1903000000013</Id>
 					<Name><![CDATA[stochastic_log_file]]></Name>
-					<X>220</X><Y>300</Y>
+					<X>210</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1385,7 +1385,7 @@ flow_debug_trace_count++;]]></Body>
 				<TextFile>
 					<Id>1903000100010</Id>
 					<Name><![CDATA[diagnostic_log_file]]></Name>
-					<X>340</X><Y>300</Y>
+					<X>60</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1403,7 +1403,7 @@ flow_debug_trace_count++;]]></Body>
 				<TextFile>
 					<Id>1903000100024</Id>
 					<Name><![CDATA[flow_debug_log_file]]></Name>
-					<X>460</X><Y>300</Y>
+					<X>210</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1423,7 +1423,7 @@ flow_debug_trace_count++;]]></Body>
 				<AgentLink>
 					<Id>1764169459610</Id>
 					<Name><![CDATA[connections]]></Name>
-					<X>50</X><Y>-50</Y>
+					<X>710</X><Y>580</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3496,7 +3496,7 @@ recordFlowDebugEvent("loaded_pallet_convey_enter",
 				<ConveyorNetwork>
 					<Id>1773396799522</Id>
 					<Name><![CDATA[conveyorNetwork]]></Name>
-					<X>320</X><Y>540</Y>
+					<X>520</X><Y>515</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3507,7 +3507,7 @@ recordFlowDebugEvent("loaded_pallet_convey_enter",
 				<Conveyor>
 					<Id>1773396798733</Id>
 					<Name><![CDATA[conveyor]]></Name>
-					<X>160</X><Y>405</Y>
+					<X>510</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4149,10 +4149,85 @@ looseItemSource.inject(itemsCount);
 			</Presentation>
 
 				</Conveyor>
-				<Conveyor SourceId="1780491022819">
+			</Presentation>
+
+					<Z>0</Z>
+				</ConveyorNetwork>
+				<PointNode>
+					<Id>1765979270521</Id>
+					<Name><![CDATA[A]]></Name>
+					<X>510</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1765979315951</Id>
+					<Name><![CDATA[B]]></Name>
+					<X>810</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<PointNode>
+					<Id>1780491153270</Id>
+					<Name><![CDATA[node]]></Name>
+					<X>610</X><Y>435</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<FakeNode>false</FakeNode>	
+					<Lock>false</Lock>
+					<Color>-14774017</Color>
+					<Radius>10</Radius>
+					<SpeedLimit>false</SpeedLimit>
+					<SpeedLimitValue Class="UnitValue">
+						<Value Class="Double">10</Value>
+						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+					</SpeedLimitValue>
+				</PointNode>
+				<ConveyorNetwork>
+					<Id>1792767054685</Id>
+					<Name><![CDATA[conveyorNetwork1]]></Name>
+					<X>460</X><Y>390</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+
+			<Presentation>
+				<Conveyor>
 					<Id>1780491017571</Id>
 					<Name><![CDATA[storageConveyor]]></Name>
-					<X>260</X><Y>415</Y>
+					<X>610</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4277,66 +4352,6 @@ looseItemSource.inject(itemsCount);
 
 					<Z>0</Z>
 				</ConveyorNetwork>
-				<PointNode>
-					<Id>1765979270521</Id>
-					<Name><![CDATA[A]]></Name>
-					<X>160</X><Y>405</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<FakeNode>false</FakeNode>	
-					<Lock>false</Lock>
-					<Color>-14774017</Color>
-					<Radius>10</Radius>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="UnitValue">
-						<Value Class="Double">10</Value>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-				</PointNode>
-				<PointNode>
-					<Id>1765979315951</Id>
-					<Name><![CDATA[B]]></Name>
-					<X>460</X><Y>405</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<FakeNode>false</FakeNode>	
-					<Lock>false</Lock>
-					<Color>-14774017</Color>
-					<Radius>10</Radius>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="UnitValue">
-						<Value Class="Double">10</Value>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-				</PointNode>
-				<PointNode>
-					<Id>1780491153270</Id>
-					<Name><![CDATA[node]]></Name>
-					<X>260</X><Y>490</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z>0</Z>
-					<FakeNode>false</FakeNode>	
-					<Lock>false</Lock>
-					<Color>-14774017</Color>
-					<Radius>10</Radius>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="UnitValue">
-						<Value Class="Double">10</Value>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-				</PointNode>
 			</Presentation>
 
 				</Level>

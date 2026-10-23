@@ -45,7 +45,7 @@ class RectangularNode(Node):
     height: float  # z dimension (meters)
 
     def get_access_point(self) -> Position3D:
-        """Get center point of the rectangle at ground level."""
+        """Get the centre point of the rectangle at ground level."""
         return Position3D(
             self.position.x + self.width / 2,
             self.position.y + self.depth / 2,
@@ -78,7 +78,7 @@ class Shelf(Node):
         return Position3D(x, y, z)
 
     def get_access_point(self) -> Position3D:
-        """Get front-center access point of shelf."""
+        """Get the front-centre access point of the shelf."""
         return Position3D(
             self.position.x + (self.positions_per_level - 1) *
             self.position_spacing / 2,

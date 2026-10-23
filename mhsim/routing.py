@@ -330,10 +330,22 @@ class Router:
         )
 
     def path_boundaries(self, route: Route, epsilon_m: float = 1.0e-4) -> List[float]:
-        """Route distances at which a path starts or ends, i.e. where AnyLogic's route
-        movement switches between a path and a node and the line-guided controller
-        updates the transporter (docs/forklift_rules/R8). Vertices without junction data
-        count as zero-radius nodes."""
+        """Return the route distances at which a path starts or ends.
+
+        These are the points where AnyLogic's route movement switches between a path
+        and a node, and where the line-guided controller updates the transporter
+        (docs/forklift_rules/R8). Vertices without junction data count as zero-radius
+        nodes.
+
+        Args:
+            route: Route whose path boundaries are wanted.
+            epsilon_m: Distance in metres added to every boundary, so that each mark
+                falls just past the switch it represents.
+
+        Returns:
+            Distances along the route in metres, sorted and without duplicates.
+            Marks at or before `epsilon_m` and at the end of the route are dropped.
+        """
         if not route.steps or not route.motion_segments:
             return []
         marks: List[float] = []

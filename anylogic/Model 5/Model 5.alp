@@ -139,7 +139,7 @@ forklifts_fleet.resetStats();
 			<ScaleRuler>
 				<Id>1764169459612</Id>
 				<Name><![CDATA[scale]]></Name>
-				<X>0</X><Y>-150</Y>
+				<X>550</X><Y>340</Y>
 				<PublicFlag>false</PublicFlag>
 				<PresentationFlag>false</PresentationFlag>
 				<ShowLabel>false</ShowLabel>
@@ -538,7 +538,7 @@ forklifts_fleet.resetStats();
 				<Connector>
 					<Id>1764172482368</Id>
 					<Name><![CDATA[connector2]]></Name>
-					<X>450</X><Y>170</Y>
+					<X>380</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -565,13 +565,13 @@ forklifts_fleet.resetStats();
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-50</X><Y>0</Y></Point>
+						<Point><X>-60</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1764174266998</Id>
 					<Name><![CDATA[connector4]]></Name>
-					<X>530</X><Y>170</Y>
+					<X>470</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -598,13 +598,13 @@ forklifts_fleet.resetStats();
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-40</X><Y>0</Y></Point>
+						<Point><X>-50</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1768396925276</Id>
 					<Name><![CDATA[connector6]]></Name>
-					<X>360</X><Y>170</Y>
+					<X>280</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -631,13 +631,13 @@ forklifts_fleet.resetStats();
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-170</X><Y>0</Y></Point>
+						<Point><X>-90</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1768396936359</Id>
 					<Name><![CDATA[connector7]]></Name>
-					<X>720</X><Y>170</Y>
+					<X>560</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -664,7 +664,7 @@ forklifts_fleet.resetStats();
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-150</X><Y>0</Y></Point>
+						<Point><X>-50</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
@@ -736,7 +736,7 @@ forklifts_fleet.resetStats();
 				<Connector>
 					<Id>1770056131011</Id>
 					<Name><![CDATA[connector3]]></Name>
-					<X>760</X><Y>170</Y>
+					<X>600</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -763,13 +763,13 @@ forklifts_fleet.resetStats();
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>40</X><Y>80</Y></Point>
+						<Point><X>30</X><Y>80</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1770056136624</Id>
 					<Name><![CDATA[connector5]]></Name>
-					<X>810</X><Y>250</Y>
+					<X>640</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -796,7 +796,7 @@ forklifts_fleet.resetStats();
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>70</X><Y>-80</Y></Point>
+						<Point><X>20</X><Y>-80</Y></Point>
 					</Points>
 				</Connector>
 			</Connectors>
@@ -1067,7 +1067,7 @@ return random_service_times
 				<AgentLink>
 					<Id>1764169459610</Id>
 					<Name><![CDATA[connections]]></Name>
-					<X>50</X><Y>-50</Y>
+					<X>470</X><Y>570</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1291,7 +1291,7 @@ return random_service_times
 				<EmbeddedObject>
 					<Id>1764171924012</Id>
 					<Name><![CDATA[store]]></Name>
-					<X>360</X><Y>160</Y>
+					<X>280</X><Y>160</Y>
 					<Label><X>0</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1632,7 +1632,7 @@ time_loading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<EmbeddedObject>
 					<Id>1764172160867</Id>
 					<Name><![CDATA[forklifts_fleet]]></Name>
-					<X>220</X><Y>-50</Y>
+					<X>490</X><Y>540</Y>
 					<Label><X>-20</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1844,7 +1844,7 @@ time_loading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<EmbeddedObject>
 					<Id>1764172481132</Id>
 					<Name><![CDATA[delay]]></Name>
-					<X>450</X><Y>150</Y>
+					<X>380</X><Y>150</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1936,7 +1936,7 @@ time_loading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<EmbeddedObject>
 					<Id>1764172488819</Id>
 					<Name><![CDATA[sink]]></Name>
-					<X>880</X><Y>160</Y>
+					<X>660</X><Y>160</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2247,7 +2247,7 @@ created_count++;]]></Code>
 				<EmbeddedObject>
 					<Id>1764174263386</Id>
 					<Name><![CDATA[retrieve]]></Name>
-					<X>530</X><Y>160</Y>
+					<X>470</X><Y>160</Y>
 					<Label><X>-10</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2604,7 +2604,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<EmbeddedObject>
 					<Id>1764174330740</Id>
 					<Name><![CDATA[service2]]></Name>
-					<X>720</X><Y>150</Y>
+					<X>560</X><Y>150</Y>
 					<Label><X>-5</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2858,7 +2858,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<EmbeddedObject>
 					<Id>1770055734110</Id>
 					<Name><![CDATA[timeMeasureEnd]]></Name>
-					<X>780</X><Y>230</Y>
+					<X>610</X><Y>230</Y>
 					<Label><X>-35</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2916,7 +2916,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<EmbeddedObject>
 					<Id>1774539231923</Id>
 					<Name><![CDATA[transporterControl]]></Name>
-					<X>360</X><Y>-50</Y>
+					<X>610</X><Y>550</Y>
 					<Label><X>-60</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3030,7 +3030,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<RackStorage>
 					<Id>1764171945157</Id>
 					<Name><![CDATA[storage]]></Name>
-					<X>340</X><Y>380</Y>
+					<X>410</X><Y>385</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3177,7 +3177,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764172552710</Id>
 					<Name><![CDATA[node]]></Name>
-					<X>350</X><Y>355</Y>
+					<X>420</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3197,7 +3197,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764172552712</Id>
 					<Name><![CDATA[node1]]></Name>
-					<X>230</X><Y>355</Y>
+					<X>300</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3217,7 +3217,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172552710" TargetId="1764172574508">
 					<Id>1764172552714</Id>
 					<Name><![CDATA[path]]></Name>
-					<X>350</X><Y>355</Y>
+					<X>420</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3253,7 +3253,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764172552716</Id>
 					<Name><![CDATA[node2]]></Name>
-					<X>350</X><Y>453</Y>
+					<X>420</X><Y>458</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3273,7 +3273,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764172552718</Id>
 					<Name><![CDATA[node3]]></Name>
-					<X>230</X><Y>453</Y>
+					<X>300</X><Y>458</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3293,7 +3293,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172552716" TargetId="1764172552718">
 					<Id>1764172552720</Id>
 					<Name><![CDATA[path1]]></Name>
-					<X>350</X><Y>453</Y>
+					<X>420</X><Y>458</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3329,7 +3329,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172552710" TargetId="1764174140093">
 					<Id>1764172552722</Id>
 					<Name><![CDATA[path2]]></Name>
-					<X>350</X><Y>355</Y>
+					<X>420</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3365,7 +3365,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172552712" TargetId="1764172583068">
 					<Id>1764172552724</Id>
 					<Name><![CDATA[path3]]></Name>
-					<X>230</X><Y>355</Y>
+					<X>300</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3401,7 +3401,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<RectangleNode>
 					<Id>1764172190517</Id>
 					<Name><![CDATA[home_location_forklifts]]></Name>
-					<X>230</X><Y>260</Y>
+					<X>300</X><Y>265</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3505,7 +3505,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Attractor>
 					<Id>1764174235814</Id>
 					<Name><![CDATA[attractor50]]></Name>
-					<X>245</X><Y>280</Y>
+					<X>315</X><Y>285</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3517,7 +3517,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Attractor>
 					<Id>1764174235816</Id>
 					<Name><![CDATA[attractor51]]></Name>
-					<X>270</X><Y>280</Y>
+					<X>340</X><Y>285</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3529,7 +3529,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Attractor>
 					<Id>1764174235818</Id>
 					<Name><![CDATA[attractor52]]></Name>
-					<X>295</X><Y>280</Y>
+					<X>365</X><Y>285</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3541,7 +3541,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Attractor>
 					<Id>1773929913955</Id>
 					<Name><![CDATA[attractor53]]></Name>
-					<X>320</X><Y>280</Y>
+					<X>390</X><Y>285</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3575,7 +3575,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172190517" TargetId="1764172574508">
 					<Id>1764172573508</Id>
 					<Name><![CDATA[path4]]></Name>
-					<X>290</X><Y>300</Y>
+					<X>360</X><Y>305</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3611,7 +3611,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764172574508</Id>
 					<Name><![CDATA[node4]]></Name>
-					<X>290</X><Y>355</Y>
+					<X>360</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3631,7 +3631,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172574508" TargetId="1764172552712">
 					<Id>1764172574511</Id>
 					<Name><![CDATA[path5]]></Name>
-					<X>280</X><Y>355</Y>
+					<X>350</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3667,7 +3667,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172583068" TargetId="1765979270521">
 					<Id>1764172581371</Id>
 					<Name><![CDATA[path6]]></Name>
-					<X>220</X><Y>405</Y>
+					<X>290</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3703,7 +3703,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764172583068</Id>
 					<Name><![CDATA[node5]]></Name>
-					<X>230</X><Y>405</Y>
+					<X>300</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3723,7 +3723,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764172583068" TargetId="1764172552718">
 					<Id>1764172583071</Id>
 					<Name><![CDATA[path7]]></Name>
-					<X>230</X><Y>415</Y>
+					<X>300</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3759,7 +3759,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764174140093" TargetId="1764172552716">
 					<Id>1764174140096</Id>
 					<Name><![CDATA[path9]]></Name>
-					<X>350</X><Y>415</Y>
+					<X>420</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3795,7 +3795,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1764174140093</Id>
 					<Name><![CDATA[node6]]></Name>
-					<X>350</X><Y>405</Y>
+					<X>420</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3815,7 +3815,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<Path SourceId="1764174140093" TargetId="1765979315951">
 					<Id>1764174138610</Id>
 					<Name><![CDATA[path8]]></Name>
-					<X>360</X><Y>405</Y>
+					<X>430</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3851,7 +3851,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1765979270521</Id>
 					<Name><![CDATA[receiving_area]]></Name>
-					<X>160</X><Y>405</Y>
+					<X>230</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3871,7 +3871,7 @@ time_unloading_release.add(f.release_time - f.loading_finished_time);]]></Code>
 				<PointNode>
 					<Id>1765979315951</Id>
 					<Name><![CDATA[outbound_area]]></Name>
-					<X>430</X><Y>405</Y>
+					<X>500</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
