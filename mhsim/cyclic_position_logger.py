@@ -11,8 +11,6 @@ if TYPE_CHECKING:  # pragma: no cover - typing only, keeps simpy off the import 
     from types import TracebackType
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-
 
 class CyclicPositionLogger:
     """Write AnyLogic-style cyclic transporter position rows."""
@@ -30,8 +28,9 @@ class CyclicPositionLogger:
 
         Args:
             log_dir: Directory for the log. Relative paths resolve against the
-                repository root, not the working directory, so runs launched
-                from anywhere write to the same place. Created if missing.
+                current working directory; pass an absolute path to pin the
+                location regardless of where the run is launched. Created if
+                missing.
             filename_prefix: Leading part of the file name, followed by a
                 `_YYYYmmdd_HHMMSS.txt` timestamp.
             position_scale: Multiplier applied to `x` and `y` on write. Use it
@@ -39,7 +38,7 @@ class CyclicPositionLogger:
                 export being compared against.
         """
         log_path = Path(log_dir)
-        self.log_dir = log_path if log_path.is_absolute() else REPO_ROOT / log_path
+        self.log_dir = log_path if log_path.is_absolute() else Path.cwd() / log_path
         self.log_dir.mkdir(parents=True, exist_ok=True)
         self.position_scale = position_scale
 

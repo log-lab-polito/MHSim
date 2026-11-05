@@ -7,13 +7,12 @@ name = "mhsim"
 version = "0.2.0"
 description = "Discrete-event simulation primitives for material handling and warehouse logistics"
 requires-python = ">=3.10"
+readme = "README.md"
 license = "MIT"
 authors = [{ name = "Daniel Piassi" }]
 dependencies = [
     "simpy>=4.1.1",
 ]
-# No `readme` field: README.md is UTF-16 LE and would upload as mojibake.
-# Add a UTF-8 README.pypi.md alongside this field if the package is ever published.
 
 [project.optional-dependencies]
 # Downstream animation/plot scripts; the mhsim library itself does not import these.
@@ -35,6 +34,9 @@ dev = [
 
 [tool.setuptools]
 packages = ["mhsim"]
+
+[tool.setuptools.package-data]
+mhsim = ["py.typed"]
 
 [tool.ruff.lint]
 extend-select = ["D"]

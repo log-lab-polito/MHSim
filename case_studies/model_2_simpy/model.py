@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from random import Random
+from pathlib import Path
 from typing import Optional
 
 import simpy
@@ -15,6 +16,9 @@ from mhsim.random_variables import DurationValue, make_duration_sampler, make_se
 
 from .params import Model2Params
 from .setup import create_model2_warehouse
+
+# Case-study traces go to the repository's logs/, wherever the run is launched.
+REPO_LOG_DIR = Path(__file__).resolve().parents[2] / "logs"
 
 
 @dataclass
@@ -31,6 +35,7 @@ class Model2SimModel:
         self.logger: Optional[CyclicPositionLogger] = None
         if self.enable_logging:
             self.logger = CyclicPositionLogger(
+                log_dir=REPO_LOG_DIR,
                 filename_prefix=getattr(
                     self.params, "log_filename_prefix", "simpy_model2"
                 )
